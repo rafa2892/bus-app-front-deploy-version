@@ -1,0 +1,43 @@
+.example-fw {
+
+    width: 100%;
+
+}
+
+
+//No tengo que usar ng:: por la propiedad en el componente encapsulation: ViewEncapsulation.None
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+
+    color:orangered;
+    background-color: yellowgreen;
+    font-size: 14px;
+    padding: 0 10px;
+
+}
+
+
+
+
+.errorConductorInput .mdc-text-field--outlined .mdc-notched-outline__trailing,
+.errorConductorInput .mdc-text-field--outlined .mdc-notched-outline__leading {
+    animation: blink 0.5s 2 forwards; /* La propiedad "forwards" asegura que el último valor de la animación se mantenga después de la animación */
+}
+
+
+@keyframes blink {
+    0%, 50% { border-color: red; }
+    25%, 75% { border-color: white; }
+    100% { border-color: red; }
+}
+
+
+.errorSeleccionarVehiculo .mdc-text-field--outlined .mdc-notched-outline__trailing,
+.errorSeleccionarVehiculo .mdc-text-field--outlined .mdc-notched-outline__leading {
+    animation: blink 0.5s 2 forwards; /* La propiedad "forwards" asegura que el último valor de la animación se mantenga después de la animación */
+}
+
+
+
+  
+
+

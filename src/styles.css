@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.defaultSizeInput {
+    width: 35%;
+    margin-bottom: 5%;
+}
+
+.success-snackbar {
+    
+    .mat-mdc-snack-bar-container .mdc-snackbar__surface {
+      border-radius: 8px !important;
+    }
+
+     .mdc-snackbar__surface {
+    background-color: green !important;
+  }
+
+
+    .mat-mdc-button.mat-mdc-snack-bar-action {
+      color: white !important;
+    }
+
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  #botonDetails {
+    margin-right: 15%;
+   }
+
+ 

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'gestion-contador-frontend-no-standalone';
+  title = 'Sistema de registro Transportes "Nombre Empresa"';
 }

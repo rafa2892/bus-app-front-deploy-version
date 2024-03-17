@@ -1,0 +1,29 @@
+#botonesAcciones {
+
+    margin-left: 7%;
+
+}
+
+.editIcon, .deleteIcon, .eyeIcon{
+    padding-right: 10px;
+    color: white;
+    margin-left: 45%;
+}
+
+
+
+.button-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+td button {
+    margin: 5px; /* Ajusta el valor según el espaciado deseado */
+  }
+
+
+
+
+
+

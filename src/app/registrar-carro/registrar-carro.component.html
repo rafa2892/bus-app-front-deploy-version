@@ -1,0 +1,78 @@
+<div class="col-md-6 offset-md-3 registroCarro">
+    <h3 class="text-center">
+        <fa-icon class="carIcon" [icon]="plusIcon"></fa-icon><fa-icon class="plusIcon" [icon]="carIcon"></fa-icon> <span class="tituloRegistroVehiculo">Registro de Vehículo</span>
+    </h3>
+<div id="formularioRegistrarCarro">
+    <form (ngSubmit)="onSubmit()" id="registraCarroForm">
+        <div class="form-group">
+            <div>
+                <label>Marca : </label>
+            </div> 
+            <div class="row">
+                <div class="col">
+                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.solo_marca" name="solo_marca" [ngClass]="{ 'input-grueso': !noMarcaError, 'input-error': noMarcaError }" (input)="onInputChange()">
+                </div>
+                <div class="col">
+                    <small *ngIf="noMarcaError" class="text-danger">{{mensajeCampoMarcaObligatorio}}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <label>Modelo : </label>
+            </div> 
+            <div class="row">
+                <div class="col">
+                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.solo_modelo" name="solo_modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
+                </div>
+                <div class="col">
+                    <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div>
+                <label>Año YYYY: </label>
+            </div>    
+            <div class="row">
+                <div class="col">
+                    <input maxlength="4" type = "text" class="form-control anyoInput defaultSizeInput" id="anyo" [(ngModel)] = "carro.anyo" name="nombre" (input)="onInputChange()" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'anyo')" [ngClass]="{ 'input-grueso':!noAnyoError , 'input-error': noAnyoError }">
+                </div>
+                <div class="col">
+                    <small *ngIf="nonNumericError" class="text-danger">La fecha debe introducirse en formato "YYYY", en numeros, ejemplo año actual : "{{anyoActual}}"</small>
+                    <small *ngIf="noAnyoError" class="text-danger">{{mensaje}}</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Consumo aproximado cada 100 km: </label>
+                <div class="row">
+                    <div class="col">
+                        <input type = "text" (input)="onInputChange()"  class="form-control defaultSizeInput" id="consumoDefecto" [(ngModel)] = "carro.consumo" name="nombre" appOnlyNumber  (nonNumericCount)="handleNonNumericCount($event, 'consumo')" [ngClass]="{ 'input-grueso':!nonNumericConsumo , 'input-error': nonNumericConsumo }"  >
+                    </div>
+                    <div class="col">
+                        <small *ngIf="nonNumericConsumo" class="text-danger">Solo se aceptan números.</small>
+                    </div>
+                </div>
+            </div>
+        <div class="form-group">
+            <label>Numero Unidad : </label>
+                <div class="row">
+                    <div class="col">
+                        <input maxlength="4" type = "text" (input)="onInputChange()" class="form-control defaultSizeInput" id="numeroUni" [ngClass]="{'input-error': noNumeroUnidad || nonNumericNumUnidad || unidadRepetida, 'input-grueso': !noNumeroUnidad && !nonNumericNumUnidad}"  [(ngModel)] = "carro.numeroUnidad" name="nombre" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'numeroUni')">
+                    </div>
+                    <div class="col">
+                        <small *ngIf="nonNumericNumUnidad" class="text-danger">{{mensajeNumeroUnidadFormato}}</small>
+                        <small *ngIf="noNumeroUnidad" class="text-danger">{{mensajeNumeroUnidadCampoObligatorio}}</small>
+                        <small *ngIf="unidadRepetida" class="text-danger">{{mensajeNumeroUnidadRegistrada}}</small>
+                    </div>
+            </div>
+        </div>
+            <div class="text-center"> <!-- Div para centrar el botón -->
+                <button class="btn btn-primary saveButtonRegistrarCarro">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

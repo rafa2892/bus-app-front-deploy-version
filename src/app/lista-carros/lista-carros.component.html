@@ -1,0 +1,32 @@
+<h2>Lista Vehiculos</h2>
+<table class="table table-striped">
+  <thead class="table-dark">
+  <tr>
+    <th>Numero unidad</th>
+    <th>Modelo</th>
+    <th>Años</th>
+    <th>Consumo Medio</th>
+    <th>Acciones</th>
+  </tr>
+  </thead>
+
+  <tbody class="table-dark">
+  <tr *ngFor= "let carro of carros">
+    <td>{{carro.numeroUnidad}}</td>
+    <td>{{carro.modelo}}</td>
+    <td>{{carro.anyo}}</td>
+    <td>{{carro.consumo}}</td>
+    <td>
+      <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-info botonesAccion">
+        <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
+      </button>
+      <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro.id)" class="btn btn-warning botonesAccion">
+        <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
+      </button>
+      <button title="Ver detalles del Vehiculo" (click)="verFichaTecnica(carro.id)" class="btn btn-success botonesAccion">
+        <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+      </button>
+    </td>  
+  </tr>
+  </tbody>
+</table>

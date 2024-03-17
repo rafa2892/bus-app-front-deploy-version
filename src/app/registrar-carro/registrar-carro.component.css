@@ -1,0 +1,46 @@
+.anyoInput {
+    width: 35%;
+}
+
+.input-error {
+    border-color: red;
+  }
+
+  .registroCarro {
+    margin-top: 5%;
+  }
+
+  #formularioRegistrarCarro {
+    margin-top: 5%;
+    position: relative;
+    right: 40%;
+  }
+
+  #registraCarroForm {
+    padding-bottom: 20%;
+  }
+
+  .carIcon {
+    margin-right: 2%;
+    color: green;
+  }
+
+  .plusIcon {
+    color: blue;
+  }
+
+  .tituloRegistroVehiculo {
+    margin-left: 5%;
+  }
+
+  .saveButtonRegistrarCarro {
+    width: 77%;
+    position: absolute;
+    left: 70%;
+  }
+
+.input-grueso {
+    border-width: 1px; /* Ancho del borde */
+    border-style: solid; /* Estilo del borde */
+    border-color: #007bff; /* Azul bonito */
+}
