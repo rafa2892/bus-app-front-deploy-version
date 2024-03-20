@@ -10,7 +10,7 @@
             </div> 
             <div class="row">
                 <div class="col">
-                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.solo_marca" name="solo_marca" [ngClass]="{ 'input-grueso': !noMarcaError, 'input-error': noMarcaError }" (input)="onInputChange()">
+                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.marca" name="marca" [ngClass]="{ 'input-grueso': !noMarcaError, 'input-error': noMarcaError }" (input)="onInputChange()">
                 </div>
                 <div class="col">
                     <small *ngIf="noMarcaError" class="text-danger">{{mensajeCampoMarcaObligatorio}}</small>
@@ -24,7 +24,7 @@
             </div> 
             <div class="row">
                 <div class="col">
-                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.solo_modelo" name="solo_modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
+                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.modelo" name="modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
                 </div>
                 <div class="col">
                     <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>

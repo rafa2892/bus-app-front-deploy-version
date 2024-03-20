@@ -36,24 +36,8 @@ export class PopupSeleccionarCarroComponent {
     this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
     this.carros = dato;
     this.carrosFiltrado = this.carros;
-    this.getSeparateModelAndBrand();
     });
   }
-
- 
-  private getSeparateModelAndBrand(){
-  this.carrosFiltrado = this.carros.map(carro => {
-  const espacioIndex = carro.modelo.indexOf(' ');
-  if (espacioIndex !== -1) {
-    carro.solo_marca = carro.modelo.substring(0, espacioIndex);
-    carro.solo_modelo = carro.modelo.substring(espacioIndex + 1);
-  } else {
-    carro.solo_marca = carro.modelo; // En caso de que no haya espacio en blanco en el modelo
-    carro.solo_modelo = '';
-  }
-  return carro;
-});
- }
 
 
  verDetalles(id:number){
@@ -82,7 +66,7 @@ seleccionar(carro:Carro) {
     const modelo = this.modelo.trim().toLowerCase();
 
     this.carrosFiltrado = this.carros.filter(carro => {
-        const marcaCoincide = marca === '' || carro.solo_marca.toString().toLowerCase().includes(marca);
+        const marcaCoincide = marca === '' || carro.marca.toString().toLowerCase().includes(marca);
         const añoCoincide = año === '' || carro.anyo.toString().toLowerCase().includes(año);
         const modeloCoincide = modelo === '' || carro.modelo.toString().toLowerCase().includes(modelo);
         return marcaCoincide && añoCoincide && modeloCoincide;
@@ -108,7 +92,7 @@ onInputChangeModelFilter() {
   else {
       const modeloBuscado = this.modelo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
       this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
-          carro.solo_modelo.toString().toLowerCase().includes(modeloBuscado)
+          carro.modelo.toString().toLowerCase().includes(modeloBuscado)
       );
   }
 }

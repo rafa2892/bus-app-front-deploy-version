@@ -26,8 +26,8 @@
 
 
 
-        <label>Selecciona Ruta:</label>
-        <div>
+        <label for="rutas">Selecciona Ruta:</label>
+        <div id="rutas">
             <label for="rutaDesde">Origen:</label>
             <div id="rutaDesde" class="d-flex">
                 <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDesde" [ngClass]="{'errorConductorInput': formSubmitted && conductorError}">
@@ -84,7 +84,7 @@
 
 
 
-        <!-- <label>Selecciona Conductor:</label>
+         <label>Selecciona Conductor:</label>
             <div class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorConductorInput': formSubmitted && conductorError}">
                 <input type="text" matInput
@@ -121,16 +121,16 @@
                  (blur)="onInputBlur()"
                  (focus)="onFocusEventVehiculo()"
                  (input) ="filtrarAutocompletarCarro(selectedVehiculo)" >
-                <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom">
+                <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
                 <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
-                    {{ carro.solo_marca + ' ' + carro.solo_modelo| uppercase }}
+                    {{ carro.marca + ' ' + carro.modelo | uppercase }}
                 </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
             <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#myModal"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>
-            </div> -->
+            </div>
 
 
 

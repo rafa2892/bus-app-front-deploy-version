@@ -16,7 +16,7 @@
     <td>{{ viaje.id }}</td>
     <td>{{ viaje.origen }}</td>
     <td>{{ viaje.destino }}</td>
-    <td>{{ viaje.carroDescripcion }}</td>
+    <td>{{ viaje.carro.modelo }}</td>
     <td>{{ (viaje.conductor.nombre ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : 'No definido') | uppercase }}</td>
     <td>{{ viaje.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
   </tr>

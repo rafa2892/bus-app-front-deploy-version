@@ -5,8 +5,8 @@ export class Carro {
   anyo:number;
   consumo:number;
   numeroUnidad:number;
-  solo_marca:string;
-  solo_modelo:string;
+  marca:string;
+  // solo_modelo:string;
 
 
 }

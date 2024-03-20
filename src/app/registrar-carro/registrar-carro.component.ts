@@ -67,21 +67,21 @@ validandoDatos(listaCarros: Carro[], nuevoNumeroUnidad: number): boolean {
     this.generalErrorFlag = true;
 }
 
-  if (this.carro.solo_marca === undefined || this.carro.solo_marca === null ||  this.carro.solo_marca === '') {
+  if (this.carro.marca === undefined || this.carro.marca === null ||  this.carro.marca === '') {
      this.noMarcaError = true;
      this.generalErrorFlag = true;
   }
 
 
-  if(this.carro.solo_modelo === undefined ||  this.carro.solo_modelo === null ||   this.carro.solo_modelo === '') {
+  if(this.carro.modelo === undefined ||  this.carro.modelo === null ||   this.carro.modelo === '') {
       this.noModeloError = true;
       this.generalErrorFlag = true;
   }
  
   else {
   //trimeamos los inputs
-  this.trimInputs();
-  this.carro.modelo = this.carro.solo_marca.toUpperCase().concat(' ').concat(this.carro.solo_modelo.toUpperCase());
+  // this.trimInputs();
+  // this.carro.modelo = this.carro.solo_marca.toUpperCase().concat(' ').concat(this.carro.solo_modelo.toUpperCase());
  
  }
 
@@ -125,10 +125,10 @@ guardarCarro(){
 }
 
 private trimInputs(){
-  if(this.carro.solo_marca)
-  this.carro.solo_marca = this.carro.solo_marca.trim();
-  if(this.carro.solo_modelo)
-  this.carro.solo_modelo = this.carro.solo_modelo.trim();
+  if(this.carro.marca)
+  this.carro.marca = this.carro.marca.trim();
+  if(this.carro.modelo)
+  this.carro.modelo = this.carro.modelo.trim();
 }
 
 
@@ -150,10 +150,10 @@ handleNonNumericCount(count: number , anyo: string) {
   onInputChange() {
     // Aquí puedes agregar la lógica que deseas ejecutar mientras escribes en el input.
 
-        if(this.carro.solo_marca != '' && this.carro.solo_marca != undefined)
+        if(this.carro.marca != '' && this.carro.marca != undefined)
         this.noMarcaError = false;
     
-        if(this.carro.solo_modelo != '' && this.carro.solo_modelo != undefined) 
+        if(this.carro.modelo != '' && this.carro.modelo != undefined) 
           this.noModeloError = false;
 
         if(this.carro.anyo != undefined &&  this.carro.anyo.toString().trim()  != '')  

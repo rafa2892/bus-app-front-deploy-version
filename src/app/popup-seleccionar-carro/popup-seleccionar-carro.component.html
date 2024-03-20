@@ -57,8 +57,8 @@
             <tbody class="table-dark">
               <tr *ngFor="let carro of carrosFiltrado | paginate: { itemsPerPage: 5, currentPage: p }">
                 <td>{{carro.numeroUnidad}}</td>
-                <td>{{carro.solo_marca}}</td>
-                <td>{{carro.solo_modelo}}</td>
+                <td>{{carro.marca}}</td>
+                <td>{{carro.modelo}}</td>
                 <td>{{carro.anyo}}</td>
                 <td>{{carro.consumo}}</td>
                 <td>

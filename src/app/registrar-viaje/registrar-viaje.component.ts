@@ -59,6 +59,7 @@ export class RegistrarViajeComponent {
   selectedRuta : any;
 
   //Variables de validaciones
+  errorVali = false;
   conductorError = false;
   vehiculoError = false;
   origenSelected = false;
@@ -71,7 +72,7 @@ export class RegistrarViajeComponent {
   }
 
   displayVehiculo(carro: any): string {
-    return carro ? `${carro.solo_marca} ${carro.modelo}` : '';
+    return carro ? `${carro.marca} ${carro.modelo}` : '';
   }
 
   displayRutaDesde(rutaDesde: any): string {
@@ -99,7 +100,6 @@ export class RegistrarViajeComponent {
 
   private obtenerListaConductores () {
     this.conductorService.obtenerListaConductores().subscribe(dato => {
-      // let defaultOption: Conductor = {id: 0, nombre: "Selecciona un conductor", apellido: "Selecciona un conductor", dni: ""};
 
        this.conductoresOrdenados = [...dato].sort((a, b) => {
         if (a.nombre.toLowerCase() < b.nombre.toLowerCase()) {
@@ -111,7 +111,6 @@ export class RegistrarViajeComponent {
         return 0;
       });
 
-      // this.conductores = [defaultOption, ...datosOrdenados];
       this.conductores = this.conductoresOrdenados;
       this.conductoresAutoCompleteFilters = this.conductoresOrdenados;
     });
@@ -175,33 +174,42 @@ export class RegistrarViajeComponent {
 
  validandoDatos() {
 
-  this.getRuta();
 
-    // if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
-    //     this.selectedConductor = ''  
-    //     this.conductorError = true;
-    //   }
+    if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
+        this.selectedConductor = ''  
+        this.conductorError = true;
+        this.errorVali = true;
+      }
 
-    // if(!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === ''){
-    //   this.selectedVehiculo = ''  
-    //   this.vehiculoError = true;
-    // }
+    if(!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === ''){
+      this.selectedVehiculo = ''  
+      this.vehiculoError = true;
+      this.errorVali = true;
+      console.log("error")
+    }
 
-    // if(!this.isRuta(this.origen) || (this.origen === '')){
-    //   this.origen = ''  ;
-    //   this.destino = '';
-    //   this.rutaErrorOrigen = true;
-    // }
+    if(!this.isRuta(this.origen) || (this.origen === '')){
+      this.origen = ''  ;
+      this.destino = '';
+      this.rutaErrorOrigen = true;
+      this.errorVali = true;
+    }
 
-    // if(!this.isRuta(this.destino) || (this.destino === '')){
-    //   this.origen = ''  ;
-    //   this.destino = '';
-    //   this.rutaErrorDestino = true;
-    // }
+    else if(!this.errorVali) {
+    this.getRuta();
+    return true;
 
-    // if (!this.viaje.origen.trim() || !this.viaje.destino.trim() || this.carroId == null ||  this.carroId == 0 || this.selectedConductor === '') {
-    //   return false;
-    // }
+    }
+
+    if(this.errorVali) 
+    return false;
+
+    else 
+    return true;
+
+
+   
+
     // else {
     //   this.viajeServicio.obtenerListaViaje
     //   return true;
@@ -241,40 +249,54 @@ export class RegistrarViajeComponent {
     this.formSubmitted = true;
 
     //Validamos datos antes de hacer el guardado
-  //   if (this.validandoDatos()) {
+    if (this.validandoDatos()) {
       
-  //     this.viaje.carroId = this.carroId;
-  //     this.viaje.conductor = this.selectedConductor;
-  //     this.viajeServicio.registrarViaje(this.viaje).subscribe(
-  //         dato => {
-  //                this._snackBar.open('Viaje Registrado con éxito.', '', {
-  //                 duration: 2000,
-  //                 panelClass: ['success-snackbar'],
-  //                 horizontalPosition: 'end',
-  //                 verticalPosition: 'top',
-  //             })
-  //                 this.irListaViaje(); // Redireccionar después de que se cierre el snackbar
-  //         },
-  //         error => console.log(error)
-  //     );
-  // }
+      this.viaje.carroId = this.carroId;
+      this.viaje.conductor = this.selectedConductor;
+      this.viajeServicio.registrarViaje(this.viaje).subscribe(
+          dato => {
+                 this._snackBar.open('Viaje Registrado con éxito.', '', {
+                  duration: 2000,
+                  panelClass: ['success-snackbar'],
+                  horizontalPosition: 'end',
+                  verticalPosition: 'top',
+              })
+                  this.irListaViaje(); // Redireccionar después de que se cierre el snackbar
+          },
+          error => console.log(error)
+      );
+  }
 
-  //   else {
-  //      this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
-  //           duration: 3000, // Duración del Snackbar en milisegundos
-  //           panelClass: ['custom-snackbar'],
-  //           horizontalPosition: 'end', // Options: 'start', 'center', 'end'
-  //           verticalPosition: 'top', // Options: 'top', 'bottom'
+    else {
+       this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
+            duration: 3000, // Duración del Snackbar en milisegundos
+            panelClass: ['custom-snackbar'],
+            horizontalPosition: 'end', // Options: 'start', 'center', 'end'
+            verticalPosition: 'top', // Options: 'top', 'bottom'
 
-  //       });
-  //   }
+        });
+    }
 
   }
 
 
   private cargarListasFiltrosCarro() {
-      if(this.selectedVehiculo == undefined || this.selectedVehiculo === '')
-         this.vehiculosAutoCompleteFilters = this.carros;
+      if(this.selectedVehiculo == undefined || this.selectedVehiculo === '') {
+      
+      
+        this.vehiculosAutoCompleteFilters = this.carros;
+
+        for(const carrosLista of this.vehiculosAutoCompleteFilters ) {
+
+          console.log(carrosLista.modelo)
+          console.log(carrosLista.modelo, "modelo2") 
+          console.log(carrosLista.marca, "modelo")
+
+        }
+
+
+        }
+          
   }
 
   private obtenerListaCarro () {
@@ -283,6 +305,19 @@ export class RegistrarViajeComponent {
     this.cargarListasFiltrosCarro();
     });
     
+
+
+
+
+
+
+
+
+
+
+
+
+
     // this.carroServicio.obtenerListaCarro().subscribe(dato => {
     //   // let defaultOption: Conductor = {id: 0, nombre: "Selecciona un conductor", apellido: "Selecciona un conductor", dni: ""};
 
@@ -346,6 +381,8 @@ filtrarAutocompletarConductor(conductor:Conductor) {
 
 filtrarAutocompletarCarro(carro:Carro) {
 
+  console.log(this.selectedVehiculo)
+
   if(  this.selectedVehiculo === undefined 
     || this.selectedVehiculo === null 
     || this.selectedVehiculo === '') {
@@ -353,7 +390,7 @@ filtrarAutocompletarCarro(carro:Carro) {
     } else {
     const filtro = this.selectedVehiculo.toLowerCase();
     this.vehiculosAutoCompleteFilters = this.carros.filter(c => {
-    const modelo_completo = (c.solo_marca + ' ' + c.solo_modelo).toLowerCase();
+    const modelo_completo = (c.marca + ' ' + c.modelo).toLowerCase();
     return modelo_completo.includes(filtro);
   });
   }
@@ -422,6 +459,11 @@ onOptionSelectedDestino(event: MatAutocompleteSelectedEvent) {
   // this.rutasListaDestino = this.rutasLista.filter(ruta => ruta.origen === this.origen);
 
 }
+
+onOptionSelectedVehiculo(event: MatAutocompleteSelectedEvent) {
+ this.viaje.carro = this.selectedVehiculo;
+}
+
 
 getDestinosSegunOrigen(): Ruta[]{
    return this.rutasLista.filter(ruta => ruta.origen.toLowerCase() ===  this.origen.origen.toLowerCase());
