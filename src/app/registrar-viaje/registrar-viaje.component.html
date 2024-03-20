@@ -84,8 +84,8 @@
 
 
 
-         <label>Selecciona Conductor:</label>
-            <div class="d-flex">
+         <label for="seleccionaConductor">Selecciona Conductor:</label>
+            <div id="seleccionaConductor" class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorConductorInput': formSubmitted && conductorError}">
                 <input type="text" matInput
                  id="inputSeleccionaConductor"
@@ -109,8 +109,8 @@
 
 
 
-            <label>Selecciona Vehiculo:</label>
-            <div class="d-flex">
+            <label for="seleccionaVehiculo">Selecciona Vehiculo:</label>
+            <div id="seleccionaVehiculo" class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" [ngClass]="{'errorSeleccionarVehiculo': formSubmitted && vehiculoError }">
                 <input type="text" matInput
                  id="inputSeleccionaVehiculo"
