@@ -30,7 +30,7 @@
         <div id="rutas">
             <label for="rutaDesde">Origen:</label>
             <div id="rutaDesde" class="d-flex">
-                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDesde" [ngClass]="{'errorConductorInput': formSubmitted && conductorError}">
+                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDesde" [ngClass]="{'errorValInput': formSubmitted && rutaErrorOrigen}">
                     <input type="text" matInput
                     oninput="this.value = this.value.toUpperCase()"
                     id="inputSeleccionaRutaDesde"
@@ -57,7 +57,7 @@
         <div>
             <label for="rutaDestino">Destino:</label>
             <div id="rutaDesde" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDestino" [ngClass]="{'errorConductorInput': formSubmitted && conductorError}">
+            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDestino" [ngClass]="{'errorValInput': formSubmitted && rutaErrorDestino}">
                 <input type="text" matInput
                 [disabled]="!origenSelected"
                 id="inputSeleccionaRutaDestino"
@@ -86,7 +86,7 @@
 
          <label for="seleccionaConductor">Selecciona Conductor:</label>
             <div id="seleccionaConductor" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorConductorInput': formSubmitted && conductorError}">
+            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError}">
                 <input type="text" matInput
                  id="inputSeleccionaConductor"
                  placeholder="Ingresa nombre del conductor" 
@@ -111,7 +111,7 @@
 
             <label for="seleccionaVehiculo">Selecciona Vehiculo:</label>
             <div id="seleccionaVehiculo" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" [ngClass]="{'errorSeleccionarVehiculo': formSubmitted && vehiculoError }">
+            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" [ngClass]="{'errorValInput': formSubmitted && vehiculoError }">
                 <input type="text" matInput
                  id="inputSeleccionaVehiculo"
                  placeholder="Selecciona el vehiculo" 

@@ -158,8 +158,8 @@ export class RegistrarViajeComponent {
       'anyo' in object && typeof object.anyo === 'number' &&
       'consumo' in object && typeof object.consumo === 'number' &&
       'numeroUnidad' in object && typeof object.numeroUnidad === 'number' &&
-      'solo_marca' in object && typeof object.solo_marca === 'string' &&
-      'solo_modelo' in object && typeof object.solo_modelo === 'string';
+      'marca' in object && typeof object.marca === 'string' &&
+      'modelo' in object && typeof object.modelo === 'string';
   }
 
 
@@ -176,16 +176,32 @@ export class RegistrarViajeComponent {
 
 
     if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
-        this.selectedConductor = ''  
-        this.conductorError = true;
-        this.errorVali = true;
+          this.selectedConductor = ''  
+          this.conductorError = true;
+          this.errorVali = true
+          
+        const autoCompleteConductor = document.getElementById('autoCompleteConductor');
+        if(autoCompleteConductor) {
+          autoCompleteConductor.classList.remove('errorValInput');
+          setTimeout(() => {
+            autoCompleteConductor.classList.add('errorValInput');
+          });
+        }
       }
+
 
     if(!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === ''){
       this.selectedVehiculo = ''  
       this.vehiculoError = true;
       this.errorVali = true;
-      console.log("error")
+
+      const autoCompleteCarro = document.getElementById('autoCompleteCarro');
+      if(autoCompleteCarro) {
+        autoCompleteCarro.classList.remove('errorValInput');
+        setTimeout(() => {
+            autoCompleteCarro.classList.add('errorValInput');
+        });
+      }
     }
 
     if(!this.isRuta(this.origen) || (this.origen === '')){
@@ -193,12 +209,33 @@ export class RegistrarViajeComponent {
       this.destino = '';
       this.rutaErrorOrigen = true;
       this.errorVali = true;
+
+      const autoCompleteRutaOrigen = document.getElementById('autoCompleteRutaDesde');
+      if(autoCompleteRutaOrigen) {
+        autoCompleteRutaOrigen.classList.remove('errorValInput');
+        setTimeout(() => {
+          autoCompleteRutaOrigen.classList.add('errorValInput');
+        });
+      }
+    }
+
+    if(!this.isRuta(this.destino) || (this.destino === '')){
+      this.origen = ''  ;
+      this.destino = '';
+      this.rutaErrorDestino = true;
+      this.errorVali = true;
+      const autoCompleteRutaDestino = document.getElementById('autoCompleteRutaDestino');
+      if(autoCompleteRutaDestino) {
+        autoCompleteRutaDestino.classList.remove('errorValInput');
+        setTimeout(() => {
+          autoCompleteRutaDestino.classList.add('errorValInput');
+        });
+      }
     }
 
     else if(!this.errorVali) {
     this.getRuta();
     return true;
-
     }
 
     if(this.errorVali) 
@@ -206,15 +243,6 @@ export class RegistrarViajeComponent {
 
     else 
     return true;
-
-
-   
-
-    // else {
-    //   this.viajeServicio.obtenerListaViaje
-    //   return true;
-    // }
-    
   }
 
 
@@ -226,9 +254,6 @@ export class RegistrarViajeComponent {
 
         const origen = ruta.origen.toLowerCase();
         const destino = ruta.destino.toLowerCase();
-
-        console.log(origen, "  " , origenComparator)
-        console.log(destino, "  " , destinoComparator)
 
         return origen === origenComparator && destino === destinoComparator;
     });
@@ -243,16 +268,17 @@ export class RegistrarViajeComponent {
     }
   }
 
-  guardarViaje(){
 
-    this.validandoDatos();
+  guardarViaje(){
+    
     this.formSubmitted = true;
 
     //Validamos datos antes de hacer el guardado
     if (this.validandoDatos()) {
       
-      this.viaje.carroId = this.carroId;
+      this.viaje.carroId = this.selectedConductor.carroId;
       this.viaje.conductor = this.selectedConductor;
+      this.viaje.fecha = new Date();
       this.viajeServicio.registrarViaje(this.viaje).subscribe(
           dato => {
                  this._snackBar.open('Viaje Registrado con éxito.', '', {
@@ -282,21 +308,8 @@ export class RegistrarViajeComponent {
 
   private cargarListasFiltrosCarro() {
       if(this.selectedVehiculo == undefined || this.selectedVehiculo === '') {
-      
-      
         this.vehiculosAutoCompleteFilters = this.carros;
-
-        for(const carrosLista of this.vehiculosAutoCompleteFilters ) {
-
-          console.log(carrosLista.modelo)
-          console.log(carrosLista.modelo, "modelo2") 
-          console.log(carrosLista.marca, "modelo")
-
         }
-
-
-        }
-          
   }
 
   private obtenerListaCarro () {
@@ -304,39 +317,6 @@ export class RegistrarViajeComponent {
     this.carros = dato;
     this.cargarListasFiltrosCarro();
     });
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // this.carroServicio.obtenerListaCarro().subscribe(dato => {
-    //   // let defaultOption: Conductor = {id: 0, nombre: "Selecciona un conductor", apellido: "Selecciona un conductor", dni: ""};
-
-      
-      
-    //   //  this.carrosOrdenados = [...dato].sort((a, b) => {
-    //   //   if (a.solo_marca.toLowerCase() < b.solo_marca.toLowerCase()) {
-    //   //     return -1;
-    //   //   }
-    //   //   if (a.solo_marca.toLowerCase() > b.solo_marca.toLowerCase()) {
-    //   //     return 1;
-    //   //   }
-    //   //   return 0;
-    //   // });
-
-    //   // this.conductores = [defaultOption, ...datosOrdenados];
-    
-    // });
-
   }
  
   irListaViaje() {
@@ -381,8 +361,6 @@ filtrarAutocompletarConductor(conductor:Conductor) {
 
 filtrarAutocompletarCarro(carro:Carro) {
 
-  console.log(this.selectedVehiculo)
-
   if(  this.selectedVehiculo === undefined 
     || this.selectedVehiculo === null 
     || this.selectedVehiculo === '') {
@@ -421,9 +399,6 @@ filtrarAutocompletarRutaOrigen() {
 
 filtrarAutocompletarRutaDestino() {
 
-    
-
-
 }
 
 onInputBlur() {
@@ -452,11 +427,20 @@ onOptionSelectedOrigen(event: MatAutocompleteSelectedEvent) {
   this.destino = '';
   this.origenSelected = true;
   this.rutasListaDestino = this.getDestinosSegunOrigen();
+  
+  let element = document.getElementById('autoCompleteRutaDesde');
+  if (element != null) {
+    element.classList.remove('errorValInput');  
+  }
+
 }
 
 onOptionSelectedDestino(event: MatAutocompleteSelectedEvent) {
-  // this.origen = this.selectedRuta.origen;
-  // this.rutasListaDestino = this.rutasLista.filter(ruta => ruta.origen === this.origen);
+  
+  let element = document.getElementById('autoCompleteRutaDestino');
+  if (element != null) {
+    element.classList.remove('errorValInput');  
+  }
 
 }
 

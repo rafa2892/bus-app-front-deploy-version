@@ -5,7 +5,7 @@
     <th>Numero de Identificación</th>
     <th>Desde</th>
     <th>Hasta</th>
-    <th>Carro Descripcion</th>
+    <th>Descripción Vehiculo</th>
     <th>Conductor</th>
     <th>Fecha</th>
   </tr>
@@ -14,9 +14,9 @@
   <tbody class="table-dark">
   <tr *ngFor= "let viaje of viajes">
     <td>{{ viaje.id }}</td>
-    <td>{{ viaje.origen }}</td>
-    <td>{{ viaje.destino }}</td>
-    <td>{{ viaje.carro.modelo }}</td>
+    <td>{{ viaje.ruta.origen }}</td>
+    <td>{{ viaje.ruta.destino }}</td>
+    <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
     <td>{{ (viaje.conductor.nombre ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : 'No definido') | uppercase }}</td>
     <td>{{ viaje.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
   </tr>
