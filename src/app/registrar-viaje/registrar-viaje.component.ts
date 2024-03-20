@@ -174,6 +174,9 @@ export class RegistrarViajeComponent {
 
  validandoDatos() {
 
+  this.formSubmitted = true;
+  this.errorVali = false;
+
 
     if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
           this.selectedConductor = ''  
@@ -271,8 +274,6 @@ export class RegistrarViajeComponent {
 
   guardarViaje(){
     
-    this.formSubmitted = true;
-
     //Validamos datos antes de hacer el guardado
     if (this.validandoDatos()) {
       
@@ -416,7 +417,7 @@ onInputBlurOrigen() {
 
 
 onFocusEventConductor() {
-  this.conductorError = false;
+  
 }
 
 onFocusEventVehiculo() {
@@ -442,6 +443,16 @@ onOptionSelectedDestino(event: MatAutocompleteSelectedEvent) {
     element.classList.remove('errorValInput');  
   }
 
+}
+
+
+
+onOptionSelectedConductor(event: MatAutocompleteSelectedEvent) {
+  
+  let element = document.getElementById('autoCompleteConductor');
+  if (element != null) {
+    element.classList.remove('errorValInput');  
+  }
 }
 
 onOptionSelectedVehiculo(event: MatAutocompleteSelectedEvent) {

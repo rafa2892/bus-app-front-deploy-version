@@ -86,7 +86,7 @@
 
          <label for="seleccionaConductor">Selecciona Conductor:</label>
             <div id="seleccionaConductor" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError}">
+            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError}" >
                 <input type="text" matInput
                  id="inputSeleccionaConductor"
                  placeholder="Ingresa nombre del conductor" 
@@ -96,7 +96,7 @@
                  (input)="filtrarAutocompletarConductor(selectedConductor)"
                  (blur)="onInputBlur()"
                  (focus)="onFocusEventConductor()">
-                <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom">
+                <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
                 <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
                     {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
                 </mat-option>
