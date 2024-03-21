@@ -1,25 +1,7 @@
-.example-fw {
-
-    width: 100%;
-
-}
-
-
-//No tengo que usar ng:: por la propiedad en el componente encapsulation: ViewEncapsulation.None
-.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
-
-    color:orangered;
-    background-color: yellowgreen;
-    font-size: 14px;
-    padding: 0 10px;
-
-}
-
-
-
 
 .errorValInput .mdc-text-field--outlined .mdc-notched-outline__trailing,
 .errorValInput .mdc-text-field--outlined .mdc-notched-outline__leading {
+    
     animation: blink 0.5s 2 forwards; /* La propiedad "forwards" asegura que el último valor de la animación se mantenga después de la animación */
 }
 
@@ -30,11 +12,49 @@
     100% { border-color: red; }
 }
 
-
-.errorSeleccionarVehiculo .mdc-text-field--outlined .mdc-notched-outline__trailing,
-.errorSeleccionarVehiculo .mdc-text-field--outlined .mdc-notched-outline__leading {
-    animation: blink 0.5s 2 forwards; /* La propiedad "forwards" asegura que el último valor de la animación se mantenga después de la animación */
+.normal-size-input {
+    width: 55%;
 }
+
+.mid-size-input {
+    width: 60%;
+}
+
+.formPosition {
+    right: 15%;
+    position:relative;
+    padding-bottom: 50%;
+
+}
+
+.btonGuardar{
+    margin-top: 15%;
+    left: 55%;
+    position: relative;
+    width: 100%;
+}
+
+.estilosTamanioInputs {
+
+    text-align: left; 
+    margin-left: 7%;
+    margin-top: 2%;
+    font-size: 13px  !important;
+
+}
+
+.mat-mdc-form-field-infix {
+    margin: -13px;
+}
+
+#seleccionDeruta {
+
+    margin-bottom: 10%;
+
+}
+
+
+
 
 
 

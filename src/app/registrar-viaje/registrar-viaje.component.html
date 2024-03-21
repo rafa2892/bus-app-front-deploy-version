@@ -1,33 +1,12 @@
-<div class="col-md-6 offset-md-3">
+<div id="registrarViajeContainer" class="col-md-6 offset-md-3">
     
     <h3 class="text-center">Registrar Viaje</h3>
-    
+    <div id="formRegistrarViajeContainer" class="formPosition">
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje">
-       
         
-<!--         
-        <div class="form-group">
-            <label>Origen : </label>
-            <input type = "text" class="form-control" id="origen" [(ngModel)] = "viaje.origen" [ngClass]="{'is-invalid': formSubmitted && !viaje.origen.trim()}" name="nombre">
-        </div>
-        <div class="form-group">
-            <label>Destino : </label>
-            <input type = "text" class="form-control" id="destino" [(ngModel)] = "viaje.destino" name="nombre" [ngClass]="{'is-invalid': formSubmitted && !viaje.destino.trim()}">
-        </div> -->
-        <!-- <label> Selecciona Carro : </label>
-        <div class="d-flex" >
-            <select class="form-select seleccionaCarro" aria-label="Default select example" [(ngModel)]="carroId" name="carroSeleccionado" [ngClass]="{'seleccionaCarroError': formSubmitted && (carroId == 0 || carroId == null)}">
-                <option *ngFor="let ruta of rutasLista" [value]="ruta.id">{{ ruta.origen | uppercase }}</option>
-            </select>
-            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#myModal"> 
-                <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-            </a>
-        </div>          -->
-
-
-
-        <label for="rutas">Selecciona Ruta:</label>
-        <div id="rutas">
+    <div id="seleccionDeruta">
+        <label for="rutas" style="margin-bottom: 10px;">Selecciona Ruta:</label>
+        <div id="rutas" class="normal-size-input" >
             <label for="rutaDesde">Origen:</label>
             <div id="rutaDesde" class="d-flex">
                 <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDesde" [ngClass]="{'errorValInput': formSubmitted && rutaErrorOrigen}">
@@ -40,7 +19,8 @@
                     name="seleccionaRutaDesde" 
                     (input)="filtrarAutocompletarRutaOrigen()"
                     (blur)="onInputBlurOrigen()"
-                    (focus)="onFocusEventConductor()">
+                    (focus)="onFocusEventConductor()"
+                    class="estilosTamanioInputs">
                     <mat-autocomplete #autoRuta="matAutocomplete" [displayWith]="displayRutaDesde" panelPlacement="bottom" (optionSelected)="onOptionSelectedOrigen($event)">
                         <mat-option *ngFor="let ruta of rutaListaOrigen" [value]="ruta">
                             {{ ruta.origen | uppercase }}
@@ -54,7 +34,7 @@
         </div>
 
     
-        <div>
+        <div id="mat-form-destino" class="normal-size-input">
             <label for="rutaDestino">Destino:</label>
             <div id="rutaDesde" class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDestino" [ngClass]="{'errorValInput': formSubmitted && rutaErrorDestino}">
@@ -67,7 +47,8 @@
                 name="seleccionaRutaHasta" 
                 (input)="filtrarAutocompletarRutaDestino()"
                 (blur)="onInputBlur()"
-                (focus)="onFocusEventConductor()">
+                (focus)="onFocusEventConductor()"
+                class="estilosTamanioInputs">
                 <mat-autocomplete #autoRutaDestino="matAutocomplete" [displayWith]="displayRutaHasta" panelPlacement="bottom" (optionSelected)="onOptionSelectedDestino($event)">
                 <mat-option *ngFor="let ruta of rutasListaDestino" [value]="ruta" >
                     {{ ruta.destino | uppercase }}
@@ -79,13 +60,13 @@
             </a>
             </div>   
         </div>  
+    </div>
 
 
 
-
-
+        <div id="seleccionaConductor" class="mid-size-input">
          <label for="seleccionaConductor">Selecciona Conductor:</label>
-            <div id="seleccionaConductor" class="d-flex">
+            <div class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError}" >
                 <input type="text" matInput
                  id="inputSeleccionaConductor"
@@ -95,7 +76,8 @@
                  name="seleccionaConductor" 
                  (input)="filtrarAutocompletarConductor(selectedConductor)"
                  (blur)="onInputBlur()"
-                 (focus)="onFocusEventConductor()">
+                 (focus)="onFocusEventConductor()"
+                 class="estilosTamanioInputs">
                 <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
                 <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
                     {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
@@ -107,8 +89,10 @@
             </a>
             </div>
 
+        </div>
 
 
+        <div class="mid-size-input">
             <label for="seleccionaVehiculo">Selecciona Vehiculo:</label>
             <div id="seleccionaVehiculo" class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" [ngClass]="{'errorValInput': formSubmitted && vehiculoError }">
@@ -120,7 +104,8 @@
                  name="seleccionavehiculo" 
                  (blur)="onInputBlur()"
                  (focus)="onFocusEventVehiculo()"
-                 (input) ="filtrarAutocompletarCarro(selectedVehiculo)" >
+                 (input) ="filtrarAutocompletarCarro(selectedVehiculo)" 
+                 class="estilosTamanioInputs">
                 <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
                 <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
                     {{ carro.marca + ' ' + carro.modelo | uppercase }}
@@ -131,15 +116,13 @@
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>
             </div>
-
-
-
-            
-          <button class="btn btn-success">Guardar</button>
+        </div>
+          <button class="btn btn-success btonGuardar">Guardar</button>
           <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
           <app-popup-seleccionar-conductor></app-popup-seleccionar-conductor>
-    </form>
+     </form>
     </div>
+</div>
 
  
 
