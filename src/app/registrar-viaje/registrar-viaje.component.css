@@ -43,15 +43,14 @@
   }
 
   .botonBuscar:hover {
-    background-color: rgb(63, 63, 200); /* Cambia a tu color deseado */
+    background-color: #0077cc; /* Cambia a tu color deseado */
     color: white; /* Cambia a tu color deseado */
 
     .lupaIcon {
       color: white;
     }
-
- 
 }
+
 
 #formularioRegistrarViaje {
   margin-top: 5%;

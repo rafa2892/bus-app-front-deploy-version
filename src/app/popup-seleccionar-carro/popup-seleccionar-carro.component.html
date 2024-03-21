@@ -1,11 +1,10 @@
 <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-custom-size modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Selecciona un Carro</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (input)="clearFilters()"></button>
         </div>
-        <h5 class="modal-title">Busqueda Avanzada</h5>
         <div class="modal-body">
         <div class="filtrosContenedor" id="filtrosContenedor">
           <div class="row">
@@ -14,7 +13,7 @@
                   <label for="numeroUnidad" class="col-form-label">Numero Unidad</label>
                 </div>
                 <div class="col-auto">
-                  <input  type="text" id="numeroUnidad" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="numeroUnidad" (blur)="onBlurNumeroUnidad()" (input)="onInputChangeNumeroUnidad()" appOnlyNumber>
+                  <input  type="text" id="numeroUnidad" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" [(ngModel)]="numeroUnidad" (blur)="onBlurNumeroUnidad()" (input)="onInputChangeNumeroUnidad()" appOnlyNumber>
                 </div>
             </div>
               <div class="col g-3 align-items-center" id="busquedaId">
@@ -22,7 +21,7 @@
                   <label for="marca" class="col-form-label">Marca</label>
                 </div>
                 <div class="col-auto">
-                  <input type="text" id="marca" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="marca" (input)="onInputChangeBrandFilter()"  >
+                  <input type="text" id="marca" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" [(ngModel)]="marca" (input)="onInputChangeBrandFilter()"  >
                 </div>
               </div>
               <div class="col g-3 align-items-center">
@@ -30,7 +29,7 @@
                   <label for="modelo" class="col-form-label">Modelo</label>
                 </div>
                 <div class="col-auto">
-                  <input type="text" id="modelo" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="modelo" (input)="onInputChangeBrandFilter()">
+                  <input type="text" id="modelo" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" [(ngModel)]="modelo" (input)="onInputChangeBrandFilter()">
                 </div>
               </div>
               <div class="col g-3 align-items-center">
@@ -38,7 +37,7 @@
                   <label for="modelo" class="col-form-label">Año</label>
                 </div>
                 <div class="col-auto">
-                  <input type="text" id="anyo" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="anyo" appOnlyNumber (input)="onInputChangeBrandFilter()">
+                  <input type="text" id="anyo" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" [(ngModel)]="anyo" appOnlyNumber (input)="onInputChangeBrandFilter()">
                 </div>
               </div>
             </div>
@@ -62,10 +61,10 @@
                 <td>{{carro.anyo}}</td>
                 <td>{{carro.consumo}}</td>
                 <td>
-                  <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(carro.id)" class="btn btn-primary">
+                  <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(carro.id)" class="btn btn-primary small-button">
                     <fa-icon class="detailsIcon" [icon]="detailsIcon"></fa-icon>
                   </button>
-                  <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(carro)" class="btn btn-success">
+                  <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(carro)" class="btn btn-success small-button">
                     <fa-icon class="selectIcon" [icon]="selectIcon"></fa-icon>
                   </button>
                 </td>  

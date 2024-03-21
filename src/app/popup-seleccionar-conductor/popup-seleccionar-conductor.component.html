@@ -1,17 +1,15 @@
 <div class="modal fade" id="conductorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-custom-size modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Selecciona un Conductor</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (input)="clearFilters()"></button>
         </div>
-        <h5 class="modal-title">Busqueda Avanzada</h5>
         <div class="modal-body">
+
+          
         <div class="filtrosContenedor" id="filtrosContenedor">
           <div class="row">
-           
-           
-           
             <div class="col g-3 align-items-center" id="busquedaId">
                 <div class="col-auto">
                   <label for="nombre" class="col-form-label">Nombre</label>
@@ -43,7 +41,8 @@
               </div>
             </div>
           </div>
-          <table class="table table-striped" id="tablaListaConductores">
+
+          <table class="table table-striped table-sm" id="tablaListaConductores">
             <thead class="table-dark">
               <tr>
                 <th>Nombre</th>
@@ -54,15 +53,15 @@
             </thead>
             <tbody class="table-dark">
               <tr *ngFor="let conductor of conductoresLista | paginate: { itemsPerPage: 5, currentPage: p }">
-                <td>{{conductor.nombre}}</td>
+                <td><small>{{conductor.nombre}}</small></td>
                 <td>{{conductor.apellido}}</td>
                 <td>{{conductor.dni}}</td>
                 <td>
-                  <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(conductor.id)" class="btn btn-primary">
-                    <fa-icon class="detailsIcon" [icon]="detailsIcon"></fa-icon>
+                  <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(conductor.id)" class="btn btn-primary small-button">
+                    <fa-icon class="detailsIcon small-icon" [icon]="detailsIcon"></fa-icon>
                   </button>
-                  <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(conductor)" class="btn btn-success">
-                    <fa-icon class="selectIcon" [icon]="selectIcon"></fa-icon>
+                  <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(conductor)" class="btn btn-success small-button">
+                    <fa-icon class="selectIcon small-icon" [icon]="selectIcon"></fa-icon>
                   </button>
                 </td>  
               </tr>

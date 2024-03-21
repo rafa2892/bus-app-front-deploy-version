@@ -5,9 +5,9 @@
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje">
         
     <div id="seleccionDeruta">
-        <label for="rutas" style="margin-bottom: 10px;">Selecciona Ruta:</label>
+        <label for="rutas" class="titulo-form">Selecciona Ruta:</label>
         <div id="rutas" class="normal-size-input" >
-            <label for="rutaDesde">Origen:</label>
+            <label for="rutaDesde" class="label-input">Origen:</label>
             <div id="rutaDesde" class="d-flex">
                 <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDesde" [ngClass]="{'errorValInput': formSubmitted && rutaErrorOrigen}">
                     <input type="text" matInput
@@ -35,7 +35,7 @@
 
     
         <div id="mat-form-destino" class="normal-size-input">
-            <label for="rutaDestino">Destino:</label>
+            <label for="rutaDestino" class="label-input">Destino:</label>
             <div id="rutaDesde" class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDestino" [ngClass]="{'errorValInput': formSubmitted && rutaErrorDestino}">
                 <input type="text" matInput
@@ -65,7 +65,7 @@
 
 
         <div id="seleccionaConductor" class="mid-size-input">
-         <label for="seleccionaConductor">Selecciona Conductor:</label>
+         <label for="seleccionaConductor" class="label-input">Selecciona Conductor:</label>
             <div class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError}" >
                 <input type="text" matInput
@@ -93,7 +93,7 @@
 
 
         <div class="mid-size-input">
-            <label for="seleccionaVehiculo">Selecciona Vehiculo:</label>
+            <label for="seleccionaVehiculo" class="label-input">Selecciona Vehiculo:</label>
             <div id="seleccionaVehiculo" class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" [ngClass]="{'errorValInput': formSubmitted && vehiculoError }">
                 <input type="text" matInput
@@ -112,7 +112,7 @@
                 </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#myModal"> 
+            <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#myModal"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>
             </div>

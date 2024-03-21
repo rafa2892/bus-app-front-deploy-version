@@ -34,4 +34,22 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-right: 15%;
    }
 
+   .small-button {
+    font-size: 11px;
+    padding: 4px 11px;
+  
+  }
+
+  .filtrosContenedor {
+    margin-top: -4%;
+    margin-bottom: -3%;
+    }     
+
+    .modal-custom-size {
+      /* max-width: 800px;        
+      width: 80%;           
+      max-height: 400px;     
+      overflow-y: auto;  */
+      font-size: smaller;
+    }
  

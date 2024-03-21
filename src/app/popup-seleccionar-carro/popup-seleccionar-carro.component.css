@@ -15,7 +15,10 @@
     max-width: 70%; /* Puedes ajustar este valor según tu criterio */
   }
  
-
+  .filtrosContenedor {
+    margin-top: -4%;
+    margin-bottom: -3%;
+    }     
 
  #tablaListaCarro {
   margin-top: 5%;
@@ -27,7 +30,7 @@
  
 
  #numeroUnidad{
-  width: 30%;
+  width: 40%;
 
  }
 
@@ -50,3 +53,7 @@
 
  }
 
+
+ .defaultInputHeightModal {
+  height: 25px;
+ }

@@ -28,14 +28,13 @@
 }
 
 .btonGuardar{
-    margin-top: 15%;
+    margin-top: 7%;
     left: 55%;
     position: relative;
-    width: 100%;
+    width: 80%;
 }
 
 .estilosTamanioInputs {
-
     text-align: left; 
     margin-left: 7%;
     margin-top: 2%;
@@ -48,10 +47,24 @@
 }
 
 #seleccionDeruta {
-
     margin-bottom: 10%;
-
 }
+
+.titulo-form {
+    margin-bottom: 10px; 
+    color: #0077cc; 
+    font-size: 20px;
+}
+
+.label-input {
+    color: #035189; 
+}
+
+.lupaIcon {
+    color: #0077cc; /* Cambia 'blue' al color deseado */
+    font-size: 10px;
+}
+
 
 
 
