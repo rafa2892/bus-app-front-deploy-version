@@ -37,7 +37,7 @@
                   <label for="modelo" class="col-form-label">Año</label>
                 </div>
                 <div class="col-auto">
-                  <input type="text" id="anyo" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" [(ngModel)]="anyo" appOnlyNumber (input)="onInputChangeBrandFilter()">
+                  <input type="text" id="anyo" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" maxlength="4" [(ngModel)]="anyo" appOnlyNumber (input)="onInputChangeBrandFilter()">
                 </div>
               </div>
             </div>
