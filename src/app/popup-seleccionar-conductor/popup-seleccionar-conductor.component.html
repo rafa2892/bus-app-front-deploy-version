@@ -25,7 +25,7 @@
                   <label for="apellido" class="col-form-label">Apellido</label>
                 </div>
                 <div class="col-auto">
-                  <input type="text" id="apellido" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="apellido" (input)="onInputChangeApellidoFilter()"  >
+                  <input type="text" id="apellido" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="apellido" (input)="onInputChangeNombre()"  >
                 </div>
               </div>
 
@@ -35,8 +35,8 @@
                 <div class="col-auto">
                   <label for="cedula" class="col-form-label">Cedula</label>
                 </div>
-                <div class="col-auto">
-                  <input type="text" id="cedula" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="dni" (input)="onInputChangeDniFilter()">
+                <div class="col-auto d-flex align-items-center">
+                  <span class="mr-2" id="inicioCedulaLetra" style="margin-right: 5px;">V -</span><input type="text" id="cedula" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="dni" (input)="onInputChangeNombre()" appOnlyNumber>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
               </tr>
             </thead>
             <tbody class="table-dark">
-              <tr *ngFor="let conductor of conductoresLista | paginate: { itemsPerPage: 5, currentPage: p }">
+              <tr *ngFor="let conductor of conductoresListafiltrado | paginate: { itemsPerPage: 5, currentPage: p }">
                 <td><small>{{conductor.nombre}}</small></td>
                 <td>{{conductor.apellido}}</td>
                 <td>{{conductor.dni}}</td>

@@ -43,6 +43,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .filtrosContenedor {
     margin-top: -4%;
     margin-bottom: -3%;
+    margin-left: 5%;
     }     
 
     .modal-custom-size {
