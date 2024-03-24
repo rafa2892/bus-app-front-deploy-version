@@ -26,6 +26,7 @@ import { PopupSeleccionarConductorComponent } from './popup-seleccionar-conducto
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
+import { PopupSeleccionarRutaComponent } from './popup-seleccionar-ruta/popup-seleccionar-ruta.component';
 
 
 
@@ -43,6 +44,7 @@ import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
     PopupSeleccionarCarroComponent,
     PopupSeleccionarConductorComponent,
     ListaRutasComponent,
+    PopupSeleccionarRutaComponent,
     
     
  

@@ -58,9 +58,7 @@ seleccionar(carro:Carro) {
   }
 
   onInputChangeBrandFilter() {
-   
     this.carrosFiltrado = this.carros;
-    
     const marca = this.marca.trim().toLowerCase();
     const año = this.anyo.trim().toLowerCase();
     const modelo = this.modelo.trim().toLowerCase();

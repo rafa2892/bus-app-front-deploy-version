@@ -464,6 +464,12 @@ getDestinosSegunOrigen(): Ruta[]{
    return this.rutasLista.filter(ruta => ruta.origen.toLowerCase() ===  this.origen.origen.toLowerCase());
 }
 
+seleccionarRuta(ruta:Ruta) {
+  this.ruta = ruta;
+  this.destino = ruta;
+  this.origen = ruta;
+}
+
 
 
 

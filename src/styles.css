@@ -53,3 +53,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
       font-size: smaller;
     }
  
+    .defaultInputHeightModal {
+      height: 25px;
+     }
+    

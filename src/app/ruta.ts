@@ -8,6 +8,8 @@ export class Ruta {
 
     distancia: string ;
 
+    numRutaIdentificativo: string;
+
 
 
 }
