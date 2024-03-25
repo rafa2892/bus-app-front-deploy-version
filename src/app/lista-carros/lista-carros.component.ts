@@ -16,6 +16,7 @@ export class ListaCarrosComponent {
   editIcon = faEdit;
   deleteIcon = faTrash;
   eyeIcon = faEye;
+  p: number = 1;
 
 
   constructor(private carroServicio:CarroService,private router:Router) {

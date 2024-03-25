@@ -1,10 +1,13 @@
 
 .errorValInput .mdc-text-field--outlined .mdc-notched-outline__trailing,
 .errorValInput .mdc-text-field--outlined .mdc-notched-outline__leading {
-    
     animation: blink 0.5s 2 forwards; /* La propiedad "forwards" asegura que el último valor de la animación se mantenga después de la animación */
 }
 
+.blueBorder .mdc-text-field--outlined .mdc-notched-outline__trailing,
+.blueBorder .mdc-text-field--outlined .mdc-notched-outline__leading {
+    border-color: #0077cc !important;
+}
 
 @keyframes blink {
     0%, 50% { border-color: red; }

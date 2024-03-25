@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import {Viaje} from "../viaje";
 import {ViajeServicioService} from "../viaje-servicio.service";
 import { Router } from '@angular/router';
+import { fontAwesomeIcons } from '../fontawesome-icons';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -11,6 +12,10 @@ import { Router } from '@angular/router';
 export class ListaViajesComponent {
 
   viajes: Viaje[];
+  p: number = 1;
+  editIcon = fontAwesomeIcons.editIcon;
+  deleteIcon = fontAwesomeIcons.deleteIcon;
+  eyeIcon = fontAwesomeIcons.deleteIcon;
 
   constructor(private viajeServicio:ViajeServicioService,private router:Router) {
   }

@@ -1,4 +1,3 @@
-<h2>Lista de Viajes</h2>
 <table class="table table-striped">
   <thead class="table-dark">
   <tr>
@@ -8,20 +7,37 @@
     <th>Descripción Vehiculo</th>
     <th>Conductor</th>
     <th>Fecha</th>
+    <th>Acciones</th>
   </tr>
   </thead>
 
   <tbody class="table-dark">
-  <tr *ngFor= "let viaje of viajes">
+  <tr *ngFor= "let viaje of viajes | paginate: { itemsPerPage: 10, currentPage: p}">
     <td>{{ viaje.id }}</td>
     <td>{{ viaje.ruta.origen }}</td>
     <td>{{ viaje.ruta.destino }}</td>
     <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
     <td>{{ (viaje.conductor.nombre ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : 'No definido') | uppercase }}</td>
     <td>{{ viaje.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+    <td>
+      <button title="Editar Vehiculo" class="btn btn-info botonesAccion small-button">
+        <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
+      </button>
+      <button title="Eliminar Vehiculo" class="btn btn-warning botonesAccion small-button">
+        <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
+      </button>
+      <button title="Ver detalles del Vehiculo"  class="btn btn-success botonesAccion small-button">
+        <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+      </button>
+    </td>
   </tr>
   </tbody>
 </table>
+<div class="pagination-container">
+  <pagination-controls 
+  (pageChange)="p = $event"
+   previousLabel="Anterior" 
+  nextLabel="Siguiente"></pagination-controls>
+</div>
 
 
-<img src="../lista-viajes/mejores-bancos-de-imagenes-gratis.jpg" alt="Descripción de la imagen">

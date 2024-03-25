@@ -1,6 +1,5 @@
 <div id="registrarViajeContainer" class="col-md-6 offset-md-3">
     
-    <h3 class="text-center">Registrar Viaje</h3>
     <div id="formRegistrarViajeContainer" class="formPosition">
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje">
         
@@ -9,7 +8,8 @@
         <div id="rutas" class="normal-size-input" >
             <label for="rutaDesde" class="label-input">Origen:</label>
             <div id="rutaDesde" class="d-flex">
-                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDesde" [ngClass]="{'errorValInput': formSubmitted && rutaErrorOrigen}">
+                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaOrigen" [ngClass]="{'errorValInput': formSubmitted && rutaErrorOrigen,
+                 'blueBorder': !(formSubmitted && rutaErrorOrigen)}">
                     <input type="text" matInput
                     oninput="this.value = this.value.toUpperCase()"
                     id="inputSeleccionaRutaDesde"
@@ -19,7 +19,7 @@
                     name="seleccionaRutaDesde" 
                     (input)="filtrarAutocompletarRutaOrigen()"
                     (blur)="onInputBlurOrigen()"
-                    (focus)="onFocusEventConductor()"
+                    (focus)="onFocusEventOrigen()"
                     class="estilosTamanioInputs">
                     <mat-autocomplete #autoRuta="matAutocomplete" [displayWith]="displayRutaDesde" panelPlacement="bottom" (optionSelected)="onOptionSelectedOrigen($event)">
                         <mat-option *ngFor="let ruta of rutaListaOrigen" [value]="ruta">
@@ -37,7 +37,8 @@
         <div id="mat-form-destino" class="normal-size-input">
             <label for="rutaDestino" class="label-input">Destino:</label>
             <div id="rutaDesde" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDestino" [ngClass]="{'errorValInput': formSubmitted && rutaErrorDestino}">
+            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDestino" [ngClass]="{'errorValInput': formSubmitted && rutaErrorDestino, 
+            'blueBorder': !(formSubmitted && rutaErrorDestino)}">
                 <input type="text" matInput
                 [disabled]="!origenSelected"
                 id="inputSeleccionaRutaDestino"
@@ -67,7 +68,8 @@
         <div id="seleccionaConductor" class="mid-size-input">
          <label for="seleccionaConductor" class="label-input">Selecciona Conductor:</label>
             <div class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError}" >
+            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
+            'blueBorder': !(formSubmitted && conductorError)}" >
                 <input type="text" matInput
                  id="inputSeleccionaConductor"
                  placeholder="Ingresa nombre del conductor" 
@@ -95,7 +97,8 @@
         <div class="mid-size-input">
             <label for="seleccionaVehiculo" class="label-input">Selecciona Vehiculo:</label>
             <div id="seleccionaVehiculo" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" [ngClass]="{'errorValInput': formSubmitted && vehiculoError }">
+            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" 
+            [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
                 <input type="text" matInput
                  id="inputSeleccionaVehiculo"
                  placeholder="Selecciona el vehiculo" 

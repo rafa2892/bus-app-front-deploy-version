@@ -18,6 +18,10 @@
     align-items: center;
 }
 
+.listaVehiculoContainer {
+    margin-top: -60px;
+}
+
 td button {
     margin: 5px; /* Ajusta el valor según el espaciado deseado */
   }

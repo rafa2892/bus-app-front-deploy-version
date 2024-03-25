@@ -65,7 +65,6 @@ export class PopupSeleccionarRutaComponent {
     const origen = this.origen.trim().toLowerCase();
     const destino = this.destino.trim().toLowerCase();
     const numViaje = this.viajeNum.trim().toLowerCase();
-
     const numViajeEsNumero = numViaje === '' || /^\d+$/.test(numViaje);
 
     if(numViajeEsNumero) {

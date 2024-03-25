@@ -213,7 +213,7 @@ export class RegistrarViajeComponent {
       this.rutaErrorOrigen = true;
       this.errorVali = true;
 
-      const autoCompleteRutaOrigen = document.getElementById('autoCompleteRutaDesde');
+      const autoCompleteRutaOrigen = document.getElementById('autoCompleteRutaOrigen');
       if(autoCompleteRutaOrigen) {
         autoCompleteRutaOrigen.classList.remove('errorValInput');
         setTimeout(() => {
@@ -254,10 +254,8 @@ export class RegistrarViajeComponent {
         const foundRuta = this.rutasLista.find(ruta => {
         const origenComparator = this.origen.origen.toLowerCase();
         const destinoComparator = this.destino.destino.toLowerCase();
-
         const origen = ruta.origen.toLowerCase();
         const destino = ruta.destino.toLowerCase();
-
         return origen === origenComparator && destino === destinoComparator;
     });
 
@@ -339,9 +337,9 @@ export class RegistrarViajeComponent {
     this.selectedVehiculo = carroSeleccionado;
 }
 
-seleccionarConductor(conductorSeleccionado:Conductor) {
-  this.selectedConductor = conductorSeleccionado;
-}
+  seleccionarConductor(conductorSeleccionado:Conductor) {
+    this.selectedConductor = conductorSeleccionado;
+  }
 
 
 filtrarAutocompletarConductor(conductor:Conductor) {
@@ -377,7 +375,6 @@ filtrarAutocompletarCarro(carro:Carro) {
 
 
 filtrarAutocompletarRutaOrigen() {
-
   this.origenSelected = false;
   this.destino = '';
 
@@ -415,40 +412,38 @@ onInputBlurOrigen() {
     this.origen = '';
 }
 
+onFocusEventOrigen() {
+  this.rutaErrorOrigen = false;
+}
+
+onFocusEventODestino() {
+  this.rutaErrorDestino = false;
+}
 
 onFocusEventConductor() {
-  
+  this.conductorError = false;
 }
 
 onFocusEventVehiculo() {
   this.vehiculoError = false;
 }
 
+
 onOptionSelectedOrigen(event: MatAutocompleteSelectedEvent) {
   this.destino = '';
   this.origenSelected = true;
   this.rutasListaDestino = this.getDestinosSegunOrigen();
-  
-  let element = document.getElementById('autoCompleteRutaDesde');
-  if (element != null) {
-    element.classList.remove('errorValInput');  
-  }
 
 }
 
 onOptionSelectedDestino(event: MatAutocompleteSelectedEvent) {
-  
   let element = document.getElementById('autoCompleteRutaDestino');
   if (element != null) {
     element.classList.remove('errorValInput');  
   }
-
 }
 
-
-
 onOptionSelectedConductor(event: MatAutocompleteSelectedEvent) {
-  
   let element = document.getElementById('autoCompleteConductor');
   if (element != null) {
     element.classList.remove('errorValInput');  
@@ -457,6 +452,7 @@ onOptionSelectedConductor(event: MatAutocompleteSelectedEvent) {
 
 onOptionSelectedVehiculo(event: MatAutocompleteSelectedEvent) {
  this.viaje.carro = this.selectedVehiculo;
+ this.vehiculoError = false;
 }
 
 
@@ -465,13 +461,12 @@ getDestinosSegunOrigen(): Ruta[]{
 }
 
 seleccionarRuta(ruta:Ruta) {
+  this.rutaErrorDestino = false;
+  this.rutaErrorOrigen = false
   this.ruta = ruta;
   this.destino = ruta;
   this.origen = ruta;
 }
-
-
-
 
 }
 

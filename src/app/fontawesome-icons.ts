@@ -1,8 +1,10 @@
-import { faCheck, faCircleInfo, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCircleInfo, faPencil, faPlus, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export const fontAwesomeIcons = {
   detailsIcon: faCircleInfo,
   selectIcon: faCheck,
   plusIcon: faPlus,
-  searchIcon: faSearch
+  searchIcon: faSearch,
+  deleteIcon : faTrash,
+  editIcon : faPencil
 };
