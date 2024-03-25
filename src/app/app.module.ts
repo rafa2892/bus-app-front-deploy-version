@@ -27,6 +27,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
 import { PopupSeleccionarRutaComponent } from './popup-seleccionar-ruta/popup-seleccionar-ruta.component';
+import { CardBusDetailComponent } from './card-bus-detail/card-bus-detail.component';
+import {MatCardModule} from '@angular/material/card';
 
 
 
@@ -45,6 +47,7 @@ import { PopupSeleccionarRutaComponent } from './popup-seleccionar-ruta/popup-se
     PopupSeleccionarConductorComponent,
     ListaRutasComponent,
     PopupSeleccionarRutaComponent,
+    CardBusDetailComponent,
     
     
  
@@ -61,7 +64,9 @@ import { PopupSeleccionarRutaComponent } from './popup-seleccionar-ruta/popup-se
     MatInputModule,
     MatFormFieldModule,
     MatInputModule, 
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule
   ],
   providers: [
     provideClientHydration(),

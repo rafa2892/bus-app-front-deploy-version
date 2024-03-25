@@ -2,7 +2,6 @@
     
     <div id="formRegistrarViajeContainer" class="formPosition">
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje">
-        
     <div id="seleccionDeruta">
         <label for="rutas" class="titulo-form">Selecciona Ruta:</label>
         <div id="rutas" class="normal-size-input" >
@@ -32,8 +31,6 @@
                 </a>
             </div>
         </div>
-
-    
         <div id="mat-form-destino" class="normal-size-input">
             <label for="rutaDestino" class="label-input">Destino:</label>
             <div id="rutaDesde" class="d-flex">
@@ -62,10 +59,7 @@
             </div>   
         </div>  
     </div>
-
-
-
-        <div id="seleccionaConductor" class="mid-size-input">
+    <div id="seleccionaConductor" class="mid-size-input">
          <label for="seleccionaConductor" class="label-input">Selecciona Conductor:</label>
             <div class="d-flex">
             <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
@@ -92,8 +86,6 @@
             </div>
 
         </div>
-
-
         <div class="mid-size-input">
             <label for="seleccionaVehiculo" class="label-input">Selecciona Vehiculo:</label>
             <div id="seleccionaVehiculo" class="d-flex">

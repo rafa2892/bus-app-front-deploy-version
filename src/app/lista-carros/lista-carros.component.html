@@ -25,7 +25,7 @@
         <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro.id)" class="btn btn-warning botonesAccion">
           <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
         </button>
-        <button title="Ver detalles del Vehiculo" (click)="verFichaTecnica(carro.id)" class="btn btn-success botonesAccion">
+        <button title="Ver detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-success botonesAccion" type="button" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
           <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
         </button>
       </td>  
@@ -38,4 +38,5 @@
    previousLabel="Anterior" 
   nextLabel="Siguiente"></pagination-controls>
 </div>
+<app-card-bus-detail [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-card-bus-detail>
 </div>

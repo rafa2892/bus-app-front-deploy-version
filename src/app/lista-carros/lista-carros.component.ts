@@ -3,6 +3,7 @@ import {Carro} from "../carro";
 import {CarroService} from "../carro.service";
 import { Router } from '@angular/router';
 import { faCar, faEdit, faEye, faPlus, faPlusCircle, faTrash} from '@fortawesome/free-solid-svg-icons';
+import { CardBusDetailComponent } from '../card-bus-detail/card-bus-detail.component';
 
 @Component({
   selector: 'app-lista-carros',
@@ -17,6 +18,7 @@ export class ListaCarrosComponent {
   deleteIcon = faTrash;
   eyeIcon = faEye;
   p: number = 1;
+  carroSeleccionadoDetalles :Carro;
 
 
   constructor(private carroServicio:CarroService,private router:Router) {
@@ -30,15 +32,14 @@ export class ListaCarrosComponent {
     this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
       this.carros = dato;
     });
-
   }
 
   actualizarCarro(id:number) {
     this.router.navigate(['actualizar-empleado',id])
   }
 
-  verFichaTecnica(id:number) {
-    this.router.navigate(['actualizar-empleado',id])
+  detallesVehiculo(carroSelected:Carro) {
+    this.carroSeleccionadoDetalles = carroSelected;
   }
 
   eliminarCarro(id:number) {
@@ -47,4 +48,7 @@ export class ListaCarrosComponent {
       this.obtenerCarros();
     })
   }
+
+
+
 }
