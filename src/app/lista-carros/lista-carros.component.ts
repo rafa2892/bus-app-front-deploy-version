@@ -19,6 +19,7 @@ export class ListaCarrosComponent {
   eyeIcon = faEye;
   p: number = 1;
   carroSeleccionadoDetalles :Carro;
+  carro : Carro;
 
 
   constructor(private carroServicio:CarroService,private router:Router) {
@@ -28,10 +29,10 @@ export class ListaCarrosComponent {
     this.obtenerCarros();
  }
 
-  private obtenerCarros () {
-    this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
-      this.carros = dato;
-    });
+ private obtenerCarros() {
+        this.carroServicio.obtenerListaCarro().subscribe(carros => {
+        this.carros = carros;
+      });
   }
 
   actualizarCarro(id:number) {
@@ -48,7 +49,4 @@ export class ListaCarrosComponent {
       this.obtenerCarros();
     })
   }
-
-
-
 }

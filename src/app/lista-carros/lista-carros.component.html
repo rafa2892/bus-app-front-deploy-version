@@ -32,11 +32,12 @@
     </tr>
     </tbody>
 </table>
-<div class="pagination-container">
-  <pagination-controls 
-  (pageChange)="p = $event"
-   previousLabel="Anterior" 
-  nextLabel="Siguiente"></pagination-controls>
+  <div class="pagination-container">
+    <pagination-controls 
+    (pageChange)="p = $event"
+    previousLabel="Anterior" 
+    nextLabel="Siguiente"></pagination-controls>
+  </div>
 </div>
+//Modal  Detalles
 <app-card-bus-detail [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-card-bus-detail>
-</div>
