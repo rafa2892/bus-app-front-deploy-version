@@ -1,3 +1,5 @@
+import { Imagen } from "./imagen";
+
 export class Carro {
 
   id:number;
@@ -6,7 +8,8 @@ export class Carro {
   consumo:number;
   numeroUnidad:number;
   marca:string;
-  imagen :string; 
-  imagenes: string [];
+
+  imagenes: Imagen [];
+  imegenesGuardar : Imagen [];
   
 }

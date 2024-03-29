@@ -11,8 +11,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 export class CardBusDetailComponent {
 
   @Input() carroSeleccionadoDetalles: Carro;
-   
-  // Define a map to cache the URLs  
+
+  // Define a map to cache the URLs
   imageCache: Map<string, string> = new Map<string, string>();
   imagenURL: string;
   imagen:string = '';
@@ -27,31 +27,22 @@ export class CardBusDetailComponent {
 
 
 
-
 getImagenUrl(carroSeleccionado: any) {
 
-  let imagen = carroSeleccionado.imagenes[0].imagen;
+      if(carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
 
-  if(!imagen) {
-    imagen = this.imagen;
-  }
-  // Check if the URL is already cached
-  if (this.imageCache.has(imagen)) {
-    return this.imageCache.get(imagen);
-  } else {
-    const binaryString = window.atob(imagen);
-    const binaryLen = binaryString.length;
-    const bytes = new Uint8Array(binaryLen);
-    for (let i = 0; i < binaryLen; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    const imageBlob = new Blob([bytes], { type: 'image/jpeg' }); 
-    const url = URL.createObjectURL(imageBlob);
-    // Cache the URL
-    this.imageCache.set(imagen, url);
-    return url;
-  }
+      let imagen = carroSeleccionado.imagenes[0].imagen;
+      
+      // Decodificar la imagen Base64
+      let imagenDecodificada = atob(imagen);
+      return imagenDecodificada;
+    
+      }
+      else 
+      return '';
+}
+
+
 
 }
 
-}

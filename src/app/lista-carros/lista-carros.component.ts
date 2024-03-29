@@ -33,6 +33,7 @@ export class ListaCarrosComponent {
         this.carroServicio.obtenerListaCarro().subscribe(carros => {
         this.carros = carros;
       });
+      console.log(this.carros)
   }
 
   actualizarCarro(id:number) {
@@ -43,7 +44,7 @@ export class ListaCarrosComponent {
     this.carroSeleccionadoDetalles = carroSelected;
   }
 
-  eliminarCarro(id:number) {
+  eliminarCarro(id:any) {
       this.carroServicio.eliminarCarro(id).subscribe(dato => {
       console.log(dato);
       this.obtenerCarros();
