@@ -1,7 +1,6 @@
-import { Component, Input, ChangeDetectorRef  } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, Output, EventEmitter  } from '@angular/core';
 import { Carro } from '../carro';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 @Component({
@@ -12,6 +11,8 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 export class CardBusDetailComponent {
 
   @Input() carroSeleccionadoDetalles: Carro;
+  @Output() modalClosed: EventEmitter<void> = new EventEmitter<void>();
+  
 
   // Define a map to cache the URLs
   imageCache: Map<string, string> = new Map<string, string>();
@@ -25,14 +26,20 @@ export class CardBusDetailComponent {
   constructor(private sanitizer: DomSanitizer, private cdr: ChangeDetectorRef){
     this.imagenURL = '';
   }
+  
+  onCloseModal() {
+    this.index = 0;
+    this.modalClosed.emit();
+  }
 
+  
   ngOnInit(): void {
     this.carroSeleccionadoDetalles = new Carro();
  }
 
-
-
 getImagenUrl(carroSeleccionado: any) {
+
+
       if(carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
         let imagenesDecodificadas: string[] = []; 
         if (carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
@@ -56,7 +63,6 @@ getImagenUrl(carroSeleccionado: any) {
     if(this.index < (this.imagenescodificadasFront.length - 1 )){
         this.index++;
     }
-
     else {
       this.index = 0;
     }
@@ -66,9 +72,11 @@ getImagenUrl(carroSeleccionado: any) {
     if(this.index > 0){
       this.index--;
     }
-
     else {
       this.index = this.imagenescodificadasFront.length - 1;
     }
   }
+
+
+
 }

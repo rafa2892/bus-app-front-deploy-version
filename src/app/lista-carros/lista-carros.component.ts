@@ -28,11 +28,13 @@ export class ListaCarrosComponent {
     this.obtenerCarros();
  }
 
+ onModalClosed() {
+}
+
  private obtenerCarros() {
         this.carroServicio.obtenerListaCarro().subscribe(carros => {
         this.carros = carros;
       });
-      console.log(this.carros)
   }
 
   actualizarCarro(id:number) {

@@ -60,9 +60,7 @@ obtenerCarros(){
 
 
 validandoDatos(listaCarros: Carro[], nuevoNumeroUnidad: number): boolean {
-  
   this.convertirImagenesABase64();
-
   this.generalErrorFlag = false;
   const anyoActual = new Date().getFullYear();
     
@@ -87,13 +85,6 @@ validandoDatos(listaCarros: Carro[], nuevoNumeroUnidad: number): boolean {
       this.generalErrorFlag = true;
   }
  
-  else {
-  //trimeamos los inputs
-  // this.trimInputs();
-  // this.carro.modelo = this.carro.solo_marca.toUpperCase().concat(' ').concat(this.carro.solo_modelo.toUpperCase());
- 
- }
-
   if(this.carro.anyo === undefined || this.carro.anyo ===null || this.carro.anyo === 0 || this.carro.anyo.toString().trim() == '') {
       this.noAnyoError = true;
       this.mensaje = 'El año es un campo obligatorio, por favor introduce el año del carro a registrar'
@@ -155,9 +146,6 @@ guardarCarro() {
 
   this.convertirImagenesABase64().then(() => {
     if (this.validandoDatos(this.carroLista, this.carro.numeroUnidad)) {
-
-      console.log(this.carro);
-
       this.carro.imagenes = this.imagenGuardar;
       this.carroServicio.registrarCarro(this.carro).subscribe(dato => {
         console.log(dato);
