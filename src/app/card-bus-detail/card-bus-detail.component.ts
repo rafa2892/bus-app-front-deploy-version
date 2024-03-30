@@ -33,7 +33,6 @@ export class CardBusDetailComponent {
 
 
 getImagenUrl(carroSeleccionado: any) {
-  
       if(carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
         let imagenesDecodificadas: string[] = []; 
         if (carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
