@@ -18,7 +18,7 @@ export class CardBusDetailComponent {
   imagenURL: string;
   imagen:string = '';
   imagenescodificadasFront : any [];
-
+  imagenNotFound  = '../../assets/no_image_avaible.jpg';
   index : number = 0;
 
 
@@ -33,8 +33,8 @@ export class CardBusDetailComponent {
 
 
 getImagenUrl(carroSeleccionado: any) {
+  
       if(carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
-       
         let imagenesDecodificadas: string[] = []; 
         if (carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
           carroSeleccionado.imagenes.forEach((imagen: { imagen: string }) => {
@@ -48,7 +48,8 @@ getImagenUrl(carroSeleccionado: any) {
         return this.imagenescodificadasFront;
   }
   else {
-    return ;
+    this.index = 0;
+    return [this.imagenNotFound];
   }
 }
 
@@ -70,7 +71,5 @@ getImagenUrl(carroSeleccionado: any) {
     else {
       this.index = this.imagenescodificadasFront.length - 1;
     }
-
   }
-
 }

@@ -3,7 +3,6 @@ import {Carro} from "../carro";
 import {CarroService} from "../carro.service";
 import { Router } from '@angular/router';
 import { faCar, faEdit, faEye, faPlus, faPlusCircle, faTrash} from '@fortawesome/free-solid-svg-icons';
-import { CardBusDetailComponent } from '../card-bus-detail/card-bus-detail.component';
 
 @Component({
   selector: 'app-lista-carros',

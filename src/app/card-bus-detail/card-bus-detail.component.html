@@ -11,8 +11,6 @@
                   <mat-card-title>{{carroSeleccionadoDetalles.marca}}</mat-card-title>
                   <mat-card-subtitle>{{carroSeleccionadoDetalles.modelo + ' ' + carroSeleccionadoDetalles.anyo}}</mat-card-subtitle>
                 </mat-card-header>
-
-                
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                   <div class="carousel-inner">
                     <div *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index" class="carousel-item" [class.active]="i === index">
@@ -49,6 +47,8 @@
         </div>
       </div>
     </div>
+
+
 
 
     
