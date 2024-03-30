@@ -6,3 +6,9 @@
     background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
     background-size: cover;
   }
+
+  .imagen-tamaño-carousel {
+    width: 200px; /* Establece el ancho deseado */
+    height: 150px; /* Establece la altura deseada */
+    object-fit: cover; /* Para asegurar que las imágenes se ajusten al tamaño definido */
+  }

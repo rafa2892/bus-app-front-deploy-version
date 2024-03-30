@@ -29,6 +29,7 @@ import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
 import { PopupSeleccionarRutaComponent } from './popup-seleccionar-ruta/popup-seleccionar-ruta.component';
 import { CardBusDetailComponent } from './card-bus-detail/card-bus-detail.component';
 import {MatCardModule} from '@angular/material/card';
+// import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 
@@ -66,7 +67,7 @@ import {MatCardModule} from '@angular/material/card';
     MatInputModule, 
     MatIconModule,
     MatCardModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [
     provideClientHydration(),

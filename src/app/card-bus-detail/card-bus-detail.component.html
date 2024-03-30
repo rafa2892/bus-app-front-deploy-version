@@ -8,12 +8,27 @@
         <div class="modal-body">
           <mat-card class="example-card">
                 <mat-card-header>
-                  <!-- <div mat-card-avatar class="example-header-image" [style.background-image]="'url(' + getImagenUrl(carroSeleccionadoDetalles.imagen) + ')'"
-                  style="background-color: #ccc;"></div> -->
                   <mat-card-title>{{carroSeleccionadoDetalles.marca}}</mat-card-title>
                   <mat-card-subtitle>{{carroSeleccionadoDetalles.modelo + ' ' + carroSeleccionadoDetalles.anyo}}</mat-card-subtitle>
                 </mat-card-header>
-                <img *ngIf="(carroSeleccionadoDetalles.imagenes && carroSeleccionadoDetalles.imagenes.length >= 1)" [src]="getImagenUrl(carroSeleccionadoDetalles)" alt="Imagen del carro">
+
+                
+                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                  <div class="carousel-inner">
+                    <div *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index" class="carousel-item" [class.active]="i === index">
+                      <img class="d-block w-100" [src]="imagen" alt="Imagen">
+                    </div>
+                  </div>
+                  <a class="carousel-control-prev"  (click)="prevImage()" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next"  (click)="nextImage()" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </div>
+                
                 <mat-card-content>
                   <ul class="list-group">
                     <li class="list-group-item" aria-disabled="true">Modelo: {{ carroSeleccionadoDetalles.modelo }}</li>
