@@ -20,14 +20,14 @@
     <td>{{ (viaje.conductor.nombre ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : 'No definido') | uppercase }}</td>
     <td>{{ viaje.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
     <td>
-      <button title="Editar Vehiculo" class="btn btn-info botonesAccion small-button">
+      <button title="Ver detalles del Vehiculo"  class="btn btn-primary botonesAccion small-button">
+        <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+      </button>
+      <button title="Editar Vehiculo" class="btn btn-warning botonesAccion small-button">
         <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
       </button>
-      <button title="Eliminar Vehiculo" class="btn btn-warning botonesAccion small-button">
+      <button title="Eliminar Vehiculo" class="btn btn-danger botonesAccion small-button">
         <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
-      </button>
-      <button title="Ver detalles del Vehiculo"  class="btn btn-success botonesAccion small-button">
-        <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
       </button>
     </td>
   </tr>

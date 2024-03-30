@@ -15,7 +15,8 @@ export class ListaViajesComponent {
   p: number = 1;
   editIcon = fontAwesomeIcons.editIcon;
   deleteIcon = fontAwesomeIcons.deleteIcon;
-  eyeIcon = fontAwesomeIcons.deleteIcon;
+  eyeIcon = fontAwesomeIcons.eyeIcon;
+
 
   constructor(private viajeServicio:ViajeServicioService,private router:Router) {
   }

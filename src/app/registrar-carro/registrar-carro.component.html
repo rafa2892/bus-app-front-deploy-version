@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="mb-3">
-            <label for="formFileSm" class="form-label">Small file input example</label>
+            <label for="formFileSm" class="form-label">Imagenes</label>
             <input class="form-control form-control-sm" id="formFileSm" type="file" multiple (change)="onFileSelected($event)">
             <small class="form-text text-muted" *ngIf="selectedFiles.length >= 1"> {{selectedFiles.length}} archivo(s) seleccionado(s)</small>
             <div *ngFor="let selectedFile of selectedFiles; let i = index" class="form-check">

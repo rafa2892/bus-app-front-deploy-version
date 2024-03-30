@@ -274,7 +274,6 @@ export class RegistrarViajeComponent {
     
     //Validamos datos antes de hacer el guardado
     if (this.validandoDatos()) {
-      
       this.viaje.carroId = this.selectedConductor.carroId;
       this.viaje.conductor = this.selectedConductor;
       this.viaje.fecha = new Date();
