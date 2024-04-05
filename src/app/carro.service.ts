@@ -36,5 +36,9 @@ export class CarroService {
         return this.httpClient.delete(`${this.baseUrl}/${id}`);
   }
 
+  obtenerCarroPorId(id: number): Observable<Carro> {
+    return this.httpClient.get<Carro>(`${this.baseUrl}/${id}`);
+  }
+
 
 }

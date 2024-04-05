@@ -14,18 +14,18 @@
     <tbody class="table-dark">
     <tr *ngFor= "let carro of carros | paginate: { itemsPerPage: 10, currentPage: p}">
       <td>{{carro.numeroUnidad}}</td>
-      <td>{{carro.marca + ' ' + carro.modelo}}</td>
+      <td>{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
       <td>{{carro.anyo}}</td>
       <td>{{carro.consumo}}</td>
       <td>
-        <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-info botonesAccion">
+        <button title="Ver detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
+          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+        </button>
+        <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-warning botonesAccion">
           <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
         </button>
-        <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro)" class="btn btn-warning botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
+        <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro)" class="btn btn-danger botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
           <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
-        </button>
-        <button title="Ver detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-success botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
-          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
         </button>
       </td>  
     </tr>
@@ -39,3 +39,6 @@
   </div>
 </div>
 <app-card-bus-detail [carroSeleccionadoDetalles]="carroSeleccionadoDetalles" (modalClosed)="onModalClosed()"></app-card-bus-detail>
+
+
+

@@ -77,6 +77,9 @@ getImagenUrl(carroSeleccionado: any) {
     }
   }
 
+  selectImage(index: number): void {
+    this.index = index;
+  }
 
 
 }

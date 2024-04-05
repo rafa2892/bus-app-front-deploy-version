@@ -17,7 +17,8 @@ const routes: Routes = [
   {path: 'registrar-carro', component:RegistrarCarroComponent},
   {path: 'registrar-viaje', component:RegistrarViajeComponent},
   {path: 'buscar-carro', component:BuscadorCarroComponent},
-  {path: 'card-bus-details', component:CardBusDetailComponent}
+  {path: 'card-bus-details', component:CardBusDetailComponent},
+  {path: 'actualizar-vehiculo/:id', component:RegistrarCarroComponent},
 ];
 
 @NgModule({

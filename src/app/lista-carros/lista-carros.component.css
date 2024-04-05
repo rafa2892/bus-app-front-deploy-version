@@ -28,6 +28,11 @@ td button {
 
 
 
-
+  .carousel-control-prev,
+  .carousel-control-next {
+      color: blue; /* Change to your desired color */
+  }
+  
+  
 
 

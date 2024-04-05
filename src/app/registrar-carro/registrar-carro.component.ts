@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Carro } from '../carro';
 import { CarroService } from '../carro.service';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { faCar, faPlus, faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Imagen } from '../imagen';
@@ -37,7 +37,7 @@ imagenes: string [];
 imagenesBase64 : string [];
 imagenGuardar : Imagen [] = [];
 
- prueba1 :string []  = [];
+idSeleccionada: number = 0;
 
 
 //Mensajes Error
@@ -46,10 +46,44 @@ mensajeNumeroUnidadCampoObligatorio = 'El número de unidad es un campo obligato
 mensajeNumeroUnidadRegistrada = 'El número de unidad que has intentado registrar ya se encuentra asignado a otro carro, por favor registra la unidad con otro número'
 mensajeCampoMarcaObligatorio = 'El campo Marca es obligario'
 
-constructor(private carroServicio:CarroService,private router:Router,private _snackBar: MatSnackBar){}
+constructor(private carroServicio:CarroService,private router:Router,private _snackBar: MatSnackBar,private route: ActivatedRoute,){}
+
+
 
 ngOnInit(): void {
- this.obtenerCarros();
+  
+  this.route.params.subscribe(params => {
+      const id = +params['id'];
+      this.idSeleccionada = id;
+      if (id) {
+          this.obtenerCarroPorId(id);
+      }
+      this.obtenerCarros();
+  });
+}
+
+// obtenerCarroPorId(id: number): Carro {
+//   this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
+//       this.carro = carro;
+//       return this.carro; 
+//   });
+//   return this.carro;
+// }
+
+obtenerCarroPorId(id: number): Carro {
+  this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
+    this.carro = carro;
+    this.selectedFiles = []; // Limpiar la lista de archivos seleccionados
+    // Agregar las imágenes del carro a la lista de archivos seleccionados
+    if (this.carro.imagenes && this.carro.imagenes.length > 0) {
+      this.carro.imagenes.forEach(imagen => {
+        // Simular la creación de un objeto File utilizando la URL de la imagen
+        const file = new File([imagen.imagenUrl], imagen.imagenDesc);
+        this.selectedFiles.push(file);
+      });
+    }
+  });
+  return this.carro;
 }
 
 obtenerCarros(){
@@ -58,13 +92,26 @@ obtenerCarros(){
   });
 }
 
-
 validandoDatos(listaCarros: Carro[], nuevoNumeroUnidad: number): boolean {
   this.convertirImagenesABase64();
+
   this.generalErrorFlag = false;
   const anyoActual = new Date().getFullYear();
-    
-  if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
+
+  if(this.carro.id != undefined && this.carro.id != null && this.carro.id > 0) {
+    let carro = this.obtenerCarroPorId(this.carro.id);
+    if(carro.id == this.carro.id && carro.numeroUnidad == this.carro.numeroUnidad) {
+      this.generalErrorFlag = false;
+      this.nonNumericNumUnidad = false;
+    }
+    else if(carro.id == this.carro.id && carro.numeroUnidad != this.carro.numeroUnidad) {
+      if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
+        this.generalErrorFlag = true;
+        this.nonNumericNumUnidad = true;
+      }
+    }
+  }
+  else if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
       this.generalErrorFlag = true;
       this.nonNumericNumUnidad = true;
   }
@@ -140,14 +187,16 @@ async leerArchivoComoDataURL(file: File): Promise<void> {
 }
 
 guardarCarro() {
-
-
-
-
   this.convertirImagenesABase64().then(() => {
+   
+   
     if (this.validandoDatos(this.carroLista, this.carro.numeroUnidad)) {
+      this.convertirMayus();
       this.carro.imagenes = this.imagenGuardar;
-      this.carroServicio.registrarCarro(this.carro).subscribe(dato => {
+
+
+      if(this.carro.id != null && this.carro.id != undefined && this.carro.id > 0) {
+        this.carroServicio.actualizarCarro(this.carro.id, this.carro).subscribe(dato => {
         console.log(dato);
         this._snackBar.open('Carro registrado con éxito.', '', {
           duration: 2000,
@@ -157,6 +206,19 @@ guardarCarro() {
         });
         this.irListaCarro();
       }, error => console.log(error));
+    }
+    else {
+        this.carroServicio.registrarCarro(this.carro).subscribe(dato => {
+        console.log(dato);
+        this._snackBar.open('Carro registrado con éxito.', '', {
+          duration: 2000,
+          panelClass: ['success-snackbar'],
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+        });
+        this.irListaCarro();
+      }, error => console.log(error));
+    }
     }
   }).catch(error => {
     console.error('Error al convertir imágenes a base64:', error);
@@ -168,6 +230,12 @@ private trimInputs(){
   this.carro.marca = this.carro.marca.trim();
   if(this.carro.modelo)
   this.carro.modelo = this.carro.modelo.trim();
+}
+
+convertirMayus() {
+this.carro.marca = this.carro.marca.trim().toLocaleUpperCase();
+this.carro.modelo = this.carro.modelo.trim().toLocaleUpperCase();
+
 }
 
 

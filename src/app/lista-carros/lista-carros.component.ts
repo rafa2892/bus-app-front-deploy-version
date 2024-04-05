@@ -38,7 +38,7 @@ export class ListaCarrosComponent {
   }
 
   actualizarCarro(id:number) {
-    this.router.navigate(['actualizar-empleado',id])
+    this.router.navigate(['actualizar-vehiculo',id])
   }
 
   detallesVehiculo(carroSelected:Carro) {
