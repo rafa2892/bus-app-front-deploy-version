@@ -12,3 +12,7 @@
     height: 150px; /* Establece la altura deseada */
     object-fit: cover; /* Para asegurar que las imágenes se ajusten al tamaño definido */
   }
+
+  .activeColor {
+    background-color: blue;
+  }
