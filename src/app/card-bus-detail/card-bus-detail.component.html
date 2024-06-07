@@ -1,99 +1,64 @@
-<div class="modal fade" id="card-bus-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"  (hidden.bs.modal)="onCloseModal()">
-    <div class="modal-dialog modal-custom-size modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">{{carroSeleccionadoDetalles.marca + ' ' + carroSeleccionadoDetalles.modelo}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <mat-card class="example-card">
-                <mat-card-header class="modalHeader">
-                  <mat-card-title>{{carroSeleccionadoDetalles.marca}}</mat-card-title>
-                  <mat-card-subtitle>{{carroSeleccionadoDetalles.modelo + ' ' + carroSeleccionadoDetalles.anyo}}</mat-card-subtitle>
-                </mat-card-header>
-                <div id="corouselDetallesVehiculo" class="carousel slide" data-ride="carousel">
-                  <div class="carousel-indicators">
-                    <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index">
-                      <button style="background-color: blue;" type="button" data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === index" [attr.aria-label]="'Slide ' + (i + 1)"S></button>
-                    </ng-container>
-                  </div>
-                  <div class="carousel-inner">
-                    <div *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index" class="carousel-item" [class.active]="i === index">
-                  <div id="imagenBus">
-                      <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#popup-zoom-img">
-                      <img class="d-block w-100 lupa-cursor" [src]="imagen">
-                     </a>
-                  </div>
-                    </div>
-                  </div>
-                  <ng-container *ngIf="getImagenUrl(carroSeleccionadoDetalles).length > 1">
-                    <a class="carousel-control-prev" (click)="prevImage()" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" (click)="nextImage()" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                  </ng-container>
-                </div> 
-                <mat-card-content class="contenidoCard">
-                  <ul class="list-group">
-                    <li class="list-group-item" aria-disabled="true">Modelo: {{ carroSeleccionadoDetalles.modelo }}</li>
-                    <li class="list-group-item">Marca: {{ carroSeleccionadoDetalles.marca }}</li>
-                    <li class="list-group-item">Año: {{ carroSeleccionadoDetalles.anyo }}</li>
-                    <li class="list-group-item">Unidad Número: {{ carroSeleccionadoDetalles.numeroUnidad }}</li>
-                  </ul>
-                </mat-card-content>
-                <mat-card-actions>
-                  <button mat-button>Historial de actividades</button>
-                  <!-- <button mat-button>SHARE</button> -->
-                </mat-card-actions>
-              </mat-card>
-        </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+<div class="modal fade" id="card-bus-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" (hidden.bs.modal)="onCloseModal()">
+  <div class="modal-dialog modal-custom-size modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{carroSeleccionadoDetalles.marca + ' ' + carroSeleccionadoDetalles.modelo}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <mat-card class="example-card">
+          <mat-card-header class="modalHeader">
+            <mat-card-title>{{carroSeleccionadoDetalles.marca}}</mat-card-title>
+            <mat-card-subtitle>{{carroSeleccionadoDetalles.modelo + ' ' + carroSeleccionadoDetalles.anyo}}</mat-card-subtitle>
+          </mat-card-header>
+          <div id="corouselDetallesVehiculo" class="carousel slide centrarImg" >
+            <div class="carousel-indicators">
+              <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index">
+                <button id="indicadoresImagenes" type="button" data-bs-target="#corouselDetallesVehiculo" style="background-color: blue;" [attr.data-bs-slide-to]="i" [class.active]="i === index" (click)="selectImage(i)" [attr.aria-label]="'Slide ' + (i + 1)"></button>
+              </ng-container>
+            </div>
+            <div class="carousel-inner">
+              <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index"  [class.active]="i === index">
+                <div class="carousel-item" [class.active]="i === index"  data-bs-interval="false">
+                  <a data-bs-toggle="modal" data-bs-target="#popup-zoom-img">
+                    <img class="d-block w-100 lupa-cursor" [src]="imagen">
+                  </a>
+                </div>
+              </ng-container>
+            </div>
+            <ng-container *ngIf="getImagenUrl(carroSeleccionadoDetalles).length > 1">
+              <a id="prevBoton" class="carousel-control-prev" (click)="prevImage()" role="button" data-bs-slide="prev" style="left: -20%;">
+                <span class="carousel-control-prev-icon" aria-hidden="true"><img class ="carousel-control-prev-icon" src="../../assets/before.png"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a id="nextBoton" class="carousel-control-next" (click)="nextImage()" role="button" data-bs-slide="next" style="right: -20%;">
+                <span class="carousel-control-next-icon" aria-hidden="true"><img class ="carousel-control-prev-icon" src="../../assets/next.png"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </ng-container>
           </div>
-        </div>
+
+
+
+
+
+          <mat-card-content class="contenidoCard">
+            <ul class="list-group">
+              <li class="list-group-item" aria-disabled="true">Modelo: {{ carroSeleccionadoDetalles.modelo }}</li>
+              <li class="list-group-item">Marca: {{ carroSeleccionadoDetalles.marca }}</li>
+              <li class="list-group-item">Año: {{ carroSeleccionadoDetalles.anyo }}</li>
+              <li class="list-group-item">Unidad Número: {{ carroSeleccionadoDetalles.numeroUnidad }}</li>
+            </ul>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button>Historial de actividades</button>
+          </mat-card-actions>
+        </mat-card>
       </div>
-      <app-popup-imagenes-zoom [imagenescodificadasFront]="imagenescodificadasFront" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-popup-imagenes-zoom>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
-
-
-
-
-
-    <!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <div class="carousel-indicators">
-        <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index">
-          <button style="background-color: blue;" type="button" data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === index" [attr.aria-label]="'Slide ' + (i + 1)"S></button>
-        </ng-container>
-      </div>
-      <div class="carousel-inner">
-        <div *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index" class="carousel-item" [class.active]="i === index">
-          <img class="d-block w-100" [src]="imagen" alt="Imagen">
-        </div>
-      </div>
-      <ng-container *ngIf="getImagenUrl(carroSeleccionadoDetalles).length > 1">
-        <a class="carousel-control-prev" (click)="prevImage()" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" (click)="nextImage()" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </ng-container>
-    </div> -->
-
-
-    
-
-
-
-
-
-    
-
-
-  
+  </div>
+  <app-popup-imagenes-zoom [imagenescodificadasFront]="imagenescodificadasFront" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-popup-imagenes-zoom>
+</div>

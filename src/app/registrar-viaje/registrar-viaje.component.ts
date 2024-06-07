@@ -277,6 +277,7 @@ export class RegistrarViajeComponent {
       this.viaje.carroId = this.selectedConductor.carroId;
       this.viaje.conductor = this.selectedConductor;
       this.viaje.fecha = new Date();
+      this.viaje.carro = this.selectedVehiculo;
       this.viajeServicio.registrarViaje(this.viaje).subscribe(
           dato => {
                  this._snackBar.open('Viaje Registrado con éxito.', '', {

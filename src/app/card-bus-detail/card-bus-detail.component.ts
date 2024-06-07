@@ -78,6 +78,7 @@ getImagenUrl(carroSeleccionado: any) {
   }
 
   selectImage(index: number): void {
+    console.log("asdasd")
     this.index = index;
   }
 

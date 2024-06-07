@@ -6,7 +6,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{carroSeleccionadoDetalles.marca + ' ' + carroSeleccionadoDetalles.modelo}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" aria-label="Close" data-bs-target="#popup-zoom-img" data-bs-toggle="modal" ></button>
       </div>
       <div class="modal-body">
           <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -31,39 +31,9 @@
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-          
-
-
-
-         
-
-        
-        
-        <!-- <div id="corouselDetallesVehiculo" class="carousel slide" data-ride="carousel">
-          <div class="carousel-indicators">
-            <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index">
-              <button style="background-color: blue;" type="button" data-bs-target="#carouselExampleIndicators" [attr.data-bs-slide-to]="i" [class.active]="i === index" [attr.aria-label]="'Slide ' + (i + 1)"S></button>
-            </ng-container>
-          </div>
-          <div class="carousel-inner">
-            <div *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index" class="carousel-item" [class.active]="i === index">
-              <img class="d-block w-100" [src]="imagen" alt="Imagen">
-            </div>
-          </div>
-          <ng-container *ngIf="getImagenUrl(carroSeleccionadoDetalles).length > 1">
-            <a class="carousel-control-prev" (click)="prevImage()" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" (click)="nextImage()" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </ng-container>
-        </div>  -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-bs-target="#popup-zoom-img" data-bs-toggle="modal">Close</button>
       </div>
     </div>
   </div>
