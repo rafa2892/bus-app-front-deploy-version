@@ -6,6 +6,7 @@ import { ListaViajesComponent } from './lista-viajes/lista-viajes.component';
 import { RegistrarViajeComponent } from './registrar-viaje/registrar-viaje.component';
 import { BuscadorCarroComponent } from './buscador-carro/buscador-carro.component';
 import { CardBusDetailComponent } from './card-bus-detail/card-bus-detail.component';
+import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'buscar-carro', component:BuscadorCarroComponent},
   {path: 'card-bus-details', component:CardBusDetailComponent},
   {path: 'actualizar-vehiculo/:id', component:RegistrarCarroComponent},
+  {path: 'rutas', component:ListaRutasComponent},
 ];
 
 @NgModule({

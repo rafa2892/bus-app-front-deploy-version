@@ -1,1 +1,11 @@
-<p>lista-rutas works!</p>
+
+
+<h2>sknksdbgit </h2>
+<tbody class="table-dark">
+    <tr *ngFor= "let ruta of rutas">
+      <td>{{ruta.origen | uppercase}}</td>
+      <td>{{ruta.destino | uppercase}}</td>
+      <td>{{ruta.distancia}}</td>
+      <td>{{ruta.numRutaIdentificativo}}</td>
+    </tr>
+    </tbody>

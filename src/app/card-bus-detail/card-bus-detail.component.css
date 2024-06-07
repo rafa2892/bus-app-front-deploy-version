@@ -2,10 +2,6 @@
     max-width: 400px;
   }
   
-  .example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
-  }
 
   .imagen-tamaño-carousel {
     width: 200px; /* Establece el ancho deseado */
@@ -16,3 +12,16 @@
   .activeColor {
     background-color: blue;
   }
+
+  .lupa-cursor:hover {
+    cursor: zoom-in; /* Cambia el cursor a una lupa cuando se pasa el ratón sobre la imagen */
+  }
+
+  .contenidoCard {
+    margin-top: 40px;
+  }
+
+  .modalHeader {
+    margin-bottom: 40px;
+  }
+  
