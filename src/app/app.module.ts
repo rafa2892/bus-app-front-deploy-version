@@ -30,6 +30,7 @@ import { PopupSeleccionarRutaComponent } from './popup-seleccionar-ruta/popup-se
 import { CardBusDetailComponent } from './card-bus-detail/card-bus-detail.component';
 import {MatCardModule} from '@angular/material/card';
 import { PopupImagenesZoomComponent } from './popup-imagenes-zoom/popup-imagenes-zoom.component';
+import { RegistrarRutaComponent } from './registrar-ruta/registrar-ruta.component';
 
 
 
@@ -50,6 +51,7 @@ import { PopupImagenesZoomComponent } from './popup-imagenes-zoom/popup-imagenes
     PopupSeleccionarRutaComponent,
     CardBusDetailComponent,
     PopupImagenesZoomComponent,
+    RegistrarRutaComponent,
     
     
  

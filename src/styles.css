@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #32383f;}
 
 .defaultSizeInput {
     width: 35%;
@@ -62,4 +62,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
      {
       margin-top: 5%;
      }
-     
+
+     .input-grueso {
+      border-width: 1px; /* Ancho del borde */
+      border-style: solid; /* Estilo del borde */
+      border-color: #007bff; /* Azul bonito */
+  }
+
+  #contenedorImagen {
+    padding-left: 50px;
+    padding-top: 20px;
+  }
+
+  
+  

@@ -1,0 +1,49 @@
+<div id="registrarRutaContainer" class="col-md-6 offset-md-3">
+    <div id="formRegistrarRutaContainer" class="formPosition ">
+    <form (ngSubmit)="onSubmit()" id="formularioRegistrarRuta">
+    <div id="seleccionDeruta" >
+        <label id="labelNuevaRuta" for="rutas">Nueva ruta</label>
+        <div id="rutas" class="normal-size-input" >
+            <label for="rutaDesde" class="label-input">Nombre de origen:</label>
+            <div id="rutaDesde" class="d-flex">
+                    <input type="text" matInput
+                    oninput="this.value = this.value.toUpperCase()"
+                    id="inputSeleccionaRutaDesde"
+                    placeholder="Ingresa Origen" 
+                    name="seleccionaRutaDesde" 
+                    class="form-control"
+                    [ngClass]="{ 'input-grueso': true, 'input-error': false }">
+            </div>
+            <div id="mat-form-destino" class="normal-size-input">
+                <label for="rutaDestino" class="label-input">Estado origen:</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <option selected disabled>Selecciona un estado</option>
+                    <option *ngFor="let estado of listaEstados" [value]="estado.id">{{ estado.nombreEstado}} - {{ estado.codIata}}</option>
+                  </select>
+            </div>  
+        </div>
+        <div id="mat-form-destino" class="normal-size-input">
+            <label for="rutaDestino" class="label-input">Nombre de destino:</label>
+            <div id="rutaDesde" class="d-flex">
+                <input type="text" matInput
+                id="inputSeleccionaRutaDestino"
+                placeholder="Ingresa Destino" 
+                name="seleccionaRutaHasta" 
+                class="form-control"
+                [ngClass]="{ 'input-grueso': true, 'input-error': false }">
+            </div>   
+        </div>  
+        <div id="mat-form-destino" class="normal-size-input">
+            <div id="mat-form-destino" class="normal-size-input">
+                <label for="rutaDestino" class="label-input">Estado destino:</label>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
+                    <option selected disabled>Selecciona un estado</option>
+                    <option *ngFor="let estado of listaEstados" [value]="estado.id">{{ estado.nombreEstado}} - {{ estado.codIata}}</option>
+                  </select>
+            </div>  
+        </div>  
+    </div>
+          <button class="btn btn-success btonGuardar">Guardar</button>
+     </form>
+    </div>
+</div>

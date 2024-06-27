@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import { Ruta } from './ruta';
 import {HttpClient} from "@angular/common/http";
+import { Estado } from './estado';
 
 
 @Injectable({
@@ -18,6 +19,11 @@ export class RutasService {
 
   obtenerListaRutas():Observable<Ruta[]> {
     return this.httpClient.get<Ruta[]>(`${this.baseUrl}`);
+  
+  }
+
+  obtenerListaEstados():Observable<Estado[]> {
+    return this.httpClient.get<Estado[]>(`${this.baseUrl.concat('/estados')}`);
   
   }
 }
