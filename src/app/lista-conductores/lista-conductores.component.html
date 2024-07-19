@@ -1,0 +1,95 @@
+<div class="filtrosContenedor" id="filtrosContenedor">
+  <div class="row">
+    <div class="col g-3 align-items-center" id="busquedaId">
+        <div class="col-auto">
+          <label for="nombre" class="col-form-label">Nombre</label>
+        </div>
+        <div class="col-auto">
+          <input  type="text" id="nombre" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="nombre" (blur)="onBlurNombre()" (input)="onInputChangeNombre()">
+        </div>
+    </div>
+
+    
+      <div class="col g-3 align-items-center" id="busquedaId">
+        <div class="col-auto">
+          <label for="apellido" class="col-form-label">Apellido</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" id="apellido" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="apellido" (input)="onInputChangeNombre()"  >
+        </div>
+      </div>
+
+
+
+      <div class="col g-3 align-items-center">
+        <div class="col-auto">
+          <label for="cedula" class="col-form-label">Cedula</label>
+        </div>
+        <div class="col-auto d-flex align-items-center">
+          <span  id="inicioCedulaLetra" style="margin-right: 5px;">V -</span><input type="text" id="cedula" class="form-control" aria-describedby="passwordHelpInline" [(ngModel)]="dni" (input)="onInputChangeNombre()" appOnlyNumber>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-striped table-sm" id="tablaListaConductores">
+    <thead class="table-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Cedula</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="table-dark">
+      <tr *ngFor="let conductor of conductoresListafiltrado | paginate: { itemsPerPage: 5, currentPage: p }">
+        <td><small>{{conductor.nombre}}</small></td>
+        <td>{{conductor.apellido}}</td>
+        <td>{{conductor.dni}}</td>
+        <td>
+          <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(conductor.id)" class="btn btn-primary small-button">
+            <fa-icon class="detailsIcon small-icon" [icon]="detailsIcon"></fa-icon>
+          </button>
+          <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(conductor)" class="btn btn-success small-button">
+            <fa-icon class="selectIcon small-icon" [icon]="selectIcon"></fa-icon>
+          </button>
+        </td>  
+      </tr>
+    </tbody>
+  </table>
+
+  
+  <div class="pagination-container">
+    <pagination-controls 
+    (pageChange)="p = $event"
+     previousLabel="Anterior" 
+    nextLabel="Siguiente"></pagination-controls>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,6 +22,12 @@ export class RutasService {
   
   }
 
+    //Este metodo nos funciona para regitrar una ruta
+    registrarRuta(ruta:Ruta) : Observable<Object>{
+      return this.httpClient.post(`${this.baseUrl}`,ruta);
+  
+    }
+
   obtenerListaEstados():Observable<Estado[]> {
     return this.httpClient.get<Estado[]>(`${this.baseUrl.concat('/estados')}`);
   

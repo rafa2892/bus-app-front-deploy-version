@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ConductorServiceService } from '../conductor-service.service';
 import { RegistrarViajeComponent } from '../registrar-viaje/registrar-viaje.component';
 import { Router } from '@angular/router';
@@ -6,16 +6,17 @@ import { Conductor } from '../conductor';
 import { fontAwesomeIcons } from '../fontawesome-icons';
 
 @Component({
-  selector: 'app-popup-seleccionar-conductor',
-  templateUrl: './popup-seleccionar-conductor.component.html',
-  styleUrls: ['./popup-seleccionar-conductor.component.css', '../../../src/styles.css'],
+  selector: 'app-lista-conductores',
+  templateUrl: './lista-conductores.component.html',
+  styleUrl: './lista-conductores.component.css'
 })
-export class PopupSeleccionarConductorComponent {
-
+export class ListaConductoresComponent {
 
   tituloPopUp :string = 'Seleccionar conductor';
   modalLabel = 'seleccionarConductorLabel';
   idModal: string = 'modalConductor';
+
+  @Output() seleccionarConductor  = new EventEmitter<any>();
 
 
 
@@ -28,15 +29,12 @@ export class PopupSeleccionarConductorComponent {
   detailsIcon = fontAwesomeIcons.detailsIcon;
   selectIcon = fontAwesomeIcons.selectIcon;
 
-
-
-
-  ngOnInit(): void {
+ngOnInit(): void {
     this.obtenerConductores();
  }
 
 
-  constructor(private coductorService:ConductorServiceService, private registrarViajeComponent : RegistrarViajeComponent, private router:Router) { }
+  constructor(private coductorService:ConductorServiceService, private router:Router) { }
 
 
 
@@ -55,9 +53,11 @@ export class PopupSeleccionarConductorComponent {
   }
 
   seleccionar(conductor:Conductor) {
-    this.registrarViajeComponent.seleccionarConductor(conductor);
+
+    // this.registrarViajeComponent.seleccionarConductor(conductor);
     this.clearFilters();
     this.router.navigate(['/registrar-viaje']);
+    this.seleccionarConductor.emit(conductor);
   }
 
 
@@ -102,9 +102,6 @@ export class PopupSeleccionarConductorComponent {
 
     
   }
-
-
-
 
 
 }

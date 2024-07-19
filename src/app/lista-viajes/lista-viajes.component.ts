@@ -31,4 +31,14 @@ export class ListaViajesComponent {
     });
 
   }
+
+  formatearHorasEspera(viaje:Viaje){
+    const horas = viaje.horasEspera;
+    const horasFormateadas = ('0' + horas).slice(-2); // Asegura dos dígitos para las horas
+    const minutosFormateados = '00';
+    const segundosFormateados = '00';
+    return `${horasFormateadas}:${minutosFormateados}:${segundosFormateados}`;
+  }
+
+
 }

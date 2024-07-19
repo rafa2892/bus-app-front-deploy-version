@@ -1,0 +1,21 @@
+/* styles.css o styles.scss */
+.first-option {
+    background-color: #007bff;
+    
+  }
+
+  .myClass {
+    color: red; width:200px;
+  }
+  
+  .myClass option {
+    
+    width: 1000px !important;
+    overflow: auto !important;
+    background-color: red !important;
+    margin-bottom: 50%;
+
+
+
+} 
+

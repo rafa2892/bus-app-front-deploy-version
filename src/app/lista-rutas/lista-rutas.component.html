@@ -1,11 +1,57 @@
-
-
-<h2>sknksdbgit </h2>
-<tbody class="table-dark">
-    <tr *ngFor= "let ruta of rutas">
-      <td>{{ruta.origen | uppercase}}</td>
-      <td>{{ruta.destino | uppercase}}</td>
-      <td>{{ruta.distancia}}</td>
-      <td>{{ruta.numRutaIdentificativo}}</td>
-    </tr>
+    <div class="filtrosContenedor" id="filtrosContenedor">
+    <div class="row">
+      <div class="col g-3 align-items-center" id="busquedaId">
+        <div class="col-auto">
+          <label for="origen" class="col-form-label">Origen</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" id="origen" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" name="origen" (blur)="onBlurNumeroUnidad()" [(ngModel)]="origen"  (input)="onInputChangeOriginFilter()">
+        </div>
+      </div>
+      <div class="col g-3 align-items-center" id="busquedaId">
+        <div class="col-auto">
+          <label for="destino" class="col-form-label">Destino</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" id="destino" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline" name="destino" [(ngModel)]="destino" (input)="onInputChangeOriginFilter()">
+        </div>
+      </div>
+      <div class="col g-3 align-items-center">
+        <div class="col-auto">
+          <label for="viajeNum" class="col-form-label">Numero viaje</label>
+        </div>
+        <div class="col-auto">
+          <input type="text" appOnlyNumber id="viajeNum" name="viajeNum" class="form-control defaultInputHeightModal" [(ngModel)]="viajeNum" aria-describedby="passwordHelpInline" (input)="onInputChangeOriginFilter()">
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-striped tablaListaPopup" id="tablaListaRuta">
+    <thead class="table-dark">
+      <tr>
+        <th>Viaje Codigo</th>
+        <th>Origen</th>
+        <th>Destino</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="table-dark">
+      <tr *ngFor="let ruta of rutasFiltradas | paginate: { itemsPerPage: 5, currentPage: p }">
+        <td class="small-column">{{ruta.numRutaIdentificativo}}</td>
+        <td>{{ruta.origen}}</td>
+        <td>{{ruta.destino}}</td>
+        <td>
+          <button type="button" title="Ver detalles de la ruta" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(ruta.id)" class="btn btn-primary small-button">
+            <fa-icon class="detailsIcon" [icon]="detailsIcon"></fa-icon>
+          </button>
+          <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(ruta)" class="btn btn-success small-button">
+            <fa-icon class="selectIcon" [icon]="selectIcon"></fa-icon>
+          </button>
+        </td>  
+      </tr>
     </tbody>
+  </table>
+  <div class="pagination-container">
+    <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+  </div>
+

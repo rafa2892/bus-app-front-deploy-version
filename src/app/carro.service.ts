@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Carro} from "./carro";
+import { TipoVehiculo } from './tipo-vehiculo';
+import { Historial } from './historial';
 
 
 @Injectable({
@@ -12,12 +14,26 @@ export class CarroService {
   //Obtiene el listado de Carros en el back
   private baseUrl = "http://localhost:8080/api/v1/carros";
 
+   //Obtiene el listado de tipo de vehiculos desde el controlador de Carro
+  private baseUrlTipoVehiculos = this.baseUrl.concat('/tipoVehiculos');
+
+  //Obtiene el listado de tipos de historial
+  private baseUrlTiposHistorial = this.baseUrl.concat('/tiposHistorial'); 
+
+  //Obtiene el listado de tipos de historial
+  private baseUrlGuardarHistorial = this.baseUrl.concat('/guardarHistorial');
+
   constructor(private httpClient : HttpClient) { }
 
   //Este metodo nos funciona para obtener los listados de carro
   obtenerListaCarro():Observable<Carro[]> {
     return this.httpClient.get<Carro[]>(`${this.baseUrl}`);
 
+  }
+
+  //Este metodo nos funciona para obtener los listados de carro
+  obtenerListaTipoVehiculos():Observable<TipoVehiculo[]> {
+    return this.httpClient.get<TipoVehiculo[]>(`${this.baseUrlTipoVehiculos}`);
   }
 
   
@@ -40,5 +56,12 @@ export class CarroService {
     return this.httpClient.get<Carro>(`${this.baseUrl}/${id}`);
   }
 
+  obtenerTiposHistorial(): Observable<{ [key: string]: string }> {
+    return this.httpClient.get<{ [key: number]: string }>(this.baseUrlTiposHistorial);
+  }
 
+    //Este método Registra un historial
+  registrarHistorial(historial:Historial) : Observable<Object>{
+    return this.httpClient.post(`${this.baseUrlGuardarHistorial}`, historial);
+    }
 }

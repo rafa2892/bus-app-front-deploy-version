@@ -1,3 +1,4 @@
+import { Historial } from "./historial";
 import { Imagen } from "./imagen";
 
 export class Carro {
@@ -8,8 +9,11 @@ export class Carro {
   consumo:number;
   numeroUnidad:number;
   marca:string;
+  tipoDeVehiculo:string;
 
   imagenes: Imagen [];
   imegenesGuardar : Imagen [];
+
+  registroHistorial : Historial [] = [];
   
 }

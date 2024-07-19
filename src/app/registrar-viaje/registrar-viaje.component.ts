@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Viaje } from '../viaje';
 import { ViajeServicioService } from '../viaje-servicio.service';
 import { Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { Conductor } from '../conductor';
 import { Ruta } from '../ruta';
 import { RutasService } from '../rutas.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { PopupSeleccionarRutaComponent } from '../popup-seleccionar-ruta/popup-seleccionar-ruta.component';
+import { TipoVehiculo } from '../tipo-vehiculo';
 
 
 
@@ -22,9 +24,9 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
   styleUrls: ['./registrar-viaje.component.css', './registrar-viaje.component.scss'],
   encapsulation: ViewEncapsulation.None,
     // Set ViewEncapsulation.None for encapsulation property
-
 })
 export class RegistrarViajeComponent {
+
 
   viaje : Viaje =  new Viaje();
   conductor: Conductor = new Conductor();
@@ -40,8 +42,11 @@ export class RegistrarViajeComponent {
   conductoresOrdenados : Conductor [];
 
   rutasLista : Ruta [];
-  rutasListaDestino : Ruta [];
+  rutasListaDestino : Ruta [] = [];
   rutaListaOrigen : Ruta [] ;
+
+  tipoVehiculoLista : TipoVehiculo [] = [];
+
 
   origen : any;
   destino : any;
@@ -66,6 +71,8 @@ export class RegistrarViajeComponent {
   rutaErrorOrigen = false;
   rutaErrorDestino= false;
 
+  idModalBuscarRuta : string = '';
+
 
   displayConductor(conductor: any): string {
     return conductor ? `${conductor.nombre} ${conductor.apellido}` : '';
@@ -88,15 +95,16 @@ export class RegistrarViajeComponent {
   constructor(
     private viajeServicio:ViajeServicioService,private router:Router, private carroServicio:CarroService,
     private _snackBar: MatSnackBar,public dialog: MatDialog, private conductorService:ConductorServiceService,
-    private rutaServicio:RutasService){}
+    private rutaServicio:RutasService, private cdr: ChangeDetectorRef){}
      
 
   ngOnInit(): void {
     this.obtenerListaCarro();
     this.obtenerListaConductores();
     this.obtenerListaRutas();
+    this.idModalBuscarRuta = "#SeleccionarRutaPopup"
+    
   }
-
 
   private obtenerListaConductores () {
     this.conductorService.obtenerListaConductores().subscribe(dato => {
@@ -127,7 +135,6 @@ export class RegistrarViajeComponent {
       });
   }
 
-  
   eliminarOrigenesRepetidos(rutas: Ruta[]): Ruta[] {
     // Crear un mapa para almacenar el primer origen encontrado de cada ruta
     const mapaOrigenes = new Map<string, Ruta>();
@@ -241,13 +248,27 @@ export class RegistrarViajeComponent {
     return true;
     }
 
+    if(this.viaje.horasEspera) {
+     
+    }
+
     if(this.errorVali) 
     return false;
 
     else 
     return true;
+
+   
   }
 
+
+  formatearHorasEspera(){
+    const horas = this.viaje.horasEspera;
+    const horasFormateadas = ('0' + horas).slice(-2); // Asegura dos dígitos para las horas
+    const minutosFormateados = '00';
+    const segundosFormateados = '00';
+    return `${horasFormateadas}:${minutosFormateados}:${segundosFormateados}`;
+  }
 
   getRuta() {
    
@@ -457,7 +478,7 @@ onOptionSelectedVehiculo(event: MatAutocompleteSelectedEvent) {
 
 
 getDestinosSegunOrigen(): Ruta[]{
-   return this.rutasLista.filter(ruta => ruta.origen.toLowerCase() ===  this.origen.origen.toLowerCase());
+   return this.rutasLista.filter(ruta => ruta.origen?.toLowerCase() ===  this.origen.origen?.toLowerCase());
 }
 
 seleccionarRuta(ruta:Ruta) {

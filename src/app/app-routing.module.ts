@@ -8,6 +8,8 @@ import { BuscadorCarroComponent } from './buscador-carro/buscador-carro.componen
 import { CardBusDetailComponent } from './card-bus-detail/card-bus-detail.component';
 import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
 import { RegistrarRutaComponent } from './registrar-ruta/registrar-ruta.component';
+import { ListaConductoresComponent } from './lista-conductores/lista-conductores.component';
+import { RegistarHistorialComponent } from './registar-historial/registar-historial.component';
 
 
 const routes: Routes = [
@@ -22,7 +24,10 @@ const routes: Routes = [
   {path: 'card-bus-details', component:CardBusDetailComponent},
   {path: 'actualizar-vehiculo/:id', component:RegistrarCarroComponent},
   {path: 'rutas', component:ListaRutasComponent},
-  {path: 'crear-ruta', component:RegistrarRutaComponent}
+  {path: 'crear-ruta', component:RegistrarRutaComponent},
+  {path: 'conductores', component:ListaConductoresComponent},
+  {path: 'registrar-historial', component:RegistarHistorialComponent},
+  {path: 'volver-historiales/:id', component:ListaCarrosComponent}
 ];
 
 @NgModule({

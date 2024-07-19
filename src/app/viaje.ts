@@ -12,6 +12,8 @@ export class Viaje {
     carroId: number;
     conductor:Conductor;
     ruta : Ruta;
+    kilometraje:number;
+    horasEspera:number;
    
     
     

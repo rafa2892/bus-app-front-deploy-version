@@ -23,6 +23,10 @@ export class PopupSeleccionarCarroComponent {
   anyo : string ='';
   marca : string = '';
 
+  tituloPopUp :string = 'Seleccionar vehiculo';
+  modalLabel = 'seleccionarVehiculoLabel';
+  idModal: string = 'seleccionaVehiculoModal';
+
 
   ngOnInit(): void {
     this.obtenerCarros();

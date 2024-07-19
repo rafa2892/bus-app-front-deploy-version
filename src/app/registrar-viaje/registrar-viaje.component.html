@@ -1,5 +1,5 @@
 <div id="registrarViajeContainer" class="col-md-6 offset-md-3">
-    <button routerLink="/crear-ruta" class="btn btn-primary btonGuardar">Crear nueva Ruta</button>
+    <button id="irCrearRuta" routerLink="/crear-ruta" class="btn btn-primary btonGuardar">Crear nueva Ruta</button>
     <div id="formRegistrarViajeContainer" class="formPosition">
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje">
     <div id="seleccionDeruta">
@@ -26,7 +26,7 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
-                <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#rutaModal"> 
+                <a id="buscarRutaOrigen" class="btn btn-outline-secondary botonBuscar" type="button" data-bs-toggle="modal" [attr.data-bs-target]="idModalBuscarRuta"> 
                     <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
                 </a>
             </div>
@@ -53,11 +53,35 @@
                 </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#rutaModal"> 
+            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" [attr.data-bs-target]="idModalBuscarRuta"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>
             </div>   
         </div>  
+        <div class="form-group">
+            <div>
+                <label>Kilometraje : </label>
+            </div> 
+            <div class="row">
+                <div class="col">
+                  <input type = "text" class="form-control" id="Kilometraje" [(ngModel)] = "viaje.kilometraje" name="kilometraje">
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div>
+                <label>Horas de espera : </label>
+            </div> 
+            <div class="row">
+                <div class="col">
+                  <input type = "text" class="form-control" id="horasEsperaInput" [(ngModel)] = "viaje.horasEspera" name="horasEspera">
+                </div>
+                <div class="col">
+                </div>
+            </div>
+        </div>
     </div>
     <div id="seleccionaConductor" class="mid-size-input">
          <label for="seleccionaConductor" class="label-input">Selecciona Conductor:</label>
@@ -80,7 +104,7 @@
                 </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#conductorModal"> 
+            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>
             </div>
@@ -107,7 +131,7 @@
                 </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#myModal"> 
+            <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>
             </div>

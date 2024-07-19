@@ -1,3 +1,5 @@
+import { Estado } from "./estado";
+
 export class Ruta {
     
     id:number;
@@ -5,6 +7,10 @@ export class Ruta {
     origen : string;
 
     destino: string ;
+
+    estadoOrigen:Estado;
+
+    estadoDestino:Estado;
 
     distancia: string ;
 

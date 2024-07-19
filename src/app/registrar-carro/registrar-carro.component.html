@@ -33,6 +33,24 @@
         </div>
 
 
+        <div class="form-group">
+            <div>
+                <label>Tipo de vehiculo : </label>
+            </div> 
+            <div class="row">
+                <div class="col">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tipoDeVehiculo" [(ngModel)]="carro.tipoDeVehiculo">
+                        <option selected disabled>Selecciona un tipo de vehiculo</option>
+                        <option *ngFor="let tipos of listaTipoVehiculos" [ngValue]="tipos.descripcion">{{ tipos.descripcion }}</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
+                </div>
+            </div>
+        </div>
+
+
         <div class="mb-3">
             <label for="formFileSm" class="form-label">Imagenes</label>
             <input class="form-control form-control-sm" id="formFileSm" type="file" multiple (change)="onFileSelected($event)">

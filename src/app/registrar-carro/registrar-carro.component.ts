@@ -5,6 +5,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { faCar, faPlus, faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Imagen } from '../imagen';
+import { TipoVehiculo } from '../tipo-vehiculo';
 
 
 @Component({
@@ -37,6 +38,9 @@ imagenes: string [];
 imagenesBase64 : string [];
 imagenGuardar : Imagen [] = [];
 
+listaTipoVehiculos : TipoVehiculo [] = [];
+tipoVehiculo :string;
+
 idSeleccionada: number = 0;
 
 
@@ -46,7 +50,7 @@ mensajeNumeroUnidadCampoObligatorio = 'El número de unidad es un campo obligato
 mensajeNumeroUnidadRegistrada = 'El número de unidad que has intentado registrar ya se encuentra asignado a otro carro, por favor registra la unidad con otro número'
 mensajeCampoMarcaObligatorio = 'El campo Marca es obligario'
 
-constructor(private carroServicio:CarroService,private router:Router,private _snackBar: MatSnackBar,private route: ActivatedRoute,){}
+constructor(private carroServicio:CarroService,private router:Router,private _snackBar: MatSnackBar,private route: ActivatedRoute){}
 
 
 
@@ -60,15 +64,20 @@ ngOnInit(): void {
       }
       this.obtenerCarros();
   });
+
+  this.obtenerListaTipoVehiculos();
+
 }
 
-// obtenerCarroPorId(id: number): Carro {
-//   this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
-//       this.carro = carro;
-//       return this.carro; 
-//   });
-//   return this.carro;
-// }
+
+obtenerListaTipoVehiculos(){
+
+  this.carroServicio.obtenerListaTipoVehiculos().subscribe(dato =>  {
+    this.listaTipoVehiculos = dato;
+  });
+
+
+}
 
 obtenerCarroPorId(id: number): Carro {
   this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
@@ -145,7 +154,6 @@ validandoDatos(listaCarros: Carro[], nuevoNumeroUnidad: number): boolean {
     this.generalErrorFlag = true;
   }
 
-
   if(this.generalErrorFlag === true)
   return false;
 
@@ -187,6 +195,10 @@ async leerArchivoComoDataURL(file: File): Promise<void> {
 }
 
 guardarCarro() {
+
+
+  
+
   this.convertirImagenesABase64().then(() => {
    
    
@@ -197,7 +209,6 @@ guardarCarro() {
 
       if(this.carro.id != null && this.carro.id != undefined && this.carro.id > 0) {
         this.carroServicio.actualizarCarro(this.carro.id, this.carro).subscribe(dato => {
-        console.log(dato);
         this._snackBar.open('Carro registrado con éxito.', '', {
           duration: 2000,
           panelClass: ['success-snackbar'],
@@ -209,7 +220,6 @@ guardarCarro() {
     }
     else {
         this.carroServicio.registrarCarro(this.carro).subscribe(dato => {
-        console.log(dato);
         this._snackBar.open('Carro registrado con éxito.', '', {
           duration: 2000,
           panelClass: ['success-snackbar'],

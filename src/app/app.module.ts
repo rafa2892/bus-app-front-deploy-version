@@ -31,6 +31,13 @@ import { CardBusDetailComponent } from './card-bus-detail/card-bus-detail.compon
 import {MatCardModule} from '@angular/material/card';
 import { PopupImagenesZoomComponent } from './popup-imagenes-zoom/popup-imagenes-zoom.component';
 import { RegistrarRutaComponent } from './registrar-ruta/registrar-ruta.component';
+import { PopupGenericoComponent } from './popup-generico/popup-generico.component';
+import { ListaConductoresComponent } from './lista-conductores/lista-conductores.component';
+import { ListaVehiculosSelComponent } from './lista-vehiculos-sel/lista-vehiculos-sel.component';
+import { DayOfWeekPipe } from './day-of-week.pipe';
+import { ListaHistorialComponent } from './lista-historial/lista-historial.component';
+import { PopupHistorialVehiculosComponent } from './popup-historial-vehiculos/popup-historial-vehiculos.component';
+import { RegistarHistorialComponent } from './registar-historial/registar-historial.component';
 
 
 
@@ -52,6 +59,14 @@ import { RegistrarRutaComponent } from './registrar-ruta/registrar-ruta.componen
     CardBusDetailComponent,
     PopupImagenesZoomComponent,
     RegistrarRutaComponent,
+    PopupGenericoComponent,
+    ListaConductoresComponent,
+    ListaVehiculosSelComponent,
+    DayOfWeekPipe,
+    ListaHistorialComponent,
+    PopupHistorialVehiculosComponent,
+    RegistarHistorialComponent,
+    
     
     
  

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Ruta } from '../ruta';
 import { RutasService } from '../rutas.service';
 import { fontAwesomeIcons } from '../fontawesome-icons';
 import { RegistrarViajeComponent } from '../registrar-viaje/registrar-viaje.component';
+import { ListaRutasComponent } from '../lista-rutas/lista-rutas.component';
 
 @Component({
   selector: 'app-popup-seleccionar-ruta',
@@ -13,15 +14,19 @@ export class PopupSeleccionarRutaComponent {
 
   constructor(private rutaService: RutasService, private registrarViajeComponent: RegistrarViajeComponent) {};
 
+  @ViewChild(ListaRutasComponent) listaRutasComponent: ListaRutasComponent;
+
+  
+  tituloPopUp :string = '';
+  modalLabel = '';
+  idModal: string = '';
+
+
+
   p: number = 1;
   rutas : Ruta [];
   rutasFiltradas : Ruta [];
-
-  detailsIcon = fontAwesomeIcons.detailsIcon;
-  selectIcon = fontAwesomeIcons.selectIcon;
   ruta : Ruta = new Ruta();
-
-
   origen : any = "";
   destino :any = "";
   viajeNum : string="";
@@ -32,14 +37,37 @@ export class PopupSeleccionarRutaComponent {
 }
 
 
-  verDetalles(id:number){
+  verDetalles(id:number){}
+  
+  //Se reinicia el modal al cerrarlo con su información, incluyendo filtros
+  onCloseModal() {
+    this.listaRutasComponent.ngOnInit();
   }
-
-  clearFilters(){}
-
 
   ngOnInit(): void {
     this.obtenerListaRutas();
+    this.tituloPopUp = ("Seleccionar Ruta");
+    this.idModal = this.convertirACamelCase(this.tituloPopUp.concat(' ').concat('popup').toLowerCase());
+    this.modalLabel = this.idModal.concat('Label');
+  }
+  
+   convertirACamelCase(input: string): string {
+    // Dividir el string por espacios
+    let words = input.split(' ');
+  
+    // Convertir cada palabra a camelCase y unirlas
+    let result = words.map((word, index) => {
+      // Capitalizar la primera letra y convertir el resto a minúsculas
+      let capitalizedWord = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+      // Para la primera palabra, no añadir espacio
+      if (index === 0) {
+        return capitalizedWord;
+      }
+      // Para el resto, convertir a camelCase
+      return capitalizedWord;
+    }).join('');
+  
+    return result;
   }
 
 
@@ -50,63 +78,14 @@ export class PopupSeleccionarRutaComponent {
     });
   }
 
-  onInputChangeNumeroUnidad() {
-
-
+  obtenerIdModal(): string {
+    return this.idModal;
   }
 
 
+  onInputChangeNumeroUnidad() {}
   onBlurNumeroUnidad(){}
-
-
-  onInputChangeOriginFilter() {
-
-    this.rutasFiltradas = this.rutas;
-    const origen = this.origen.trim().toLowerCase();
-    const destino = this.destino.trim().toLowerCase();
-    const numViaje = this.viajeNum.trim().toLowerCase();
-    const numViajeEsNumero = numViaje === '' || /^\d+$/.test(numViaje);
-
-    if(numViajeEsNumero) {
-    this.rutasFiltradas = this.rutasFiltradas.filter(r => {
-        const origenCoincide = origen === '' || r.origen.toString().toLowerCase().includes(origen);
-        const destinoCoincide = destino === '' || r.destino.toString().toLowerCase().includes(destino);
-        const numViajeCoincide = numViaje === '' || r.numRutaIdentificativo.toString().toLowerCase().includes(numViaje);
-        return origenCoincide && destinoCoincide && numViajeCoincide;
-    });
-
-    }
-
-  }
-
-  onInputChangeDestinyFilter(){
-
-    // this.rutasFiltradas = this.rutas;
-    
-    
-    // this.rutasFiltradas = this.rutasFiltradas.filter(r => {
-    //     const origenCoincide = destino === '' || r.origen.toString().toLowerCase().includes(destino);
-    //     const destinoCoincide =
-    //     return origenCoincide;
-    // })
-
-
-
-    // const marcaCoincide = marca === '' || carro.marca.toString().toLowerCase().includes(marca);
-    // const añoCoincide = año === '' || carro.anyo.toString().toLowerCase().includes(año);
-    // const modeloCoincide = modelo === '' || carro.modelo.toString().toLowerCase().includes(modelo);
-    // return marcaCoincide && añoCoincide && modeloCoincide;
-
-
-  }
-
-  onInputChangeNumViaje() {
-
-
-
-  }
-
-  
+  onInputChangeOriginFilter() {}
 
 
 

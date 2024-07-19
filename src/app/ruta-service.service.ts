@@ -10,7 +10,7 @@ export class RutaServiceService {
 
 
   //Obtiene el listado de Carros en el back
-  private baseUrl = "http://localhost:8080/api/v1/carros";
+  private baseUrl = "http://localhost:8080/api/v1/rutas";
 
   constructor(private httpClient : HttpClient) { }
 
