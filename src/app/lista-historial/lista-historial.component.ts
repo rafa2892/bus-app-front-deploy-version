@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/
 import { Carro } from '../carro';
 import { Historial } from '../historial';
 import { fontAwesomeIcons } from '../fontawesome-icons';
+import { CarroService } from '../carro.service';
 
 @Component({
   selector: 'app-lista-historial',
@@ -22,15 +23,17 @@ export class ListaHistorialComponent {
   infoIcon = fontAwesomeIcons.infoIcon;
   carroSelected : any;
 
+  constructor(private carroServicio:CarroService) {}
+
    ngOnChanges(changes: SimpleChanges) {
-    if (changes['historialActualizado']) {
-      this.actualizarHistorial();
-      console.log("cambios knscnsdjnskn")
-    }
+      if(this.carroSeleccionadoDetalles != undefined) {
+        const id=this.carroSeleccionadoDetalles.id;
+        this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
+        this.carroSeleccionadoDetalles = c;
+    });
+   }
   }
-  actualizarHistorial() {
-    // Lógica para actualizar el historial
-  }
+  
 
   ngOnInit(): void {
     if(this.carroSeleccionadoDetalles != undefined) {

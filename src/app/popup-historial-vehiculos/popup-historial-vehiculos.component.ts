@@ -25,19 +25,12 @@ export class PopupHistorialVehiculosComponent {
   
   @Input() carroSeleccionadoDetalles: Carro;
 
+  carro:Carro;
+
 
   ngOnInit(): void {
  }
  
- actualizarHistorial() {
-  if(this.carroSeleccionadoDetalles != undefined) {}
-    const id=this.carroSeleccionadoDetalles.id;
-    this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
-      this.carroSeleccionadoDetalles = c;
-    });
-  }
-
-
  addHistory() {
   // Cambiar las propiedades cuando se guarde el historial
   this.mostrarListaHistorial = false;
