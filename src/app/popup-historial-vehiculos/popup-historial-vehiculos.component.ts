@@ -12,8 +12,19 @@ export class PopupHistorialVehiculosComponent {
 
 
   @ViewChild(ListaHistorialComponent) listaHistoriachildComponent!: ListaHistorialComponent; // Acceso al componente hijo
-
   constructor(private carroServicio:CarroService) {}
+
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.carroSeleccionadoDetalles != undefined) {
+      const id=this.carroSeleccionadoDetalles.id;
+      this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
+      this.carroSeleccionadoDetalles = c;
+  });
+  console.log(this.carroSeleccionadoDetalles);
+ }
+}
 
   tituloPopUp :string = 'Historial';
   modalLabel = 'historialModalLabel';
@@ -24,26 +35,39 @@ export class PopupHistorialVehiculosComponent {
 
   
   @Input() carroSeleccionadoDetalles: Carro;
-
+  //Objeto auxiliar
   carro:Carro;
 
 
-  ngOnInit(): void {
- }
- 
  addHistory() {
   // Cambiar las propiedades cuando se guarde el historial
   this.mostrarListaHistorial = false;
   this.mostrarRegistrarHistorial = true;
 }
 
+actualizarCarro() {
+    const id=this.carroSeleccionadoDetalles.id;
+    this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
+    this.carroSeleccionadoDetalles = c;
+});
+}
+
 cleanInitMethod() {
   this.mostrarListaHistorial = true;
   this.mostrarRegistrarHistorial = false;
+
+  if(this.carroSeleccionadoDetalles != undefined) {
+   this.actualizarCarro();
+
+
+  }
 }
 
-
-
+private obtenerCarroPorId(id: number) {
+  this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
+    this.carro = c;
+  });
+}
 
   }
 

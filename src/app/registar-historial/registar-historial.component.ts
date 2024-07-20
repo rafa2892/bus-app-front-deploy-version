@@ -70,8 +70,6 @@ export class RegistarHistorialComponent {
       if(this.validacionDatos()) {
         this.guardarHistorial();
       }
-
-      this.volver();
   }
 
   validacionDatos(): boolean{
@@ -79,12 +77,18 @@ export class RegistarHistorialComponent {
     return true;
   }
 
+  pruebaMetodo() {
+
+    
+  }
+
 
   guardarHistorial(){
       this.carroServicio.registrarHistorial(this.historial).subscribe(dato => {
       }, error => console.log(error));
-      
       this.historialGuardado.emit();
+
+      this.volver();
     }
 
     

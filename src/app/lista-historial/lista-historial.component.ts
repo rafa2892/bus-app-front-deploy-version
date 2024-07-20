@@ -45,13 +45,7 @@ export class ListaHistorialComponent {
      }
  }
 
- 
 
-
-
-
-cargarHistorial(): void {
-}
  addHistory() {
   this.agregarHistorial.emit();
  }
@@ -65,7 +59,7 @@ getClassByTipoHistorial(history:Historial) : string {
       return 'btn btn-warning'
   
   else if(history.idTipo == 3)
-    return 'btn btn-secondary'
+    return 'btn btn-primary'
 
 return 'btn btn-secondary';
 }

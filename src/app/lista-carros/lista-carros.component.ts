@@ -21,15 +21,13 @@ export class ListaCarrosComponent {
   p: number = 1;
   carroSeleccionadoDetalles: Carro;
   carro: Carro;
-
+  
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
-
   constructor(private carroServicio: CarroService, private router: Router, private route: ActivatedRoute) {
   }
 
 
   ngOnInit(): void {
-
     this.route.params.subscribe(params => {
       const id = +params['id'];
       if (id) {
@@ -60,10 +58,9 @@ export class ListaCarrosComponent {
   }
 
   verHistorial(carroSelected: Carro) {
-    this.carroSeleccionadoDetalles = carroSelected
+    this.carroSeleccionadoDetalles = carroSelected;
     this.childComponent.cleanInitMethod();
   }
-
 
   eliminarCarro(id: any) {
     this.carroServicio.eliminarCarro(id).subscribe(dato => {
