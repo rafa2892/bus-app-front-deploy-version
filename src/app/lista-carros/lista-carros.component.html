@@ -13,7 +13,7 @@
     </thead>
 
     <tbody class="table-dark">
-    <tr *ngFor= "let carro of carros | paginate: { itemsPerPage: 10, currentPage: p}">
+    <tr *ngFor= "let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
       <td>{{carro.numeroUnidad}}</td>
       <td>{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
       <td>{{carro.tipoDeVehiculo}}</td>
@@ -43,7 +43,7 @@
     nextLabel="Siguiente"></pagination-controls>
   </div>
 </div>
-<app-popup-historial-vehiculos #verHistorialPopUp [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos>
+<app-popup-historial-vehiculos [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos>
 <app-card-bus-detail [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-card-bus-detail>
 
 

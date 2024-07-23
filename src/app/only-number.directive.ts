@@ -18,7 +18,7 @@ export class OnlyNumberDirective {
      
     if (/\D/.test(initialValue)) {
         this.countNonNumeric++;
-        console.log(this.countNonNumeric)
+        // console.log(this.countNonNumeric)
         this.el.nativeElement.value = initialValue.replace(/[^0-9]*/g, '').slice(0, 4);
         if (this.countNonNumeric >= 3) {
           this.nonNumericCount.emit(this.countNonNumeric);

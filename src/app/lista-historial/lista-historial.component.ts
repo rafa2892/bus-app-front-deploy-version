@@ -3,6 +3,7 @@ import { Carro } from '../carro';
 import { Historial } from '../historial';
 import { fontAwesomeIcons } from '../fontawesome-icons';
 import { CarroService } from '../carro.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lista-historial',
@@ -22,28 +23,26 @@ export class ListaHistorialComponent {
   maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
   infoIcon = fontAwesomeIcons.infoIcon;
   carroSelected : any;
+  carro:Carro;
 
   constructor(private carroServicio:CarroService) {}
 
-   ngOnChanges(changes: SimpleChanges) {
-      if(this.carroSeleccionadoDetalles != undefined) {
-        const id=this.carroSeleccionadoDetalles.id;
-        this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
-        this.carroSeleccionadoDetalles = c;
-    });
-   }
+
+ ngOnChanges(changes: SimpleChanges): void {
+
+    if(this.carroSeleccionadoDetalles.id != undefined)
+    this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
   }
-  
 
-  ngOnInit(): void {
-    if(this.carroSeleccionadoDetalles != undefined) {
-    this.carroSelected = this.carroSeleccionadoDetalles;
-    }
-
-    else {
-    this.carroSeleccionadoDetalles = new Carro();
-     }
- }
+  private obtenerCarroPorId(id: number) {
+    this.carroServicio.obtenerCarroPorId(id).pipe(
+      tap(c => {
+        this.carro = c;
+      })
+    ).subscribe(() => {
+      this.carroSeleccionadoDetalles = this.carro; // Realiza la acción después de recibir el valor
+    });
+  }
 
 
  addHistory() {

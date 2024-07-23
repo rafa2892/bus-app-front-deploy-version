@@ -131,6 +131,12 @@
                 </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
+
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Comentarios/Observación</label>
+                <textarea class="form-control" name="viaje.comentarios" id="exampleFormControlTextarea1" rows="3" placeholder="Describe la información" [(ngModel)]="viaje.comentarios"></textarea>
+            </div>
+
             <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>

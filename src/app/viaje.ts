@@ -14,6 +14,7 @@ export class Viaje {
     ruta : Ruta;
     kilometraje:number;
     horasEspera:number;
+    comentarios:string;
    
     
     

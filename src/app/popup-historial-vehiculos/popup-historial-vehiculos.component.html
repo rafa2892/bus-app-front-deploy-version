@@ -14,8 +14,8 @@
         
             <ng-container *ngIf="mostrarRegistrarHistorial">
                 <app-registar-historial 
-                (historialGuardado)="actualizarCarro()"
-                (onVolver)="cleanInitMethod()" 
+                (historialGuardado)="actualizarCarro($event)"
+                (onVolver)="cleanInitMethodSimple()" 
                 [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"
                 ></app-registar-historial>
             </ng-container>

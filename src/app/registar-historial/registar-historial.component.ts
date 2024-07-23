@@ -21,7 +21,7 @@ export class RegistarHistorialComponent {
 
   @Input() carroSeleccionadoDetalles: Carro = new Carro; 
   @Output() onVolver = new EventEmitter<void>();
-  @Output() historialGuardado = new EventEmitter<void>();
+  @Output() historialGuardado = new EventEmitter<any>();
 
 
 
@@ -64,7 +64,6 @@ export class RegistarHistorialComponent {
     // }
   }
 
-  
 
   onSubmit(){
       if(this.validacionDatos()) {
@@ -77,20 +76,25 @@ export class RegistarHistorialComponent {
     return true;
   }
 
-  pruebaMetodo() {
 
-    
+  guardarHistorial() {
+    this.carroServicio.registrarHistorial(this.historial).subscribe({
+      next: (dato) => {
+        // Acción a realizar después de que se haya guardado correctamente
+        this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+        this.historialGuardado.emit(this.carroSeleccionadoDetalles);
+        this.volver();
+      },
+      error: (error) => console.log(error)
+    });
   }
 
+  private obtenerCarroPorId(id: number) {
+    this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
+      this.carroSeleccionadoDetalles = c;
+    });
 
-  guardarHistorial(){
-      this.carroServicio.registrarHistorial(this.historial).subscribe(dato => {
-      }, error => console.log(error));
-      this.historialGuardado.emit();
-
-      this.volver();
-    }
-
+  }
     
 
    

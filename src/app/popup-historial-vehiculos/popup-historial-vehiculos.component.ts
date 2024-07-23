@@ -16,15 +16,6 @@ export class PopupHistorialVehiculosComponent {
 
 
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(this.carroSeleccionadoDetalles != undefined) {
-      const id=this.carroSeleccionadoDetalles.id;
-      this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
-      this.carroSeleccionadoDetalles = c;
-  });
-  console.log(this.carroSeleccionadoDetalles);
- }
-}
 
   tituloPopUp :string = 'Historial';
   modalLabel = 'historialModalLabel';
@@ -35,8 +26,9 @@ export class PopupHistorialVehiculosComponent {
 
   
   @Input() carroSeleccionadoDetalles: Carro;
+  
   //Objeto auxiliar
-  carro:Carro;
+  carro:Carro = new Carro();
 
 
  addHistory() {
@@ -45,22 +37,23 @@ export class PopupHistorialVehiculosComponent {
   this.mostrarRegistrarHistorial = true;
 }
 
-actualizarCarro() {
-    const id=this.carroSeleccionadoDetalles.id;
-    this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
-    this.carroSeleccionadoDetalles = c;
-});
-}
 
-cleanInitMethod() {
+cleanInitMethodSimple() {
   this.mostrarListaHistorial = true;
   this.mostrarRegistrarHistorial = false;
-
-  if(this.carroSeleccionadoDetalles != undefined) {
-   this.actualizarCarro();
+}
 
 
-  }
+actualizarCarro(carro:Carro) {
+  // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+
+}
+
+
+cleanInitMethod(carro:Carro) {
+  this.mostrarListaHistorial = true;
+  this.mostrarRegistrarHistorial = false;
+  this.obtenerCarroPorId(carro.id);
 }
 
 private obtenerCarroPorId(id: number) {

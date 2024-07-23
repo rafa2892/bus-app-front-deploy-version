@@ -19,7 +19,7 @@ export class ListaCarrosComponent {
   historyIcon = faHistory;
   eyeIcon = faEye;
   p: number = 1;
-  carroSeleccionadoDetalles: Carro;
+  carroSeleccionadoDetalles: Carro = new Carro;
   carro: Carro;
   
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
@@ -59,8 +59,9 @@ export class ListaCarrosComponent {
 
   verHistorial(carroSelected: Carro) {
     this.carroSeleccionadoDetalles = carroSelected;
-    this.childComponent.cleanInitMethod();
+    this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles);
   }
+
 
   eliminarCarro(id: any) {
     this.carroServicio.eliminarCarro(id).subscribe(dato => {
