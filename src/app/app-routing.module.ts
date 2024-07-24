@@ -10,6 +10,7 @@ import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
 import { RegistrarRutaComponent } from './registrar-ruta/registrar-ruta.component';
 import { ListaConductoresComponent } from './lista-conductores/lista-conductores.component';
 import { RegistarHistorialComponent } from './registar-historial/registar-historial.component';
+import { LoginComponent } from './security/login/login.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'carros',component: ListaCarrosComponent},
   // {path: '' , redirectTo: 'carros', pathMatch: 'full'},
   {path: '' , redirectTo: 'viajes', pathMatch: 'full'},
+  
   {path: 'viajes', component:ListaViajesComponent},
   {path: 'registrar-carro', component:RegistrarCarroComponent},
   {path: 'registrar-viaje', component:RegistrarViajeComponent},
@@ -27,7 +29,8 @@ const routes: Routes = [
   {path: 'crear-ruta', component:RegistrarRutaComponent},
   {path: 'conductores', component:ListaConductoresComponent},
   {path: 'registrar-historial', component:RegistarHistorialComponent},
-  {path: 'volver-historiales/:id', component:ListaCarrosComponent}
+  {path: 'volver-historiales/:id', component:ListaCarrosComponent},
+  {path: 'login', component:LoginComponent}
 ];
 
 @NgModule({

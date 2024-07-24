@@ -28,10 +28,10 @@ export class ListaHistorialComponent {
   constructor(private carroServicio:CarroService) {}
 
 
- ngOnChanges(changes: SimpleChanges): void {
-
-    if(this.carroSeleccionadoDetalles.id != undefined)
-    this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+  ngOnChanges(changes: SimpleChanges): void {
+    if(this.carroSeleccionadoDetalles.id != undefined) {
+        this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+     }
   }
 
   private obtenerCarroPorId(id: number) {
@@ -43,7 +43,6 @@ export class ListaHistorialComponent {
       this.carroSeleccionadoDetalles = this.carro; // Realiza la acción después de recibir el valor
     });
   }
-
 
  addHistory() {
   this.agregarHistorial.emit();

@@ -38,6 +38,8 @@ import { DayOfWeekPipe } from './day-of-week.pipe';
 import { ListaHistorialComponent } from './lista-historial/lista-historial.component';
 import { PopupHistorialVehiculosComponent } from './popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { RegistarHistorialComponent } from './registar-historial/registar-historial.component';
+import { LoginComponent } from './security/login/login.component';
+import { LoginAuxComponent } from './security/login-aux/login-aux.component';
 
 
 
@@ -66,6 +68,8 @@ import { RegistarHistorialComponent } from './registar-historial/registar-histor
     ListaHistorialComponent,
     PopupHistorialVehiculosComponent,
     RegistarHistorialComponent,
+    LoginComponent,
+    LoginAuxComponent,
     
     
     
