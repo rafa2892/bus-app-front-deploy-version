@@ -9,7 +9,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/np';  // URL de tu backend
+  private apiUrl = 'http://localhost:8080/api/v1/login';  // URL de tu backend
   private loggedIn = false;
 
   constructor(private http: HttpClient, private router: Router) {}
