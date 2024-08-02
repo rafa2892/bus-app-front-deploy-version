@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { UserAuth } from '../security/user-auth';
 
 @Injectable({
   providedIn: 'root'
@@ -15,16 +16,21 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   // Método para iniciar sesión
-  login(username: string, password: string): Observable<boolean> {
-    const body = { username, password };
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, body)
+  login(user:UserAuth): Observable<boolean> {
+
+    console.log("usuario :  Servicio", user.usuario);
+    console.log("pass : Servicio", user.clave);
+
+    return this.http.post<{ token: string }>(`${this.apiUrl}`, user)
       .pipe(
+
         map(response => {
           // Guardar el token en el almacenamiento local (o en otro lugar seguro)
           localStorage.setItem('authToken', response.token);
           this.loggedIn = true;
           return true;
         }),
+
         catchError(() => {
           this.loggedIn = false;
           return of(false);

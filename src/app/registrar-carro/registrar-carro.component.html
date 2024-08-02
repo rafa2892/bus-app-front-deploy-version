@@ -24,7 +24,7 @@
             </div> 
             <div class="row">
                 <div class="col">
-                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.modelo" name="modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
+                  <input type = "text" class="form-control" id="modelo" [(ngModel)]="carro.modelo" name="modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
                 </div>
                 <div class="col">
                     <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>

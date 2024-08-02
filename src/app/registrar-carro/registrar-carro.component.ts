@@ -195,17 +195,10 @@ async leerArchivoComoDataURL(file: File): Promise<void> {
 }
 
 guardarCarro() {
-
-
-  
-
   this.convertirImagenesABase64().then(() => {
-   
-   
     if (this.validandoDatos(this.carroLista, this.carro.numeroUnidad)) {
       this.convertirMayus();
       this.carro.imagenes = this.imagenGuardar;
-
 
       if(this.carro.id != null && this.carro.id != undefined && this.carro.id > 0) {
         this.carroServicio.actualizarCarro(this.carro.id, this.carro).subscribe(dato => {
