@@ -1,6 +1,6 @@
 export class UserAuth {
 
-    clave:string;
     usuario:string;
+    clave:string;
 
 }

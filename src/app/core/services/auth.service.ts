@@ -12,49 +12,68 @@ export class AuthService {
 
   private apiUrl = 'http://localhost:8080/api/v1/login';  // URL de tu backend
   private loggedIn = false;
-
   constructor(private http: HttpClient, private router: Router) {}
 
 
+  login(user:UserAuth): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}`, user);
+  }
 
+  logout(): void {
+    localStorage.removeItem('token');
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken(); // Devuelve verdadero si hay un token
+  }
 
 
   // Método para iniciar sesión
-  login(user:UserAuth): Observable<boolean> {
+  // login(user:UserAuth): Observable<boolean> {
 
-    return this.http.post<{ token: string }>(`${this.apiUrl}`, user)
-      .pipe(
+  //   return this.http.post<{ token: string }>(`${this.apiUrl}`, user)
+     
+    
+  //   .pipe(
 
-        map(response => {
-          // Guardar el token en el almacenamiento local (o en otro lugar seguro)
-          console.log("TOKEN", response.token)
-          localStorage.setItem('authToken', response.token);
-          this.loggedIn = true;
-          return true;
-        }),
+  //       map(response => {
+  //         // Guardar el token en el almacenamiento local (o en otro lugar seguro)
+  //         console.log("TOKEN", response.token)
+  //         localStorage.setItem('authToken', response.token);
+  //         this.loggedIn = true;
+  //         return true;
+  //       }),
 
-        catchError(() => {
-          this.loggedIn = false;
-          return of(false);
-        })
-      );
-  }
+  //       catchError(() => {
+  //         this.loggedIn = false;
+  //         return of(false);
+  //       })
+  //     );
+  // }
 
   // Método para cerrar sesión
-  logout(): void {
-    localStorage.removeItem('authToken');
-    this.loggedIn = false;
-    this.router.navigate(['/login']);
-  }
+  // logout(): void {
+  //   localStorage.removeItem('authToken');
+  //   this.loggedIn = false;
+  //   this.router.navigate(['/login']);
+  // }
 
   // Verifica si el usuario está autenticado
-  isLoggedIn(): boolean {
-    // Aquí podrías verificar el token si es necesario
-    return !!localStorage.getItem('authToken');
-  }
+  // isLoggedIn(): boolean {
+  //   // Aquí podrías verificar el token si es necesario
+  //   return !!localStorage.getItem('authToken');
+  // }
 
-  // Opcional: Método para obtener el token actual
-  getToken(): string | null {
-    return localStorage.getItem('authToken');
-  }
+  // // Opcional: Método para obtener el token actual
+  // getToken(): string | null {
+  //   return localStorage.getItem('authToken');
+  // }
 }

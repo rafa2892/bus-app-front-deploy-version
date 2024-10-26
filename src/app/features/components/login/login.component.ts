@@ -12,26 +12,39 @@ export class LoginComponent {
   userLogin:UserAuth;
 
   
-  constructor(private authServicio:AuthService){}
-
-  // constructor(
-  //   private viajeServicio:ViajeServicioService,private router:Router, private carroServicio:CarroService,
-  //   private _snackBar: MatSnackBar,public dialog: MatDialog, private conductorService:ConductorServiceService,
-  //   private rutaServicio:RutasService, private cdr: ChangeDetectorRef){}
-
+  constructor(private authService:AuthService){}
 
   ngOnInit(): void {
     this.userLogin = new UserAuth();
   }
 
-  onSubmit(){
+  onLogin(): void {
 
-    this.authServicio.login(this.userLogin);
-        this.authServicio.login(this.userLogin).subscribe(dato => {
-        });
+    console.log("On login()");
+    this.authService.login(this.userLogin).subscribe({
+   
+
+      next: (response) => {
+        console.log("HELLOOOO");
+        console.log(response);
+        this.authService.setToken(response.token); // Guarda el token
+        // Redirige a otra página o realiza otra acción
+      },
 
 
-
+      error: (error) => {
+        console.error('Error de login', error);
       }
+    });
   }
 
+
+  onSubmit(){
+    this.onLogin();
+      //   this.authServicio.login(this.userLogin).subscribe(dato => {
+      //   });
+        
+      // }
+  }
+
+}
