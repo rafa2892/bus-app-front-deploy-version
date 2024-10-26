@@ -1,15 +1,15 @@
  import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ListaCarrosComponent } from './lista-carros/lista-carros.component';
-import { RegistrarCarroComponent } from './registrar-carro/registrar-carro.component';
-import { ListaViajesComponent } from './lista-viajes/lista-viajes.component';
-import { RegistrarViajeComponent } from './registrar-viaje/registrar-viaje.component';
-import { BuscadorCarroComponent } from './buscador-carro/buscador-carro.component';
-import { CardBusDetailComponent } from './card-bus-detail/card-bus-detail.component';
-import { ListaRutasComponent } from './lista-rutas/lista-rutas.component';
-import { RegistrarRutaComponent } from './registrar-ruta/registrar-ruta.component';
-import { ListaConductoresComponent } from './lista-conductores/lista-conductores.component';
-import { RegistarHistorialComponent } from './registar-historial/registar-historial.component';
+import { ListaCarrosComponent } from './features/components/lista-carros/lista-carros.component';
+import { RegistrarCarroComponent } from './features/components/registrar-carro/registrar-carro.component';
+import { ListaViajesComponent } from './features/components/lista-viajes/lista-viajes.component';
+import { RegistrarViajeComponent } from './features/components/registrar-viaje/registrar-viaje.component';
+import { BuscadorCarroComponent } from './features/components/buscador-carro/buscador-carro.component';
+import { CardBusDetailComponent } from './features/components/card-bus-detail/card-bus-detail.component';
+import { ListaRutasComponent } from './features/components/lista-rutas/lista-rutas.component';
+import { RegistrarRutaComponent } from './features/components/registrar-ruta/registrar-ruta.component';
+import { ListaConductoresComponent } from './features/components/lista-conductores/lista-conductores.component';
+import { RegistarHistorialComponent } from './features/components/registar-historial/registar-historial.component';
 import { LoginComponent } from './security/login/login.component';
 
 
