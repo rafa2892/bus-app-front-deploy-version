@@ -38,8 +38,8 @@ import { DayOfWeekPipe } from './features/pipes/day-of-week.pipe';
 import { ListaHistorialComponent } from './features/components/lista-historial/lista-historial.component';
 import { PopupHistorialVehiculosComponent } from './features/components/popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { RegistarHistorialComponent } from './features/components/registar-historial/registar-historial.component';
-import { LoginComponent } from './security/login/login.component';
-import { LoginAuxComponent } from './security/login-aux/login-aux.component';
+import { LoginComponent } from './features/components/login/login.component';
+import { LoginAuxComponent } from './features/components/login-aux/login-aux.component';
 
 
 

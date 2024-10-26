@@ -10,7 +10,7 @@ import { ListaRutasComponent } from './features/components/lista-rutas/lista-rut
 import { RegistrarRutaComponent } from './features/components/registrar-ruta/registrar-ruta.component';
 import { ListaConductoresComponent } from './features/components/lista-conductores/lista-conductores.component';
 import { RegistarHistorialComponent } from './features/components/registar-historial/registar-historial.component';
-import { LoginComponent } from './security/login/login.component';
+import { LoginComponent } from './features/components/login/login.component';
 
 
 const routes: Routes = [
