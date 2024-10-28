@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ConductorServiceService } from './core/services/conductor-service.service';
+import { ConductorServiceService } from './conductor-service.service';
 
 describe('ConductorServiceService', () => {
   let service: ConductorServiceService;

@@ -1,4 +1,4 @@
- import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListaCarrosComponent } from './features/components/lista-carros/lista-carros.component';
 import { RegistrarCarroComponent } from './features/components/registrar-carro/registrar-carro.component';
@@ -11,26 +11,27 @@ import { RegistrarRutaComponent } from './features/components/registrar-ruta/reg
 import { ListaConductoresComponent } from './features/components/lista-conductores/lista-conductores.component';
 import { RegistarHistorialComponent } from './features/components/registar-historial/registar-historial.component';
 import { LoginComponent } from './features/components/login/login.component';
+import { AuthGuard } from './core/guards/auth.guard'
 
 
 const routes: Routes = [
 
-  {path: 'carros',component: ListaCarrosComponent},
-  // {path: '' , redirectTo: 'carros', pathMatch: 'full'},
-  {path: '' , redirectTo: 'viajes', pathMatch: 'full'},
+
+  { path: 'carros',component: ListaCarrosComponent, canActivate: [AuthGuard]},
+  { path: 'viajes', component: ListaViajesComponent, canActivate: [AuthGuard] },
+  { path: 'registrar-carro', component: RegistrarCarroComponent, canActivate: [AuthGuard] },
+  { path: 'registrar-viaje', component: RegistrarViajeComponent, canActivate: [AuthGuard] },
+  { path: 'buscar-carro', component: BuscadorCarroComponent, canActivate: [AuthGuard] },
+  { path: 'card-bus-details', component: CardBusDetailComponent, canActivate: [AuthGuard] },
+  { path: 'actualizar-vehiculo/:id', component: RegistrarCarroComponent, canActivate: [AuthGuard] },
+  { path: 'rutas', component: ListaRutasComponent, canActivate: [AuthGuard] },
+  { path: 'crear-ruta', component: RegistrarRutaComponent, canActivate: [AuthGuard] },
+  { path: 'conductores', component: ListaConductoresComponent, canActivate: [AuthGuard] },
+  { path: 'registrar-historial', component: RegistarHistorialComponent, canActivate: [AuthGuard] },
+  { path: 'volver-historiales/:id', component: ListaCarrosComponent, canActivate: [AuthGuard] },
+  {path: 'login', component:LoginComponent},
   
-  {path: 'viajes', component:ListaViajesComponent},
-  {path: 'registrar-carro', component:RegistrarCarroComponent},
-  {path: 'registrar-viaje', component:RegistrarViajeComponent},
-  {path: 'buscar-carro', component:BuscadorCarroComponent},
-  {path: 'card-bus-details', component:CardBusDetailComponent},
-  {path: 'actualizar-vehiculo/:id', component:RegistrarCarroComponent},
-  {path: 'rutas', component:ListaRutasComponent},
-  {path: 'crear-ruta', component:RegistrarRutaComponent},
-  {path: 'conductores', component:ListaConductoresComponent},
-  {path: 'registrar-historial', component:RegistarHistorialComponent},
-  {path: 'volver-historiales/:id', component:ListaCarrosComponent},
-  {path: 'login', component:LoginComponent}
+  
 ];
 
 @NgModule({

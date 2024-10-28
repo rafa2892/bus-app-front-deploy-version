@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ListaCarrosComponent } from './features/components/lista-carros/lista-carros.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { RegistrarCarroComponent } from './features/components/registrar-carro/registrar-carro.component';
 import { FormsModule } from '@angular/forms';
 import { ActualizarCarroComponent } from './features/components/actualizar-carro/actualizar-carro.component';
@@ -16,12 +15,10 @@ import { BuscadorCarroComponent } from './features/components/buscador-carro/bus
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OnlyNumberDirective } from './features/directives/only-number.directive';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 import { PopupSeleccionarCarroComponent } from './features/components/popup-seleccionar-carro/popup-seleccionar-carro.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormField } from '@angular/material/form-field';
 import { PopupSeleccionarConductorComponent } from './features/components/popup-seleccionar-conductor/popup-seleccionar-conductor.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -40,6 +37,7 @@ import { PopupHistorialVehiculosComponent } from './features/components/popup-hi
 import { RegistarHistorialComponent } from './features/components/registar-historial/registar-historial.component';
 import { LoginComponent } from './features/components/login/login.component';
 import { LoginAuxComponent } from './features/components/login-aux/login-aux.component';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 
 
@@ -93,7 +91,12 @@ import { LoginAuxComponent } from './features/components/login-aux/login-aux.com
   ],
   providers: [
     provideClientHydration(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })

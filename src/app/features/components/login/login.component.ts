@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserAuth } from '../../../core/models/user-auth';
 import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,23 +13,20 @@ export class LoginComponent {
   userLogin:UserAuth;
 
   
-  constructor(private authService:AuthService){}
+  constructor(private authService:AuthService, private router: Router){}
 
   ngOnInit(): void {
     this.userLogin = new UserAuth();
   }
 
   onLogin(): void {
-
-    console.log("On login()");
     this.authService.login(this.userLogin).subscribe({
    
-
       next: (response) => {
-        console.log("HELLOOOO");
-        console.log(response);
-        this.authService.setToken(response.token); // Guarda el token
+        this.authService.setToken(response.jwtToken); // Guarda el token
         // Redirige a otra página o realiza otra acción
+
+        this.router.navigate(['/viajes']);
       },
 
 
