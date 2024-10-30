@@ -17,8 +17,6 @@ import { NuevoRegistroComponent } from './features/components/nuevo-registro/nue
 
 
 const routes: Routes = [
-
-
   { path: 'carros',component: ListaCarrosComponent, canActivate: [AuthGuard]},
   { path: 'viajes', component: ListaViajesComponent, canActivate: [AuthGuard] },
   { path: 'registrar-carro', component: RegistrarCarroComponent, canActivate: [AuthGuard] },
@@ -35,8 +33,6 @@ const routes: Routes = [
   { path: 'login', component:LoginComponent},
   { path: 'lista-mantenimiento', component:RegistrosComponent},
   { path: 'nuevo-registro/:id', component:NuevoRegistroComponent}
-  
-  
 ];
 
 @NgModule({
