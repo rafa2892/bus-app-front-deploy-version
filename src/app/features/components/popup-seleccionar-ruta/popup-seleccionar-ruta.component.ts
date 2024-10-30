@@ -12,16 +12,15 @@ import { ListaRutasComponent } from '../lista-rutas/lista-rutas.component';
 })
 export class PopupSeleccionarRutaComponent {
 
-  constructor(private rutaService: RutasService, private registrarViajeComponent: RegistrarViajeComponent) {};
+  constructor(
+    private rutaService: RutasService, 
+    private registrarViajeComponent: RegistrarViajeComponent) {};
 
   @ViewChild(ListaRutasComponent) listaRutasComponent: ListaRutasComponent;
 
-  
-  tituloPopUp :string = '';
-  modalLabel = '';
-  idModal: string = '';
-
-
+  tituloPopUp :string = 'Rutas';
+  modalLabel = 'rutasModalLabel';
+  idModal: string = 'selectRoutePopUp';
 
   p: number = 1;
   rutas : Ruta [];
@@ -36,7 +35,6 @@ export class PopupSeleccionarRutaComponent {
   this.registrarViajeComponent.seleccionarRuta(ruta);
 }
 
-
   verDetalles(id:number){}
   
   //Se reinicia el modal al cerrarlo con su información, incluyendo filtros
@@ -46,9 +44,6 @@ export class PopupSeleccionarRutaComponent {
 
   ngOnInit(): void {
     this.obtenerListaRutas();
-    this.tituloPopUp = ("Seleccionar Ruta");
-    this.idModal = this.convertirACamelCase(this.tituloPopUp.concat(' ').concat('popup').toLowerCase());
-    this.modalLabel = this.idModal.concat('Label');
   }
   
    convertirACamelCase(input: string): string {

@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
   userLogin:UserAuth;
-
-  
   constructor(private authService:AuthService, private router: Router){}
 
   ngOnInit(): void {
@@ -21,12 +19,11 @@ export class LoginComponent {
 
   onLogin(): void {
     this.authService.logout();
-  
     this.authService.login(this.userLogin).subscribe({
       next: (response) => {
         this.authService.setToken(response.jwtToken);
         localStorage.setItem('refreshToken', response.refreshToken);
-        this.router.navigate(['/viajes']);
+        this.router.navigate(['/carros']);
       },
       error: (error) => {
         if (error.status === 401) {
@@ -38,36 +35,7 @@ export class LoginComponent {
     });
   }
   
-  refreshToken() {
-    //Implementacion refrescar token
-    const refreshToken = this.authService.getRefreshToken();
-
-    
-    // const refreshedToken = this.authService.refreshToken(refreshToken);
-    // console.log(refreshedToken);
-    this.authService.refreshToken(refreshToken).subscribe({
-   
-      next: (response) => {
-        this.authService.setToken(response.jwtToken);
-        // this.authService.logout();
-        localStorage.setItem('refreshToken', response.refreshToken);
-        // Guarda el token
-        // Redirige a otra página o realiza otra acción
-        // this.router.navigate(['/viajes']);
-      },
-      error: (error) => {
-        console.error('Error de login', error);
-      }
-    });
-  }
-
-
   onSubmit(){
     this.onLogin();
-      //   this.authServicio.login(this.userLogin).subscribe(dato => {
-      //   });
-        
-      // }
   }
-
 }
