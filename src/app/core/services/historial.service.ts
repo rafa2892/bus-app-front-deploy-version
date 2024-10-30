@@ -19,7 +19,7 @@ export class HistorialService {
 
   //Este metodo nos funciona para obtener los listados de carro
   getHistorialDeActividades():Observable<Historial[]> {
-    return this.httpClient.get<Historial[]>(`${this.baseUrl}`);
+    return this.httpClient.get<Historial[]>(`${this.baseurlhistorial}`);
 
   }
 
