@@ -12,6 +12,7 @@ import { ListaConductoresComponent } from './features/components/lista-conductor
 import { RegistarHistorialComponent } from './features/components/registar-historial/registar-historial.component';
 import { LoginComponent } from './features/components/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard'
+import { RegistrosComponent } from './features/components/registros/registros.component';
 
 
 const routes: Routes = [
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'conductores', component: ListaConductoresComponent, canActivate: [AuthGuard] },
   { path: 'registrar-historial', component: RegistarHistorialComponent, canActivate: [AuthGuard] },
   { path: 'volver-historiales/:id', component: ListaCarrosComponent, canActivate: [AuthGuard] },
-  {path: 'login', component:LoginComponent},
+  { path: 'login', component:LoginComponent},
+  { path: 'lista-mantenimiento', component:RegistrosComponent}
   
   
 ];

@@ -38,6 +38,8 @@ import { RegistarHistorialComponent } from './features/components/registar-histo
 import { LoginComponent } from './features/components/login/login.component';
 import { LoginAuxComponent } from './features/components/login-aux/login-aux.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { RegistrosComponent } from './features/components/registros/registros.component';
+
 
 
 
@@ -68,10 +70,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     RegistarHistorialComponent,
     LoginComponent,
     LoginAuxComponent,
-    
-    
-    
- 
+    RegistrosComponent
       ],
   imports: [
     BrowserModule,

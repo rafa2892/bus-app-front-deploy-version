@@ -5,6 +5,7 @@ import { fontAwesomeIcons } from '../../../../assets/fontawesome-icons';
 import { CarroService } from '../../../core/services/carro.service';
 import { tap } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-lista-historial',
   templateUrl: './lista-historial.component.html',

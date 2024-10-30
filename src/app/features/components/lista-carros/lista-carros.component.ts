@@ -4,6 +4,7 @@ import { CarroService } from "../../../core/services/carro.service";
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCar, faEdit, faEye, faHistory, faPlus, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { PopupHistorialVehiculosComponent } from '../popup-historial-vehiculos/popup-historial-vehiculos.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-lista-carros',
@@ -23,7 +24,7 @@ export class ListaCarrosComponent {
   carro: Carro;
   
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
-  constructor(private carroServicio: CarroService, private router: Router, private route: ActivatedRoute) {
+  constructor(private authService:AuthService, private carroServicio: CarroService, private router: Router, private route: ActivatedRoute, ) {
   }
 
 
@@ -68,4 +69,32 @@ export class ListaCarrosComponent {
       this.obtenerCarros();
     })
   }
+
+  refreshToken() {
+    const refreshToken = this.authService.getRefreshToken();
+  
+    this.authService.refreshToken(refreshToken).subscribe({
+      next: (response) => {
+        // const newToken = response;
+        // this.authService.setToken(newToken);
+        // localStorage.setItem('refreshToken', response.refreshToken);
+      },
+      error: (error) => {
+        console.error('Error de login', error);
+      }
+    });
+  }
+
+
+  // refreshToken(): Observable<string> {
+  //   const refreshToken = this.authService.getRefreshToken();
+  //   return this.authService.refreshToken(refreshToken).pipe(
+  //     switchMap((response) => {
+  //       const newToken = response.jwtToken;
+  //       this.authService.setToken(newToken);
+  //       localStorage.setItem('refreshToken', response.refreshToken);
+  //       return of(newToken);
+  //     })
+  //   );
+  // }
 }

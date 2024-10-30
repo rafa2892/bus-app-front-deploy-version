@@ -3,7 +3,11 @@
 }
 
 .nav-icon {
-    width: 20px; /* Ajusta el tamaño según tus necesidades */
-    height: auto; /* Mantiene la proporción */
-    margin-right: 5px; /* Espacio entre la imagen y el texto */
+    width: 20px; 
+    height: auto; 
+    margin-right: 5px; 
+}
+
+.not-logged-in {
+    margin-top: 5em;
   }

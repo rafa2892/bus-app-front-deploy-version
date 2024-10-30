@@ -1,44 +1,110 @@
-// auth.interceptor.ts
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service'; // Ajusta la ruta según tu estructura
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, switchMap } from 'rxjs/operators';
+import { AuthService } from '../services/auth.service'; 
 import { jwtDecode } from "jwt-decode";
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+
+  private refreshingToken = false; // Nuevo estado para evitar múltiples refrescos
+  constructor(private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    
-    // Obtiene el token del servicio de autenticación
     const token = this.authService.getToken() || '';
-   
-    if(token != undefined && token != null && token.length > 0) {
-      if(this.isTokenAboutToExpire(token)) {
-        //Refrescamos token 
-        //Implementacion refrescar token
-      }
-    }
+    const refreshToken = this.authService.getRefreshToken() || '';
 
-    // Si hay un token, clona la solicitud y añade el token al header de Authorization
-    if (token) {
+    console.log("Interceptor");
+
+     // Verifica si el token es válido antes de clonar la solicitud
+     if (token && this.isTokenValid(token)) {
       const clonedRequest = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}` // Añade el token al header de Authorization
+          Authorization: `Bearer ${token}`
         }
       });
-      return next.handle(clonedRequest); // Envía la solicitud clonada con el token
+
+      //Logica para manejar el refresco del token
+      if (this.isTokenValid(token) && this.isTokenAboutToExpire(token) && this.isTokenValid(refreshToken)) {
+        if (!this.refreshingToken) { // Verifica si ya se está refrescando el token
+          console.log("refrescamos token");
+          this.refreshingToken = true; // Marcar como refrescando
+  
+          return this.refreshToken().pipe(
+            switchMap((newToken) => {
+              this.refreshingToken = false; // Restablecer después de refrescar
+              const newClonedRequest = clonedRequest.clone({
+                setHeaders: {
+                  Authorization: `Bearer ${newToken}`
+                }
+              });
+              return next.handle(newClonedRequest);
+            }),
+            catchError((error) => {
+              this.refreshingToken = false; // Restablecer en caso de error
+              console.error('Error al refrescar el token', error);
+              return next.handle(clonedRequest); // Continúa con la solicitud original si no se puede refrescar
+            })
+          );
+        } else {
+          console.warn("Ya se está refrescando el token"); // Advertencia si se intenta refrescar nuevamente
+          return next.handle(clonedRequest); // Si ya estamos refrescando, simplemente manejamos la solicitud original
+        }
+      }
+      else if(!this.isTokenValid(token)) {
+        this.redirectToLogin();
+      }
+      return next.handle(clonedRequest);
     }
-    return next.handle(req); // Continúa con la solicitud original si no hay token
+    else {this.redirectToLogin();}
+    return next.handle(req);
+  }
+  
+  redirectToLogin() {
+    this.router.navigate(['/login']);
   }
 
-  isTokenAboutToExpire(token: string, bufferMinutes: number = 5): boolean {
+  refreshToken(): Observable<string> {
+    const refreshToken = this.authService.getRefreshToken();
+    return new Observable<string>((observer) => {
+      this.authService.refreshToken(refreshToken).subscribe({
+        next: (response) => {
+          const newToken = response.refreshToken; // Asegúrate de que aquí sea el nuevo accessToken
+          // this.authService.setToken(newToken);
+          console.log(response.refreshToken);
+          localStorage.setItem('token', response.refreshToken);
+          observer.next(newToken);
+          observer.complete();
+        },
+        error: (error) => {
+          console.error('Error al refrescar el token', error);
+          observer.error(error);
+        }
+      });
+    });
+  }
+
+  isTokenValid(token: string): boolean {
+    if (!token || token.split('.').length < 3) {
+      // Verifica que el token no esté vacío y que tenga las tres partes de un JWT (header, payload, signature)
+      return false;
+    }
+    try {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.exp ? decodedToken.exp > Math.floor(Date.now() / 1000) : false;
+    } catch (error) {
+      console.error('Token inválido o error al decodificar', error);
+      return false;
+    }
+  }
+
+  isTokenAboutToExpire(token: string, bufferMinutes: number = 3): boolean {
     const decodedToken: any = jwtDecode(token);
-    const expirationDate = decodedToken.exp * 1000; // Convertir a milisegundos
+    const expirationDate = decodedToken.exp * 1000; 
     const currentTime = Date.now();
     const timeRemaining = expirationDate - currentTime;
-    return timeRemaining <= bufferMinutes * 60 * 1000; // 5 minutos en milisegundos
+    return timeRemaining <= bufferMinutes * 60 * 1000; 
   }
-
 }

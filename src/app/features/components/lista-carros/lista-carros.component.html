@@ -1,5 +1,4 @@
 
-<a routerLink="../login" routerLinkActive="active" class="nav-link">Lista de Carros</a>
 <div class="listaVehiculoContainer">
   <h2>Lista Vehiculos</h2>
   <table class="table table-striped">
@@ -13,7 +12,6 @@
       <th>Acciones</th>
     </tr>
     </thead>
-
     <tbody class="table-dark">
     <tr *ngFor= "let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
       <td>{{carro.numeroUnidad}}</td>

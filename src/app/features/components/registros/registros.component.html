@@ -1,0 +1,42 @@
+<table class="table table-striped table-sm" id="tablaListaConductores">
+    <thead class="table-dark">
+      <tr>
+        <th>Tipo</th>
+        <th>Comentario</th>
+        <th>Fecha de alta</th>
+        <th>Registrado por</th>
+      </tr>
+    </thead>
+    <tbody class="table-dark">
+      <tr *ngFor="let historial of historialDeActividades | paginate: { itemsPerPage: 5, currentPage: p }">
+        <td>
+          <small>
+            <button  class="btn btn-primary btonGuardar" ><fa-icon  class="lupaIcon"></fa-icon></button>{{historial.descripcionTipo}}
+          </small>
+        </td>
+        <td>
+          <small>
+            {{historial.comentarios}}
+          </small>
+        </td>
+          <td>
+            <small>
+              <span class="date">{{ historial.fechaAlta | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+            </small>
+          </td>
+          <td>
+            {{historial.usuario.usu}}
+          </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-container">
+    <pagination-controls 
+    (pageChange)="p = $event"
+     previousLabel="Anterior" 
+    nextLabel="Siguiente"></pagination-controls>
+  </div>
+  
+  <div class="modal-footer d-flex justify-content-start" id="addHsitory">
+  </div>
+  
