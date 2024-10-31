@@ -14,6 +14,7 @@ import { LoginComponent } from './features/components/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard'
 import { RegistrosComponent } from './features/components/registros/registros.component';
 import { NuevoRegistroComponent } from './features/components/nuevo-registro/nuevo-registro.component';
+import { RegistrarMantenimientoComponent } from './features/components/registrar-mantenimiento/registrar-mantenimiento.component';
 
 
 const routes: Routes = [
@@ -30,9 +31,10 @@ const routes: Routes = [
   { path: 'conductores', component: ListaConductoresComponent, canActivate: [AuthGuard] },
   { path: 'registrar-historial', component: RegistarHistorialComponent, canActivate: [AuthGuard] },
   { path: 'volver-historiales/:id', component: ListaCarrosComponent, canActivate: [AuthGuard] },
-  { path: 'login', component:LoginComponent},
-  { path: 'lista-mantenimiento', component:RegistrosComponent},
-  { path: 'nuevo-registro/:id', component:NuevoRegistroComponent}
+  { path: 'login', component:LoginComponent, canActivate: [AuthGuard]},
+  { path: 'lista-mantenimiento', component:RegistrosComponent, canActivate: [AuthGuard]},
+  { path: 'nuevo-registro/:id', component:NuevoRegistroComponent, canActivate: [AuthGuard]},
+  { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

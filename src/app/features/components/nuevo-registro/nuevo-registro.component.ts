@@ -27,11 +27,12 @@ export class NuevoRegistroComponent {
         console.log('ID recibido:', this.id);
   }
 
-  agregarRegistroDeMantenimiento() {
+  agregarRegistroDeMantenimiento(id:number) {
     console.log('Agregando registro de mantenimiento');
+    this.router.navigate(['/nuevo-mantenimiento', id]);
   }
 
-  agregarRegistroDeOtros() {
+  agregarRegistroDeOtros(id:number) {
     console.log('Agregando registro de otros');
   }
 
