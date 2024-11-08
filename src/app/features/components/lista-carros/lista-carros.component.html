@@ -13,24 +13,30 @@
     </tr>
     </thead>
     <tbody class="table-dark">
-    <tr *ngFor= "let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
+    <tr *ngFor="let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
       <td>{{carro.numeroUnidad}}</td>
       <td>{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
       <td>{{carro.tipoDeVehiculo}}</td>
       <td>{{carro.anyo}}</td>
       <td>{{carro.consumo}}</td>
       <td>
-        <button title="Ver detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
+        <button title="Insertar Registro" (click)="insertarRegistro(carro.id)" class="btn btn-primary botonesAccion">
+          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="faPlus"></fa-icon></span>
+        </button>
+        <button title="Registros de mantenimiento" (click)="verHistorial(carro,true)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
+          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="repairIcon"></fa-icon></span>
+        </button>
+        <button title="Detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
           <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+        </button>
+        <button title="Historial de actividades" (click)="verHistorial(carro,false)" class="btn btn-info botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
+          <span class="button-icon"><fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon></span>
         </button>
         <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-warning botonesAccion">
           <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
         </button>
         <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro)" class="btn btn-danger botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
           <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
-        </button>
-        <button title="Ver historial de actividades" (click)="verHistorial(carro)" class="btn btn-info botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
-          <span class="button-icon"><fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon></span>
         </button>
       </td>  
     </tr>

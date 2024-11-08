@@ -12,27 +12,35 @@ import { tap } from 'rxjs/operators';
   styleUrl: './lista-historial.component.css'
 })
 export class ListaHistorialComponent {
- 
+
   @Input() carroSeleccionadoDetalles: Carro;
   @Input() historialActualizado: boolean;
   @Output() agregarHistorial = new EventEmitter<void>();
- 
-  
-  
+  @Input() verSoloRegistroMantenimiento : boolean;
+
+
   p: number = 1;
   checkIcon = fontAwesomeIcons.checkIcon;
   maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
   infoIcon = fontAwesomeIcons.infoIcon;
   carroSelected : any;
   carro:Carro;
+  registroHistorialFiltrado: Historial [] = [];
 
   constructor(private carroServicio:CarroService) {}
 
 
   ngOnChanges(changes: SimpleChanges): void {
     if(this.carroSeleccionadoDetalles.id != undefined) {
+      if(this.verSoloRegistroMantenimiento === false) {
+          this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+          this.registroHistorialFiltrado = this.carroSeleccionadoDetalles.registroHistorial
+      }
+      else {
         this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-     }
+        this.registroHistorialFiltrado  = this.carroSeleccionadoDetalles.registroHistorial.filter(historial => historial.idTipo === 2);
+      }
+    }
   }
 
   private obtenerCarroPorId(id: number) {
@@ -41,7 +49,7 @@ export class ListaHistorialComponent {
         this.carro = c;
       })
     ).subscribe(() => {
-      this.carroSeleccionadoDetalles = this.carro; // Realiza la acción después de recibir el valor
+      this.carroSeleccionadoDetalles = this.carro;
     });
   }
 
@@ -55,8 +63,8 @@ getClassByTipoHistorial(history:Historial) : string {
     return 'btn btn-success'
 
   else if(history.idTipo == 2)
-      return 'btn btn-warning'
-  
+    return 'btn btn-warning'
+
   else if(history.idTipo == 3)
     return 'btn btn-primary'
 
@@ -69,7 +77,7 @@ getIconByTipoHistorial(history:Historial) : any {
 
   else if(history.idTipo == 2)
     return this.maintenanceIcon;
-  
+
   else if(history.idTipo == 3)
     return this.infoIcon
 

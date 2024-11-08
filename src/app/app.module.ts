@@ -39,6 +39,8 @@ import { LoginComponent } from './features/components/login/login.component';
 import { LoginAuxComponent } from './features/components/login-aux/login-aux.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RegistrosComponent } from './features/components/registros/registros.component';
+import { NuevoRegistroComponent } from './features/components/nuevo-registro/nuevo-registro.component';
+import { RegistrarMantenimientoComponent } from './features/components/registrar-mantenimiento/registrar-mantenimiento.component';
 
 
 
@@ -70,7 +72,9 @@ import { RegistrosComponent } from './features/components/registros/registros.co
     RegistarHistorialComponent,
     LoginComponent,
     LoginAuxComponent,
-    RegistrosComponent
+    RegistrosComponent,
+    NuevoRegistroComponent,
+    RegistrarMantenimientoComponent
       ],
   imports: [
     BrowserModule,

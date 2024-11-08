@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Viaje } from '../../../core/models/viaje';
 import { ViajeServicioService } from '../../../core/services/viaje-servicio.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CarroService } from '../../../core/services/carro.service';
 import { Carro } from '../../../core/models/carro';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -95,15 +95,35 @@ export class RegistrarViajeComponent {
   constructor(
     private viajeServicio:ViajeServicioService,private router:Router, private carroServicio:CarroService,
     private _snackBar: MatSnackBar,public dialog: MatDialog, private conductorService:ConductorServiceService,
-    private rutaServicio:RutasService, private cdr: ChangeDetectorRef){}
+    private rutaServicio:RutasService, private cdr: ChangeDetectorRef,
+    private readonly route: ActivatedRoute){}
      
 
   ngOnInit(): void {
     this.obtenerListaCarro();
     this.obtenerListaConductores();
     this.obtenerListaRutas();
-    this.idModalBuscarRuta = "#SeleccionarRutaPopup"
-    
+
+    // Obtener el parámetro 'id' de la URL de haber uno
+      const id = +this.route.snapshot.paramMap.get('id')!;
+     
+    console.log("ID recibido en registrarViaje:", id);
+
+      if(id) {
+        this.selectedVehiculo = this.obtenerCarroPorId(id);
+        console.log("Carro seleccionado:", this.selectedVehiculo);
+      }
+  }
+
+  private obtenerCarroPorId(id: number): void {
+    this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
+      if (carro) {
+        this.selectedVehiculo = carro;
+        console.log("Carro seleccionado dentro del subscribe:", this.selectedVehiculo);
+      } else {
+        console.error("No se encontró el carro con el ID:", id);
+      }
+    });
   }
 
   private obtenerListaConductores () {

@@ -8,7 +8,9 @@
 
             <ng-container *ngIf="mostrarListaHistorial">
                 <app-lista-historial 
-                    [carroSeleccionadoDetalles]="carroSeleccionadoDetalles" (agregarHistorial)="addHistory()">
+                    [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"
+                    (agregarHistorial)="addHistory()"
+                    [verSoloRegistroMantenimiento]="verSoloRegistroMantenimiento">
                 </app-lista-historial>
             </ng-container>   
         

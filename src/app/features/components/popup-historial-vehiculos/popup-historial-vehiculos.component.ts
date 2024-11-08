@@ -23,10 +23,11 @@ export class PopupHistorialVehiculosComponent {
   mostrarListaHistorial: boolean = true; // o false según la condición
   mostrarRegistrarHistorial: boolean = false; // o false según la condición
   historialActualizado = false;
+  verSoloRegistroMantenimiento = false;
 
-  
+
   @Input() carroSeleccionadoDetalles: Carro;
-  
+
   //Objeto auxiliar
   carro:Carro = new Carro();
 
@@ -37,23 +38,21 @@ export class PopupHistorialVehiculosComponent {
   this.mostrarRegistrarHistorial = true;
 }
 
-
 cleanInitMethodSimple() {
   this.mostrarListaHistorial = true;
   this.mostrarRegistrarHistorial = false;
 }
-
 
 actualizarCarro(carro:Carro) {
   // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
 
 }
 
-
-cleanInitMethod(carro:Carro) {
+cleanInitMethod(carro:Carro, verSoloRegistroMantenimiento:boolean) {
   this.mostrarListaHistorial = true;
   this.mostrarRegistrarHistorial = false;
   this.obtenerCarroPorId(carro.id);
+  this.verSoloRegistroMantenimiento = verSoloRegistroMantenimiento;
 }
 
 private obtenerCarroPorId(id: number) {

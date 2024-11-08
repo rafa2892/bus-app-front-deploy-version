@@ -26,7 +26,10 @@
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
-                <a id="buscarRutaOrigen" class="btn btn-outline-secondary botonBuscar" type="button" data-bs-toggle="modal" [attr.data-bs-target]="idModalBuscarRuta"> 
+                <!-- <a id="buscarRutaOrigen" class="btn btn-outline-secondary botonBuscar" type="button" data-bs-target="#selectRoutePopUp" > 
+                    <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                </a> -->
+                <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
                     <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
                 </a>
             </div>
@@ -53,7 +56,7 @@
                 </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" [attr.data-bs-target]="idModalBuscarRuta"> 
+            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
             </a>
             </div>   
@@ -132,10 +135,10 @@
                 </mat-autocomplete>
             </mat-form-field>
 
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Comentarios/Observación</label>
                 <textarea class="form-control" name="viaje.comentarios" id="exampleFormControlTextarea1" rows="3" placeholder="Describe la información" [(ngModel)]="viaje.comentarios"></textarea>
-            </div>
+            </div> -->
 
             <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
                 <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>

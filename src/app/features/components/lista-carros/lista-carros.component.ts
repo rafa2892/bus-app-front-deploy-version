@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Output, Renderer2, ViewChild } fro
 import { Carro } from "../../../core/models/carro";
 import { CarroService } from "../../../core/services/carro.service";
 import { ActivatedRoute, Router } from '@angular/router';
-import { faCar, faEdit, faEye, faHistory, faPlus, faPlusCircle, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCar, faEdit, faEye, faHistory, faPlus, faPlusCircle, faTrash, faScrewdriverWrench} from '@fortawesome/free-solid-svg-icons';
 import { PopupHistorialVehiculosComponent } from '../popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { AuthService } from '../../../core/services/auth.service';
 
@@ -19,6 +19,8 @@ export class ListaCarrosComponent {
   deleteIcon = faTrash;
   historyIcon = faHistory;
   eyeIcon = faEye;
+  faPlus = faPlus;
+  repairIcon = faScrewdriverWrench
   p: number = 1;
   carroSeleccionadoDetalles: Carro = new Carro;
   carro: Carro;
@@ -58,11 +60,16 @@ export class ListaCarrosComponent {
     this.carroSeleccionadoDetalles = carroSelected;
   }
 
-  verHistorial(carroSelected: Carro) {
+  verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
     this.carroSeleccionadoDetalles = carroSelected;
-    this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles);
+    this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles, verSoloRegistroMantenimiento);
   }
 
+
+
+  insertarRegistro(id: number) {
+    this.router.navigate(['/nuevo-registro', id]);
+  }
 
   eliminarCarro(id: any) {
     this.carroServicio.eliminarCarro(id).subscribe(dato => {

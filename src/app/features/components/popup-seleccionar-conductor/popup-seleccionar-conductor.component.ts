@@ -13,13 +13,9 @@ import { fontAwesomeIcons } from '../../../../assets/fontawesome-icons';
 })
 export class PopupSeleccionarConductorComponent {
 
-
   tituloPopUp :string = 'Seleccionar conductor';
   modalLabel = 'seleccionarConductorLabel';
   idModal: string = 'modalConductor';
-
-
-
   conductoresLista : Conductor [];
   conductoresListafiltrado : Conductor [];
   nombre : string = '';
@@ -29,17 +25,14 @@ export class PopupSeleccionarConductorComponent {
   detailsIcon = fontAwesomeIcons.detailsIcon;
   selectIcon = fontAwesomeIcons.selectIcon;
 
-
-
-
   ngOnInit(): void {
     this.obtenerConductores();
  }
 
-
-  constructor(private coductorService:ConductorServiceService, private registrarViajeComponent : RegistrarViajeComponent, private router:Router) { }
-
-
+  constructor(
+     private coductorService:ConductorServiceService, 
+     private registrarViajeComponent : RegistrarViajeComponent,
+     private router:Router) { }
 
   obtenerConductores(){
       this.coductorService.obtenerListaConductores().subscribe(dato =>  {
@@ -49,10 +42,7 @@ export class PopupSeleccionarConductorComponent {
       
   }
 
-
   verDetalles(id:number) {
-
-
   }
 
   seleccionar(conductor:Conductor) {
@@ -61,21 +51,13 @@ export class PopupSeleccionarConductorComponent {
     this.router.navigate(['/registrar-viaje']);
   }
 
-
   clearFilters(){
-
-
-
   }
 
   onBlurNombre() {
-
-
-
   }
 
   onInputChangeNombre() {
-
     const nombre = this.nombre.trim().toLowerCase();
     const apellido = this.apellido.trim().toLowerCase();
     const dni = this.dni.trim().toLowerCase();
@@ -86,26 +68,14 @@ export class PopupSeleccionarConductorComponent {
         const cedula = dni === '' || c.dni.toString().toLowerCase().includes(dni);
         return marcaCoincide && añoCoincide && cedula;
     });
-
-
   }  
 
 
   onInputChangeApellidoFilter() {
-
-
-
   }
 
 
   onInputChangeDniFilter() {
-
-
-    
   }
-
-
-
-
 
 }

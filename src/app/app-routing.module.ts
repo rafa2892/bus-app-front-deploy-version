@@ -13,6 +13,8 @@ import { RegistarHistorialComponent } from './features/components/registar-histo
 import { LoginComponent } from './features/components/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard'
 import { RegistrosComponent } from './features/components/registros/registros.component';
+import { NuevoRegistroComponent } from './features/components/nuevo-registro/nuevo-registro.component';
+import { RegistrarMantenimientoComponent } from './features/components/registrar-mantenimiento/registrar-mantenimiento.component';
 
 
 const routes: Routes = [
@@ -22,6 +24,7 @@ const routes: Routes = [
   { path: 'viajes', component: ListaViajesComponent, canActivate: [AuthGuard] },
   { path: 'registrar-carro', component: RegistrarCarroComponent, canActivate: [AuthGuard] },
   { path: 'registrar-viaje', component: RegistrarViajeComponent, canActivate: [AuthGuard] },
+  { path: 'registrar-viaje/:id', component:RegistrarViajeComponent, canActivate: [AuthGuard]},
   { path: 'buscar-carro', component: BuscadorCarroComponent, canActivate: [AuthGuard] },
   { path: 'card-bus-details', component: CardBusDetailComponent, canActivate: [AuthGuard] },
   { path: 'actualizar-vehiculo/:id', component: RegistrarCarroComponent, canActivate: [AuthGuard] },
@@ -31,7 +34,9 @@ const routes: Routes = [
   { path: 'registrar-historial', component: RegistarHistorialComponent, canActivate: [AuthGuard] },
   { path: 'volver-historiales/:id', component: ListaCarrosComponent, canActivate: [AuthGuard] },
   { path: 'login', component:LoginComponent},
-  { path: 'lista-mantenimiento', component:RegistrosComponent}
+  { path: 'lista-mantenimiento', component:RegistrosComponent},
+  { path: 'nuevo-registro/:id', component:NuevoRegistroComponent},
+  { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent}
   
   
 ];
