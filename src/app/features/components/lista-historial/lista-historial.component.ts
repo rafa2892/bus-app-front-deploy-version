@@ -26,7 +26,6 @@ export class ListaHistorialComponent {
   infoIcon = fontAwesomeIcons.infoIcon;
   carroSelected : any;
   carro : Carro = new Carro();
-  registroHistorialFiltrado: Historial [] = [];
   @Input() changeDetecterFlag : boolean;
 
   constructor(private readonly carroServicio:CarroService) {}
@@ -35,6 +34,7 @@ export class ListaHistorialComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if (this.carroSeleccionadoDetalles?.id !== undefined) {
       this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+      console.log(this.carroSeleccionadoDetalles.registroHistorial.forEach(historial => console.log(historial)));
     }
   }
 
@@ -45,10 +45,12 @@ export class ListaHistorialComponent {
         this.carro = c;
       })
     ).subscribe(() => {
+
       this.carroSeleccionadoDetalles = { ...this.carro };
+      
       if (this.verSoloRegistroMantenimiento) {
-        this.carroSeleccionadoDetalles.registroHistorial = this.carro.registroHistorial.filter(
-          historial => historial.idTipo === 2
+            this.carroSeleccionadoDetalles.registroHistorial = this.carro.registroHistorial.filter(
+            historial => historial.idTipo === 2
         );
       }
     });
