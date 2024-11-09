@@ -25,26 +25,19 @@ export class ListaHistorialComponent {
   maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
   infoIcon = fontAwesomeIcons.infoIcon;
   carroSelected : any;
-  carro:Carro;
+  carro : Carro = new Carro();
   registroHistorialFiltrado: Historial [] = [];
   @Input() changeDetecterFlag : boolean;
 
-  constructor(private carroServicio:CarroService) {}
+  constructor(private readonly carroServicio:CarroService) {}
 
-  
+
   ngOnChanges(changes: SimpleChanges): void {
-    if(this.carroSeleccionadoDetalles.id != undefined) {
-      if(this.verSoloRegistroMantenimiento === false) {
-          this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-          this.registroHistorialFiltrado = this.carroSeleccionadoDetalles.registroHistorial;
-      }
-      else {
-        this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-        this.registroHistorialFiltrado = this.carroSeleccionadoDetalles.registroHistorial.filter(historial => historial.idTipo == 2);
-        console.log(this.carroSeleccionadoDetalles.registroHistorial);
-      }
+    if (this.carroSeleccionadoDetalles?.id !== undefined) {
+      this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
     }
   }
+
 
   private obtenerCarroPorId(id: number) {
     this.carroServicio.obtenerCarroPorId(id).pipe(
@@ -52,11 +45,16 @@ export class ListaHistorialComponent {
         this.carro = c;
       })
     ).subscribe(() => {
-      this.carroSeleccionadoDetalles = this.carro;
+      this.carroSeleccionadoDetalles = { ...this.carro };
+      if (this.verSoloRegistroMantenimiento) {
+        this.carroSeleccionadoDetalles.registroHistorial = this.carro.registroHistorial.filter(
+          historial => historial.idTipo === 2
+        );
+      }
     });
   }
 
- addHistory() {
+ addHistory() { 
   this.agregarHistorial.emit();
  }
 

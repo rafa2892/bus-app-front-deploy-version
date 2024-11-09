@@ -19,6 +19,7 @@ export class RegistarHistorialComponent {
   historial : Historial = new Historial;
 
 
+  @Input() verSoloRegistroMantenimiento : boolean;
   @Input() carroSeleccionadoDetalles: Carro = new Carro; 
   @Output() onVolver = new EventEmitter<void>();
   @Output() historialGuardado = new EventEmitter<any>();
@@ -35,14 +36,31 @@ export class RegistarHistorialComponent {
     
  }
 
+ onSubmit(){
+  if(this.validacionDatos()) {
+    this.guardarHistorial();
+  }
+}
+
+
   private obtenerTipos () {
     this.carroServicio.obtenerTiposHistorial().subscribe(dato =>  {
       this.datos = dato;
       this.claves = Object.keys(this.datos);
       this.tipoHistorialList = Object.values(this.datos);
+      
     });
+
+    //Preseleccionar opción por defecto en el select de tipo de historial
+    if(this.verSoloRegistroMantenimiento) {
+      this.historial.idTipo = 2;
+    }
+    else {
+      this.historial.idTipo = 0;
+    }
   }
 
+//Emite el evento de volver cerra el popup de registro de historial
   volver() {
     this.onVolver.emit();
   }
@@ -61,12 +79,6 @@ export class RegistarHistorialComponent {
     // }
   }
 
-
-  onSubmit(){
-      if(this.validacionDatos()) {
-        this.guardarHistorial();
-      }
-  }
 
   validacionDatos(): boolean{
     this.historial.descripcionTipo = this.datos[this.historial.idTipo];

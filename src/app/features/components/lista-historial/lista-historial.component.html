@@ -8,7 +8,7 @@
     </tr>
   </thead>
   <tbody class="table-dark">
-    <tr *ngFor="let historial of registroHistorialFiltrado | paginate: { itemsPerPage: 5, currentPage: p }">
+    <tr *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial| paginate: { itemsPerPage: 5, currentPage: p }">
       <td>
         <small>
           <button [ngClass]="getClassByTipoHistorial(historial)" class="btn btn-primary btonGuardar" ><fa-icon  [icon]="getIconByTipoHistorial(historial)" class="lupaIcon"></fa-icon></button>{{historial.descripcionTipo}}

@@ -4,13 +4,15 @@
     <div id="seleccionDeruta" >
         <label id="labelNuevaRuta" for="rutas">Registrar Historial</label>
         <div id="rutas" class="normal-size-input" >
-
             <div id="mat-form-destino" class="normal-size-input">
-                <label for="rutaDestino" class="label-input">Tipo:</label>
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tipoActividad" [(ngModel)]="historial.idTipo">
-                        <option selected disabled  class="first-option">Selecciona un tipo</option>
-                        <option *ngFor="let key of claves" [ngValue]="key">{{ datos[key] }}</option>
-                    </select>
+                    <div id="mat-form-destino" class="normal-size-input">
+                        <label for="rutaDestino" class="label-input">Tipo:</label>
+                        <select [disabled]="verSoloRegistroMantenimiento" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                         name="tipoActividad" [(ngModel)]="historial.idTipo">
+                          <option *ngIf="!verSoloRegistroMantenimiento" [value]="0" disabled class="first-option">Selecciona un tipo</option>
+                          <option *ngFor="let key of claves" [value]="key">{{ datos[key] }}</option>
+                        </select>
+                      </div>
                 </div>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Comentarios/Observación</label>
@@ -22,9 +24,10 @@
                 <small class="form-text text-muted" *ngIf="selectedFiles.length >= 1"> {{selectedFiles.length}} archivo(s) seleccionado(s)</small>
                 <div *ngFor="let selectedFile of selectedFiles; let i = index" class="form-check">
                     <input disabled="true" class="form-check-input" type="checkbox" [checked]="true">
-                    <label class="form-check-label">
+                    <label class="form-check-label" [for]="'file-' + i">
                         {{selectedFile.name}}
                     </label>
+                    <input disabled="true" class="form-check-input" type="checkbox" [checked]="true" [id]="'file-' + i">
                 </div>
             </div>
         </div> 
