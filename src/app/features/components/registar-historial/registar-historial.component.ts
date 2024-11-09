@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChange } from '@angular/core';
 import { CarroService } from '../../../core/services/carro.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Historial } from '../../../core/models/historial';
@@ -26,9 +26,6 @@ export class RegistarHistorialComponent {
 
 
   constructor(private carroServicio:CarroService, private router:Router,   private activatedRoute: ActivatedRoute) { }  
- 
-  
-
 
   ngOnInit(): void {
     if(this.carroSeleccionadoDetalles != undefined) {

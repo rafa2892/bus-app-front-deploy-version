@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { Carro } from '../../../core/models/carro';
 import { ListaHistorialComponent } from '../lista-historial/lista-historial.component';
 import { CarroService } from '../../../core/services/carro.service';
@@ -12,8 +12,8 @@ export class PopupHistorialVehiculosComponent {
 
 
   @ViewChild(ListaHistorialComponent) listaHistoriachildComponent!: ListaHistorialComponent; // Acceso al componente hijo
-  constructor(private carroServicio:CarroService) {}
 
+  constructor(private carroServicio:CarroService, private cdr: ChangeDetectorRef) {}
 
 
 
@@ -23,14 +23,15 @@ export class PopupHistorialVehiculosComponent {
   mostrarListaHistorial: boolean = true; // o false según la condición
   mostrarRegistrarHistorial: boolean = false; // o false según la condición
   historialActualizado = false;
-  verSoloRegistroMantenimiento = false;
 
 
+  
   @Input() carroSeleccionadoDetalles: Carro;
-
+  @Input() verSoloRegistroMantenimiento = false;
+  @Input() changeDetecterFlag : boolean;
+  
   //Objeto auxiliar
   carro:Carro = new Carro();
-
 
  addHistory() {
   // Cambiar las propiedades cuando se guarde el historial
@@ -38,21 +39,26 @@ export class PopupHistorialVehiculosComponent {
   this.mostrarRegistrarHistorial = true;
 }
 
+
 cleanInitMethodSimple() {
   this.mostrarListaHistorial = true;
   this.mostrarRegistrarHistorial = false;
 }
+
 
 actualizarCarro(carro:Carro) {
   // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
 
 }
 
-cleanInitMethod(carro:Carro, verSoloRegistroMantenimiento:boolean) {
+
+cleanInitMethod(carro:Carro, mostrarSoloMantenimeinto:boolean) {
   this.mostrarListaHistorial = true;
   this.mostrarRegistrarHistorial = false;
+  this.verSoloRegistroMantenimiento = mostrarSoloMantenimeinto;
   this.obtenerCarroPorId(carro.id);
-  this.verSoloRegistroMantenimiento = verSoloRegistroMantenimiento;
+
+
 }
 
 private obtenerCarroPorId(id: number) {

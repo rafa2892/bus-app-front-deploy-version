@@ -7,7 +7,7 @@
 
             <div id="mat-form-destino" class="normal-size-input">
                 <label for="rutaDestino" class="label-input">Tipo:</label>
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="estadoDestino" [(ngModel)]="historial.idTipo">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tipoActividad" [(ngModel)]="historial.idTipo">
                         <option selected disabled  class="first-option">Selecciona un tipo</option>
                         <option *ngFor="let key of claves" [ngValue]="key">{{ datos[key] }}</option>
                     </select>

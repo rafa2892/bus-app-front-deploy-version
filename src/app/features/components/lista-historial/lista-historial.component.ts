@@ -17,6 +17,7 @@ export class ListaHistorialComponent {
   @Input() historialActualizado: boolean;
   @Output() agregarHistorial = new EventEmitter<void>();
   @Input() verSoloRegistroMantenimiento : boolean;
+  @Input() detectedChangesPopUpFlag : boolean;
 
 
   p: number = 1;
@@ -26,19 +27,21 @@ export class ListaHistorialComponent {
   carroSelected : any;
   carro:Carro;
   registroHistorialFiltrado: Historial [] = [];
+  @Input() changeDetecterFlag : boolean;
 
   constructor(private carroServicio:CarroService) {}
 
-
+  
   ngOnChanges(changes: SimpleChanges): void {
     if(this.carroSeleccionadoDetalles.id != undefined) {
       if(this.verSoloRegistroMantenimiento === false) {
           this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-          this.registroHistorialFiltrado = this.carroSeleccionadoDetalles.registroHistorial
+          this.registroHistorialFiltrado = this.carroSeleccionadoDetalles.registroHistorial;
       }
       else {
         this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-        this.registroHistorialFiltrado  = this.carroSeleccionadoDetalles.registroHistorial.filter(historial => historial.idTipo === 2);
+        this.registroHistorialFiltrado = this.carroSeleccionadoDetalles.registroHistorial.filter(historial => historial.idTipo == 2);
+        console.log(this.carroSeleccionadoDetalles.registroHistorial);
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, Renderer2, SimpleChange, ViewChild } from '@angular/core';
 import { Carro } from "../../../core/models/carro";
 import { CarroService } from "../../../core/services/carro.service";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class ListaCarrosComponent {
   p: number = 1;
   carroSeleccionadoDetalles: Carro = new Carro;
   carro: Carro;
+  changeDetecterFlag : boolean;
   
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
   constructor(private authService:AuthService, private carroServicio: CarroService, private router: Router, private route: ActivatedRoute, ) {
@@ -62,10 +63,9 @@ export class ListaCarrosComponent {
 
   verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
     this.carroSeleccionadoDetalles = carroSelected;
+    this.changeDetecterFlag = !this.changeDetecterFlag;
     this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles, verSoloRegistroMantenimiento);
   }
-
-
 
   insertarRegistro(id: number) {
     this.router.navigate(['/nuevo-registro', id]);
@@ -92,16 +92,4 @@ export class ListaCarrosComponent {
     });
   }
 
-
-  // refreshToken(): Observable<string> {
-  //   const refreshToken = this.authService.getRefreshToken();
-  //   return this.authService.refreshToken(refreshToken).pipe(
-  //     switchMap((response) => {
-  //       const newToken = response.jwtToken;
-  //       this.authService.setToken(newToken);
-  //       localStorage.setItem('refreshToken', response.refreshToken);
-  //       return of(newToken);
-  //     })
-  //   );
-  // }
 }
