@@ -3,6 +3,7 @@ import { CarroService } from '../../../core/services/carro.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Historial } from '../../../core/models/historial';
 import { Carro } from '../../../core/models/carro';
+import { HistorialService } from '../../../core/services/historial.service';
 
 @Component({
   selector: 'app-registar-historial',
@@ -17,6 +18,8 @@ export class RegistarHistorialComponent {
   selectedFiles: File[] = [];
   selectedTipo: string | null = null; // Variable para enlazar la opción seleccionada
   historial : Historial = new Historial;
+  soloConsulta: boolean = true; // Define la propiedad para almacenar el valor del parámetro
+ 
 
 
   @Input() verSoloRegistroMantenimiento : boolean;
@@ -26,22 +29,39 @@ export class RegistarHistorialComponent {
 
 
 
-  constructor(private carroServicio:CarroService, private router:Router,   private activatedRoute: ActivatedRoute) { }  
+  constructor(private carroServicio:CarroService,private historialServicio:HistorialService,  private router:Router, private activatedRoute: ActivatedRoute) { }  
 
   ngOnInit(): void {
-    if(this.carroSeleccionadoDetalles != undefined) {
+    const id = + this.activatedRoute.snapshot.paramMap.get('id')!;
+
+  if(id) {
+
+    this.obtenerHistorial(id);
+
+    this.activatedRoute.queryParams.subscribe(params => {
+      if ('soloConsulta' in params) {
+        // Si `soloConsulta` existe, conviértelo en booleano y asígnalo a `this.soloConsulta`
+        this.soloConsulta = params['soloConsulta'] === 'true';
+      } else {
+        // Opcional: Define el valor por defecto si `soloConsulta` no está presente
+        this.soloConsulta = false; // o true, según lo que necesites
+      }
+    });
+  } else if(this.carroSeleccionadoDetalles != undefined) {
     this.historial.carro = this.carroSeleccionadoDetalles;
-    }  
-    this.obtenerTipos();
-    
- }
+    // Si no hay un `id`, no haces nada relacionado con los queryParams
+    // Podrías asignar un valor predeterminado a `soloConsulta` si lo deseas
+    this.soloConsulta = false; // o true
+  }  
+   this.obtenerTipos();
+}
+ 
 
  onSubmit(){
   if(this.validacionDatos()) {
     this.guardarHistorial();
   }
 }
-
 
   private obtenerTipos () {
     this.carroServicio.obtenerTiposHistorial().subscribe(dato =>  {
@@ -62,7 +82,15 @@ export class RegistarHistorialComponent {
 
 //Emite el evento de volver cerra el popup de registro de historial
   volver() {
-    this.onVolver.emit();
+    const id = + this.activatedRoute.snapshot.paramMap.get('id')!;
+    // Si existe un 'id', realiza la navegación hacia '/carros' con un estado
+    if (id) {
+      this.router.navigate(['/carros'], {
+        state: { redireccion: true }  // Puedes incluir cualquier dato que quieras
+      });
+    }else {
+      this.onVolver.emit();
+    }
   }
   
 
@@ -105,6 +133,10 @@ export class RegistarHistorialComponent {
 
   }
     
-
-   
+  obtenerHistorial(id: number) {
+      this.historialServicio.getHistorialPorId(id).subscribe(h => {
+        this.historial = h;
+      });
+  }
 }
+

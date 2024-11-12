@@ -1,10 +1,12 @@
-import { Component, ElementRef, EventEmitter, Output, Renderer2, SimpleChange, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Carro } from "../../../core/models/carro";
 import { CarroService } from "../../../core/services/carro.service";
 import { ActivatedRoute, Router } from '@angular/router';
-import { faCar, faEdit, faEye, faHistory, faPlus, faPlusCircle, faTrash, faScrewdriverWrench} from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faHistory, faPlus, faTrash, faScrewdriverWrench} from '@fortawesome/free-solid-svg-icons';
 import { PopupHistorialVehiculosComponent } from '../popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { AuthService } from '../../../core/services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalPruebaComponent } from '../modal-prueba/modal-prueba.component';
 
 @Component({
   selector: 'app-lista-carros',
@@ -27,7 +29,7 @@ export class ListaCarrosComponent {
   changeDetecterFlag : boolean;
   
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
-  constructor(private authService:AuthService, private carroServicio: CarroService, private router: Router, private route: ActivatedRoute, ) {
+  constructor(private modalService: NgbModal, private authService:AuthService, private carroServicio: CarroService, private router: Router, private route: ActivatedRoute, ) {
   }
 
 
@@ -39,6 +41,26 @@ export class ListaCarrosComponent {
       }
     });
     this.obtenerCarros();
+
+      // Comprobar si hay un 'state' al que se redirigió
+  const navigationState = history.state;
+
+    console.log(navigationState.redireccion);
+
+  if (navigationState && navigationState.redireccion) {
+    // Realiza alguna acción si proviene de RegistarHistorialComponent
+    console.log('Navegación proveniente de RegistarHistorialComponent');
+    // Resetea el estado de navegación
+    window.history.replaceState({}, '', window.location.href);  // Limpia el estado de la navegación
+    // Por ejemplo, puedes actualizar la lista o ejecutar otra acción.
+    this.openHistorialModal(this.carro);
+   }
+  }
+
+  openHistorialModal(carro: Carro) {
+    const modalRef = this.modalService.open(PopupHistorialVehiculosComponent); // Abre el modal
+    modalRef.componentInstance.isModalProgramatico = true;
+    modalRef.componentInstance.carroSeleccionadoDetalles = carro;
   }
 
   private obtenerCarroPorId(id: number) {

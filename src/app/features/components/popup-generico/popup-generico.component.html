@@ -1,16 +1,16 @@
-<div class="modal fade" id="{{idModal}}" tabindex="-1" [attr.aria-labelledby]="modalLabel" aria-hidden="true">
+<div [ngClass]="isModalProgramatico ? '' : 'modal fade'" id="{{idModal}}" tabindex="-1" [attr.aria-labelledby]="modalLabel" [attr.aria-hidden]="isModalProgramatico ? 'false' : 'true'">
     <div class="modal-dialog modal-custom-size modal-lg">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="{{modalLabel}}">{{tituloPopUp}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <ng-content></ng-content>
-         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">Close</button>
-        </div>
-        </div>
+          <div class="modal-header">
+            <h5 class="modal-title" id="{{modalLabel}}">{{tituloPopUp}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+                <ng-content></ng-content>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">Close</button>
+            </div>
+          </div>
         </div>
     </div>
 </div>

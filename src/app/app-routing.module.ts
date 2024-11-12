@@ -21,24 +21,25 @@ import { HistorialDetallesComponent } from './features/components/historial-deta
 const routes: Routes = [
 
 
-  { path: 'carros',component: ListaCarrosComponent, canActivate: [AuthGuard]},
-  { path: 'viajes', component: ListaViajesComponent, canActivate: [AuthGuard] },
-  { path: 'registrar-carro', component: RegistrarCarroComponent, canActivate: [AuthGuard] },
-  { path: 'registrar-viaje', component: RegistrarViajeComponent, canActivate: [AuthGuard] },
-  { path: 'registrar-viaje/:id', component:RegistrarViajeComponent, canActivate: [AuthGuard]},
-  { path: 'buscar-carro', component: BuscadorCarroComponent, canActivate: [AuthGuard] },
-  { path: 'card-bus-details', component: CardBusDetailComponent, canActivate: [AuthGuard] },
-  { path: 'actualizar-vehiculo/:id', component: RegistrarCarroComponent, canActivate: [AuthGuard] },
-  { path: 'rutas', component: ListaRutasComponent, canActivate: [AuthGuard] },
-  { path: 'crear-ruta', component: RegistrarRutaComponent, canActivate: [AuthGuard] },
-  { path: 'conductores', component: ListaConductoresComponent, canActivate: [AuthGuard] },
-  { path: 'registrar-historial', component: RegistarHistorialComponent, canActivate: [AuthGuard] },
-  { path: 'volver-historiales/:id', component: ListaCarrosComponent, canActivate: [AuthGuard] },
+  { path: 'carros',component: ListaCarrosComponent},
+  { path: 'viajes', component: ListaViajesComponent},
+  { path: 'registrar-carro', component: RegistrarCarroComponent},
+  { path: 'registrar-viaje', component: RegistrarViajeComponent},
+  { path: 'registrar-viaje/:id', component:RegistrarViajeComponent},
+  { path: 'buscar-carro', component: BuscadorCarroComponent},
+  { path: 'card-bus-details', component: CardBusDetailComponent},
+  { path: 'actualizar-vehiculo/:id', component: RegistrarCarroComponent},
+  { path: 'rutas', component: ListaRutasComponent},
+  { path: 'crear-ruta', component: RegistrarRutaComponent},
+  { path: 'conductores', component: ListaConductoresComponent},
+  { path: 'registrar-historial', component: RegistarHistorialComponent},
+  { path: 'volver-historiales/:id', component: ListaCarrosComponent},
   { path: 'login', component:LoginComponent},
   { path: 'lista-mantenimiento', component:RegistrosComponent},
   { path: 'nuevo-registro/:id', component:NuevoRegistroComponent},
   { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent},
-  { path: 'detalles-historial/:id', component:HistorialDetallesComponent}
+  { path: 'detalles-historial/:id', component:HistorialDetallesComponent},
+  { path: 'registrar-historial/:id', component: RegistarHistorialComponent},
   
   
 ];

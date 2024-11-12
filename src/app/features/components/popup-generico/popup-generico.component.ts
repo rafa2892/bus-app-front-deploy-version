@@ -11,9 +11,13 @@ export class PopupGenericoComponent {
   @Input() modalLabel!: string;
   @Input() tituloPopUp!: string;
   @Input() idModal!: string;
-
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+  
+  isModalProgramatico : boolean;
 
+  ngOnInit(): void {
+    console.log("modalGenerico", this.isModalProgramatico);
+  }
 
   reset() {
     this.closeModal.emit();

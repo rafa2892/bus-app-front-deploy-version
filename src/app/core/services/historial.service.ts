@@ -23,4 +23,9 @@ export class HistorialService {
 
   }
 
+  //Este metodo obtiene un historial por id
+  getHistorialPorId(id:number):Observable<Historial> {
+    return this.httpClient.get<Historial>(`${this.baseurlhistorial}/${id}`);
+
+  }
 }

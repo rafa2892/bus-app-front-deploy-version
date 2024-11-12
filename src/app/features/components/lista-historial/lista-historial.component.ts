@@ -28,9 +28,10 @@ export class ListaHistorialComponent {
   infoIcon = fontAwesomeIcons.infoIcon;
   carroSelected : any;
   carro : Carro = new Carro();
-  detailsIcon = fontAwesomeIcons.detailsIcon;
-  @Input() changeDetecterFlag : boolean;
+  detailsIcon = fontAwesomeIcons.eyeIcon;
+  editIcon = fontAwesomeIcons.editIcon;
 
+  @Input() changeDetecterFlag : boolean;
   constructor(private readonly carroServicio:CarroService,private router: Router) {}
 
 
@@ -90,8 +91,8 @@ getIconByTipoHistorial(history:Historial) : any {
 return this.infoIcon;
 }
 
-verDetalleshistorial(id:number) {
-  this.router.navigate(['/detalles-historial', id]);
+verDetalleshistorial(id:number,soloConsulta: boolean) {
+  this.router.navigate(['/registrar-historial', id], { queryParams: { soloConsulta } });
   }
 
 

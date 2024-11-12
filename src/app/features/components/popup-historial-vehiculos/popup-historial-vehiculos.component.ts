@@ -10,7 +10,10 @@ import { CarroService } from '../../../core/services/carro.service';
 })
 export class PopupHistorialVehiculosComponent {
 
-  constructor(private readonly carroServicio:CarroService, private cdr: ChangeDetectorRef) {}
+
+  @ViewChild(ListaHistorialComponent) listaHistoriachildComponent!: ListaHistorialComponent; // Acceso al componente hijo
+
+  constructor(private carroServicio:CarroService, private cdr: ChangeDetectorRef) {}
 
 
 
@@ -20,11 +23,11 @@ export class PopupHistorialVehiculosComponent {
   mostrarListaHistorial: boolean = true; // o false según la condición
   mostrarRegistrarHistorial: boolean = false; // o false según la condición
   historialActualizado = false;
-  verSoloRegistroMantenimiento = false;
 
 
   
   @Input() carroSeleccionadoDetalles: Carro;
+  @Input() verSoloRegistroMantenimiento = false;
   @Input() changeDetecterFlag : boolean;
   
   //Objeto auxiliar
@@ -40,9 +43,7 @@ export class PopupHistorialVehiculosComponent {
 cleanInitMethodSimple() {
   this.mostrarListaHistorial = true;
   this.mostrarRegistrarHistorial = false;
-  
 }
-
 
 actualizarCarro(carro:Carro) {
   // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);

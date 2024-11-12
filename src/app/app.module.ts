@@ -42,6 +42,7 @@ import { RegistrosComponent } from './features/components/registros/registros.co
 import { NuevoRegistroComponent } from './features/components/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/registrar-mantenimiento/registrar-mantenimiento.component';
 import { HistorialDetallesComponent } from './features/components/historial-detalles/historial-detalles.component';
+import { ModalPruebaComponent } from './features/components/modal-prueba/modal-prueba.component';
 
 
 
@@ -76,7 +77,8 @@ import { HistorialDetallesComponent } from './features/components/historial-deta
     RegistrosComponent,
     NuevoRegistroComponent,
     RegistrarMantenimientoComponent,
-    HistorialDetallesComponent
+    HistorialDetallesComponent,
+    ModalPruebaComponent,
       ],
   imports: [
     BrowserModule,
