@@ -4,6 +4,7 @@ import { Historial } from '../../../core/models/historial';
 import { fontAwesomeIcons } from '../../../../assets/fontawesome-icons';
 import { CarroService } from '../../../core/services/carro.service';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,6 +13,7 @@ import { tap } from 'rxjs/operators';
   styleUrl: './lista-historial.component.css'
 })
 export class ListaHistorialComponent {
+
 
   @Input() carroSeleccionadoDetalles: Carro;
   @Input() historialActualizado: boolean;
@@ -26,9 +28,10 @@ export class ListaHistorialComponent {
   infoIcon = fontAwesomeIcons.infoIcon;
   carroSelected : any;
   carro : Carro = new Carro();
+  detailsIcon = fontAwesomeIcons.detailsIcon;
   @Input() changeDetecterFlag : boolean;
 
-  constructor(private readonly carroServicio:CarroService) {}
+  constructor(private readonly carroServicio:CarroService,private router: Router) {}
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -87,7 +90,9 @@ getIconByTipoHistorial(history:Historial) : any {
 return this.infoIcon;
 }
 
-
+verDetalleshistorial(id:number) {
+  this.router.navigate(['/detalles-historial', id]);
+  }
 
 
 }

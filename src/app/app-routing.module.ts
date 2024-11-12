@@ -15,6 +15,7 @@ import { AuthGuard } from './core/guards/auth.guard'
 import { RegistrosComponent } from './features/components/registros/registros.component';
 import { NuevoRegistroComponent } from './features/components/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/registrar-mantenimiento/registrar-mantenimiento.component';
+import { HistorialDetallesComponent } from './features/components/historial-detalles/historial-detalles.component';
 
 
 const routes: Routes = [
@@ -36,7 +37,8 @@ const routes: Routes = [
   { path: 'login', component:LoginComponent},
   { path: 'lista-mantenimiento', component:RegistrosComponent},
   { path: 'nuevo-registro/:id', component:NuevoRegistroComponent},
-  { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent}
+  { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent},
+  { path: 'detalles-historial/:id', component:HistorialDetallesComponent}
   
   
 ];

@@ -3,6 +3,7 @@ import { UsuarioLogin } from "./usuario-login";
 
 export class Historial {
 
+    id:number;
     idTipo:number;
     comentarios:string;
     descripcionTipo:string;

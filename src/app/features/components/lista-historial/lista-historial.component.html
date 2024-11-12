@@ -2,9 +2,10 @@
   <thead class="table-dark">
     <tr>
       <th>Tipo</th>
-      <th>Comentario</th>
+      <th>Descripción/asunto</th>
       <th>Fecha de alta</th>
       <th>Registrado por</th>
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody class="table-dark">
@@ -27,6 +28,11 @@
         <td>
           {{historial.userLogin.usu}}
         </td>
+        <td>
+        <button title="Historial de actividades" (click)="verDetalleshistorial(historial.id)" class="btn btn-info botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
+          <span class="button-icon"><fa-icon class="deleteIcon" [icon]="detailsIcon"></fa-icon></span>
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>
