@@ -6,7 +6,6 @@ import { faEdit, faEye, faHistory, faPlus, faTrash, faScrewdriverWrench} from '@
 import { PopupHistorialVehiculosComponent } from '../popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalPruebaComponent } from '../modal-prueba/modal-prueba.component';
 
 @Component({
   selector: 'app-lista-carros',
@@ -27,45 +26,51 @@ export class ListaCarrosComponent {
   carroSeleccionadoDetalles: Carro = new Carro;
   carro: Carro;
   changeDetecterFlag : boolean;
+  carroId:number;
   
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
-  constructor(private modalService: NgbModal, private authService:AuthService, private carroServicio: CarroService, private router: Router, private route: ActivatedRoute, ) {
+ 
+ 
+  constructor(
+    private modalService: NgbModal, 
+    private authService:AuthService, 
+    private carroServicio: CarroService, 
+    private router: Router, 
+    private route: ActivatedRoute, ) {
   }
 
-
   ngOnInit(): void {
+
+    // Comprobar si hay un 'state' al que se redirigió
+    const navigationState = history.state;
+
     this.route.params.subscribe(params => {
-      const id = +params['id'];
-      if (id) {
-        this.obtenerCarroPorId(id);
-      }
+      const id = +params['id'];  
+    
+      if (id && navigationState && navigationState.redireccion) {
+
+        // Resetea el estado de navegación
+        window.history.replaceState({}, '', window.location.href); 
+        // this.openHistorialModal(this.carro); // Abre el modal después de asignar el carro
+        this.obtenerCarroPorId(id, true);
+       }
     });
     this.obtenerCarros();
-
-      // Comprobar si hay un 'state' al que se redirigió
-  const navigationState = history.state;
-
-    console.log(navigationState.redireccion);
-
-  if (navigationState && navigationState.redireccion) {
-    // Realiza alguna acción si proviene de RegistarHistorialComponent
-    console.log('Navegación proveniente de RegistarHistorialComponent');
-    // Resetea el estado de navegación
-    window.history.replaceState({}, '', window.location.href);  // Limpia el estado de la navegación
-    // Por ejemplo, puedes actualizar la lista o ejecutar otra acción.
-    this.openHistorialModal(this.carro);
-   }
   }
 
   openHistorialModal(carro: Carro) {
     const modalRef = this.modalService.open(PopupHistorialVehiculosComponent); // Abre el modal
     modalRef.componentInstance.isModalProgramatico = true;
-    modalRef.componentInstance.carroSeleccionadoDetalles = carro;
+    modalRef.componentInstance.carro = this.carro;
   }
 
-  private obtenerCarroPorId(id: number) {
+  private obtenerCarroPorId(id: number, abrirModal: boolean = false) {
+    console.log("OBTENIENDO CARRO POR ID");
     this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
       this.carro = c;
+      if (abrirModal) {
+        this.openHistorialModal(this.carro); // Abre el modal después de asignar el carro
+      }
     });
   }
 

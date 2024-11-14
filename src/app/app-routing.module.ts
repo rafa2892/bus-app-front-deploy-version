@@ -21,6 +21,7 @@ import { HistorialDetallesComponent } from './features/components/historial-deta
 const routes: Routes = [
 
 
+  { path: 'carros/:id',component: ListaCarrosComponent},
   { path: 'carros',component: ListaCarrosComponent},
   { path: 'viajes', component: ListaViajesComponent},
   { path: 'registrar-carro', component: RegistrarCarroComponent},
@@ -39,7 +40,7 @@ const routes: Routes = [
   { path: 'nuevo-registro/:id', component:NuevoRegistroComponent},
   { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent},
   { path: 'detalles-historial/:id', component:HistorialDetallesComponent},
-  { path: 'registrar-historial/:id', component: RegistarHistorialComponent},
+  { path: 'registrar-historial/:tipo/:id', component: RegistarHistorialComponent},
   
   
 ];

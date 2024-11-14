@@ -14,7 +14,6 @@ export class HistorialService {
     //Obtiene el listado  registros
   private baseurlhistorial = this.baseUrl.concat('/historial'); 
 
-
   constructor(private httpClient : HttpClient) { }
 
   //Este metodo nos funciona para obtener los listados de carro
@@ -23,7 +22,7 @@ export class HistorialService {
 
   }
 
-  //Este metodo obtiene un historial por id
+  //Este método obtiene un historial por id
   getHistorialPorId(id:number):Observable<Historial> {
     return this.httpClient.get<Historial>(`${this.baseurlhistorial}/${id}`);
 

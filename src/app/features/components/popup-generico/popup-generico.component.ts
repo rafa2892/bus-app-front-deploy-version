@@ -13,10 +13,14 @@ export class PopupGenericoComponent {
   @Input() idModal!: string;
   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
   
-  isModalProgramatico : boolean;
+  @Input() isModalProgramatico : boolean;
 
   ngOnInit(): void {
     console.log("modalGenerico", this.isModalProgramatico);
+    console.log("modalGenerico>>>>>>", this.idModal);
+    if(this.isModalProgramatico) {
+       this.idModal = "verHistorialPopUpProgrmatico";
+    }
   }
 
   reset() {

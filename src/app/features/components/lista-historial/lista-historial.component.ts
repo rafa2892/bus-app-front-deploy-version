@@ -5,6 +5,7 @@ import { fontAwesomeIcons } from '../../../../assets/fontawesome-icons';
 import { CarroService } from '../../../core/services/carro.service';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { HistorialService } from '../../../core/services/historial.service';
 
 
 @Component({
@@ -32,16 +33,26 @@ export class ListaHistorialComponent {
   editIcon = fontAwesomeIcons.editIcon;
 
   @Input() changeDetecterFlag : boolean;
-  constructor(private readonly carroServicio:CarroService,private router: Router) {}
+  constructor(private readonly carroServicio:CarroService, private router: Router, private historialService:HistorialService) {}
 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.carroSeleccionadoDetalles?.id !== undefined) {
       this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-      console.log(this.carroSeleccionadoDetalles.registroHistorial.forEach(historial => console.log(historial)));
     }
   }
 
+  ngOnInit(): void {
+  // this.obtenerHistorialById(228);
+  }
+
+  private obtenerHistorialById(id: number) {
+    this.historialService.getHistorialPorId(id).subscribe(c => {
+      console.log(c, "OBTENIENDO HISTORIAL");
+    });
+
+  }
+    
 
   private obtenerCarroPorId(id: number) {
     this.carroServicio.obtenerCarroPorId(id).pipe(
@@ -61,7 +72,8 @@ export class ListaHistorialComponent {
   }
 
  addHistory() { 
-  this.agregarHistorial.emit();
+  // this.agregarHistorial.emit();
+  this.router.navigate(['/registrar-historial/carroId',this.carroSeleccionadoDetalles.id]);
  }
 
 
@@ -92,8 +104,8 @@ return this.infoIcon;
 }
 
 verDetalleshistorial(id:number,soloConsulta: boolean) {
-  this.router.navigate(['/registrar-historial', id], { queryParams: { soloConsulta } });
-  }
+  this.router.navigate(['/registrar-historial/historialId', id], { queryParams: { soloConsulta } });
+}
 
 
 }
