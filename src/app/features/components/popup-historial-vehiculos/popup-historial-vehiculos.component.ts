@@ -21,23 +21,17 @@ export class PopupHistorialVehiculosComponent {
     mostrarListaHistorial: boolean = true; // o false según la condición
     mostrarRegistrarHistorial: boolean = false; // o false según la condición
     historialActualizado = false;
+    isModalProgramatico : boolean = false;
+    carro:Carro;
 
     @Input() carroSeleccionadoDetalles: Carro;
     @Input() verSoloRegistroMantenimiento = false;
     @Input() changeDetecterFlag : boolean;
 
-    isModalProgramatico : boolean = false;
-
-    //Objeto auxiliar
-    carro:Carro;
-
     ngOnInit(): void {
       console.log("this.isModalProgramatico--->", this.isModalProgramatico);
       if(this.carro != undefined && this.carroSeleccionadoDetalles == undefined) {
         this.carroSeleccionadoDetalles = this.carro;
-        console.log("this.CARRO--->", this.carro);
-        console.log("this.CARROSELECCIONADODETALLES--->", this.carroSeleccionadoDetalles);
-        console.log("this.isModalProgramatico--->", this.isModalProgramatico);
       }
     }
 
@@ -71,7 +65,7 @@ export class PopupHistorialVehiculosComponent {
     }
 
     cerrarModal() {
-     this.modalService.dismissAll()// cierra el modal que esté mostrandose
+      this.modalService.dismissAll()// cierra el modal que esté mostrandose
     }
 
 }

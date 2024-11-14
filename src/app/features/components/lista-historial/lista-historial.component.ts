@@ -19,6 +19,7 @@ export class ListaHistorialComponent {
   @Input() carroSeleccionadoDetalles: Carro;
   @Input() historialActualizado: boolean;
   @Output() agregarHistorial = new EventEmitter<void>();
+  @Output() cerrarModalProgramatico = new EventEmitter<any>();
   @Input() verSoloRegistroMantenimiento : boolean;
   @Input() detectedChangesPopUpFlag : boolean;
 
@@ -48,12 +49,10 @@ export class ListaHistorialComponent {
 
   private obtenerHistorialById(id: number) {
     this.historialService.getHistorialPorId(id).subscribe(c => {
-      console.log(c, "OBTENIENDO HISTORIAL");
     });
 
   }
     
-
   private obtenerCarroPorId(id: number) {
     this.carroServicio.obtenerCarroPorId(id).pipe(
       tap(c => {
@@ -73,9 +72,8 @@ export class ListaHistorialComponent {
 
  addHistory() { 
   // this.agregarHistorial.emit();
-  this.router.navigate(['/registrar-historial/carroId',this.carroSeleccionadoDetalles.id]);
+  this.router.navigate(['/registrar-historial/carroId', this.carroSeleccionadoDetalles.id]);
  }
-
 
 getClassByTipoHistorial(history:Historial) : string {
   if(history.idTipo == 1)
@@ -105,6 +103,7 @@ return this.infoIcon;
 
 verDetalleshistorial(id:number,soloConsulta: boolean) {
   this.router.navigate(['/registrar-historial/historialId', id], { queryParams: { soloConsulta } });
+  this.cerrarModalProgramatico.emit();
 }
 
 

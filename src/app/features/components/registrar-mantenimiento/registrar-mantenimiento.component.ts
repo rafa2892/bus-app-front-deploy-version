@@ -3,6 +3,7 @@ import { CarroService } from '../../../core/services/carro.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Historial } from '../../../core/models/historial';
 import { Carro } from '../../../core/models/carro';
+import { HistorialService } from '../../../core/services/historial.service';
 
 @Component({
   selector: 'app-registrar-mantenimiento',
@@ -22,42 +23,36 @@ export class RegistrarMantenimientoComponent {
   @Output() onVolver = new EventEmitter<void>();
   @Output() historialGuardado = new EventEmitter<any>();
 
-
-
-  constructor(private carroServicio:CarroService, private router:Router,   private activatedRoute: ActivatedRoute) { }  
+  constructor(
+    private carroServicio:CarroService,
+    private router:Router,
+    private activatedRoute: ActivatedRoute,
+    private historialServicio : HistorialService) { }  
  
-
   ngOnInit(): void {
-
     const id = +this.activatedRoute.snapshot.paramMap.get('id')!;
-     
-    console.log("ID recibido en registrarViaje:", id);
+    if(id) {
+      this.obtenerCarroPorId(id);
+      console.log("Carro seleccionado:", this.carroSeleccionadoDetalles);
+    }
 
-      if(id) {
-        this.obtenerCarroPorId(id);
-        console.log("Carro seleccionado:", this.carroSeleccionadoDetalles);
-      }
-
-    if(this.carroSeleccionadoDetalles != undefined) {
+  if(this.carroSeleccionadoDetalles != undefined) {
     this.historial.carro = this.carroSeleccionadoDetalles;
     }  
     this.obtenerTipos();
-    
  }
 
   private obtenerTipos () {
     this.carroServicio.obtenerTiposHistorial().subscribe(dato =>  {
-      this.datos = dato;
-      this.claves = Object.keys(this.datos);
-      this.tipoHistorialList = Object.values(this.datos);
+    this.datos = dato;
+    this.claves = Object.keys(this.datos);
+    this.tipoHistorialList = Object.values(this.datos);
     });
   }
-
   volver() {
     this.onVolver.emit();
   }
   
-
   onSubmit(){
       if(this.validacionDatos()) {
         this.guardarHistorial();
@@ -69,9 +64,8 @@ export class RegistrarMantenimientoComponent {
     return true;
   }
 
-
   guardarHistorial() {
-    this.carroServicio.registrarHistorial(this.historial).subscribe({
+    this.historialServicio.registrarHistorial(this.historial).subscribe({
       next: (dato) => {
         // Acción a realizar después de que se haya guardado correctamente
         this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
@@ -86,6 +80,5 @@ export class RegistrarMantenimientoComponent {
     this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
       this.carroSeleccionadoDetalles = c;
     });
-
   }
 }

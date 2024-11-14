@@ -80,8 +80,9 @@ export class RegistarHistorialComponent {
 
 //Emite el evento de volver cerra el popup de registro de historial
   volver() {
+
     // Si existe un 'id', realiza la navegación hacia '/carros' con un estado
-    if (this.id && this.tipo === 'historialId ') {
+    if (this.id && this.tipo === 'historialId') {
       this.router.navigate(['/carros', this.historial.carro.id], {
         state: { redireccion: true }  // Puedes incluir cualquier dato que quieras
       });
@@ -112,11 +113,15 @@ export class RegistarHistorialComponent {
   }
 
   guardarHistorial() {
-    this.carroServicio.registrarHistorial(this.historial).subscribe({
+
+    if(this.historial.carro === undefined || this.historial.carro === null) {
+        this.historial.carro = this.carroSeleccionadoDetalles;
+    }
+    this.historialServicio.registrarHistorial(this.historial).subscribe({
       next: (dato) => {
         // Acción a realizar después de que se haya guardado correctamente
-        this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-        this.historialGuardado.emit(this.carroSeleccionadoDetalles);
+        // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+        // this.historialGuardado.emit(this.carroSeleccionadoDetalles);
         this.volver();
       },
       error: (error) => console.log(error)

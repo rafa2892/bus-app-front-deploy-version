@@ -61,8 +61,6 @@ export class CarroService {
     return this.httpClient.get<{ [key: number]: string }>(this.baseUrlTiposHistorial);
   }
 
-    //Este método Registra un historial
-  registrarHistorial(historial:Historial) : Observable<Object>{
-    return this.httpClient.post(`${this.baseUrlGuardarHistorial}`, historial);
-    }
+
+    
 }

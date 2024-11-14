@@ -48,7 +48,6 @@ export class ListaCarrosComponent {
       const id = +params['id'];  
     
       if (id && navigationState && navigationState.redireccion) {
-
         // Resetea el estado de navegación
         window.history.replaceState({}, '', window.location.href); 
         // this.openHistorialModal(this.carro); // Abre el modal después de asignar el carro
@@ -61,11 +60,11 @@ export class ListaCarrosComponent {
   openHistorialModal(carro: Carro) {
     const modalRef = this.modalService.open(PopupHistorialVehiculosComponent); // Abre el modal
     modalRef.componentInstance.isModalProgramatico = true;
+    modalRef.componentInstance.verSoloRegistroMantenimiento = true;
     modalRef.componentInstance.carro = this.carro;
   }
 
   private obtenerCarroPorId(id: number, abrirModal: boolean = false) {
-    console.log("OBTENIENDO CARRO POR ID");
     this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
       this.carro = c;
       if (abrirModal) {

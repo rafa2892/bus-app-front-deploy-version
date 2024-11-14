@@ -19,12 +19,13 @@ export class HistorialService {
   //Este metodo nos funciona para obtener los listados de carro
   getHistorialDeActividades():Observable<Historial[]> {
     return this.httpClient.get<Historial[]>(`${this.baseurlhistorial}`);
-
   }
-
   //Este método obtiene un historial por id
   getHistorialPorId(id:number):Observable<Historial> {
     return this.httpClient.get<Historial>(`${this.baseurlhistorial}/${id}`);
+  }
 
+  registrarHistorial(historial:Historial) : Observable<Object> {
+    return this.httpClient.post(`${this.baseurlhistorial}`, historial);
   }
 }
