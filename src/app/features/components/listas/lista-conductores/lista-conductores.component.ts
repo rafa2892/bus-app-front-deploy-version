@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ConductorServiceService } from '../../../../core/services/conductor-service.service';
 import { RegistrarViajeComponent } from '../../formularios/registrar-viaje/registrar-viaje.component';
 import { Router } from '@angular/router';
+import { faPlus} from '@fortawesome/free-solid-svg-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
+import { ConductorService } from '../../../../core/services/conductor.service';
 
 @Component({
   selector: 'app-lista-conductores',
@@ -28,13 +29,14 @@ export class ListaConductoresComponent {
   p: number = 1;
   detailsIcon = fontAwesomeIcons.detailsIcon;
   selectIcon = fontAwesomeIcons.selectIcon;
+  faPlus = faPlus;
 
 ngOnInit(): void {
     this.obtenerConductores();
  }
 
 
-  constructor(private coductorService:ConductorServiceService, private router:Router) { }
+  constructor(private coductorService:ConductorService, private router:Router) { }
 
 
 
@@ -74,7 +76,6 @@ ngOnInit(): void {
   }
 
   onInputChangeNombre() {
-
     const nombre = this.nombre.trim().toLowerCase();
     const apellido = this.apellido.trim().toLowerCase();
     const dni = this.dni.trim().toLowerCase();
@@ -85,22 +86,19 @@ ngOnInit(): void {
         const cedula = dni === '' || c.dni.toString().toLowerCase().includes(dni);
         return marcaCoincide && añoCoincide && cedula;
     });
-
-
   }  
 
 
   onInputChangeApellidoFilter() {
+  }
 
-
-
+  onInputChangeDniFilter() {
   }
 
 
-  onInputChangeDniFilter() {
+  irRegistrarConductor() {
+    this.router.navigate(['/registrar-conductor']);
 
-
-    
   }
 
 

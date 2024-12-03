@@ -33,16 +33,14 @@ nonNumericConsumo = false;
 nonNumericNumUnidad = false;
 unidadRepetida =  false;
 
+//Parametros
 selectedFiles: File[] = [];
 imagenes: string [];
 imagenesBase64 : string [];
 imagenGuardar : Imagen [] = [];
-
 listaTipoVehiculos : TipoVehiculo [] = [];
 tipoVehiculo :string;
-
 idSeleccionada: number = 0;
-
 
 //Mensajes Error
 mensajeNumeroUnidadFormato : string = 'El número de unidad que intentas ingresar ya se encuentra registrado, por favor ingresa otro numero de unidad';
@@ -55,7 +53,6 @@ constructor(private carroServicio:CarroService,private router:Router,private _sn
 
 
 ngOnInit(): void {
-  
   this.route.params.subscribe(params => {
       const id = +params['id'];
       this.idSeleccionada = id;
@@ -66,17 +63,13 @@ ngOnInit(): void {
   });
 
   this.obtenerListaTipoVehiculos();
-
 }
-
 
 obtenerListaTipoVehiculos(){
 
   this.carroServicio.obtenerListaTipoVehiculos().subscribe(dato =>  {
     this.listaTipoVehiculos = dato;
   });
-
-
 }
 
 obtenerCarroPorId(id: number): Carro {
@@ -238,18 +231,15 @@ private trimInputs(){
 convertirMayus() {
 this.carro.marca = this.carro.marca.trim().toLocaleUpperCase();
 this.carro.modelo = this.carro.modelo.trim().toLocaleUpperCase();
-
 }
 
-
 irListaCarro() {
-this.router.navigate(['/carros']);
+this.router.navigate(['/lista-carros']);
 }
 
 onSubmit(){
   this.guardarCarro();
 }
-
 
 handleNonNumericCount(count: number , anyo: string) {
   (count >= 3 && anyo === 'anyo') ?   this.nonNumericError = true :  this.nonNumericError = false;

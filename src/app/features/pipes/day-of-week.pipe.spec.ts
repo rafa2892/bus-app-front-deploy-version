@@ -1,4 +1,4 @@
-import { DayOfWeekPipe } from '../../features/pipes/day-of-week.pipe';
+import { DayOfWeekPipe } from './day-of-week.pipe';
 
 describe('DayOfWeekPipe', () => {
 

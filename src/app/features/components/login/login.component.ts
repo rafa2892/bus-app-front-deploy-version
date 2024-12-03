@@ -23,7 +23,7 @@ export class LoginComponent {
       next: (response) => {
         this.authService.setToken(response.jwtToken);
         localStorage.setItem('refreshToken', response.refreshToken);
-        this.router.navigate(['/carros']);
+        this.router.navigate(['/lista-carros']);
       },
       error: (error) => {
         if (error.status === 401) {

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { ConductorServiceService } from '../../../../core/services/conductor-service.service';
 import { RegistrarViajeComponent } from '../../formularios/registrar-viaje/registrar-viaje.component';
 import { Router } from '@angular/router';
 import { Conductor } from '../../../../core/models/conductor';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
+import { ConductorService } from '../../../../core/services/conductor.service';
 
 
 @Component({
@@ -30,7 +30,7 @@ export class PopupSeleccionarConductorComponent {
  }
 
   constructor(
-     private coductorService:ConductorServiceService, 
+     private coductorService:ConductorService, 
      private registrarViajeComponent : RegistrarViajeComponent,
      private router:Router) { }
 

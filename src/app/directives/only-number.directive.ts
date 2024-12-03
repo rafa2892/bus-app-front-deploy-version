@@ -39,7 +39,6 @@ export class OnlyNumberDirective {
           inputElement.classList.remove('input-error');
         }
       }
-      
     else {
       this.countNonNumeric=0;
       this.nonNumericCount.emit(this.countNonNumeric);

@@ -13,20 +13,21 @@ import { AuthGuard } from './core/guards/auth.guard'
 import { RegistrosComponent } from './features/components/formularios/registros/registros.component';
 import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
+import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';
 
 
 const routes: Routes = [
 
-
+  { path: '', redirectTo: '/lista-carros', pathMatch: 'full' },
   { path: 'carros/:id',component: ListaCarrosComponent},
-  { path: 'carros',component: ListaCarrosComponent},
-  { path: 'viajes', component: ListaViajesComponent},
+  { path: 'lista-carros',component: ListaCarrosComponent},
+  { path: 'lista-viajes', component: ListaViajesComponent},
   { path: 'registrar-carro', component: RegistrarCarroComponent},
   { path: 'registrar-viaje', component: RegistrarViajeComponent},
   { path: 'actualizar-vehiculo/:id', component: RegistrarCarroComponent},
   { path: 'rutas', component: ListaRutasComponent},
-  { path: 'crear-ruta', component: RegistrarRutaComponent},
-  { path: 'conductores', component: ListaConductoresComponent},
+  { path: 'registrar-ruta', component: RegistrarRutaComponent},
+  { path: 'lista-conductores', component: ListaConductoresComponent},
   { path: 'registrar-historial', component: RegistarHistorialComponent},
   { path: 'volver-historiales/:id', component: ListaCarrosComponent},
   { path: 'login', component:LoginComponent},
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'nuevo-registro/:id', component:NuevoRegistroComponent},
   { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent},
   { path: 'registrar-historial/:tipo/:id', component: RegistarHistorialComponent},
+  { path: 'registrar-conductor', component: RegistrarConductorComponent},
   
   
 ];

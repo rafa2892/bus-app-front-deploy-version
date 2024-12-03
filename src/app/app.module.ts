@@ -11,7 +11,7 @@ import { RegistrarViajeComponent } from './features/components/formularios/regis
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { OnlyNumberDirective } from './features/directives/only-number.directive';
+import { OnlyNumberDirective } from './directives/only-number.directive';
 import { MatButtonModule } from '@angular/material/button';
 import { PopupSeleccionarCarroComponent } from './features/components/modales/popup-seleccionar-carro/popup-seleccionar-carro.component';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -29,7 +29,6 @@ import { RegistrarRutaComponent } from './features/components/formularios/regist
 import { PopupGenericoComponent } from './features/components/modales/popup-generico/popup-generico.component';
 import { ListaConductoresComponent } from './features/components/listas/lista-conductores/lista-conductores.component';
 import { ListaVehiculosSelComponent } from './features/components/listas/lista-vehiculos-sel/lista-vehiculos-sel.component';
-import { DayOfWeekPipe } from './features/pipes/day-of-week.pipe';
 import { ListaHistorialComponent } from './features/components/listas/lista-historial/lista-historial.component';
 import { PopupHistorialVehiculosComponent } from './features/components/modales/popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { RegistarHistorialComponent } from './features/components/formularios/registar-historial/registar-historial.component';
@@ -39,6 +38,7 @@ import { RegistrosComponent } from './features/components/formularios/registros/
 import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
 import { ModalPruebaComponent } from './features/components/modales/modal-prueba/modal-prueba.component';
+import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';
 
 
 
@@ -61,7 +61,6 @@ import { ModalPruebaComponent } from './features/components/modales/modal-prueba
     PopupGenericoComponent,
     ListaConductoresComponent,
     ListaVehiculosSelComponent,
-    DayOfWeekPipe,
     ListaHistorialComponent,
     PopupHistorialVehiculosComponent,
     RegistarHistorialComponent,
@@ -70,7 +69,8 @@ import { ModalPruebaComponent } from './features/components/modales/modal-prueba
     NuevoRegistroComponent,
     RegistrarMantenimientoComponent,
     ModalPruebaComponent,
-    CardBusDetailComponent
+    CardBusDetailComponent,
+    RegistrarConductorComponent
       ],
   imports: [
     BrowserModule,

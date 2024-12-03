@@ -25,6 +25,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 
   }
 
+  .error-snackbar {
+    
+    .mat-mdc-snack-bar-container .mdc-snackbar__surface {
+      border-radius: 8px !important;
+    }
+
+     .mdc-snackbar__surface {
+    background-color: red !important;
+  }
+
+
+    .mat-mdc-button.mat-mdc-snack-bar-action {
+      color: white !important;
+    }
+
+
+  }
+
   .pagination-container {
     display: flex;
     justify-content: center;

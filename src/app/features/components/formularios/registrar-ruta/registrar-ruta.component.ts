@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { RutasService } from '../../../../core/services/rutas.service';
 import { Estado } from '../../../../core/models/estado';
 import { Ruta } from '../../../../core/models/ruta';
+import { RutasService } from '../../../../core/services/rutas.service';
 
 @Component({
   selector: 'app-registrar-ruta',
@@ -29,13 +29,11 @@ export class RegistrarRutaComponent {
     });
   }
   
-
   onSubmit(){
     if(this.validacionDatos()) {
       this.guardarOActualizarRuta();
     }
   }
-
 
   guardarOActualizarRuta(){
     this.rutaService.registrarRuta(this.ruta).subscribe(dato => {

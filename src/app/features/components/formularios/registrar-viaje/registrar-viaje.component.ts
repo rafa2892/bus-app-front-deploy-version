@@ -1,19 +1,18 @@
-import { ChangeDetectorRef, Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Viaje } from '../../../../core/models/viaje';
-import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CarroService } from '../../../../core/services/carro.service';
-import { Carro } from '../../../../core/models/carro';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { ConductorServiceService } from '../../../../core/services/conductor-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Carro } from '../../../../core/models/carro';
 import { Conductor } from '../../../../core/models/conductor';
 import { Ruta } from '../../../../core/models/ruta';
-import { RutasService } from '../../../../core/services/rutas.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { PopupSeleccionarRutaComponent } from '../../modales/popup-seleccionar-ruta/popup-seleccionar-ruta.component';
 import { TipoVehiculo } from '../../../../core/models/tipo-vehiculo';
+import { Viaje } from '../../../../core/models/viaje';
+import { CarroService } from '../../../../core/services/carro.service';
+import { ConductorService } from '../../../../core/services/conductor.service';
+import { RutasService } from '../../../../core/services/rutas.service';
+import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
 
 
 
@@ -36,29 +35,20 @@ export class RegistrarViajeComponent {
   carros : Carro [];
   vehiculosAutoCompleteFilters : Carro [];
   carrosOrdenados : Carro [];
- 
   conductores : Conductor [];
   conductoresAutoCompleteFilters : Conductor[];
   conductoresOrdenados : Conductor [];
-
   rutasLista : Ruta [];
   rutasListaDestino : Ruta [] = [];
   rutaListaOrigen : Ruta [] ;
-
   tipoVehiculoLista : TipoVehiculo [] = [];
-
-
   origen : any;
   destino : any;
-  
-  
   carroId : number  = 0;
   conductorId: number = 0;
   errorMessage: string = '';
   formSubmitted = false;
   searchIcon = faSearch;
-
-
   selectedConductor: any;
   selectedVehiculo :any;
   selectedRuta : any;
@@ -94,7 +84,7 @@ export class RegistrarViajeComponent {
 
   constructor(
     private viajeServicio:ViajeServicioService,private router:Router, private carroServicio:CarroService,
-    private _snackBar: MatSnackBar,public dialog: MatDialog, private conductorService:ConductorServiceService,
+    private _snackBar: MatSnackBar,public dialog: MatDialog, private conductorService:ConductorService,
     private rutaServicio:RutasService, private cdr: ChangeDetectorRef,
     private readonly route: ActivatedRoute){}
      
@@ -360,7 +350,7 @@ export class RegistrarViajeComponent {
   }
  
   irListaViaje() {
-    this.router.navigate(['/viajes']);
+    this.router.navigate(['/lista-viajes']);
     }
 
   onSubmit(){

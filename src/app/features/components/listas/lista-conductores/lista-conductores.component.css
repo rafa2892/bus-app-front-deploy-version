@@ -2,17 +2,18 @@
     margin-top: 5%;
   }
   
+#nombre, #apellido, #cedula {
+  width: 50%;
+  height: 25px;
+}
   
-  #nombre, #apellido, #cedula {
-    width: 50%;
-    height: 25px;
-  }
-  
-  
-  
-  .small-icon {
-    font-size: 10px; /* Ajusta este valor según lo necesites */
-  }
+.small-icon {
+  font-size: 10px; /* Ajusta este valor según lo necesites */
+}
+
+.custom-snackbar {
+  background-color: red !important;
+}
   
   
   
