@@ -2,47 +2,43 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ListaCarrosComponent } from './features/components/lista-carros/lista-carros.component';
+import { ListaCarrosComponent } from './features/components/listas/lista-carros/lista-carros.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import { RegistrarCarroComponent } from './features/components/registrar-carro/registrar-carro.component';
+import { RegistrarCarroComponent } from './features/components/formularios/registrar-carro/registrar-carro.component';
 import { FormsModule } from '@angular/forms';
-import { ActualizarCarroComponent } from './features/components/actualizar-carro/actualizar-carro.component';
-import { ListaViajesComponent } from './features/components/lista-viajes/lista-viajes.component';
-import { RegistrarViajeComponent } from './features/components/registrar-viaje/registrar-viaje.component';
+import { ListaViajesComponent } from './features/components/listas/lista-viajes/lista-viajes.component';
+import { RegistrarViajeComponent } from './features/components/formularios/registrar-viaje/registrar-viaje.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BuscadorCarroComponent } from './features/components/buscador-carro/buscador-carro.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OnlyNumberDirective } from './features/directives/only-number.directive';
 import { MatButtonModule } from '@angular/material/button';
-import { PopupSeleccionarCarroComponent } from './features/components/popup-seleccionar-carro/popup-seleccionar-carro.component';
+import { PopupSeleccionarCarroComponent } from './features/components/modales/popup-seleccionar-carro/popup-seleccionar-carro.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { PopupSeleccionarConductorComponent } from './features/components/popup-seleccionar-conductor/popup-seleccionar-conductor.component';
+import { PopupSeleccionarConductorComponent } from './features/components/modales/popup-seleccionar-conductor/popup-seleccionar-conductor.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { ListaRutasComponent } from './features/components/lista-rutas/lista-rutas.component';
-import { PopupSeleccionarRutaComponent } from './features/components/popup-seleccionar-ruta/popup-seleccionar-ruta.component';
-import { CardBusDetailComponent } from './features/components/card-bus-detail/card-bus-detail.component';
+import { ListaRutasComponent } from './features/components/listas/lista-rutas/lista-rutas.component';
+import { PopupSeleccionarRutaComponent } from './features/components/modales/popup-seleccionar-ruta/popup-seleccionar-ruta.component';
 import {MatCardModule} from '@angular/material/card';
-import { PopupImagenesZoomComponent } from './features/components/popup-imagenes-zoom/popup-imagenes-zoom.component';
-import { RegistrarRutaComponent } from './features/components/registrar-ruta/registrar-ruta.component';
-import { PopupGenericoComponent } from './features/components/popup-generico/popup-generico.component';
-import { ListaConductoresComponent } from './features/components/lista-conductores/lista-conductores.component';
-import { ListaVehiculosSelComponent } from './features/components/lista-vehiculos-sel/lista-vehiculos-sel.component';
+import { CardBusDetailComponent } from './features/components/modales/card-bus-detail/card-bus-detail.component';
+import { PopupImagenesZoomComponent } from './features/components/modales/popup-imagenes-zoom/popup-imagenes-zoom.component';
+import { RegistrarRutaComponent } from './features/components/formularios/registrar-ruta/registrar-ruta.component';
+import { PopupGenericoComponent } from './features/components/modales/popup-generico/popup-generico.component';
+import { ListaConductoresComponent } from './features/components/listas/lista-conductores/lista-conductores.component';
+import { ListaVehiculosSelComponent } from './features/components/listas/lista-vehiculos-sel/lista-vehiculos-sel.component';
 import { DayOfWeekPipe } from './features/pipes/day-of-week.pipe';
-import { ListaHistorialComponent } from './features/components/lista-historial/lista-historial.component';
-import { PopupHistorialVehiculosComponent } from './features/components/popup-historial-vehiculos/popup-historial-vehiculos.component';
-import { RegistarHistorialComponent } from './features/components/registar-historial/registar-historial.component';
+import { ListaHistorialComponent } from './features/components/listas/lista-historial/lista-historial.component';
+import { PopupHistorialVehiculosComponent } from './features/components/modales/popup-historial-vehiculos/popup-historial-vehiculos.component';
+import { RegistarHistorialComponent } from './features/components/formularios/registar-historial/registar-historial.component';
 import { LoginComponent } from './features/components/login/login.component';
-import { LoginAuxComponent } from './features/components/login-aux/login-aux.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { RegistrosComponent } from './features/components/registros/registros.component';
-import { NuevoRegistroComponent } from './features/components/nuevo-registro/nuevo-registro.component';
-import { RegistrarMantenimientoComponent } from './features/components/registrar-mantenimiento/registrar-mantenimiento.component';
-import { HistorialDetallesComponent } from './features/components/historial-detalles/historial-detalles.component';
-import { ModalPruebaComponent } from './features/components/modal-prueba/modal-prueba.component';
+import { RegistrosComponent } from './features/components/formularios/registros/registros.component';
+import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
+import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
+import { ModalPruebaComponent } from './features/components/modales/modal-prueba/modal-prueba.component';
 
 
 
@@ -53,16 +49,13 @@ import { ModalPruebaComponent } from './features/components/modal-prueba/modal-p
     AppComponent,
     ListaCarrosComponent,
     RegistrarCarroComponent,
-    ActualizarCarroComponent,
     ListaViajesComponent,
     RegistrarViajeComponent,
-    BuscadorCarroComponent,
     OnlyNumberDirective,
     PopupSeleccionarCarroComponent,
     PopupSeleccionarConductorComponent,
     ListaRutasComponent,
     PopupSeleccionarRutaComponent,
-    CardBusDetailComponent,
     PopupImagenesZoomComponent,
     RegistrarRutaComponent,
     PopupGenericoComponent,
@@ -73,12 +66,11 @@ import { ModalPruebaComponent } from './features/components/modal-prueba/modal-p
     PopupHistorialVehiculosComponent,
     RegistarHistorialComponent,
     LoginComponent,
-    LoginAuxComponent,
     RegistrosComponent,
     NuevoRegistroComponent,
     RegistrarMantenimientoComponent,
-    HistorialDetallesComponent,
     ModalPruebaComponent,
+    CardBusDetailComponent
       ],
   imports: [
     BrowserModule,

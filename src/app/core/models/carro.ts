@@ -10,10 +10,8 @@ export class Carro {
   numeroUnidad:number;
   marca:string;
   tipoDeVehiculo:string;
-
   imagenes: Imagen [];
   imegenesGuardar : Imagen [];
-
   registroHistorial : Historial [] = [];
   
 }

@@ -1,0 +1,34 @@
+.example-card {
+    max-width: 400px;
+  }
+  
+
+  .imagen-tamaño-carousel {
+    width: 200px; /* Establece el ancho deseado */
+    height: 150px; /* Establece la altura deseada */
+    object-fit: cover; /* Para asegurar que las imágenes se ajusten al tamaño definido */
+  }
+
+  .activeColor {
+    background-color: blue;
+  }
+
+  .lupa-cursor:hover {
+    cursor: zoom-in; /* Cambia el cursor a una lupa cuando se pasa el ratón sobre la imagen */
+  }
+
+  .contenidoCard {
+    margin-top: 40px;
+  }
+
+  .modalHeader {
+    margin-bottom: 40px;
+  }
+  
+  .botonPrevio {
+    background-image: url('../../../../../assets/before.png');
+  }
+
+  .centrarImg {
+    left: 50%;
+  }
