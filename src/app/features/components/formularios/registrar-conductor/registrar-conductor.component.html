@@ -11,24 +11,30 @@
             <div id="nombreConductor" class="d-flex">
                     <input type="text" matInput
                     oninput="this.value = this.value.toUpperCase()"
-                    [(ngModel)] = "nuevoConductor.nombre" 
+                    [(ngModel)]="nuevoConductor.nombre" 
                     name="nombre-conductor"
-                    id="inputNombreConductor"
+                    id="nombre-conductor"
                     placeholder="Nombre" 
+                    (focus)="quitarError('nombre-conductor')"
+                    [ngClass]="{ 'input-error': camposFaltantes.includes('nombre-conductor') }"
                     class="form-control defaultSizeInput"
-                    [ngClass]="{ 'input-grueso': true, 'input-error': false }">
+                    appOnlyLetters
+                    >
             </div>
             <div id="mat-form-destino" class="normal-size-input">
                 <label for="rutaDestino" class="label-input">Apellido</label>
-                <div id="nombreConductor" class="d-flex">
+                <div id="apellidoConductor" class="d-flex">
                     <input type="text" matInput
                     oninput="this.value = this.value.toUpperCase()"
                     [(ngModel)] = "nuevoConductor.apellido" 
-                    name="apoellido-conductor"
-                    id="inputApellidoConductor"
-                    placeholder="Apellido" 
+                    name="apellido-conductor"
+                    id="apellido-conductor"
+                    placeholder="Apellido"
+                    (focus)="quitarError('apellido-conductor')"
+                    [ngClass]="{ 'input-error': camposFaltantes.includes('apellido-conductor') }"
                     class="form-control defaultSizeInput"
-                    [ngClass]="{ 'input-grueso': true, 'input-error': false }">
+                    appOnlyLetters
+                    >
                 </div>
             </div>  
         </div>
@@ -38,7 +44,8 @@
             <div class="col-md-4">
                 <div id="mat-form-destino">
                     <select class="form-select form-select-sm mb-3 dniTipoInput" aria-label=".form-select-lg example" name="estadoDestino" [(ngModel)]="nuevoConductor.dniTipo">
-                        <option *ngFor="let tipos of tiposDNI" [ngValue]="tipos">{{tipos}}</option>
+                        <option *ngFor="let tipo of tiposDNI" [ngValue]="tipo">{{tipo}} <span class="separadorTipoDNI" style="font-size: 20px;">-</span>
+
                     </select>
                 </div>  
             </div> 
@@ -47,11 +54,12 @@
                     <div id="inputDniConductor" class="d-flex">
                         <input type="text"
                             appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'cedula')"
-                            id="dniConductor"
+                            id="cedula-conductor"
                             [(ngModel)] = "nuevoConductor.dni" 
                             name="cedula-conductor"
                             class="form-control defaultSizeInput inputDniConductor"
-                            [ngClass]="{ 'input-grueso': true, 'input-error': false }">
+                            (focus)="quitarError('cedula-conductor')"
+                            [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }">
                         <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">***Solo se pueden introducir números</small>
                     </div>   
                 </div>  
@@ -61,21 +69,30 @@
 
 
 
-
-
-
-
-        <div id="mat-form-destino" class="normal-size-input">
+        <!-- <div id="mat-form-destino" class="normal-size-input">
             <label for="fechaNacimiento" class="label-input"> Fecha de nacimiento:</label>
             <input
             type="date"
             class="form-control defaultSizeInput"
-            id="fechaNacimiento"
-            name="fechaNacimiento"
-            [(ngModel)]="nuevoConductor.fechaNacimiento"/>
-        </div>
+            id="fecha-nacimiento"
+            name="fecha-nacimiento"
+            [(ngModel)]="fechaString"
+            (focus)="quitarError('fecha-nacimiento')"
+            [ngClass]="{ 'input-error': camposFaltantes.includes('fecha-nacimiento') }"/>
+        </div> -->
+
+        <!-- <mat-form-field>
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
+
+
+
     </div>
-          <button class="btn btn-success btonGuardar">Guardar</button>
+        <button class="btn btn-success btonGuardar">Guardar</button>
      </form>
     </div>
 </div>

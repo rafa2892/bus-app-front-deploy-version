@@ -1,10 +1,31 @@
 .dniTipoInput {
-    width: 30%;
+    width: 35%;
     height: 2.5em;
 }
 
 .inputDniConductor {
-    margin-left: -51%;
+    margin-left: -48%;
     height: 2.15em;
     width: 52%;
 }
+
+@keyframes parpadeo {
+    0% {
+      border-color: red;
+    }
+    50% {
+      border-color: white;
+    }
+    100% {
+      border-color: red;
+    }
+  }
+  
+  .input-error-blink {
+    animation: parpadeo 0.3s infinite;
+  }
+
+  .input-error {
+    border: 2px solid red;
+    box-shadow: 0 0 5px red;
+  }

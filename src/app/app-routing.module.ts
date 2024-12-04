@@ -36,8 +36,11 @@ const routes: Routes = [
   { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent},
   { path: 'registrar-historial/:tipo/:id', component: RegistarHistorialComponent},
   { path: 'registrar-conductor', component: RegistrarConductorComponent},
+  { path: 'registrar-conductor/:id', component: RegistrarConductorComponent},
   
-  
+
+   // Ruta comodín con redirección y corrección de URL
+   { path: '**', redirectTo: '/lista-carros', pathMatch: 'full' }
 ];
 
 @NgModule({

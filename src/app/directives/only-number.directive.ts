@@ -15,7 +15,6 @@ export class OnlyNumberDirective {
   @HostListener('input', ['$event']) onInputChange(event: Event) {
     const initialValue = this.el.nativeElement.value;
     // Verificar si el valor inicial contiene caracteres que no son números
-     
     if (/\D/.test(initialValue)) {
         this.countNonNumeric++;
         // console.log(this.countNonNumeric)
