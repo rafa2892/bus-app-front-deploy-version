@@ -1,80 +1,132 @@
 <h3 class="text-center">
-    <fa-icon class="carIcon" [icon]="plusIcon"></fa-icon><fa-icon class="plusIcon" [icon]="faIdCard"></fa-icon> <span class="tituloRegistroVehiculo">Registrar nuevo conductor</span>
+    <fa-icon class="carIcon" [icon]="plusIcon"></fa-icon><fa-icon class="plusIcon" [icon]="faIdCard"></fa-icon> 
+    <span class="tituloRegistroVehiculo">Registrar nuevo conductor</span>
 </h3>
-<div id="registrarRutaContainer" class="col-md-6 offset-md-3">
-    <div id="formRegistrarRutaContainer" class="formPosition ">
-    <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor">
-    <div id="seleccionDeruta">
-        <div id="rutas" class="normal-size-input">
-            <label for="nombreConductor" class="label-input">Nombre:</label>
-            <div id="nombreConductor" class="d-flex">
-                    <input type="text" matInput
-                    oninput="this.value = this.value.toUpperCase()"
-                    [(ngModel)]="nuevoConductor.nombre" 
-                    name="nombre-conductor"
-                    id="nombre-conductor"
-                    placeholder="Nombre" 
-                    (focus)="quitarError('nombre-conductor')"
-                    [ngClass]="{ 'input-error': camposFaltantes.includes('nombre-conductor') }"
-                    class="form-control defaultSizeInput"
-                    appOnlyLetters
-                    >
-            </div>
-            <div id="mat-form-destino" class="normal-size-input">
-                <label for="rutaDestino" class="label-input">Apellido</label>
-                <div id="apellidoConductor" class="d-flex">
-                    <input type="text" matInput
-                    oninput="this.value = this.value.toUpperCase()"
-                    [(ngModel)] = "nuevoConductor.apellido" 
-                    name="apellido-conductor"
-                    id="apellido-conductor"
-                    placeholder="Apellido"
-                    (focus)="quitarError('apellido-conductor')"
-                    [ngClass]="{ 'input-error': camposFaltantes.includes('apellido-conductor') }"
-                    class="form-control defaultSizeInput"
-                    appOnlyLetters
-                    >
-                </div>
-            </div>  
-        </div>
-        <div class="row">
-            <label for="dniConductor" class="label-input">Cédula del conductor:</label>
-            <div class="col-md-4">
-                <div id="mat-form-destino">
-                    <select class="form-select form-select-sm mb-3 dniTipoInput" aria-label=".form-select-lg example" name="estadoDestino" [(ngModel)]="nuevoConductor.dniTipo">
-                        <option *ngFor="let tipo of tiposDNI" [ngValue]="tipo">{{tipo}} <span class="separadorTipoDNI" style="font-size: 20px;">-</span>
 
-                    </select>
-                </div>  
-            </div> 
-            <div class="col-md-6 campo">
+
+
+<div id="conductorContainer" class="col-md-6 offset-md-3">
+
+
+    <div id="formRegistrarConductorContainer" class="formPosition">
+
+
+        <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor">
+
+
+        <div id="conductorCuero">
+
+            <div id="rutas" class="normal-size-input">
+                <label for="nombreConductor" class="label-input">Nombre:</label>
+                <div id="nombreConductor" class="d-flex">
+                        <input type="text" matInput
+                        oninput="this.value = this.value.toUpperCase()"
+                        [(ngModel)]="nuevoConductor.nombre" 
+                        name="nombre-conductor"
+                        id="nombre-conductor"
+                        placeholder="Nombre" 
+                        (focus)="quitarError('nombre-conductor')"
+                        [ngClass]="{ 'input-error': camposFaltantes.includes('nombre-conductor') }"
+                        class="form-control defaultSizeInput"
+                        appOnlyLetters
+                        >
+                </div>
+
+
+
+
                 <div id="mat-form-destino" class="normal-size-input">
-                    <div id="inputDniConductor" class="d-flex">
-                        <input type="text"
-                            appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'cedula')"
-                            id="cedula-conductor"
-                            [(ngModel)] = "nuevoConductor.dni" 
-                            name="cedula-conductor"
-                            class="form-control defaultSizeInput inputDniConductor"
-                            (focus)="quitarError('cedula-conductor')"
-                            [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }">
-                        <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">***Solo se pueden introducir números</small>
-                    </div>   
+                    <label for="rutaDestino" class="label-input">Apellido</label>
+                    <div id="apellidoConductor" class="d-flex">
+                        <input type="text" matInput
+                        oninput="this.value = this.value.toUpperCase()"
+                        [(ngModel)] = "nuevoConductor.apellido" 
+                        name="apellido-conductor"
+                        id="apellido-conductor"
+                        placeholder="Apellido"
+                        (focus)="quitarError('apellido-conductor')"
+                        [ngClass]="{ 'input-error': camposFaltantes.includes('apellido-conductor') }"
+                        class="form-control defaultSizeInput"
+                        appOnlyLetters
+                        >
+                    </div>
                 </div>  
             </div>
+
+
+
+
+            <div class="row">
+                <label for="dniConductor" class="label-input">Cédula del conductor:</label>
+                <div class="col-md-4">
+                    <div id="mat-form-destino">
+                        <select class="form-select form-select-sm mb-3 dniTipoInput" aria-label=".form-select-lg example" name="estadoDestino" [(ngModel)]="nuevoConductor.dniTipo">
+                            <option *ngFor="let tipo of tiposDNI" [ngValue]="tipo">{{tipo}} <span class="separadorTipoDNI" style="font-size: 20px;">-</span>
+
+                        </select>
+                    </div>  
+                </div> 
+
+
+
+
+                <div class="col-md-6 campo">
+                    <div id="mat-form-destino" class="normal-size-input">
+                        <div id="inputDniConductor" class="d-flex">
+                            <input type="text"
+                                appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'cedula')"
+                                id="cedula-conductor"
+                                [(ngModel)] = "nuevoConductor.dni" 
+                                name="cedula-conductor"
+                                class="form-control defaultSizeInput inputDniConductor"
+                                (focus)="quitarError('cedula-conductor')"
+                                [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }">
+                            <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">***Solo se pueden introducir números</small>
+                        </div>   
+                    </div>  
+                </div>
+            </div>
+
+
+
+                <!-- Fecha de nacimiento -->
+            <div id="mat-form-destino" class="normal-size-input">
+                <label for="fechaNacimiento" class="label-input">Fecha de nacimiento (DD/MM/YYYY)</label>
+                <mat-form-field class="full-width">
+                    <input matInput [matDatepicker]="picker2" name="fechaNacimiento" id="fechaNacimiento"
+                        [(ngModel)]="nuevoConductor.fechaNacimiento">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>
         </div>
-            <!-- Fecha de nacimiento -->
-        <div id="mat-form-destino" class="normal-size-input">
-            <label for="fechaNacimiento" class="label-input">Fecha de nacimiento (DD/MM/YYYY)</label>
-            <mat-form-field class="full-width">
-                <input matInput [matDatepicker]="picker" name="fechaNacimiento" id="fechaNacimiento"
-                    [(ngModel)]="nuevoConductor.fechaNacimiento">
-                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
+            <button class="btn btn-success btonGuardar">Guardar</button>
+        </form>
+
+
+
+
+
+
     </div>
-        <button class="btn btn-success btonGuardar">Guardar</button>
-     </form>
+
+
+    <div id="formDetallesConductor" class="formPosition form-custom-position">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="normal-size-input">
+                    <label for="fechaAlta" class="label-input">Fecha de alta</label>
+                    <mat-form-field class="full-width">
+                        <input matInput [matDatepicker]="picker" name="fechaAlta" id="fechaAlta"
+                            [(ngModel)]="nuevoConductor.fechaAlta">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+
     </div>
 </div>

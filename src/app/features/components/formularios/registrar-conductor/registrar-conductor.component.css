@@ -44,3 +44,10 @@ mat-form-field {
     display: block;
     width: 40%; /* Esto asegura que el datepicker ocupe todo el ancho disponible */
 }
+
+.form-custom-position {
+    position: absolute;
+    right: -28%;
+    top: 30%;
+    width: 64%;
+}
