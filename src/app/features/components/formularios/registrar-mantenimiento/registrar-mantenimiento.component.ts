@@ -48,6 +48,8 @@ export class RegistrarMantenimientoComponent {
     this.claves = Object.keys(this.datos);
     this.tipoHistorialList = Object.values(this.datos);
     });
+
+    this.historial.idTipo = 2;
   }
   volver() {
     this.onVolver.emit();
