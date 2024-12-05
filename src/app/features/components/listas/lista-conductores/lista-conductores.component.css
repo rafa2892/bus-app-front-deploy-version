@@ -15,6 +15,80 @@
   background-color: red !important;
 }
   
-  
+
+.nuevo-conductor {
+  background-color: #d3f8d3; /* Color de fondo suave para el conductor nuevo */
+  border: 2px solid #4caf50; /* Borde verde */
+}
+
+.nuevo-conductor {
+  background-color: #d3f8d3; /* Color de fondo suave para el conductor nuevo */
+  border: 2px solid #4caf50; /* Borde verde */
+  animation: fadeOut 3s forwards; /* La animación dura 3 segundos y luego se mantiene */
+}
+
+@keyframes fadeOut {
+  0% {
+    background-color: #d3f8d3; /* Mantiene el color de fondo verde al inicio */
+    border-color: #4caf50; /* Mantiene el borde verde */
+  }
+  100% {
+    background-color: transparent; /* Vuelve al fondo original (transparente) */
+    border-color: transparent; /* Elimina el borde verde suavemente */
+  }
+}
+
+.positionDivSelectOrdenarPor {
+  /* position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 10px; */
+  margin-top: -1.5em;
+  margin-left: auto; 
+  margin-right: 7em;
+}
+
+.sizeSelectOrdenar {
+  width: 75%;
+}
+
+/* Estilos para el botón en su estado normal */
+.buton-ordenar {
+  margin-left: 7%;
+  margin-bottom: 4%;
+  width: 18%;
+}
+
+/* Estilos boton nuevo conductor */
+.boton-agregar-conductor {
+  margin-left: 15%;
+}
+
+/* Estilos para el botón en su estado normal */
+.buton-ordenar {
+  color: #007bff; /* Color predeterminado del icono */
+  transition: all 0.3s ease; /* Transición para el cambio de tamaño */
+  padding: 10px 15px; /* Ajusta el padding para que el botón tenga un tamaño adecuado */
+  border-radius: 5px; /* Añade un borde redondeado */
+}
+
+/* Estilos cuando el ratón está encima del botón */
+.buton-ordenar:hover {
+  color: white; /* El color del icono se pone blanco */
+  background-color: #007bff; /* Fondo del botón al pasar el ratón */
+  border-color: #007bff; /* Asegura que el borde sea del mismo color */
+  transform: scale(1.0); /* Aumenta el tamaño del botón al 120% */
+  padding: 10px 30px; /* Aumenta el ancho del área azul en el hover */
+}
+
+/* Estilos para cuando el botón está enfocado o activo */
+.buton-ordenar:focus,
+.buton-ordenar:active {
+  color: white; /* El icono se pone blanco cuando está activo o enfocado */
+  background-color: #0056b3; /* Fondo más oscuro para el estado activo */
+  border-color: #0056b3; /* Borde más oscuro en estado activo */
+  transform: scale(1.2); /* Mantiene el efecto de aumento del tamaño en estado activo */
+  padding: 10px 30px; /* Aumenta el ancho del área azul en el estado activo */
+}
   
   

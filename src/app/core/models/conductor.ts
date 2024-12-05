@@ -4,7 +4,10 @@ export class Conductor {
     nombre:string;
     apellido:string;
     dni:string;
-    fechaNacimiento:Date;
-    dniTipo:String;
+    fechaNacimiento:Date | null;
+    ;
+    dniTipo:string;
+    fechaAlta:Date;
+    dadoAltaPor:string;
 
 }

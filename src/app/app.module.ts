@@ -39,6 +39,8 @@ import { NuevoRegistroComponent } from './features/components/formularios/nuevo-
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
 import { ModalPruebaComponent } from './features/components/modales/modal-prueba/modal-prueba.component';
 import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';
+import { OnlyLettersDirective } from './directives/only-letters.directive';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -70,7 +72,8 @@ import { RegistrarConductorComponent } from './features/components/formularios/r
     RegistrarMantenimientoComponent,
     ModalPruebaComponent,
     CardBusDetailComponent,
-    RegistrarConductorComponent
+    RegistrarConductorComponent,
+    OnlyLettersDirective
       ],
   imports: [
     BrowserModule,
@@ -89,6 +92,7 @@ import { RegistrarConductorComponent } from './features/components/formularios/r
     MatButtonModule,
   ],
   providers: [
+    DatePipe,
     provideClientHydration(),
     provideAnimationsAsync(),
     {
