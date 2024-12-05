@@ -156,22 +156,62 @@ export class ListaConductoresComponent {
   ordenarLista() {
     switch (this.ordenSeleccionado) {
       case 'nombreAsc':
-        this.conductoresListafiltrado.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        this.conductoresListafiltrado.sort((a, b) => {
+          if (!a.nombre) return 1; // Coloca `a` después si su nombre es `null` o `undefined`
+          if (!b.nombre) return -1; // Coloca `b` después si su nombre es `null` o `undefined`
+          return a.nombre.localeCompare(b.nombre);
+        });
         break;
+  
       case 'nombreDesc':
-        this.conductoresListafiltrado.sort((a, b) => b.nombre.localeCompare(a.nombre));
+        this.conductoresListafiltrado.sort((a, b) => {
+          if (!a.nombre) return 1; // Coloca `a` después si su nombre es `null` o `undefined`
+          if (!b.nombre) return -1; // Coloca `b` después si su nombre es `null` o `undefined`
+          return b.nombre.localeCompare(a.nombre);
+        });
         break;
+  
       case 'fechaAltaAsc':
-        this.conductoresListafiltrado.sort((a, b) => new Date(a.fechaAlta).getTime() - new Date(b.fechaAlta).getTime());
+        this.conductoresListafiltrado.sort((a, b) => {
+          const fechaA = a.fechaAlta ? new Date(a.fechaAlta).getTime() : Infinity; // Asigna un valor muy grande si `fechaAlta` es `null`
+          const fechaB = b.fechaAlta ? new Date(b.fechaAlta).getTime() : Infinity;
+          return fechaA - fechaB;
+        });
         break;
+  
       case 'fechaAltaDesc':
-        this.conductoresListafiltrado.sort((a, b) => new Date(b.fechaAlta).getTime() - new Date(a.fechaAlta).getTime());
+        this.conductoresListafiltrado.sort((a, b) => {
+          const fechaA = a.fechaAlta ? new Date(a.fechaAlta).getTime() : -Infinity; // Asigna un valor muy pequeño si `fechaAlta` es `null`
+          const fechaB = b.fechaAlta ? new Date(b.fechaAlta).getTime() : -Infinity;
+          return fechaB - fechaA;
+        });
         break;
     }
-
-  // Reinicia la paginación a la primera página
+  
+    // Reinicia la paginación a la primera página
     this.p = 1;
-    }
+  }
+  
+
+  // ordenarLista() {
+  //   switch (this.ordenSeleccionado) {
+  //     case 'nombreAsc':
+  //       this.conductoresListafiltrado.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  //       break;
+  //     case 'nombreDesc':
+  //       this.conductoresListafiltrado.sort((a, b) => b.nombre.localeCompare(a.nombre));
+  //       break;
+  //     case 'fechaAltaAsc':
+  //       this.conductoresListafiltrado.sort((a, b) => new Date(a.fechaAlta).getTime() - new Date(b.fechaAlta).getTime());
+  //       break;
+  //     case 'fechaAltaDesc':
+  //       this.conductoresListafiltrado.sort((a, b) => new Date(b.fechaAlta).getTime() - new Date(a.fechaAlta).getTime());
+  //       break;
+  //   }
+
+  // // Reinicia la paginación a la primera página
+  //   this.p = 1;
+  //   }
 
   eliminar(id:number) {
 
