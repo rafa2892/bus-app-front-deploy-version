@@ -5,11 +5,7 @@ import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
-import {ChangeDetectionStrategy} from '@angular/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {provideNativeDateAdapter} from '@angular/material/core';
+
 
 
 @Component({
@@ -56,10 +52,10 @@ export class RegistrarConductorComponent {
     this.conductorService.obtenerConductorPorId(id).subscribe({
       next: (c) => {
         this.nuevoConductor = c;
-        if (c.fechaNacimiento) {
-          this.fechaString = this.datePipe.transform(c.fechaNacimiento, 'yyyy-MM-dd');
-          console.log(this.fechaString);
-        }
+        // if (c.fechaNacimiento) {
+        //   this.fechaString = this.datePipe.transform(c.fechaNacimiento, 'yyyy-MM-dd');
+        //   console.log(this.fechaString);
+        // }
       },
       error: (error) => console.log(error),
       complete: () => console.log('Conductor cargado')
@@ -75,6 +71,8 @@ export class RegistrarConductorComponent {
 
   // Método que se ejecuta al enviar el formulario
   validarDatos(): boolean {
+
+    console.log(this.nuevoConductor);
   
     // Inicializa el array de campos faltantes
     this.camposFaltantes = [];

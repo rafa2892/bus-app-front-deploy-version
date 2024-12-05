@@ -18,11 +18,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { PopupSeleccionarConductorComponent } from './features/components/modales/popup-seleccionar-conductor/popup-seleccionar-conductor.component';
-import {MatIconModule} from '@angular/material/icon';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatIconModule} from '@angular/material/icon';
+import { MatFormFieldModule} from '@angular/material/form-field';
 import { ListaRutasComponent } from './features/components/listas/lista-rutas/lista-rutas.component';
 import { PopupSeleccionarRutaComponent } from './features/components/modales/popup-seleccionar-ruta/popup-seleccionar-ruta.component';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule} from '@angular/material/card';
 import { CardBusDetailComponent } from './features/components/modales/card-bus-detail/card-bus-detail.component';
 import { PopupImagenesZoomComponent } from './features/components/modales/popup-imagenes-zoom/popup-imagenes-zoom.component';
 import { RegistrarRutaComponent } from './features/components/formularios/registrar-ruta/registrar-ruta.component';
@@ -41,6 +41,9 @@ import { ModalPruebaComponent } from './features/components/modales/modal-prueba
 import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';
 import { OnlyLettersDirective } from './directives/only-letters.directive';
 import { DatePipe } from '@angular/common';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+
 
 
 
@@ -90,6 +93,9 @@ import { DatePipe } from '@angular/common';
     MatIconModule,
     MatCardModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+
   ],
   providers: [
     DatePipe,
@@ -100,6 +106,8 @@ import { DatePipe } from '@angular/common';
       useClass: AuthInterceptor,
       multi: true,
     },
+    { provide: MAT_DATE_LOCALE,
+      useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

@@ -29,3 +29,18 @@
     border: 2px solid red;
     box-shadow: 0 0 5px red;
   }
+
+  .normal-size-input {
+    display: block;
+    width: 100%;
+}
+
+label.label-input {
+    display: block;
+    margin-bottom: 8px;  /* Ajusta el espacio entre la etiqueta y el campo */
+}
+
+mat-form-field {
+    display: block;
+    width: 40%; /* Esto asegura que el datepicker ocupe todo el ancho disponible */
+}
