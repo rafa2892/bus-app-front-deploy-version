@@ -38,6 +38,8 @@ const routes: Routes = [
   { path: 'registrar-historial/:tipo/:id', component: RegistarHistorialComponent},
   { path: 'registrar-conductor', component: RegistrarConductorComponent},
   { path: 'registrar-conductor/:isDesdedetalles/:id', component: RegistrarConductorComponent},
+  { path: 'registrar-conductor/:id', component: RegistrarConductorComponent},
+  { path: 'lista-viajes/:idConductor', component: ListaViajesComponent},
   { path: 'prueba', component: PruebaContenedoresEstilosComponent},
   
 

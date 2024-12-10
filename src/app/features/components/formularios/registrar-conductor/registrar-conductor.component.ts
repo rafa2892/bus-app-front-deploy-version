@@ -1,10 +1,11 @@
+import { DatePipe, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faEye, faIdCard, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+
 
 
 
@@ -28,6 +29,10 @@ export class RegistrarConductorComponent {
   conductorGuardado: any = new Conductor();
   fechaString: string | null = '';
   isDesdeDetalles: boolean = false;
+  titulo : string = 'Registrar Conductor';
+
+  // Parametros de la vista detalles del conductor
+  numeroViajes: any;
 
   // Campos faltantes en el formulario
   camposFaltantes: string[] = [];
@@ -37,30 +42,35 @@ export class RegistrarConductorComponent {
     private _snackBar: MatSnackBar,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private datePipe: DatePipe ) {
+    private location: Location ) {
    // Tipo de documento por defecto (Cédula)
-   this.nuevoConductor.dniTipo = 'V';
- }
+    this.nuevoConductor.dniTipo = 'V';
+  }
 
   ngOnInit(): void {
+
+    //Reinicia el valor de la variable 
+    this.isDesdeDetalles = false;
+
     const id = + this.activatedRoute.snapshot.paramMap.get('id')!;
     const isDesdeDetalles = this.activatedRoute.snapshot.paramMap.get('isDesdedetalles'); 
     this.isDesdeDetalles = isDesdeDetalles === 'true';
 
     if(id) {
+      this.titulo = 'Editar Conductor';
       this.obtenerConductorPorId(id);
     }
-  }
 
+    if(this.isDesdeDetalles) {
+      this.titulo = 'Detalles del Conductor';
+      this.obtenerListaViajePorConductor(id);
+    }
+  }
 
   obtenerConductorPorId(id: number) {
     this.conductorService.obtenerConductorPorId(id).subscribe({
       next: (c) => {
         this.nuevoConductor = c;
-        // if (c.fechaNacimiento) {
-        //   this.fechaString = this.datePipe.transform(c.fechaNacimiento, 'yyyy-MM-dd');
-        //   console.log(this.fechaString);
-        // }
       },
       error: (error) => console.log(error),
       complete: () => console.log('Conductor cargado')
@@ -76,9 +86,6 @@ export class RegistrarConductorComponent {
 
   // Método que se ejecuta al enviar el formulario
   validarDatos(): boolean {
-
-    console.log(this.nuevoConductor);
-  
     // Inicializa el array de campos faltantes
     this.camposFaltantes = [];
     const { nombre, apellido, dni, fechaNacimiento } = this.nuevoConductor;
@@ -146,9 +153,36 @@ export class RegistrarConductorComponent {
     (count >= 3 && anyo === 'cedula') ?   this.nonNumericError = true :  this.nonNumericError = false;
   }
 
+  private obtenerListaViajePorConductor(idConductor: number)  {
+    this.conductorService.viajeCounter(idConductor).subscribe(dato =>  {
+
+      if(dato === 0) {
+        this.numeroViajes = 'No tiene viajes registrados';
+        console.log('No tiene viajes registrados');
+      }
+      else{
+        this.numeroViajes = dato; 
+        console.log('Numero de viajes: ' + this.numeroViajes);}
+    });
+  }
+
   // Método para redirigir a la lista de viajes de un conductor
   irListaViajes(id:number){
+    this.obtenerListaViajePorConductor(id);
+    if(this.numeroViajes === 0) { 
+      this._snackBar.open('El conductor no tiene viajes registrados', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      });
+      return;
+    }
     this.router.navigate(['/lista-viajes', id]);
+  }
+
+  volverAtras() {
+    this.location.back();
   }
 
 }

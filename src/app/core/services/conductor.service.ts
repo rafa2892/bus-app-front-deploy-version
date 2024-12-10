@@ -29,8 +29,11 @@ export class ConductorService {
     return this.httpClient.delete(`${this.baseUrl}/${id}`);
   }
   
-
   editar(conductor:Conductor) : Observable<Object> {
     return this.httpClient.put(`${this.baseUrl}`, conductor);
+  }
+
+  viajeCounter(id: number): Observable<number> {
+    return this.httpClient.get<number>(`${this.baseUrl}/viaje-counter/${id}`);
   }
 }

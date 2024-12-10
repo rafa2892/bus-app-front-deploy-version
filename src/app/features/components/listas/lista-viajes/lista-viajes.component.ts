@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import {Viaje} from "../../../../core/models/viaje";
 import {ViajeServicioService} from "../../../../core/services/viaje-servicio.service";
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 
 @Component({
@@ -17,19 +17,36 @@ export class ListaViajesComponent {
   deleteIcon = fontAwesomeIcons.deleteIcon;
   eyeIcon = fontAwesomeIcons.eyeIcon;
 
-
-  constructor(private viajeServicio:ViajeServicioService,private router:Router) {
+  constructor(
+    private viajeServicio:ViajeServicioService,
+    private router:Router,
+    private activatedRoute: ActivatedRoute,) {
   }
 
   ngOnInit(): void {
-    this.obtenerListaViaje();
- }
+    const idConductorStr = this.activatedRoute.snapshot.paramMap.get('idConductor'); 
+    
+    //Convertimos el valor a número
+    const idConductor = idConductorStr ? +idConductorStr : null;
 
-  private obtenerListaViaje () {
+    // Si se recibe un id de conductor, se filtran los viajes por ese conductor
+    if(idConductor) {
+      this.obtenerListaViajePorConductor(idConductor);
+    } else {
+      this.obtenerListaViaje();
+    }
+  }
+
+  private obtenerListaViaje() {
     this.viajeServicio.obtenerListaViaje().subscribe(dato =>  {
       this.viajes = dato;
     });
+  }
 
+  private obtenerListaViajePorConductor(idConductor: number) {
+    this.viajeServicio.obtenerListaViajePorConductor(idConductor).subscribe(dato =>  {
+      this.viajes = dato;
+    });
   }
 
   formatearHorasEspera(viaje:Viaje){
@@ -39,6 +56,4 @@ export class ListaViajesComponent {
     const segundosFormateados = '00';
     return `${horasFormateadas}:${minutosFormateados}:${segundosFormateados}`;
   }
-
-
 }
