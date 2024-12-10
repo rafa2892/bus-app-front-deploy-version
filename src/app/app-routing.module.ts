@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListaCarrosComponent } from './features/components/listas/lista-carros/lista-carros.component';
 import { RegistrarCarroComponent } from './features/components/formularios/registrar-carro/registrar-carro.component';
@@ -14,6 +14,7 @@ import { RegistrosComponent } from './features/components/formularios/registros/
 import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
 import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';
+import { PruebaContenedoresEstilosComponent } from './features/components/componentes-pruebas/prueba-contenedores-estilos/prueba-contenedores-estilos.component';
 
 
 const routes: Routes = [
@@ -36,7 +37,8 @@ const routes: Routes = [
   { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent},
   { path: 'registrar-historial/:tipo/:id', component: RegistarHistorialComponent},
   { path: 'registrar-conductor', component: RegistrarConductorComponent},
-  { path: 'registrar-conductor/:id', component: RegistrarConductorComponent},
+  { path: 'registrar-conductor/:isDesdedetalles/:id', component: RegistrarConductorComponent},
+  { path: 'prueba', component: PruebaContenedoresEstilosComponent},
   
 
    // Ruta comodín con redirección y corrección de URL

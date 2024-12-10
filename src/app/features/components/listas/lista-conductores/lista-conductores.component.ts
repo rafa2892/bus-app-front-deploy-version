@@ -73,6 +73,7 @@ export class ListaConductoresComponent {
     }
     
     verDetalles(id:number) {
+      this.router.navigate(['/registrar-conductor/true', id]);
     }
 
     seleccionar(conductor:Conductor) {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { faIdCard, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faIdCard, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -20,12 +20,14 @@ export class RegistrarConductorComponent {
   //Iconos 
   faIdCard = faIdCard;  
   plusIcon = faPlusCircle;
+  eyeicon = faEye;
 
   // Parámetros de la vista o component
   nonNumericError: boolean;
   nuevoConductor: Conductor = new Conductor();
   conductorGuardado: any = new Conductor();
   fechaString: string | null = '';
+  isDesdeDetalles: boolean = false;
 
   // Campos faltantes en el formulario
   camposFaltantes: string[] = [];
@@ -42,6 +44,9 @@ export class RegistrarConductorComponent {
 
   ngOnInit(): void {
     const id = + this.activatedRoute.snapshot.paramMap.get('id')!;
+    const isDesdeDetalles = this.activatedRoute.snapshot.paramMap.get('isDesdedetalles'); 
+    this.isDesdeDetalles = isDesdeDetalles === 'true';
+
     if(id) {
       this.obtenerConductorPorId(id);
     }
@@ -139,6 +144,11 @@ export class RegistrarConductorComponent {
   // Método que solo permite ingresar números en el campo de cédula (DNi)
   handleNonNumericCount(count: number, anyo: string) {
     (count >= 3 && anyo === 'cedula') ?   this.nonNumericError = true :  this.nonNumericError = false;
+  }
+
+  // Método para redirigir a la lista de viajes de un conductor
+  irListaViajes(id:number){
+    this.router.navigate(['/lista-viajes', id]);
   }
 
 }

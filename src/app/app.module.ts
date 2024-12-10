@@ -43,6 +43,7 @@ import { OnlyLettersDirective } from './directives/only-letters.directive';
 import { DatePipe } from '@angular/common';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { PruebaContenedoresEstilosComponent } from './features/components/componentes-pruebas/prueba-contenedores-estilos/prueba-contenedores-estilos.component';
 
 
 
@@ -76,7 +77,8 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
     ModalPruebaComponent,
     CardBusDetailComponent,
     RegistrarConductorComponent,
-    OnlyLettersDirective
+    OnlyLettersDirective,
+    PruebaContenedoresEstilosComponent
       ],
   imports: [
     BrowserModule,
