@@ -8,7 +8,7 @@
         <div class="col">
             <div id="formulario-registrar-conductor" class="col-md-6 offset-md-3" style="width: 100%;">
                 <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor">
-                    <label for="nombreConductor" class="label-input">Nombre:</label>
+                    <label for="nombreConductor" class="label-input">{{NOMBRE_LABEL}}</label>
                     <div id="nombreConductor" class="d-flex">
                             <input type="text" matInput
                             oninput="this.value = this.value.toUpperCase()"
@@ -22,7 +22,7 @@
                             class="form-control defaultSizeInput"
                             appOnlyLetters>
                     </div>
-                    <label for="rutaDestino" class="label-input">Apellido</label>
+                    <label for="apellidoConductor" class="label-input">{{APELLIDO_LABEL}}</label>
                     <div id="apellidoConductor" class="d-flex">
                         <input type="text" matInput
                         oninput="this.value = this.value.toUpperCase()"
@@ -38,7 +38,7 @@
                         >
                     </div>
                     <div class="row">
-                        <label for="dniConductor" class="label-input">Cédula del conductor:</label>
+                        <label for="dniConductor" class="label-input">{{CEDULA_CONDUCTOR_LABEL}}</label>
                         <div class="col-md-4">
                             <div id="mat-form-destino">
                                 <select 
@@ -55,46 +55,46 @@
                                     <input type="text"
                                         appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'cedula')"
                                         id="cedula-conductor"
-                                        [(ngModel)] = "nuevoConductor.dni" 
+                                        [(ngModel)]="nuevoConductor.dni" 
                                         [disabled]="isDesdeDetalles"
                                         name="cedula-conductor"
                                         class="form-control defaultSizeInput inputDniConductor"
                                         (focus)="quitarError('cedula-conductor')"
                                         [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }">
-                                    <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">***Solo se pueden introducir números</small>
+                                    <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">{{ERROR_ONLY_NUMBERS}}</small>
                                 </div>   
                             </div>  
                         </div>
                         <!-- Fecha de nacimiento -->
-                        <label for="fechaNacimiento" class="label-input">Fecha de nacimiento (DD/MM/YYYY)</label>
+                        <label for="fechaNacimiento" class="label-input">{{DATE_OF_BIRTH_LABEL}}</label>
                         <mat-form-field class="full-width">
                             <input 
                             matInput 
                             [matDatepicker]="picker" 
-                            name="fechaNacimiento" 
-                            id="fechaNacimiento"
+                            name="fecha-nacimiento" 
+                            id="fecha-nacimiento"
                             [disabled]="isDesdeDetalles"
                                 [(ngModel)]="nuevoConductor.fechaNacimiento">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
-                        <button type="button" class="btn btn-primary btonGuarda" (click)="volverAtras()">Volver</button>
-                    <button type="submit" class="btn btn-success btonGuardar">Guardar</button> 
+                        <button type="button" class="btn btn-primary btonGuarda" (click)="volverAtras()">{{VOLVER}}</button>
+                    <button type="submit" class="btn btn-success btonGuardar">{{GUARDAR}}</button> 
                 </form>
             </div>
         </div>
         <div class="col">  
              <div *ngIf="isDesdeDetalles" id="formulario-detalles-conductor">
                 <div id="fecha-alta-content">
-                    <label for="fechaAlta" class="label-input">Fecha de alta</label>
+                    <label for="fechaAlta" class="label-input">{{FECHA_ALTA}}</label>
                     <input type="text"
                     disabled="true"
-                    [(ngModel)] = "nuevoConductor.fechaAltaString" 
-                    name="numero-viajes-conductor"
-                    id="numero-viajes-conductor-input"
+                    [(ngModel)]="nuevoConductor.fechaAltaString" 
+                    name="fecha-alta-conductor"
+                    id="fecha-alta-conductor-input"
                     class="form-control defaultSizeInput">
                 </div>
-                <label for="numero-viajes" class="label-input">N. Viajes</label>
+                <label for="numero-viajes" class="label-input">{{NUM_VIAJES_LABEL}}</label>
                 <div id="numero-viajes-content" class="d-flex align-items-center">
                     <input type="text"
                     disabled="true"
@@ -103,23 +103,23 @@
                     id="numero-viajes-conductor-input"
                     class="form-control defaultSizeInput">
                     <button type="button" id="verViajesbtn" class="btn btn-link p-0 buton-ordenar ver-viajes-boton" (click)="irListaViajes(nuevoConductor.id)">
-                        <fa-icon [icon]="eyeicon" class="fa-2x" ></fa-icon>
+                        <fa-icon [icon]="eyeicon" class="fa-2x"></fa-icon>
                     </button>
                 </div>
-                <label for="km-registrados" class="label-input">Km. Registrados</label>
+                <label for="km-registrados" class="label-input">{{KM_REGISTRADOS_LABEL}}</label>
                 <div id="km-registrados-content" class="d-flex align-items-center">
-                    <input type="number"
+                    <input type="text"
                     disabled="true"
-                    [(ngModel)] = "nuevoConductor.kmRegistrados" 
+                    [(ngModel)]="nuevoConductor.kmRegistrados" 
                     name="km-registrados-conductor"
                     id="km-regis-conductor-input"
                     class="form-control defaultSizeInput">
                 </div>
-                <label for="alta-por-user" class="label-input">Dado alta por: </label>
+                <label for="alta-por-user" class="label-input">{{DADO_ALTA_POR_LABEL}}</label>
                 <div id="usuario-alta-conductor" class="d-flex">
                     <input type="text"
                     disabled="true"
-                    [(ngModel)] = "nuevoConductor.altaPorUser" 
+                    [(ngModel)]="nuevoConductor.dadoAltaPor" 
                     name="alta-user-conductor"
                     id="alta-por-input"
                     class="form-control defaultSizeInput">

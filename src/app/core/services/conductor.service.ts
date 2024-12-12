@@ -30,7 +30,8 @@ export class ConductorService {
   }
   
   editar(conductor:Conductor) : Observable<Object> {
-    return this.httpClient.put(`${this.baseUrl}`, conductor);
+    console.log(conductor, '>>>>>>>>>>>');
+    return this.httpClient.put(`${this.baseUrl}/${conductor.id}`, conductor);
   }
 
   viajeCounter(id: number): Observable<number> {

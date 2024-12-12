@@ -1,10 +1,11 @@
-import { DatePipe, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faEye, faIdCard, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
+import { TITLES } from '../../../../constant/titles.constants';
 
 
 
@@ -27,15 +28,27 @@ export class RegistrarConductorComponent {
   nonNumericError: boolean;
   nuevoConductor: Conductor = new Conductor();
   conductorGuardado: any = new Conductor();
-  fechaString: string | null = '';
   isDesdeDetalles: boolean = false;
-  titulo : string = 'Registrar Conductor';
+  titulo : string = TITLES.ADD_DRIVER;
 
   // Parametros de la vista detalles del conductor
   numeroViajes: any;
 
   // Campos faltantes en el formulario
   camposFaltantes: string[] = [];
+
+  //constantes
+  KM_REGISTRADOS_LABEL = TITLES.KM_REGISTERED;
+  DADO_ALTA_POR_LABEL = TITLES.CREATED_BY_USER;
+  NUM_VIAJES_LABEL = TITLES.REGISTERED_TRIPS;
+  FECHA_ALTA = TITLES.REGISTRATION_DATE;
+  GUARDAR = TITLES.SAVE;
+  VOLVER = TITLES.BACK;
+  CEDULA_CONDUCTOR_LABEL = TITLES.DNI_DRIVER;
+  DATE_OF_BIRTH_LABEL = TITLES.DATE_OF_BIRTH;
+  ERROR_ONLY_NUMBERS = 'Solo se permiten números';
+  NOMBRE_LABEL = TITLES.NAME;
+  APELLIDO_LABEL = TITLES.LAST_NAME
 
   constructor(
     private conductorService:ConductorService,
@@ -49,7 +62,8 @@ export class RegistrarConductorComponent {
 
   ngOnInit(): void {
 
-    //Reinicia el valor de la variable 
+    //Reinicia el valor de la variable, para evitar que se mantenga en true y se muestren
+    //los detalles del conductor cuando se está registrando uno nuevo o editando
     this.isDesdeDetalles = false;
 
     const id = + this.activatedRoute.snapshot.paramMap.get('id')!;
@@ -57,12 +71,12 @@ export class RegistrarConductorComponent {
     this.isDesdeDetalles = isDesdeDetalles === 'true';
 
     if(id) {
-      this.titulo = 'Editar Conductor';
+      this.titulo = TITLES.EDIT_DRIVER;
       this.obtenerConductorPorId(id);
     }
 
     if(this.isDesdeDetalles) {
-      this.titulo = 'Detalles del Conductor';
+      this.titulo = TITLES.VIEW_CONDUCTOR;
       this.obtenerListaViajePorConductor(id);
     }
   }
@@ -71,18 +85,65 @@ export class RegistrarConductorComponent {
     this.conductorService.obtenerConductorPorId(id).subscribe({
       next: (c) => {
         this.nuevoConductor = c;
+        this.darFormatoFecha(this.nuevoConductor);
+        this.parametrizeConductor(this.nuevoConductor);
       },
       error: (error) => console.log(error),
       complete: () => console.log('Conductor cargado')
     });
   }
 
+  parametrizeConductor(conductor: Conductor){
+
+    console.log(conductor);
+
+    if(!this.nuevoConductor.kmRegistrados) {
+      this.nuevoConductor.kmRegistrados = TITLES.NO_DATA;
+    }
+  }
+
+  darFormatoFecha(conductor: Conductor) {
+    if (conductor.fechaAlta) {
+      const fecha = new Date(conductor.fechaAlta);
+      // Extraer el día, mes y año
+      const dia = String(fecha.getDate()).padStart(2, '0'); // Asegura que el día tenga 2 dígitos
+      const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // getMonth() empieza desde 0, así que sumamos 1
+      const año = fecha.getFullYear();
+      
+      // Formatear la fecha como dd/mm/yyyy
+      conductor.fechaAltaString = `${dia}/${mes}/${año}`;
+      
+    }
+  }
+
   // Método que se ejecuta al enviar el formulario
   onSubmit(){
       if(this.validarDatos()) {
+        if(this.nuevoConductor.id) { 
+          this.editarConductor();
+        }
+        else{
         this.guardarNuevoConductor();
+        }
       }
   }
+
+  editarConductor() {
+    this.conductorService.editar(this.nuevoConductor).subscribe(dato => {
+    }, error => console.log(error));
+  }
+
+    // this.conductorService.editar(this.nuevoConductor).subscribe({
+    //   next: (c) => {
+    //     console.log(c);
+    //     this.conductorGuardado = c;
+    //   },
+    //   error: (error) => console.log(error),
+    //   complete: () => {
+    //     this.router.navigate(['/lista-conductores'], { queryParams: { newConductorId: this.conductorGuardado.id } });
+    //   }
+    // });
+
 
   // Método que se ejecuta al enviar el formulario
   validarDatos(): boolean {
@@ -99,7 +160,7 @@ export class RegistrarConductorComponent {
     // Si hay campos faltantes, muestra un mensaje de error y aplica un efecto visual
     if (this.camposFaltantes.length > 0) {
       this.activarParpadeo(this.camposFaltantes);
-      this._snackBar.open('Por favor, complete los campos requeridos.', 'Cerrar', {
+      this._snackBar.open(TITLES.ERROR_REQUIRED_FIELDS, 'Cerrar', {
         duration: 3000,
         panelClass: ['error-snackbar'],
         horizontalPosition: 'end',
@@ -155,22 +216,21 @@ export class RegistrarConductorComponent {
 
   private obtenerListaViajePorConductor(idConductor: number)  {
     this.conductorService.viajeCounter(idConductor).subscribe(dato =>  {
-
       if(dato === 0) {
-        this.numeroViajes = 'No tiene viajes registrados';
-        console.log('No tiene viajes registrados');
+        this.numeroViajes = TITLES.NO_VIAJES;
       }
       else{
         this.numeroViajes = dato; 
-        console.log('Numero de viajes: ' + this.numeroViajes);}
+      }
     });
   }
 
   // Método para redirigir a la lista de viajes de un conductor
   irListaViajes(id:number){
     this.obtenerListaViajePorConductor(id);
-    if(this.numeroViajes === 0) { 
-      this._snackBar.open('El conductor no tiene viajes registrados', 'Cerrar', {
+    if(this.numeroViajes === 0 || this.numeroViajes === TITLES.NO_VIAJES) { 
+      const nombreCompleto = this.nuevoConductor.nombre.concat(' ').concat(this.nuevoConductor.apellido);
+      this._snackBar.open(TITLES.NO_VIAJES_REGISTERED(nombreCompleto), 'Cerrar', {
         duration: 3000,
         panelClass: ['error-snackbar'],
         horizontalPosition: 'end',
@@ -178,7 +238,9 @@ export class RegistrarConductorComponent {
       });
       return;
     }
+    else{
     this.router.navigate(['/lista-viajes', id]);
+    }
   }
 
   volverAtras() {

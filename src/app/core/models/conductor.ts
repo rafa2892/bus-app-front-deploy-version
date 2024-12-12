@@ -11,8 +11,7 @@ export class Conductor {
     dniTipo:string;
     fechaAlta:Date;
     dadoAltaPor:string;
-    kmRegistrados:number;
-    altaPorUser:string;
+    kmRegistrados:any;
     fechaAltaString:string;
 
 
