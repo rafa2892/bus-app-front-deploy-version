@@ -33,6 +33,7 @@ export const TITLES = {
     HOME: 'Inicio',
     BACK: 'Volver',
     SAVE: 'Guardar',
+    EDIT: 'Editar',
     ERROR_ONLY_NUMBERS: '***Solo se pueden introducir números***',
 
 

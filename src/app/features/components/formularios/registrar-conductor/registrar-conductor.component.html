@@ -7,16 +7,16 @@
     <div class="row">
         <div class="col">
             <div id="formulario-registrar-conductor" class="col-md-6 offset-md-3" style="width: 100%;">
-                <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor">
+                <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor" #form="ngForm">
                     <label for="nombreConductor" class="label-input">{{NOMBRE_LABEL}}</label>
                     <div id="nombreConductor" class="d-flex">
                             <input type="text" matInput
-                            oninput="this.value = this.value.toUpperCase()"
                             [(ngModel)]="nuevoConductor.nombre"
                             [disabled]="isDesdeDetalles" 
                             name="nombre-conductor"
                             id="nombre-conductor"
                             placeholder="Nombre" 
+                            style="text-transform: uppercase"
                             (focus)="quitarError('nombre-conductor')"
                             [ngClass]="{ 'input-error': camposFaltantes.includes('nombre-conductor') }"
                             class="form-control defaultSizeInput"
@@ -26,7 +26,7 @@
                     <div id="apellidoConductor" class="d-flex">
                         <input type="text" matInput
                         oninput="this.value = this.value.toUpperCase()"
-                        [(ngModel)] = "nuevoConductor.apellido" 
+                        [(ngModel)]="nuevoConductor.apellido" 
                         [disabled]="isDesdeDetalles" 
                         name="apellido-conductor"
                         id="apellido-conductor"
@@ -42,6 +42,7 @@
                         <div class="col-md-4">
                             <div id="mat-form-destino">
                                 <select 
+                                oninput="this.value = this.value.toUpperCase()"
                                 class="form-select form-select-sm mb-3 dniTipoInput" 
                                 aria-label=".form-select-lg example" name="estadoDestino" 
                                 [(ngModel)]="nuevoConductor.dniTipo"
@@ -79,7 +80,7 @@
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
                         <button type="button" class="btn btn-primary btonGuarda" (click)="volverAtras()">{{VOLVER}}</button>
-                    <button type="submit" class="btn btn-success btonGuardar">{{GUARDAR}}</button> 
+                    <button type="submit" class="btonGuardar" [ngClass]="nuevoConductor.id ? 'btn btn-warning' : 'btn btn-success'">{{nuevoConductor.id?EDITAR:GUARDAR}}</button> 
                 </form>
             </div>
         </div>
@@ -92,6 +93,15 @@
                     [(ngModel)]="nuevoConductor.fechaAltaString" 
                     name="fecha-alta-conductor"
                     id="fecha-alta-conductor-input"
+                    class="form-control defaultSizeInput">
+                </div>
+                <label for="alta-por-user" class="label-input">{{DADO_ALTA_POR_LABEL}}</label>
+                <div id="usuario-alta-conductor" class="d-flex">
+                    <input type="text"
+                    disabled="true"
+                    [(ngModel)]="nuevoConductor.dadoAltaPor" 
+                    name="alta-user-conductor"
+                    id="alta-por-input"
                     class="form-control defaultSizeInput">
                 </div>
                 <label for="numero-viajes" class="label-input">{{NUM_VIAJES_LABEL}}</label>
@@ -110,18 +120,9 @@
                 <div id="km-registrados-content" class="d-flex align-items-center">
                     <input type="text"
                     disabled="true"
-                    [(ngModel)]="nuevoConductor.kmRegistrados" 
+                    [value]="nuevoConductor.kmRegistrados || NO_KM_REGISTERED"
                     name="km-registrados-conductor"
                     id="km-regis-conductor-input"
-                    class="form-control defaultSizeInput">
-                </div>
-                <label for="alta-por-user" class="label-input">{{DADO_ALTA_POR_LABEL}}</label>
-                <div id="usuario-alta-conductor" class="d-flex">
-                    <input type="text"
-                    disabled="true"
-                    [(ngModel)]="nuevoConductor.dadoAltaPor" 
-                    name="alta-user-conductor"
-                    id="alta-por-input"
                     class="form-control defaultSizeInput">
                 </div>
             </div>   

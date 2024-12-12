@@ -43,12 +43,14 @@ export class RegistrarConductorComponent {
   NUM_VIAJES_LABEL = TITLES.REGISTERED_TRIPS;
   FECHA_ALTA = TITLES.REGISTRATION_DATE;
   GUARDAR = TITLES.SAVE;
+  EDITAR = TITLES.EDIT;
   VOLVER = TITLES.BACK;
   CEDULA_CONDUCTOR_LABEL = TITLES.DNI_DRIVER;
   DATE_OF_BIRTH_LABEL = TITLES.DATE_OF_BIRTH;
   ERROR_ONLY_NUMBERS = 'Solo se permiten números';
   NOMBRE_LABEL = TITLES.NAME;
   APELLIDO_LABEL = TITLES.LAST_NAME
+  NO_KM_REGISTERED = TITLES.NO_DATA;
 
   constructor(
     private conductorService:ConductorService,
@@ -86,20 +88,11 @@ export class RegistrarConductorComponent {
       next: (c) => {
         this.nuevoConductor = c;
         this.darFormatoFecha(this.nuevoConductor);
-        this.parametrizeConductor(this.nuevoConductor);
+        // this.parametrizeConductor(this.nuevoConductor);
       },
       error: (error) => console.log(error),
       complete: () => console.log('Conductor cargado')
     });
-  }
-
-  parametrizeConductor(conductor: Conductor){
-
-    console.log(conductor);
-
-    if(!this.nuevoConductor.kmRegistrados) {
-      this.nuevoConductor.kmRegistrados = TITLES.NO_DATA;
-    }
   }
 
   darFormatoFecha(conductor: Conductor) {
@@ -129,22 +122,17 @@ export class RegistrarConductorComponent {
   }
 
   editarConductor() {
-    this.conductorService.editar(this.nuevoConductor).subscribe(dato => {
-    }, error => console.log(error));
+    this.conductorService.editar(this.nuevoConductor).subscribe({
+      next: (c) => {
+        console.log(c);
+        this.conductorGuardado = c;
+      },
+      error: (error) => console.log(error),
+      complete: () => {
+        this.router.navigate(['/lista-conductores'], { queryParams: { newConductorId: this.conductorGuardado.id } });
+      }
+    });
   }
-
-    // this.conductorService.editar(this.nuevoConductor).subscribe({
-    //   next: (c) => {
-    //     console.log(c);
-    //     this.conductorGuardado = c;
-    //   },
-    //   error: (error) => console.log(error),
-    //   complete: () => {
-    //     this.router.navigate(['/lista-conductores'], { queryParams: { newConductorId: this.conductorGuardado.id } });
-    //   }
-    // });
-
-
   // Método que se ejecuta al enviar el formulario
   validarDatos(): boolean {
     // Inicializa el array de campos faltantes

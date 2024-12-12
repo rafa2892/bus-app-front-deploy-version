@@ -77,9 +77,9 @@
     </thead>
     <tbody class="table-dark">
       <tr *ngFor="let conductor of conductoresListafiltrado | paginate: { itemsPerPage: 5, currentPage: p }" [ngClass]="{'nuevo-conductor': conductor.id === newConductorId}">
-        <td><small>{{conductor.nombre}}</small></td>
-        <td>{{conductor.apellido}}</td>
-        <td>{{conductor.dni}}</td>
+        <td><small>{{conductor.nombre.toUpperCase()}}</small></td>
+        <td>{{conductor.apellido.toUpperCase()}}</td>
+        <td>{{conductor.dni.toUpperCase()}}</td>
         <td>
           <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(conductor.id)" class="btn btn-primary small-button">
             <fa-icon class="detailsIcon small-icon" [icon]="detailsIcon"></fa-icon>
