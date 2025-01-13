@@ -44,7 +44,7 @@ const routes: Routes = [
   
 
    // Ruta comodín con redirección y corrección de URL
-   { path: '**', redirectTo: '/lista-carros', pathMatch: 'full' }
+  { path: '**', redirectTo: '/lista-carros', pathMatch: 'full' }
 ];
 
 @NgModule({

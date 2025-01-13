@@ -53,11 +53,11 @@
           <td>{{carro.anyo}}</td>
           <td>{{carro.consumo}}</td>
           <td>
-            <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(carro.id)" class="btn btn-primary small-button">
-              <fa-icon class="detailsIcon" [icon]="detailsIcon"></fa-icon>
-            </button>
             <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(carro)" class="btn btn-success small-button">
               <fa-icon class="selectIcon" [icon]="selectIcon"></fa-icon>
+            </button>
+            <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(carro.id)" class="btn btn-primary small-button">
+              <fa-icon class="detailsIcon" [icon]="detailsIcon"></fa-icon>
             </button>
           </td>  
         </tr>
@@ -66,6 +66,6 @@
     <div class="pagination-container">
       <pagination-controls 
       (pageChange)="p = $event"
-       previousLabel="Anterior" 
+      previousLabel="Anterior" 
       nextLabel="Siguiente"></pagination-controls>
     </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RegistrarViajeComponent } from '../../formularios/registrar-viaje/registrar-viaje.component';
 import { Router } from '@angular/router';
 import { Conductor } from '../../../../core/models/conductor';
@@ -25,14 +25,16 @@ export class PopupSeleccionarConductorComponent {
   detailsIcon = fontAwesomeIcons.detailsIcon;
   selectIcon = fontAwesomeIcons.selectIcon;
 
+  @Input() modalModoSeleccionarConductor : boolean;
+
   ngOnInit(): void {
     this.obtenerConductores();
  }
 
   constructor(
-     private coductorService:ConductorService, 
-     private registrarViajeComponent : RegistrarViajeComponent,
-     private router:Router) { }
+    private coductorService:ConductorService, 
+    private registrarViajeComponent : RegistrarViajeComponent,
+    private router:Router) { }
 
   obtenerConductores(){
       this.coductorService.obtenerListaConductores().subscribe(dato =>  {

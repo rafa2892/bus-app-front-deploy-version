@@ -1,172 +1,134 @@
 <div id="registrarViajeContainer" class="col-md-6 offset-md-3">
-    <button id="irCrearRuta" routerLink="/registrar-ruta" class="btn btn-primary btonGuardar">Crear nueva Ruta</button>
+    <!-- <button id="irCrearRuta" routerLink="/registrar-ruta" class="btn btn-primary btonGuardar">{{NUEVA_RUTA}}</button> -->
     <div id="formRegistrarViajeContainer" class="formPosition">
-    <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje">
-    <div id="seleccionDeruta">
-        <label for="rutas" class="titulo-form">Selecciona Ruta:</label>
-        <div id="rutas" class="normal-size-input" >
-            <label for="rutaDesde" class="label-input">Origen:</label>
-            <div id="rutaDesde" class="d-flex">
-                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaOrigen" [ngClass]="{'errorValInput': formSubmitted && rutaErrorOrigen,
-                 'blueBorder': !(formSubmitted && rutaErrorOrigen)}">
+        <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje" (keydown)="onKeyDown($event)">
+       
+       
+            <label for="rutas" class="titulo-form">{{RUTA_TITLE}}</label>
+            <div class="row contenedorSeleccionRuta">  
+                <div id="div-desde" class="col">
+                    <label for="rutaDesde" class="label-input">{{DESDE_LABEL}}</label>
+                    <input id="address-from"
+                    type="text"
+                    placeholder="Ingresa una dirección"
+                    [(ngModel)]="direccionSalida"
+                    name="direccion-from"
+                    required/>
+                </div>
+            <div id="div-hacia" class="col">
+                <div id="rutaDestino">
+                    <label for="rutaDestino" class="label-input">{{HACIA_LABEL}}</label>
+                    <input id="address-to"
+                    type="text"
+                    placeholder="Ingresa una dirección"
+                    [(ngModel)]="direccionDestino"
+                    name="direccion-to"
+                    required
+                    (blur)="calculaDistancia()"/>
+                    <!-- <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
+                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                    </a> -->
+                </div>   
+            </div>  
+        </div>
+
+
+
+            <div class="form-group">
+                <div>
+                    <label>{{DISTANCIA_KMS}}</label>
+                </div> 
+                <div class="row">
+                    <div class="col">
+                        <input type = "text" class="form-control" id="Kilometraje" [(ngModel)]="distancia" name="distanciaKM" [placeholder]="PLACEHOLDER_DISTANCE_KMS">
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group">
+                <div>
+                    <label>{{DURACION_VIAJE_LABEL}}</label>
+                </div> 
+                <div class="row">
+                <div class="col">
+                    <input 
+                    type="time" 
+                    class="form-control" 
+                    id="horasEsperaInput" 
+                    [(ngModel)]="viaje.horasEspera" 
+                    name="horasEspera" 
+                    [placeholder]="DURACION_VIAJE_PLACEHOLDER"
+                    step="1800">
+                </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        <div id="seleccionaConductor" class="mid-size-input">
+            <label for="seleccionaConductor" class="label-input">{{SELECCIONA_CONDUCTOR_LABEL}}</label>
+                <div class="d-flex">
+                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
+                'blueBorder': !(formSubmitted && conductorError)}" >
                     <input type="text" matInput
-                    oninput="this.value = this.value.toUpperCase()"
-                    id="inputSeleccionaRutaDesde"
-                    placeholder="Ingresa Origen" 
-                    [(ngModel)]="origen" 
-                    [matAutocomplete]="autoRuta" 
-                    name="seleccionaRutaDesde" 
-                    (input)="filtrarAutocompletarRutaOrigen()"
-                    (blur)="onInputBlurOrigen()"
-                    (focus)="onFocusEventOrigen()"
+                    id="inputSeleccionaConductor"
+                    placeholder="Ingresa nombre del conductor" 
+                    [(ngModel)]="selectedConductor" 
+                    [matAutocomplete]="autoConductor" 
+                    name="seleccionaConductor" 
+                    (input)="filtrarAutocompletarConductor(selectedConductor)"
+                    (blur)="onInputBlur()"
+                    (focus)="onFocusEventConductor()"
                     class="estilosTamanioInputs">
-                    <mat-autocomplete #autoRuta="matAutocomplete" [displayWith]="displayRutaDesde" panelPlacement="bottom" (optionSelected)="onOptionSelectedOrigen($event)">
-                        <mat-option *ngFor="let ruta of rutaListaOrigen" [value]="ruta">
-                            {{ ruta.origen | uppercase }}
-                        </mat-option>
+                    <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
+                    <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
+                        {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
+                    </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
-                <!-- <a id="buscarRutaOrigen" class="btn btn-outline-secondary botonBuscar" type="button" data-bs-target="#selectRoutePopUp" > 
-                    <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-                </a> -->
-                <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
+                <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
                     <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
                 </a>
-            </div>
-        </div>
-        <div id="mat-form-destino" class="normal-size-input">
-            <label for="rutaDestino" class="label-input">Destino:</label>
-            <div id="rutaDesde" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteRutaDestino" [ngClass]="{'errorValInput': formSubmitted && rutaErrorDestino, 
-            'blueBorder': !(formSubmitted && rutaErrorDestino)}">
-                <input type="text" matInput
-                [disabled]="!origenSelected"
-                id="inputSeleccionaRutaDestino"
-                placeholder="Ingresa Destino" 
-                [(ngModel)]="destino" 
-                [matAutocomplete]="autoRutaDestino" 
-                name="seleccionaRutaHasta" 
-                (input)="filtrarAutocompletarRutaDestino()"
-                (blur)="onInputBlur()"
-                (focus)="onFocusEventConductor()"
-                class="estilosTamanioInputs">
-                <mat-autocomplete #autoRutaDestino="matAutocomplete" [displayWith]="displayRutaHasta" panelPlacement="bottom" (optionSelected)="onOptionSelectedDestino($event)">
-                <mat-option *ngFor="let ruta of rutasListaDestino" [value]="ruta" >
-                    {{ ruta.destino | uppercase }}
-                </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
-                <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-            </a>
-            </div>   
-        </div>  
-        <div class="form-group">
-            <div>
-                <label>Kilometraje : </label>
-            </div> 
-            <div class="row">
-                <div class="col">
-                  <input type = "text" class="form-control" id="Kilometraje" [(ngModel)] = "viaje.kilometraje" name="kilometraje">
-                </div>
-                <div class="col">
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div>
-                <label>Horas de espera : </label>
-            </div> 
-            <div class="row">
-                <div class="col">
-                  <input type = "text" class="form-control" id="horasEsperaInput" [(ngModel)] = "viaje.horasEspera" name="horasEspera">
+            <div class="mid-size-input">
+                <label for="seleccionaVehiculo" class="label-input">{{SELECCIONA_VEHICULO}}</label>
+                <div id="seleccionaVehiculo" class="d-flex">
+                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" 
+                [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
+                    <input type="text" matInput
+                    id="inputSeleccionaVehiculo"
+                    placeholder="Selecciona el vehiculo" 
+                    [(ngModel)]="selectedVehiculo" 
+                    [matAutocomplete]="autoVehiculo" 
+                    name="seleccionavehiculo" displayVehiculo
+                    (blur)="onInputBlur()"
+                    (focus)="onFocusEventVehiculo()"
+                    (input) ="filtrarAutocompletarCarro(selectedVehiculo)" 
+                    class="estilosTamanioInputs">
+                    <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
+                    <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
+                        {{ carro.marca + ' ' + carro.modelo + 'numero unidad : ' + carro.numeroUnidad | uppercase }}
+                    </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
+                    <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                </a>
                 </div>
-                <div class="col">
-                </div>
             </div>
-        </div>
-    </div>
-    <div id="seleccionaConductor" class="mid-size-input">
-         <label for="seleccionaConductor" class="label-input">Selecciona Conductor:</label>
-            <div class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
-            'blueBorder': !(formSubmitted && conductorError)}" >
-                <input type="text" matInput
-                 id="inputSeleccionaConductor"
-                 placeholder="Ingresa nombre del conductor" 
-                 [(ngModel)]="selectedConductor" 
-                 [matAutocomplete]="autoConductor" 
-                 name="seleccionaConductor" 
-                 (input)="filtrarAutocompletarConductor(selectedConductor)"
-                 (blur)="onInputBlur()"
-                 (focus)="onFocusEventConductor()"
-                 class="estilosTamanioInputs">
-                <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
-                <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
-                    {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
-                </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
-                <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-            </a>
-            </div>
-
-        </div>
-        <div class="mid-size-input">
-            <label for="seleccionaVehiculo" class="label-input">Selecciona Vehiculo:</label>
-            <div id="seleccionaVehiculo" class="d-flex">
-            <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" 
-            [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
-                <input type="text" matInput
-                 id="inputSeleccionaVehiculo"
-                 placeholder="Selecciona el vehiculo" 
-                 [(ngModel)]="selectedVehiculo" 
-                 [matAutocomplete]="autoVehiculo" 
-                 name="seleccionavehiculo" 
-                 (blur)="onInputBlur()"
-                 (focus)="onFocusEventVehiculo()"
-                 (input) ="filtrarAutocompletarCarro(selectedVehiculo)" 
-                 class="estilosTamanioInputs">
-                <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
-                <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
-                    {{ carro.marca + ' ' + carro.modelo | uppercase }}
-                </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-
-            <!-- <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Comentarios/Observación</label>
-                <textarea class="form-control" name="viaje.comentarios" id="exampleFormControlTextarea1" rows="3" placeholder="Describe la información" [(ngModel)]="viaje.comentarios"></textarea>
-            </div> -->
-
-            <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
-                <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-            </a>
-            </div>
-        </div>
-          <button class="btn btn-success btonGuardar">Guardar</button>
-          <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
-          <app-popup-seleccionar-conductor></app-popup-seleccionar-conductor>
-          <app-popup-seleccionar-ruta></app-popup-seleccionar-ruta>
-     </form>
+            <button class="btn btn-success btonGuardar">{{GUARDAR}}</button>
+            <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
+            <app-popup-seleccionar-conductor [modalModoSeleccionarConductor]="modalModoSeleccionarConductor"></app-popup-seleccionar-conductor>
+            <app-popup-seleccionar-ruta></app-popup-seleccionar-ruta>
+        </form>
     </div>
 </div>
-
- 
-
-  
-
- 
-    
- 
-
-
-    
-  
-
-
-
-
-
-    

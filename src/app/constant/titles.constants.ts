@@ -19,12 +19,6 @@ export const TITLES = {
     DATE_OF_BIRTH: 'Fecha de nacimiento (DD/MM/YYYY)',
     NAME : 'Nombre',
     LAST_NAME : 'Apellido',
-    
-
-
-
-
-
 
 
     //GENERALES
@@ -35,6 +29,21 @@ export const TITLES = {
     SAVE: 'Guardar',
     EDIT: 'Editar',
     ERROR_ONLY_NUMBERS: '***Solo se pueden introducir números***',
+
+
+    //REGISTRAR-VIAJES
+    DESTINY: 'Destino',
+    FROM: 'Desde',
+    PLACEHOLDER_DISTANCE_KMS : 'Ingrese distancia en KM',
+    SELECT_ROUTE : 'Ruta',
+    DISTANCE_KMS : 'Distancia en KMS',
+    ENDURANCE_TRAVEL_LABEL : 'Duración del viaje en horas "00:00"',
+    ENDURANCE_TRAVEL_PLACEHOLDER : 'Duración del viaje en horas 00:00',
+    ROUTE:'Ruta',
+    SELECT_DRIVER:'Conductor',
+    SELECT_CAR: 'Vehiculo',
+    NEW_ROUTE:'Nueva ruta'
+
 
 
   };

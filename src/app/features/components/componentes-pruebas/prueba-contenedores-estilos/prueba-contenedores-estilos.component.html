@@ -1,25 +1,30 @@
+<form #directionsForm="ngForm"  (ngSubmit)="onSubmit()"  (keydown)="onKeyDown($event)">
+    <label for="address-from">Salida:</label>
 
-<div class ="row contenedor-principal">
-
-    <div class="col">
-        <div>
-            <div class="contenedor-prueba-1">
-                <h1>PRUEBA CONTENEDOR 1</h1>
-                <h1>ESTO ES UNA PRUEBA DEL CONTENEDOR 1</h1>
-            </div>
-        </div>
-    </div>    
-
-    
-        <div class="col">
-            <div *ngIf="false">
-                <div>
-                    <div class="contenedor-prueba-2">
-                        <h1>PRUEBA CONTENEDOR 2</h1>
-                        <h1>ESTO ES UNA PRUEBA DEL CONTENEDOR 2</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-</div>
+    <input
+    id="address-from"
+    type="text"
+    placeholder="Ingresa una dirección"
+    [(ngModel)]="direccionSalida"
+    name="direccion-from"
+    required
+    (blur)="calculaDistancia()" />
+    <div *ngIf="directionsForm.invalid && directionsForm.touched">
+        <p>La dirección es obligatoriaa.</p>
+    </div>
+    <label for="address-to">Destino:</label>
+    <input
+    id="address-to"
+    type="text"
+    placeholder="Ingresa una dirección"
+    [(ngModel)]="direccionDestino"
+    name="direccion-to"
+    required/>
+    <div *ngIf="directionsForm.invalid && directionsForm.touched">
+        <p>La dirección es obligatoria.</p>
+    </div>
+    <button type="submit" [disabled]="directionsForm.invalid">Enviar</button>
+    <div *ngIf="distancia && direccionSalida && direccionDestino">
+        <p>La distancia entre los puntos es: {{ distancia }} km</p>
+    </div>
+</form>

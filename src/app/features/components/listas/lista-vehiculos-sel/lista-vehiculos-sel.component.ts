@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Carro } from '../../../../core/models/carro';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 import { CarroService } from '../../../../core/services/carro.service';
@@ -26,98 +26,97 @@ export class ListaVehiculosSelComponent {
   modalLabel = 'seleccionarVehiculoLabel';
   idModal: string = 'seleccionaVehiculoModal';
 
+  @Input() modalModoSeleccionarConductor : boolean;
 
-  constructor(private carroServicio:CarroService, private registrarViajeComponent : RegistrarViajeComponent, private router:Router) { }
-  
+
+  constructor(
+    private carroServicio:CarroService, 
+    private registrarViajeComponent : RegistrarViajeComponent, 
+    private router:Router) {}
+    
   ngOnInit(): void {
-    this.obtenerCarros();
- }
-
-
- private obtenerCarros () {
-  this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
-  this.carros = dato;
-  this.carrosFiltrado = this.carros;
-  });
-}
-verDetalles(id:number){
-}
-
-seleccionar(carro:Carro) {
-  this.registrarViajeComponent.seleccionarCarro(carro);
-  this.clearFilters();
-  this.router.navigate(['/registrar-viaje']);
-  
-}
-
-onInputChangeNumeroUnidad() {
-  this.carrosFiltrado = this.carros.filter(carro => carro.numeroUnidad.toString() == this.numeroUnidad);
-  if(this.numeroUnidad.trim() === '') {
-  this.carrosFiltrado = this.carros;
+      this.obtenerCarros();
   }
-}
 
-onInputChangeBrandFilter() {
+  private obtenerCarros () {
+    this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
+    this.carros = dato;
+    this.carrosFiltrado = this.carros;
+    });
+  }
+
+
+  verDetalles(id:number){
+  }
+
+  seleccionar(carro:Carro) {
+    this.registrarViajeComponent.seleccionarCarro(carro);
+    this.clearFilters();
+    this.router.navigate(['/registrar-viaje']);
+    
+  }
+
+  onInputChangeNumeroUnidad() {
+    this.carrosFiltrado = this.carros.filter(carro => carro.numeroUnidad.toString() == this.numeroUnidad);
+    if(this.numeroUnidad.trim() === '') {
+    this.carrosFiltrado = this.carros;
+    }
+  }
+
+  onInputChangeBrandFilter() {
+    this.carrosFiltrado = this.carros;
+    const marca = this.marca.trim().toLowerCase();
+    const año = this.anyo.trim().toLowerCase();
+    const modelo = this.modelo.trim().toLowerCase();
+
+    this.carrosFiltrado = this.carros.filter(carro => {
+        const marcaCoincide = marca === '' || carro.marca.toString().toLowerCase().includes(marca);
+        const añoCoincide = año === '' || carro.anyo.toString().toLowerCase().includes(año);
+        const modeloCoincide = modelo === '' || carro.modelo.toString().toLowerCase().includes(modelo);
+        return marcaCoincide && añoCoincide && modeloCoincide;
+    });
+  }
+
+  Searchfilters(){
+  }
+
+  onInputChangeModelFilter() {
   this.carrosFiltrado = this.carros;
-  const marca = this.marca.trim().toLowerCase();
-  const año = this.anyo.trim().toLowerCase();
-  const modelo = this.modelo.trim().toLowerCase();
 
-  this.carrosFiltrado = this.carros.filter(carro => {
-      const marcaCoincide = marca === '' || carro.marca.toString().toLowerCase().includes(marca);
-      const añoCoincide = año === '' || carro.anyo.toString().toLowerCase().includes(año);
-      const modeloCoincide = modelo === '' || carro.modelo.toString().toLowerCase().includes(modelo);
-      return marcaCoincide && añoCoincide && modeloCoincide;
-  });
-
-}
-
-
-Searchfilters(){
-}
-
-onInputChangeModelFilter() {
-this.carrosFiltrado = this.carros;
-
-if (this.modelo.trim() === '') {
-    return;
-} 
-else {
-    const modeloBuscado = this.modelo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
-    this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
-        carro.modelo.toString().toLowerCase().includes(modeloBuscado)
-    );
-}
-}
+  if (this.modelo.trim() === '') {
+      return;
+  } 
+  else {
+      const modeloBuscado = this.modelo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
+      this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
+          carro.modelo.toString().toLowerCase().includes(modeloBuscado)
+      );
+    }
+  }
 
 
-onInputChangeYearFilter() {
-this.carrosFiltrado = this.carros;
+  onInputChangeYearFilter() {
+    this.carrosFiltrado = this.carros;
+    if (this.anyo.trim() === '') {
+      return;
+    } else {
+      const modeloBuscado = this.anyo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
+      this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
+          carro.anyo.toString().toLowerCase().includes(modeloBuscado)
+      );
+    }
+  }
 
-if (this.anyo.trim() === '') {
-  return;
-} else {
-  const modeloBuscado = this.anyo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
-  this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
-      carro.anyo.toString().toLowerCase().includes(modeloBuscado)
-  );
-  
-}
+  onBlurNumeroUnidad() {
+    this.numeroUnidad = '';
+    this.carrosFiltrado = this.carros;
+    }
 
-
-}
-
-onBlurNumeroUnidad() {
-this.numeroUnidad = '';
-this.carrosFiltrado = this.carros;
-}
-
-clearFilters(){
-this.anyo = '';
-this.numeroUnidad = '';
-this.modelo = '';
-this.marca = '';
-this.carrosFiltrado = this.carros;
-}
- 
+  clearFilters(){
+    this.anyo = '';
+    this.numeroUnidad = '';
+    this.modelo = '';
+    this.marca = '';
+    this.carrosFiltrado = this.carros;
+    }
 }

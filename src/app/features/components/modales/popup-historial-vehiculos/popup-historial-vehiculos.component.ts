@@ -13,7 +13,10 @@ export class PopupHistorialVehiculosComponent {
 
     @ViewChild(ListaHistorialComponent) listaHistoriachildComponent!: ListaHistorialComponent; // Acceso al componente hijo
 
-    constructor(private carroServicio:CarroService, private cdr: ChangeDetectorRef, private modalService: NgbModal) {}
+    constructor(
+      private carroServicio:CarroService, 
+      private cdr: ChangeDetectorRef, 
+      private modalService: NgbModal) {}
 
     tituloPopUp :string = 'Historial';
     modalLabel = 'historialModalLabel';

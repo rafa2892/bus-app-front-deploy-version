@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output,Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck, faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
@@ -13,6 +13,8 @@ import { ConductorService } from '../../../../core/services/conductor.service';
 export class ListaConductoresComponent {
 
     @Output() seleccionarConductor  = new EventEmitter<any>();
+    @Input() modalModoSeleccionarConductor : boolean;
+
     // ID del conductor recién agregado
     newConductorId: number;
 
@@ -77,9 +79,6 @@ export class ListaConductoresComponent {
     }
 
     seleccionar(conductor:Conductor) {
-
-      // this.registrarViajeComponent.seleccionarConductor(conductor);
-      this.clearFilters();
       this.router.navigate(['/registrar-viaje']);
       this.seleccionarConductor.emit(conductor);
     }
@@ -188,7 +187,6 @@ export class ListaConductoresComponent {
         });
         break;
     }
-  
     // Reinicia la paginación a la primera página
     this.p = 1;
   }
@@ -215,7 +213,6 @@ export class ListaConductoresComponent {
   //   }
 
   eliminar(id:number) {
-
     if (confirm('¿Estás seguro de eliminar este conductor?')) {
       this.conductorService.eliminar(id).subscribe({
         next: () => {
@@ -224,8 +221,6 @@ export class ListaConductoresComponent {
         error: (error) => console.error('Error al eliminar conductor:', error),
       });
     }
-
-
   }
 
   editar(conductor:Conductor) {

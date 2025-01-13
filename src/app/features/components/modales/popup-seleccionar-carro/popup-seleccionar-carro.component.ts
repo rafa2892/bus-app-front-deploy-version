@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {CarroService} from "../../../../core/services/carro.service";
 import {Carro} from "../../../../core/models/carro";
-import { faCheck, faCircleInfo, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import {RegistrarViajeComponent} from "../../formularios/registrar-viaje/registrar-viaje.component";
 import { Router } from '@angular/router';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';

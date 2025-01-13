@@ -4,7 +4,7 @@
       border-radius: 8px !important;
     }
 
-     .mdc-snackbar__surface {
+    .mdc-snackbar__surface {
     background-color: red !important;
   }
 
@@ -62,6 +62,14 @@
   color: blue;
 }
 
+.label-input {
+  display: block; /* Hace que la etiqueta ocupe toda la línea */
+  margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
+}
+
+.contenedorSeleccionRuta {
+  margin-bottom: 11%;
+}
 
 .custom-mat-field {
   width: 85%;
