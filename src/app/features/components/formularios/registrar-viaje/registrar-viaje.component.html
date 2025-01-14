@@ -2,101 +2,106 @@
     <!-- <button id="irCrearRuta" routerLink="/registrar-ruta" class="btn btn-primary btonGuardar">{{NUEVA_RUTA}}</button> -->
     <div id="formRegistrarViajeContainer" class="formPosition">
         <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje" (keydown)="onKeyDown($event)">
-       
-       
             <label for="rutas" class="titulo-form">{{RUTA_TITLE}}</label>
             <div class="row contenedorSeleccionRuta">  
                 <div id="div-desde" class="col">
                     <label for="rutaDesde" class="label-input">{{DESDE_LABEL}}</label>
-                    <input id="address-from"
-                    type="text"
-                    placeholder="Ingresa una dirección"
-                    [(ngModel)]="direccionSalida"
-                    name="direccion-from"
-                    required/>
+                        <textarea
+                            class="form-control"
+                            id="direccion-desde"
+                            placeholder="Ingresa una dirección"
+                            [(ngModel)]="direccionSalida"
+                            name="direccion-desde"
+                            rows="2" 
+                            style="resize: none; width: 100%; box-sizing: border-box;"
+                            (ngModelChange)="quitarErrorEstilos('direccion-desde')">
+                        </textarea>
                 </div>
-            <div id="div-hacia" class="col">
-                <div id="rutaDestino">
-                    <label for="rutaDestino" class="label-input">{{HACIA_LABEL}}</label>
-                    <input id="address-to"
-                    type="text"
-                    placeholder="Ingresa una dirección"
-                    [(ngModel)]="direccionDestino"
-                    name="direccion-to"
-                    required
-                    (blur)="calculaDistancia()"/>
-                    <!-- <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
-                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-                    </a> -->
-                </div>   
-            </div>  
-        </div>
-
-
-
-            <div class="form-group">
-                <div>
-                    <label>{{DISTANCIA_KMS}}</label>
-                </div> 
-                <div class="row">
-                    <div class="col">
-                        <input type = "text" class="form-control" id="Kilometraje" [(ngModel)]="distancia" name="distanciaKM" [placeholder]="PLACEHOLDER_DISTANCE_KMS">
-                    </div>
-                    <div class="col">
-                    </div>
+                <!-- Botón con la imagen entre los inputs -->
+                <div class="col-auto" style="display: flex; justify-content: center; align-items: center;">
+                    <button 
+                        type="button"
+                        class="btn btn-light boton-intercambiar" 
+                        (click)="intercambiarDirecciones()" 
+                        style="border: none; background: transparent; padding: 0; cursor: pointer;"
+                        [disabled]="!direccionSalida || !direccionDestino">
+                        <img src="../../assets/exchange.png" alt="Intercambiar" style="width: 32px; height: 32px;">
+                    </button>
                 </div>
+                <div id="div-hacia" class="col">
+                    <div id="rutaDestino">
+                        <label for="rutaDestino" class="label-input">{{HACIA_LABEL}}</label>
+                        <textarea
+                        class="form-control"
+                        id="direccion-destino"
+                        type="text"
+                        placeholder="Ingresa una dirección"
+                        [(ngModel)]="direccionDestino"
+                        name="direccion-destino"
+                        (blur)="calculaDistancia()"
+                        rows="2"
+                        [disabled]="!direccionSalida"
+                        (ngModelChange)="quitarErrorEstilos('direccion-destino')" 
+                        style="resize: none; width: 100%; box-sizing: border-box;"></textarea>
+                        <!-- <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
+                            <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                        </a> -->
+                    </div>   
+                </div>  
             </div>
-
-
-
-
-            <div class="form-group">
-                <div>
-                    <label>{{DURACION_VIAJE_LABEL}}</label>
-                </div> 
-                <div class="row">
+            <div class="form-group row contenedorDistanciaYDuracion">
                 <div class="col">
+                    <div>
+                        <label class="label-input">{{DISTANCIA_KMS}}</label>
+                    </div> 
+                    <input 
+                    type="text" 
+                    class="form-control" 
+                    id="km-input" 
+                    [(ngModel)]="distancia" 
+                    name="distanciaKM" 
+                    [placeholder]="PLACEHOLDER_DISTANCE_KMS"
+                    [disabled]="!direccionSalida || !direccionDestino">
+                </div>
+                <div class="col">
+                <div>
+                    <label class="label-input">{{DURACION_VIAJE_LABEL}}</label>
+                </div> 
                     <input 
                     type="time" 
-                    class="form-control" 
+                    class="form-control tamanio-duracion" 
                     id="horasEsperaInput" 
-                    [(ngModel)]="viaje.horasEspera" 
-                    name="horasEspera" 
+                    name="horasEspera"
+                    [(ngModel)]="duracion"
                     [placeholder]="DURACION_VIAJE_PLACEHOLDER"
+                    [disabled]="!direccionSalida || !direccionDestino"
                     step="1800">
                 </div>
-                    <div class="col">
-                    </div>
-                </div>
             </div>
-
-
-
-
-        <div id="seleccionaConductor" class="mid-size-input">
-            <label for="seleccionaConductor" class="label-input">{{SELECCIONA_CONDUCTOR_LABEL}}</label>
+            <div id="seleccionaConductor" class="mid-size-input">
+                <label for="seleccionaConductor" class="label-input">{{SELECCIONA_CONDUCTOR_LABEL}}</label>
                 <div class="d-flex">
-                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
-                'blueBorder': !(formSubmitted && conductorError)}" >
-                    <input type="text" matInput
-                    id="inputSeleccionaConductor"
-                    placeholder="Ingresa nombre del conductor" 
-                    [(ngModel)]="selectedConductor" 
-                    [matAutocomplete]="autoConductor" 
-                    name="seleccionaConductor" 
-                    (input)="filtrarAutocompletarConductor(selectedConductor)"
-                    (blur)="onInputBlur()"
-                    (focus)="onFocusEventConductor()"
-                    class="estilosTamanioInputs">
-                    <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
-                    <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
-                        {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
-                    </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
-                    <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-                </a>
+                    <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
+                    'blueBorder': !(formSubmitted && conductorError)}" >
+                        <input type="text" matInput
+                        id="inputSeleccionaConductor"
+                        placeholder="Ingresa nombre del conductor" 
+                        [(ngModel)]="selectedConductor" 
+                        [matAutocomplete]="autoConductor" 
+                        name="seleccionaConductor" 
+                        (input)="filtrarAutocompletarConductor(selectedConductor)"
+                        (blur)="onInputBlur()"
+                        (focus)="onFocusEventConductor()"
+                        class="estilosTamanioInputs">
+                        <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
+                        <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
+                            {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
+                        </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
+                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                    </a>
                 </div>
             </div>
             <div class="mid-size-input">
@@ -125,7 +130,7 @@
                 </a>
                 </div>
             </div>
-            <button class="btn btn-success btonGuardar">{{GUARDAR}}</button>
+            <button class="btn btn-success btonGuardar" (click)="quitarErrorEstilos('no-input')" >{{GUARDAR}}</button>
             <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
             <app-popup-seleccionar-conductor [modalModoSeleccionarConductor]="modalModoSeleccionarConductor"></app-popup-seleccionar-conductor>
             <app-popup-seleccionar-ruta></app-popup-seleccionar-ruta>

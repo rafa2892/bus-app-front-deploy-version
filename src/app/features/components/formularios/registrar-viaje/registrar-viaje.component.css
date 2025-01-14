@@ -1,5 +1,5 @@
 .custom-snackbar {
-    
+
     .mat-mdc-snack-bar-container .mdc-snackbar__surface {
       border-radius: 8px !important;
     }
@@ -51,6 +51,25 @@
     }
 }
 
+.contenedorDistanciaYDuracion{
+  margin-bottom: 8%;
+  align-items: center; /* Alinea verticalmente los elementos en cada fila */
+}
+
+.contenedorDistanciaYDuracion .col label {
+  display: block;
+  margin-bottom: 0.5rem; /* Espacio consistente debajo de los labels */
+  white-space: nowrap;  /* Evita que el texto del label se divida en varias líneas */
+  overflow: hidden;     /* Oculta el desbordamiento si el texto es demasiado largo */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es muy largo */
+}
+
+.tamanio-duracion{
+  text-align: center;
+  width: 40%;
+
+}
+
 
 #formularioRegistrarViaje {
   margin-top: 5%;
@@ -74,6 +93,26 @@
 .custom-mat-field {
   width: 85%;
 }
+
+@keyframes parpadeo {
+  0% {
+    border-color: red;
+  }
+  50% {
+    border-color: white; /* Usamos transparente para "hacer desaparecer" el borde */
+  }
+  100% {
+    border-color: red;
+  }
+}
+
+.input-error-blink {
+  animation: parpadeo 0.5s 2 forwards;
+  border-color: red;
+}
+
+
+
 
 
 
