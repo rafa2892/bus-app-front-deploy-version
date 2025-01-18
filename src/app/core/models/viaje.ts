@@ -5,19 +5,12 @@ import { Ruta } from "./ruta";
 export class Viaje {
 
     id:number;
-    origen:string = '';
-    destino:string = '';
     carro : Carro;
     fecha:Date;
-    carroId: number;
     conductor:Conductor;
-    ruta : Ruta;
-    kilometraje:number;
-    horasEspera:number;
     comentarios:string;
-   
-    
-    
+    empresaServicioNombre:string = '';
+    ruta: Ruta = new Ruta();
 
 
 

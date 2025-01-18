@@ -7,37 +7,37 @@
       <thead class="table-dark">
       <tr>
         <th>Numero de Ident.</th>
-        <th>Ruta</th>
         <th>Unidad</th>
+        <th>Ruta</th>
+        <th>Vehiculo</th>
+        <th>Tipo vehiculo</th>
         <th>Conductor</th>
         <th>Fecha</th>
-        <th>Hora</th>
-        <th>Vehiculo solicitado</th>
-        <th>Kilometraje</th>
-        <th>Horas de espera</th>
+        <th>Hora Registro</th>
+        <th>Km</th>
+        <th>Duración Aprox</th>
         <th>Acciones</th>
       </tr>
       </thead>
       <tbody class="table-dark">
       <tr *ngFor= "let viaje of viajes | paginate: { itemsPerPage: 10, currentPage: p}">
         <td>{{ viaje.id }}</td>
-        <td>{{ viaje.ruta.origen }} <span> - </span>{{ viaje.ruta.destino }}</td>
+        <td>{{ viaje.carro.numeroUnidad }}</td>
+        <td>{{ viaje.ruta.ciudadOrigen + ' ' + viaje.ruta.estadoOrigen }} <span> -- </span>{{viaje.ruta.ciudadDestino + ' ' + viaje.ruta.estadoDestino }}</td>
         <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
+        <td>{{ viaje.carro.tipoDeVehiculo }}</td>
         <td>{{ (viaje.conductor.nombre ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : 'No definido') | uppercase }}</td>
+        <td><span class="date">{{ viaje.fecha | date:'dd/MM/yyyy' }}</span></td>
+        <td>{{ viaje.fecha | date:'HH:mm:ss' }}</td>
         <td>
-        <span class="date">{{ viaje.fecha | date:'dd/MM/yyyy' }}</span>
-        </td>
-        <td>{{viaje.fecha | date:'HH:mm:ss' }}</td>
-        <td>{{viaje.carro.tipoDeVehiculo}}</td>
-        <td>
-        <ng-container *ngIf="viaje.kilometraje !== null && viaje.kilometraje !== undefined; else noKilometraje">
-          {{ viaje.kilometraje }} <span>KM</span>
+        <ng-container *ngIf="viaje.ruta.distanciaKm !== null && viaje.ruta.distanciaKm !== undefined; else noKilometraje">
+          {{ viaje.ruta.distanciaKm }} <span>KM</span>
         </ng-container>
-        <ng-template #noKilometraje>Kilometraje no especificado</ng-template>
+        <ng-template #noKilometraje>N/E</ng-template>
         </td>
         <td>   
-        <ng-container *ngIf="viaje.horasEspera !== null && viaje.horasEspera !== undefined; else horasNoEspecificadas">
-        {{  this.formatearHorasEspera(viaje) }} 
+        <ng-container *ngIf="viaje.ruta.tiempoEstimado !== null && viaje.ruta.tiempoEstimado !== undefined; else horasNoEspecificadas">
+        {{  viaje.ruta.tiempoEstimado }} <span>Horas</span>
         </ng-container>
         <ng-template #horasNoEspecificadas>Horas no especificas</ng-template></td>
         <td>

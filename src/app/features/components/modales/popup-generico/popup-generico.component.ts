@@ -16,10 +16,8 @@ export class PopupGenericoComponent {
   @Input() isModalProgramatico : boolean;
 
   ngOnInit(): void {
-    console.log("modalGenerico", this.isModalProgramatico);
-    console.log("modalGenerico>>>>>>", this.idModal);
     if(this.isModalProgramatico) {
-       this.idModal = "verHistorialPopUpProgrmatico";
+      this.idModal = "verHistorialPopUpProgrmatico";
     }
   }
 

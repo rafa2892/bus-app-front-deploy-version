@@ -16,8 +16,6 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.authService.getToken() || '';
     const refreshToken = this.authService.getRefreshToken() || '';
 
-    console.log("Interceptor");
-
      // Verifica si el token es válido antes de clonar la solicitud
      if (token && this.isTokenValid(token)) {
       const clonedRequest = req.clone({

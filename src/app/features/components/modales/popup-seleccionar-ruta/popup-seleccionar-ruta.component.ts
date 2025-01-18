@@ -31,9 +31,9 @@ export class PopupSeleccionarRutaComponent {
   viajeNum : string="";
 
   
-  seleccionar(ruta:Ruta) {
-  this.registrarViajeComponent.seleccionarRuta(ruta);
-}
+  // seleccionar(ruta:Ruta) {
+  // this.registrarViajeComponent.seleccionarRuta(ruta);
+// }
 
   verDetalles(id:number){}
   

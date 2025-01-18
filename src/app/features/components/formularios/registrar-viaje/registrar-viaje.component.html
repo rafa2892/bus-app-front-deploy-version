@@ -2,7 +2,18 @@
     <!-- <button id="irCrearRuta" routerLink="/registrar-ruta" class="btn btn-primary btonGuardar">{{NUEVA_RUTA}}</button> -->
     <div id="formRegistrarViajeContainer" class="formPosition">
         <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje" (keydown)="onKeyDown($event)">
-            <label for="rutas" class="titulo-form">{{RUTA_TITLE}}</label>
+            <div class="row">
+                <div>
+                    <label class="label-input">{{EMPRESA_NOMBRE_SERVICIO}}</label>
+                </div> 
+                <input 
+                type="text" 
+                class="form-control empresa-servicio-input" 
+                id="nombre-empresa-servicio" 
+                [(ngModel)]="nombreEmpresaServicio" 
+                name="nombre-empresa-servicio" 
+                [placeholder]="COMPANY_NAME_PLACEHOLDER">
+            </div>
             <div class="row contenedorSeleccionRuta">  
                 <div id="div-desde" class="col">
                     <label for="rutaDesde" class="label-input">{{DESDE_LABEL}}</label>
@@ -64,18 +75,21 @@
                     [disabled]="!direccionSalida || !direccionDestino">
                 </div>
                 <div class="col">
-                <div>
-                    <label class="label-input">{{DURACION_VIAJE_LABEL}}</label>
-                </div> 
+                    <div>
+                        <label class="label-input">{{DURACION_VIAJE_LABEL}}</label>
+                    </div> 
                     <input 
-                    type="time" 
+                    type="text" 
                     class="form-control tamanio-duracion" 
                     id="horasEsperaInput" 
                     name="horasEspera"
                     [(ngModel)]="duracion"
                     [placeholder]="DURACION_VIAJE_PLACEHOLDER"
                     [disabled]="!direccionSalida || !direccionDestino"
-                    step="1800">
+                    step="1800"
+                    maxlength="5"
+                    (input)="onInput($event)"
+                    >
                 </div>
             </div>
             <div id="seleccionaConductor" class="mid-size-input">

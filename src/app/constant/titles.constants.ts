@@ -37,12 +37,14 @@ export const TITLES = {
     PLACEHOLDER_DISTANCE_KMS : 'Ingrese distancia en KM',
     SELECT_ROUTE : 'Ruta',
     DISTANCE_KMS : 'Distancia en KM',
-    ENDURANCE_TRAVEL_LABEL : 'Duración aproximada del viaje en horas y minutos',
-    ENDURANCE_TRAVEL_PLACEHOLDER : 'Duración del viaje en horas y minutos',
+    ENDURANCE_TRAVEL_LABEL : 'Duración aproximada del viaje en horas y minutos (HH:MM)',
+    ENDURANCE_TRAVEL_PLACEHOLDER : '00:00',
     ROUTE:'Ruta',
     SELECT_DRIVER:'Conductor',
     SELECT_CAR: 'Vehiculo',
-    NEW_ROUTE:'Nueva ruta'
+    NEW_ROUTE:'Nueva ruta',
+    COMPANY_NAME: 'Nombre de la empresa',
+    COMPANY_NAME_PLACEHOLDER: 'Ingrese el nombre de la empresa que recibirá el servicio',
 
 
 

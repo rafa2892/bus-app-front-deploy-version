@@ -66,8 +66,7 @@
 
 .tamanio-duracion{
   text-align: center;
-  width: 40%;
-
+  width: 50%;
 }
 
 
@@ -82,12 +81,22 @@
 }
 
 .label-input {
+  font-weight: bold; /* Resalta el texto */
+  font-size: 14px; /* Tamaño adecuado */
+  margin-bottom: 5px; /* Espacio entre label y campo */
+  display: block; /* Asegura que se muestre en su propia línea */
+  color: #55a2d1; 
   display: block; /* Hace que la etiqueta ocupe toda la línea */
   margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
 }
 
 .contenedorSeleccionRuta {
-  margin-bottom: 11%;
+  margin-bottom: 5%;
+}
+
+.empresa-servicio-input {
+  margin-bottom: 5%;
+  width: 80%;
 }
 
 .custom-mat-field {
@@ -109,6 +118,7 @@
 .input-error-blink {
   animation: parpadeo 0.5s 2 forwards;
   border-color: red;
+  border-width: 2px !important;
 }
 
 

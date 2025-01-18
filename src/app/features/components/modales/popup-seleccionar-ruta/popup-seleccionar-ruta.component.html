@@ -1,17 +1,16 @@
-          <app-popup-generico 
-              [modalLabel]="modalLabel" 
-              [tituloPopUp]="tituloPopUp"
-              [idModal] ="idModal"
-              (closeModal)="onCloseModal()">
-              <app-lista-rutas
-                  [origen]="origen"
-                  [destino]="destino"
-                  [viajeNum]="viajeNum"
-                  [rutasFiltradas]="rutasFiltradas"
-                  [p]="p"
-                  (blurNumeroUnidad)="onBlurNumeroUnidad()"
-                  (inputChangeOriginFilter)="onInputChangeOriginFilter()"
-                  (seleccionarRuta)="seleccionar($event)" >
-              </app-lista-rutas>
-          </app-popup-generico>
-  
+<app-popup-generico 
+    [modalLabel]="modalLabel" 
+    [tituloPopUp]="tituloPopUp"
+    [idModal] ="idModal"
+    (closeModal)="onCloseModal()">
+    <app-lista-rutas
+        [origen]="origen"
+        [destino]="destino"
+        [viajeNum]="viajeNum"
+        [rutasFiltradas]="rutasFiltradas"
+        [p]="p"
+        (blurNumeroUnidad)="onBlurNumeroUnidad()"
+        (inputChangeOriginFilter)="onInputChangeOriginFilter()"></app-lista-rutas>
+        <!-- (seleccionarRuta)="seleccionar($event)"  -->
+</app-popup-generico>
+

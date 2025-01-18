@@ -29,7 +29,6 @@ export class CarroService {
   //Este metodo nos funciona para obtener los listados de carro
   obtenerListaCarro():Observable<Carro[]> {
     return this.httpClient.get<Carro[]>(`${this.baseUrl}`);
-
   }
 
   //Este metodo nos funciona para obtener los listados de carro

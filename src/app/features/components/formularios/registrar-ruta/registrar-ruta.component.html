@@ -1,3 +1,5 @@
+
+<!-- Sección de registro de rutas DESHABILITADO -->
 <div id="registrarRutaContainer" class="col-md-6 offset-md-3">
     <div id="formRegistrarRutaContainer" class="formPosition ">
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarRuta">
@@ -5,7 +7,7 @@
         <label id="labelNuevaRuta" for="rutas">Nueva ruta</label>
         <div id="rutas" class="normal-size-input" >
             <label for="rutaDesde" class="label-input">Nombre de origen:</label>
-            <div id="rutaDesde" class="d-flex">
+            <!-- <div id="rutaDesde" class="d-flex">
                     <input type="text" matInput
                     oninput="this.value = this.value.toUpperCase()"
                     [(ngModel)] = "ruta.origen" 
@@ -14,18 +16,18 @@
                     placeholder="Ingresa Origen" 
                     class="form-control defaultSizeInput"
                     [ngClass]="{ 'input-grueso': true, 'input-error': false }">
-            </div>
+            </div> -->
             <div id="mat-form-destino" class="normal-size-input">
                 <label for="rutaDestino" class="label-input">Estado origen:</label>
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="estadoOrigen" [(ngModel)]="ruta.estadoOrigen">
                     <option selected disabled>Selecciona un estado</option>
                     <option *ngFor="let estado of listaEstados" [ngValue]="estado">{{ estado.nombreEstado }} - {{ estado.codIata }}</option>
-                  </select>
+                </select>
             </div>  
         </div>
         <div id="mat-form-destino" class="normal-size-input">
             <label for="rutaDestino" class="label-input">Nombre de destino:</label>
-            <div id="rutaDestino" class="d-flex">
+            <!-- <div id="rutaDestino" class="d-flex">
                 <input type="text" matInput
                 id="inputSeleccionaRutaDestino"
                 placeholder="Ingresa Destino"
@@ -33,7 +35,7 @@
                 name="destino-descripcion"
                 class="form-control"
                 [ngClass]="{ 'input-grueso': true, 'input-error': false }">
-            </div>   
+            </div>    -->
         </div>  
         <div id="mat-form-destino" class="normal-size-input">
             <div id="mat-form-destino" class="normal-size-input">
@@ -41,11 +43,11 @@
                 <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="estadoDestino" [(ngModel)]="ruta.estadoDestino">
                     <option selected disabled>Selecciona un estado</option>
                     <option *ngFor="let estado of listaEstados" [ngValue]="estado">{{ estado.nombreEstado }} - {{ estado.codIata }}</option>
-                  </select>
+                </select>
             </div>  
         </div>  
     </div>
-          <button class="btn btn-success btonGuardar">Guardar</button>
-     </form>
+        <button class="btn btn-success btonGuardar">Guardar</button>
+    </form>
     </div>
 </div>

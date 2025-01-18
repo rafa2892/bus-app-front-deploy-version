@@ -52,7 +52,7 @@ export class ListaCarrosComponent {
         window.history.replaceState({}, '', window.location.href); 
         // this.openHistorialModal(this.carro); // Abre el modal después de asignar el carro
         this.obtenerCarroPorId(id, true);
-       }
+      }
     });
     this.obtenerCarros();
   }
@@ -76,6 +76,7 @@ export class ListaCarrosComponent {
   private obtenerCarros() {
     this.carroServicio.obtenerListaCarro().subscribe(carros => {
       this.carros = carros;
+      console.log(this.carros);
     });
   }
 
@@ -84,7 +85,9 @@ export class ListaCarrosComponent {
   }
 
   detallesVehiculo(carroSelected: Carro) {
-    this.carroSeleccionadoDetalles = carroSelected;
+    this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
+      this.carroSeleccionadoDetalles = c;
+    });
   }
 
   verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
