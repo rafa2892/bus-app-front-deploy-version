@@ -22,7 +22,7 @@
       <tbody class="table-dark">
       <tr *ngFor= "let viaje of viajes | paginate: { itemsPerPage: 10, currentPage: p}">
         <td>{{ viaje.id }}</td>
-        <td>{{ viaje.carro.numeroUnidad }}</td>
+        <td>{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
         <td>{{ viaje.ruta.ciudadOrigen + ' ' + viaje.ruta.estadoOrigen }} <span> -- </span>{{viaje.ruta.ciudadDestino + ' ' + viaje.ruta.estadoDestino }}</td>
         <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
         <td>{{ viaje.carro.tipoDeVehiculo }}</td>

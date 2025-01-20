@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, ViewEncapsulation } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -31,6 +31,10 @@ export class RegistrarViajeComponent {
     conductor: Conductor = new Conductor();
     ruta: Ruta = new Ruta();
 
+    //Indicador de carga
+    loading = false;
+    proposalPlaceSelectedEvent = false;
+
     address: string = '';
     autocomplete: any;
     direccionSalida: string = '';
@@ -41,6 +45,7 @@ export class RegistrarViajeComponent {
     ciudadDestino: string = '';
     estadoOrigen: string = '';
     estadoDestino: string = '';
+    datosNoEncontrados = false;
 
 
     carros : Carro [];
@@ -75,7 +80,7 @@ export class RegistrarViajeComponent {
     rutaErrorDestino= false;
     idModalBuscarRuta : string = '';
 
-    //Constantes Vistas
+    //Constantes literales 
     DESDE_LABEL = TITLES.FROM;
     HACIA_LABEL = TITLES.DESTINY;
     PLACEHOLDER_DISTANCE_KMS = TITLES.PLACEHOLDER_DISTANCE_KMS;
@@ -89,11 +94,15 @@ export class RegistrarViajeComponent {
     SELECCIONA_VEHICULO = TITLES.SELECT_CAR;
     GUARDAR = TITLES.SAVE;
     NUEVA_RUTA = TITLES.NEW_ROUTE;
+    MENSAJE_DATA_FOUND = TITLES.DATA_FOUND;
+    MENSAJE_NO_DATA_FOUND = TITLES.DATA_NO_FOUND;
 
     constructor(
-      private viajeServicio:ViajeServicioService,private router:Router, private carroServicio:CarroService,
-      private _snackBar: MatSnackBar,public dialog: MatDialog, private conductorService:ConductorService,
-      private rutaServicio:RutasService, private cdr: ChangeDetectorRef,
+      private viajeServicio:ViajeServicioService,
+      private router:Router, private carroServicio:CarroService,
+      private _snackBar: MatSnackBar,public dialog: MatDialog,
+      private conductorService:ConductorService,
+      private ngZone: NgZone,
       private readonly route: ActivatedRoute){}
 
 
@@ -125,6 +134,68 @@ export class RegistrarViajeComponent {
       this.guardarViaje();
     }
 
+    // Función reutilizable para inicializar el autocompletado
+    initAutocomplete(elementId: string, callback: (direccion: string) => void): void {
+      const input = document.getElementById(elementId) as HTMLInputElement;
+
+      // Configuración del autocompletado con restricciones de país
+      const autocomplete = new google.maps.places.Autocomplete(input, {
+        componentRestrictions: { country: 'VE' }, // Restricción para Venezuela
+        fields: ['geometry', 'formatted_address','address_components'], // Campos necesarios
+      });
+
+      // Listener para manejar el evento cuando se selecciona un lugar
+      autocomplete.addListener('place_changed', () => {
+        const place = autocomplete.getPlace();
+        if (place.geometry) {
+          const direccion = place.formatted_address || '';
+            this.ngZone.run(() => {
+              if (elementId === 'direccion-desde') {
+                this.direccionSalida = direccion;
+              } else if (elementId === 'direccion-destino') {
+                this.direccionDestino = direccion;
+              }
+              if (this.direccionSalida && this.direccionDestino) {
+                  this.calculaDistancia();
+                  this.proposalPlaceSelectedEvent = true;
+              }
+              // Obtener ciudad y estado
+              let ciudad = '';
+              let estado = '';
+
+              place.address_components?.forEach((component) => {
+                if (component.types.includes('locality')) {
+                  ciudad = component.long_name; // Asignar la ciudad
+                }
+                if (component.types.includes('administrative_area_level_1')) {
+                  estado = component.long_name; // Asignar el estado
+                }
+                if(this.direccionSalida !== '' && this.direccionDestino === '') {
+                  this.ciudadOrigen = ciudad;
+                  this.estadoOrigen = estado;
+                }
+                if(this.direccionDestino !== '') {
+                  this.ciudadDestino = ciudad;
+                  this.estadoDestino = estado;
+                }
+              });
+          callback(direccion);
+        }); // Llamamos al callback con la dirección seleccionada
+        } else {
+          console.warn('No se seleccionó un lugar válido.');
+        }
+      });
+    }
+
+    getBorderStyles(): string {
+      if(this.datosNoEncontrados && this.proposalPlaceSelectedEvent){
+          return 'border-warning';
+      }else if(!this.datosNoEncontrados && this.proposalPlaceSelectedEvent){
+          return 'border-success';
+      }
+      return '';
+    }
+
     private obtenerCarroPorId(id: number): void {
       this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
         if (carro) {
@@ -138,7 +209,6 @@ export class RegistrarViajeComponent {
 
     private obtenerListaConductores () {
       this.conductorService.obtenerListaConductores().subscribe(dato => {
-
         this.conductoresOrdenados = [...dato].sort((a, b) => {
           if (a.nombre.toLowerCase() < b.nombre.toLowerCase()) {
             return -1;
@@ -159,14 +229,6 @@ export class RegistrarViajeComponent {
 
     displayVehiculo(carro: any): string {
       return carro? `${carro.marca} ${carro.modelo} - Unidad: ${carro.numeroUnidad}`: '';
-    }
-
-    displayRutaDesde(rutaDesde: any): string {
-      return rutaDesde ? `${rutaDesde.origen}` : '';
-    }
-
-    displayRutaHasta(rutaDestino: any): string {
-      return rutaDestino ? `${rutaDestino.destino}` : '';
     }
 
     private isConductor(object: any): boolean {
@@ -240,16 +302,15 @@ export class RegistrarViajeComponent {
       }
     }
 
-      if(this.viaje.ruta.tiempoEstimado) {
-      }
-
-      if(this.errorVali)
-        return false;
-
-      else
-        return true;
+    if(this.viaje.ruta.tiempoEstimado) {
     }
 
+    if(this.errorVali)
+      return false;
+
+    else
+      return true;
+  }
 
     formatearHorasEspera(){
       const horas = this.viaje.ruta.tiempoEstimado;
@@ -270,7 +331,6 @@ export class RegistrarViajeComponent {
         this.viaje.carro = this.selectedVehiculo;
 
         // Valores de la ruta
-
         this.viaje.ruta.origen = this.direccionSalida;
         this.viaje.ruta.destino = this.direccionDestino;
         this.viaje.ruta.distanciaKm = this.distancia;
@@ -281,13 +341,8 @@ export class RegistrarViajeComponent {
         this.viaje.ruta.estadoDestino = this.estadoDestino;
         this.viaje.ruta.tiempoEstimado = this.duracion;
 
-        // this.viaje.ruta.estadoOrigen = this.estadoOrigen;
-        // this.viaje.ruta.estadoDestino = this.estadoDestino;
-
         this.viaje.conductor = this.selectedConductor;
         this.viaje.empresaServicioNombre = this.nombreEmpresaServicio;
-
-        console.log(this.viaje);
 
         this.viajeServicio.registrarViaje(this.viaje).subscribe(
             dato => {
@@ -349,7 +404,6 @@ export class RegistrarViajeComponent {
       }
       this.selectedConductor = conductorSeleccionado;
     }
-
 
   filtrarAutocompletarConductor(conductor:Conductor) {
     if( this.selectedConductor === undefined
@@ -430,64 +484,11 @@ export class RegistrarViajeComponent {
   }
 
   calculaDistancia() {
-    console.log(this.direccionSalida, this.direccionDestino);
     if(this.direccionSalida && this.direccionSalida) {
+      this.loading = true;
       this.calculateDistance(this.direccionSalida, this.direccionDestino);
     }
   }
-
-   // Función reutilizable para inicializar el autocompletado
-initAutocomplete(elementId: string, callback: (direccion: string) => void): void {
-  const input = document.getElementById(elementId) as HTMLInputElement;
-
-  // Configuración del autocompletado con restricciones de país
-  const autocomplete = new google.maps.places.Autocomplete(input, {
-    componentRestrictions: { country: 'VE' }, // Restricción para Venezuela
-    fields: ['geometry', 'formatted_address','address_components'], // Campos necesarios
-  });
-
-  // Listener para manejar el evento cuando se selecciona un lugar
-  autocomplete.addListener('place_changed', () => {
-    const place = autocomplete.getPlace();
-    if (place.geometry) {
-      const direccion = place.formatted_address || '';
-    
-      // Obtener ciudad y estado
-      let ciudad = '';
-      let estado = '';
-
-      place.address_components?.forEach((component) => {
-        if (component.types.includes('locality')) {
-          ciudad = component.long_name; // Asignar la ciudad
-        }
-        if (component.types.includes('administrative_area_level_1')) {
-          estado = component.long_name; // Asignar el estado
-        }
-
-        // Imprimir los resultados finales
-        console.log('Dirección completa: ', place.formatted_address || '');
-        console.log('Ciudad: ', ciudad);
-        console.log('Estado: ', estado);
-        
-        if(this.direccionSalida !== '' && this.direccionDestino === '') {
-          this.ciudadOrigen = ciudad;
-          this.estadoOrigen = estado;
-        }
-        if(this.direccionDestino !== '') {
-          this.ciudadDestino = ciudad;
-          this.estadoDestino = estado;
-        }
-        console.log('Ciudad de origen:', this.ciudadOrigen);
-        console.log('Estado de origen:', this.estadoOrigen);
-        console.log('Ciudad de destino:', this.ciudadDestino);
-        console.log('Estado de destino:', this.estadoDestino);
-      });
-      callback(direccion); // Llamamos al callback con la dirección seleccionada
-    } else {
-      console.warn('No se seleccionó un lugar válido.');
-    }
-  });
-}
 
   calculateDistance(startAddress: string, endAddress: string): void {
     const directionsService = new google.maps.DirectionsService();
@@ -498,7 +499,6 @@ initAutocomplete(elementId: string, callback: (direccion: string) => void): void
       transitOptions: {
         modes: [google.maps.TransitMode.BUS], // Solo considerar transporte en autobús
       },
-
     };
 
     directionsService.route(request, (result, status) => {
@@ -506,22 +506,29 @@ initAutocomplete(elementId: string, callback: (direccion: string) => void): void
         // Usamos encadenamiento opcional para evitar el error de 'undefined'
         const distance = result?.routes?.[0]?.legs?.[0]?.distance?.text;
         const duration = result?.routes?.[0]?.legs?.[0]?.duration?.text; // Duración estimada
+
         if (distance && duration) {
+          this.datosNoEncontrados = false;
           this.distancia = distance; // Asignamos la distancia al modelo
           this.duracion = this.formatearDuracion(duration);
-          // this.duracion = duration; // Guardar duración en el modelo
-          console.log(`Distancia: ${distance}, Duración (en autobús): ${duration}`);
-          console.log("Duracion formateada:", this.duracion);
+          this.loading = false;
         } else {
-            this.distancia = 'Sin datos';
-            // this.duracion = 'Sin datos';
-            console.error('No se pudieron obtener la distancia o la duración');
+          this.loading = false;
+          this.datosNoEncontrados = true;
+          this.resetInputFields();
+          console.error('No se pudieron obtener la distancia o la duración');
         }
       } else {
-          this.distancia = 'Sin datos';
-          // this.duracion = 'Sin datos';
+          this.loading = false;
+          this.datosNoEncontrados = true;
+          this.resetInputFields();
           console.error('Error al obtener la información: ', status);
     }});
+  }
+
+  private resetInputFields() {
+    this.distancia = '';
+    this.duracion = '';
   }
 
   formatearDuracion(duracionString: string): string {
@@ -560,6 +567,12 @@ initAutocomplete(elementId: string, callback: (direccion: string) => void): void
       this.direccionSalida = this.direccionDestino;
       this.direccionDestino = temp;
     }
+  }
+
+  onTypeDown() {
+    this.proposalPlaceSelectedEvent = false;
+    this.distancia = '';
+    this.duracion = '';
   }
 
   // Método que se ejecuta cuando el usuario escribe en el campo
@@ -606,6 +619,14 @@ initAutocomplete(elementId: string, callback: (direccion: string) => void): void
     event.target.value = this.duracion;
 }
 
+
+// displayRutaDesde(rutaDesde: any): string {
+//   return rutaDesde ? `${rutaDesde.origen}` : '';
+// }
+
+// displayRutaHasta(rutaDestino: any): string {
+//   return rutaDestino ? `${rutaDestino.destino}` : '';
+// }
 
 // if(!this.isRuta(this.origen) || (this.origen === '')){
       //   this.origen = ''  ;

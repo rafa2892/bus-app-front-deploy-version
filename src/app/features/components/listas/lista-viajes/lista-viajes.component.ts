@@ -50,12 +50,8 @@ export class ListaViajesComponent {
     });
   }
 
-  formatearHorasEspera(viaje:Viaje){
-    // const horas = viaje.duracionViaje;
-    // const horas = viaje.ruta.tiempoEstimado;
-    // const horasFormateadas = ('0' + horas).slice(-2); // Asegura dos dígitos para las horas
-    // const minutosFormateados = '00';
-    // const segundosFormateados = '00';
-    // return `${horasFormateadas}:${minutosFormateados}:${segundosFormateados}`;
+  getNumeroUnidadFormateado(numeroUnidad: number): string {
+    return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
   }
+
 }

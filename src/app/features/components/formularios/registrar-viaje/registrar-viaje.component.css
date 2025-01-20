@@ -69,11 +69,40 @@
   width: 50%;
 }
 
+/* Overlay para bloquear toda la UI */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Aseguramos que esté encima de todo */
+}
 
-#formularioRegistrarViaje {
-  margin-top: 5%;
-  position: relative;
-  right: 40%;
+/* Estilo del spinner */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+/* Animación del spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Clases para bloquear la interacción */
+.blocked {
+  pointer-events: none; /* Esto bloquea la interacción con los elementos mientras está en 'loading' */
+  opacity: 0.5; /* Agrega un efecto visual de bloqueo */
 }
 
 .lupaIcon {
@@ -84,9 +113,7 @@
   font-weight: bold; /* Resalta el texto */
   font-size: 14px; /* Tamaño adecuado */
   margin-bottom: 5px; /* Espacio entre label y campo */
-  display: block; /* Asegura que se muestre en su propia línea */
   color: #55a2d1; 
-  display: block; /* Hace que la etiqueta ocupe toda la línea */
   margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
 }
 
@@ -96,7 +123,17 @@
 
 .empresa-servicio-input {
   margin-bottom: 5%;
-  width: 80%;
+  width: 80%
+}
+
+.caja-rutas {
+  resize: none; 
+  width: 100%; 
+  box-sizing: border-box;
+}
+
+.contenedor-rutas{
+  min-width: 25%;
 }
 
 .custom-mat-field {
@@ -120,6 +157,35 @@
   border-color: red;
   border-width: 2px !important;
 }
+
+.formulario-viaje {
+  margin-top: 3%;
+}
+
+.btn-intercambiador {
+  margin-top: 5%;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+
+.mensaje--no-data {
+  margin-top: 1.8%;
+}
+
+.mensaje__no-data{
+  color: sandybrown;
+}
+
+.mensaje__data-encontrada{
+  color: green;
+}
+
+.row-distancia-duracion {
+  max-width: fit-content;
+}
+
+
 
 
 
