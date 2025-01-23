@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Viaje } from '../../../../core/models/viaje';
 
 @Component({
   selector: 'app-popup-mensaje-confirmar-viaje',
@@ -11,17 +12,19 @@ export class PopupMensajeConfirmarViajeComponent {
   modalLabel = 'confirmarServicioLabel';
   idModal: string = 'confirma-servicio-modal';
 
+  //Los datos pasados desde el padre a la instancia del modal 
   isModalProgramatico : boolean = false;
+  viaje: Viaje; 
 
   //Emisores de datos
   @Output() confirmarAccion: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  //Receptores de datos
-  @Input() modalProgramatico: boolean = false; // Recibe el booleano desde el padre.
-
   manejarConfirmacion(confirmado: boolean) {
-    console.log("confirmacion desde componente mensaje-confirmar-viaje");
     this.confirmarAccion.emit(true);
+  }
+
+  getNumeroUnidadFormateado(numeroUnidad: number): string {
+    return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
   }
 
 }

@@ -7,5 +7,23 @@
     [isModalProgramatico]="isModalProgramatico"
     (confirmarAccion)="manejarConfirmacion($event)"
     [isModalConfirmacion]="true">
-    <h1>PRUEBA MODAL</h1>
+
+    <div *ngIf="viaje">
+        <label class="label-input d-block">Compañia Servicio  :
+            <span class="confirma-viaje-span">{{viaje.empresaServicioNombre}}</span>
+        </label> 
+        <label class="label-input d-block">Vehiculo  :  
+            <span class="confirma-viaje-span">{{getNumeroUnidadFormateado(viaje.carro.numeroUnidad)}} - {{viaje.carro.modelo}} - {{viaje.carro.anyo}}</span>
+        </label> 
+        <label class="label-input d-block">Tipo de Vehiculo  : <span class="confirma-viaje-span">{{viaje.carro.tipoDeVehiculo}}</span></label> 
+        <label class="label-input d-block">Conductor  :
+            <span class="confirma-viaje-span">{{viaje.conductor.nombre}}  {{viaje.conductor.apellido}}</span>
+        </label> 
+        <label class="label-input d-block">Ruta  : <span class="confirma-viaje-span">
+            {{viaje.ruta.ciudadOrigen}} - {{viaje.ruta.estadoOrigen}} ->
+            {{viaje.ruta.ciudadDestino}} - {{viaje.ruta.estadoDestino}}</span>
+        </label> 
+        <label class="label-input d-block">KMs  : <span class="confirma-viaje-span">{{viaje.ruta.distanciaKm}}</span></label> 
+        <label class="label-input d-block">Duración  :  <span class="confirma-viaje-span">{{viaje.ruta.tiempoEstimado}}</span></label> 
+    </div>
 </app-popup-generico>

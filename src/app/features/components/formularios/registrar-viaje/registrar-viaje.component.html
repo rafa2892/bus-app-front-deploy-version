@@ -1,11 +1,10 @@
 <div id="registrarViajeContainer" class="formulario-viaje">
     <!-- <button id="irCrearRuta" routerLink="/registrar-ruta" class="btn btn-primary btonGuardar">{{NUEVA_RUTA}}</button> -->
-    
-    
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarViaje" (keydown)="onKeyDown($event)">
         <label class="label-input">{{EMPRESA_NOMBRE_SERVICIO}}</label>
         <div>
             <input 
+            autocomplete="off"
             type="text" 
             class="form-control empresa-servicio-input input-custom-style" 
             id="nombre-empresa-servicio" 
@@ -40,11 +39,11 @@
                     <img src="../../assets/exchange.png" alt="Intercambiar" style="width: 32px; height: 32px;">
                 </button>
             </div>
-
             <div id="div-hacia" class="col-auto contenedor-rutas">
                 <div id="rutaDestino">
                     <label for="rutaDestino" class="label-input">{{HACIA_LABEL}}</label>
                     <textarea
+                    autocomplete="off"
                     [ngClass]="direccionSalida ? 'textarea-custom-style' : 'textarea-custom-style-disabled'"
                     class="form-control caja-rutas"
                     id="direccion-destino"
@@ -63,19 +62,17 @@
                 </div>   
             </div>  
         </div>
-
         <!--Spinner de carga-->
         <div *ngIf="loading" class="overlay">
             <div class="spinner"></div>
         </div>
-
-
         <div class="form-group">
             <div class="row row-distancia-duracion border-custom-color"
             [ngClass]="getBorderStyles()">
                 <div class="col-auto">
                     <label class="label-input">{{DISTANCIA_KMS}}</label>
                     <input 
+                    autocomplete="off"
                     type="text" 
                     class="form-control input-custom-style" 
                     id="km-input" 
@@ -87,12 +84,11 @@
                     (keydown)="distanciaInput($event)"
                     (blur)="agregarKm()">
                 </div>
-
-
                 <div class="col-auto">
                     <div>
                         <label class="label-input text-wrap" style="display: block; width: 100%;">{{DURACION_VIAJE_LABEL}}</label>
-                        <input 
+                        <input
+                        autocomplete="off"
                         type="text" 
                         class="form-control tamanio-duracion input-custom-style" 
                         id="horasEsperaInput" 
@@ -106,8 +102,6 @@
                         (keydown)="onTypeDown()" >
                     </div> 
                 </div>
-
-
                 <div class="col-auto ms-2 mensaje--no-data" 
                 *ngIf="!loading && proposalPlaceSelectedEvent;">
                     <span [ngClass]="{'mensaje__no-data': datosNoEncontrados, 'mensaje__data-encontrada': !datosNoEncontrados}">
@@ -119,17 +113,16 @@
                 </div>
             </div>   
         </div>
-
-
-
-
         <div class="row mt-4">
             <div id="seleccionaConductor" class="col-lg-4  border-custom-color">
                 <label for="seleccionaConductor" class="label-input d-block">{{SELECCIONA_CONDUCTOR_LABEL}}</label>
                 <div>
                     <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
                     'blueBorder': !(formSubmitted && conductorError)}" >
-                        <input type="text" matInput
+                        <input 
+                        autocomplete="off"
+                        type="text" 
+                        matInput
                         id="inputSeleccionaConductor"
                         placeholder="Ingresa nombre del conductor" 
                         [(ngModel)]="selectedConductor" 
@@ -150,13 +143,14 @@
                     </a>
                 </div>
             </div>
-
-
             <div id="seleccionaVehiculo" class="col-lg-4 seleccionaVehiculoPosition border-custom-color">
                 <label for="seleccionaVehiculo" class="label-input d-block">{{SELECCIONA_VEHICULO}}</label>
                 <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" 
                 [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
-                    <input type="text" matInput
+                    <input
+                    autocomplete="off"
+                    type="text" 
+                    matInput
                     id="inputSeleccionaVehiculo"
                     placeholder="Selecciona el vehiculo" 
                     [(ngModel)]="selectedVehiculo" 

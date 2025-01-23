@@ -31,7 +31,6 @@ body {
   }
 
   .error-snackbar {
-    
     .mat-mdc-snack-bar-container .mdc-snackbar__surface {
       border-radius: 8px !important;
     }
@@ -109,8 +108,12 @@ body {
     color: white;
   }
 
-  .modal-title {
+  .modal-title, .modal-body {
     color: white; /* Cambiar el color a blanco */
+  }
+
+  .btn-close {
+    color: white !important; /* Cambiar el color a blanco */
   }
 
   

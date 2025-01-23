@@ -271,22 +271,22 @@ export class RegistrarViajeComponent {
 
   validandoDatos() {
 
-
     this.formSubmitted = true;
     this.errorVali = false;
 
     if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
-          this.selectedConductor = ''
-          this.conductorError = true;
-          this.errorVali = true
-          const autoCompleteConductor = document.getElementById('autoCompleteConductor');
-          if(autoCompleteConductor) {
-            autoCompleteConductor.classList.remove('errorValInput');
-            setTimeout(() => {
-              autoCompleteConductor.classList.add('errorValInput');
-            });
-          }
+        this.selectedConductor = ''
+        this.conductorError = true;
+        this.errorVali = true
+        const autoCompleteConductor = document.getElementById('autoCompleteConductor');
+        if(autoCompleteConductor) {
+          autoCompleteConductor.classList.remove('errorValInput');
+          setTimeout(() => {
+            autoCompleteConductor.classList.add('errorValInput');
+          });
+        }
       }
+
     if(!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === ''){
       this.selectedVehiculo = ''
       this.vehiculoError = true;
@@ -324,7 +324,12 @@ export class RegistrarViajeComponent {
       }
     }
 
-    if(this.viaje.ruta.tiempoEstimado) {
+    if(!this.duracion) {
+      confirm("No es obligatorio complimentar la duración aproximada pero si es muy recomendable");
+    }
+
+    if(!this.distancia) {
+      confirm("No es obligatorio complimentar la distancia aproximada pero si muy recomendable");
     }
 
     if(this.errorVali)
@@ -348,13 +353,16 @@ export class RegistrarViajeComponent {
       //Reiniciamos estilos a todos los componentes de haber habido errores
       this.quitarErrorEstilos('');
       
-      if(this.validandoDatos()){
 
+
+      if(this.validandoDatos()){
+        //Carga datos nuevo viaje
+        this.cargarDatosViaje();
         // Abre el modal creando una instancia nueva 
         const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent); 
         modalRef.componentInstance.isModalProgramatico = true;
-        this.modalConfirmacion = true;
-
+        modalRef.componentInstance.viaje = this.viaje;
+        
         // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
         modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
           this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
@@ -369,32 +377,33 @@ export class RegistrarViajeComponent {
       }
     }
 
+    cargarDatosViaje() {
+      
+      this.viaje.conductor = this.selectedConductor;
+      this.viaje.fecha = new Date();
+      this.viaje.carro = this.selectedVehiculo;
+
+      // Valores de la ruta
+      this.viaje.ruta.origen = this.direccionSalida;
+      this.viaje.ruta.destino = this.direccionDestino;
+      this.viaje.ruta.distanciaKm = this.distancia;
+      this.viaje.ruta.tiempoEstimado = this.duracion;
+      this.viaje.ruta.ciudadOrigen = this.ciudadOrigen;
+      this.viaje.ruta.ciudadDestino = this.ciudadDestino;
+      this.viaje.ruta.estadoOrigen = this.estadoOrigen;
+      this.viaje.ruta.estadoDestino = this.estadoDestino;
+      this.viaje.ruta.tiempoEstimado = this.duracion;
+
+      this.viaje.conductor = this.selectedConductor;
+      this.viaje.empresaServicioNombre = this.nombreEmpresaServicio;
+    }
+
       // Método para manejar la confirmación del usuario
   manejarConfirmacion(confirmado: boolean) {
-    console.log("ACCION CONFIRMAR EN registar-viaje");
-    console.log(this.viaje);
     this.guardarViaje();
   }
 
     guardarViaje(){
-
-        this.viaje.conductor = this.selectedConductor;
-        this.viaje.fecha = new Date();
-        this.viaje.carro = this.selectedVehiculo;
-
-        // Valores de la ruta
-        this.viaje.ruta.origen = this.direccionSalida;
-        this.viaje.ruta.destino = this.direccionDestino;
-        this.viaje.ruta.distanciaKm = this.distancia;
-        this.viaje.ruta.tiempoEstimado = this.duracion;
-        this.viaje.ruta.ciudadOrigen = this.ciudadOrigen;
-        this.viaje.ruta.ciudadDestino = this.ciudadDestino;
-        this.viaje.ruta.estadoOrigen = this.estadoOrigen;
-        this.viaje.ruta.estadoDestino = this.estadoDestino;
-        this.viaje.ruta.tiempoEstimado = this.duracion;
-        this.viaje.conductor = this.selectedConductor;
-        this.viaje.empresaServicioNombre = this.nombreEmpresaServicio;
-
         this.viajeServicio.registrarViaje(this.viaje).subscribe(
             dato => {
                   this._snackBar.open('Viaje Registrado con éxito.', '', {
