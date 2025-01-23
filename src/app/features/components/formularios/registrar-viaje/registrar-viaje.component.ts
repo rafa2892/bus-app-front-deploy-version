@@ -14,8 +14,8 @@ import { ConductorService } from '../../../../core/services/conductor.service';
 import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
 import { TITLES } from '../../../../constant/titles.constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PopupGenericoComponent } from '../../modales/popup-generico/popup-generico.component';
 import { PopupMensajeConfirmarViajeComponent } from '../../modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
+import Swal from 'sweetalert2';
 
 
 
@@ -135,10 +135,6 @@ export class RegistrarViajeComponent {
       this.initAutocomplete('direccion-destino', (direccion: string) => {
         this.direccionDestino = direccion;
       });
-    }
-
-    onSubmit(){
-      this.guardarViaje();
     }
 
     // Función reutilizable para inicializar el autocompletado
@@ -269,75 +265,195 @@ export class RegistrarViajeComponent {
         'modelo' in object && typeof object.modelo === 'string';
     }
 
-  validandoDatos() {
-
-    this.formSubmitted = true;
-    this.errorVali = false;
-
-    if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
-        this.selectedConductor = ''
+    async validarDatos(): Promise<boolean> {
+      
+      this.formSubmitted = true;
+      this.errorVali = false;
+    
+      // Validar conductor
+      if (!this.isConductor(this.selectedConductor) || this.selectedConductor === '') {
+        this.selectedConductor = '';
         this.conductorError = true;
-        this.errorVali = true
+        this.errorVali = true;
         const autoCompleteConductor = document.getElementById('autoCompleteConductor');
-        if(autoCompleteConductor) {
+        if (autoCompleteConductor) {
           autoCompleteConductor.classList.remove('errorValInput');
           setTimeout(() => {
             autoCompleteConductor.classList.add('errorValInput');
           });
         }
       }
-
-    if(!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === ''){
-      this.selectedVehiculo = ''
-      this.vehiculoError = true;
-      this.errorVali = true;
-      const autoCompleteCarro = document.getElementById('autoCompleteCarro');
-      if(autoCompleteCarro) {
-        autoCompleteCarro.classList.remove('errorValInput');
-        setTimeout(() => {
+    
+      // Validar vehículo
+      if (!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === '') {
+        this.selectedVehiculo = '';
+        this.vehiculoError = true;
+        this.errorVali = true;
+        const autoCompleteCarro = document.getElementById('autoCompleteCarro');
+        if (autoCompleteCarro) {
+          autoCompleteCarro.classList.remove('errorValInput');
+          setTimeout(() => {
             autoCompleteCarro.classList.add('errorValInput');
-        });
+          });
+        }
+      }
+    
+      // Validar dirección de salida
+      if (this.direccionSalida === '') {
+        const elemento = document.getElementById('direccion-desde');
+        if (elemento) {
+          elemento.classList.add('input-error-blink');
+        }
+      }
+    
+      // Validar dirección de destino
+      if (this.direccionDestino === '') {
+        const elemento = document.getElementById('direccion-destino');
+        if (elemento) {
+          elemento.classList.add('input-error-blink');
+        }
+      }
+    
+      // Validar nombre de la empresa
+      if (this.nombreEmpresaServicio === '') {
+        const elemento = document.getElementById('nombre-empresa-servicio');
+        if (elemento) {
+          elemento.classList.add('input-error-blink');
+        }
+      }
+    
+      // Validar duración
+      if (!this.errorVali && (!this.duracion || !this.distancia)) {
+
+          let title = !this.duracion ? 'Duración aproximada' : 'Distancia aproximada'; 
+          let inputDisDur = !this.duracion ? 'Duración aproximada' : 'Distancia aproximada'; 
+          
+          if(!this.duracion && !this.distancia) {
+              title = 'Duracion y distancia aproximada'
+              inputDisDur = 'duracion y distancia aproximada'
+          }
+          const text = `No es obligatorio completar la ${inputDisDur}, pero es muy recomendable.`
+          const result = await Swal.fire({
+            title: title,
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Continuar',
+            cancelButtonText: 'Modificar',
+          });
+      
+          if (!result.isConfirmed) {
+            return false; // Detenemos el flujo
+          }
+      }
+
+      if (this.errorVali) {
+        return false;
+      } else {
+        return true;
       }
     }
+    
 
-    if(this.direccionSalida === '') {
-      // Método para activar el parpadeo de los campos faltantes
-      const elemento = document.getElementById('direccion-desde');
-      if (elemento) {
-        elemento.classList.add('input-error-blink');
-      }
-    }
+  // validandoDatos() {
 
-    if(this.direccionDestino === '') {
-      // Método para activar el parpadeo de los campos faltantes
-    const elemento = document.getElementById('direccion-destino');
-    if (elemento) {
-      elemento.classList.add('input-error-blink');
-      }
-    }
+  //   this.formSubmitted = true;
+  //   this.errorVali = false;
 
-    if(this.nombreEmpresaServicio === '') {
-      // Método para activar el parpadeo de los campos faltantes
-      const elemento = document.getElementById('nombre-empresa-servicio');
-      if (elemento) {
-        elemento.classList.add('input-error-blink');
-      }
-    }
+  //   if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
+  //       this.selectedConductor = ''
+  //       this.conductorError = true;
+  //       this.errorVali = true
+  //       const autoCompleteConductor = document.getElementById('autoCompleteConductor');
+  //       if(autoCompleteConductor) {
+  //         autoCompleteConductor.classList.remove('errorValInput');
+  //         setTimeout(() => {
+  //           autoCompleteConductor.classList.add('errorValInput');
+  //         });
+  //       }
+  //     }
 
-    if(!this.duracion) {
-      confirm("No es obligatorio complimentar la duración aproximada pero si es muy recomendable");
-    }
+  //   if(!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === ''){
+  //     this.selectedVehiculo = ''
+  //     this.vehiculoError = true;
+  //     this.errorVali = true;
+  //     const autoCompleteCarro = document.getElementById('autoCompleteCarro');
+  //     if(autoCompleteCarro) {
+  //       autoCompleteCarro.classList.remove('errorValInput');
+  //       setTimeout(() => {
+  //           autoCompleteCarro.classList.add('errorValInput');
+  //       });
+  //     }
+  //   }
 
-    if(!this.distancia) {
-      confirm("No es obligatorio complimentar la distancia aproximada pero si muy recomendable");
-    }
+  //   if(this.direccionSalida === '') {
+  //     // Método para activar el parpadeo de los campos faltantes
+  //     const elemento = document.getElementById('direccion-desde');
+  //     if (elemento) {
+  //       elemento.classList.add('input-error-blink');
+  //     }
+  //   }
 
-    if(this.errorVali)
-      return false;
+  //   if(this.direccionDestino === '') {
+  //     // Método para activar el parpadeo de los campos faltantes
+  //   const elemento = document.getElementById('direccion-destino');
+  //   if (elemento) {
+  //     elemento.classList.add('input-error-blink');
+  //     }
+  //   }
 
-    else
-      return true;
-  }
+  //   if(this.nombreEmpresaServicio === '') {
+  //     // Método para activar el parpadeo de los campos faltantes
+  //     const elemento = document.getElementById('nombre-empresa-servicio');
+  //     if (elemento) {
+  //       elemento.classList.add('input-error-blink');
+  //     }
+  //   }
+
+  //   if (!this.duracion && !this.errorVali) {
+  //     Swal.fire({
+  //       title: 'Duración aproximada',
+  //       text: 'No es obligatorio complimentar la duración aproximada, pero es muy recomendable.',
+  //       icon: 'warning',
+  //       showCancelButton: true,
+  //       confirmButtonText: 'Continuar',
+  //       cancelButtonText: 'Detener'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         console.log('El usuario decidió continuar.');
+  //         // Continúa el flujo
+  //       } else {
+  //         console.log('El usuario decidió detener.');
+  //         this.errorVali = true;
+  //       }
+  //     });
+  //   }
+    
+  //   if (!this.distancia && !this.errorVali) {
+  //     Swal.fire({
+  //       title: 'Distancia aproximada',
+  //       text: 'No es obligatorio completar la distancia aproximada, pero es muy recomendable.',
+  //       icon: 'warning',
+  //       showCancelButton: true,
+  //       confirmButtonText: 'Continuar',
+  //       cancelButtonText: 'Modificar'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         console.log('El usuario decidió continuar.');
+  //       } else {
+  //         console.log('El usuario decidió detener.');
+  //         this.errorVali = true;
+  //       }
+  //     });
+  //   }
+
+  //   console.log(this.errorVali), ">>>>";
+  //   if(this.errorVali) {
+  //     return false;
+  //   }else {
+  //     return true;
+  //   }
+  // }
 
     formatearHorasEspera(){
       const horas = this.viaje.ruta.tiempoEstimado;
@@ -348,26 +464,25 @@ export class RegistrarViajeComponent {
     }
 
 
-    validar() {
+    async validar() {
 
       //Reiniciamos estilos a todos los componentes de haber habido errores
       this.quitarErrorEstilos('');
-      
+      const esValido = await this.validarDatos();
 
-
-      if(this.validandoDatos()){
-        //Carga datos nuevo viaje
-        this.cargarDatosViaje();
-        // Abre el modal creando una instancia nueva 
-        const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent); 
-        modalRef.componentInstance.isModalProgramatico = true;
-        modalRef.componentInstance.viaje = this.viaje;
-        
-        // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
-        modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
-          this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
-        });
-      }else {
+      if(esValido){
+          //Carga datos nuevo viaje
+          this.cargarDatosViaje();
+          // Abre el modal creando una instancia nueva 
+          const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent); 
+          modalRef.componentInstance.isModalProgramatico = true;
+          modalRef.componentInstance.viaje = this.viaje;
+          
+          // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
+          modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
+            this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
+          });
+      }else if(this.errorVali) {
         this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
               duration: 3000, // Duración del Snackbar en milisegundos
               panelClass: ['custom-snackbar'],

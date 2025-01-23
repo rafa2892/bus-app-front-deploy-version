@@ -23,7 +23,7 @@
             {{viaje.ruta.ciudadOrigen}} - {{viaje.ruta.estadoOrigen}} ->
             {{viaje.ruta.ciudadDestino}} - {{viaje.ruta.estadoDestino}}</span>
         </label> 
-        <label class="label-input d-block">KMs  : <span class="confirma-viaje-span">{{viaje.ruta.distanciaKm}}</span></label> 
-        <label class="label-input d-block">Duración  :  <span class="confirma-viaje-span">{{viaje.ruta.tiempoEstimado}}</span></label> 
+        <label class="label-input d-block">KMs  : <span class="confirma-viaje-span">  {{ viaje.ruta.distanciaKm ? viaje.ruta.distanciaKm : 'Sin información' }}</span></label> 
+        <label class="label-input d-block">Duración  :  <span class="confirma-viaje-span">{{viaje.ruta.tiempoEstimado ? viaje.ruta.tiempoEstimado : 'Sin información'}}</span></label> 
     </div>
 </app-popup-generico>
