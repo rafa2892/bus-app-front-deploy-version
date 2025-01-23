@@ -1,6 +1,7 @@
 import { Component, Input, Output,EventEmitter  } from '@angular/core';
 import { Ruta } from '../../../../core/models/ruta';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TITLES } from '../../../../constant/titles.constants';
 
 @Component({
   selector: 'app-popup-generico',
@@ -19,9 +20,16 @@ export class PopupGenericoComponent {
   @Input() idModal!: string;
   @Input() isModalProgramatico : boolean;
 
+  //Receptores de datos
+  @Input() isModalConfirmacion: boolean = false; // Recibe el booleano desde el padre.
+
 
   //Emisores de datos
   @Output() confirmarAccion: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  //Literales
+  CONFIRMAR_MODAL = TITLES.CONFIRM_MODAL_MSJ;
+
 
   ngOnInit(): void {
   }
@@ -33,8 +41,19 @@ export class PopupGenericoComponent {
   }
 
   onAceptar() {
-    console.log("confirmacion desde componente pop generico");
     this.confirmarAccion.emit(true);
+    this.modalService.dismissAll();
+  }
+
+  getButtonMsj() {
+    if(this.isModalConfirmacion) {
+       return TITLES.CANCEL_MODAL_MSJ;
+    }
+
+    else {
+      return TITLES.CLOSE_MODAL_MSJ;
+    }
+
   }
 
 }

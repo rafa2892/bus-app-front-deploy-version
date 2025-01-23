@@ -230,11 +230,20 @@ export class RegistrarViajeComponent {
       });
     }
 
-    displayConductor(conductor: any): string {
-      return conductor ? `${conductor.nombre} ${conductor.apellido}` : '';
+    resetearEstilosAlseleccionar(idElemento:string) {
+      let element = document.getElementById(idElemento);
+        if (element != null) {
+          element.classList.remove('errorValInput');
+        }
     }
 
+    displayConductor = (conductor: any): string => {
+      this.resetearEstilosAlseleccionar('autoCompleteConductor');
+      return conductor ? `${conductor.nombre} ${conductor.apellido}` : '';
+    };
+
     displayVehiculo = (carro: any): string => {
+      this.resetearEstilosAlseleccionar('autoCompleteCarro');
       return carro ? ` ${this.getNumeroUnidadFormateado(carro.numeroUnidad)}  -  ${carro.marca} ${carro.modelo} - ${carro.anyo}` : '';
     };
 
@@ -242,7 +251,6 @@ export class RegistrarViajeComponent {
       return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
     }
   
-
     private isConductor(object: any): boolean {
       return object && typeof object === 'object' &&
         'nombre' in object && typeof object.nombre === 'string' &&
@@ -262,6 +270,8 @@ export class RegistrarViajeComponent {
     }
 
   validandoDatos() {
+
+
     this.formSubmitted = true;
     this.errorVali = false;
 
@@ -332,36 +342,42 @@ export class RegistrarViajeComponent {
       return `${horasFormateadas}:${minutosFormateados}:${segundosFormateados}`;
     }
 
+
+    validar() {
+
+      //Reiniciamos estilos a todos los componentes de haber habido errores
+      this.quitarErrorEstilos('');
+      
+      if(this.validandoDatos()){
+
+        // Abre el modal creando una instancia nueva 
+        const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent); 
+        modalRef.componentInstance.isModalProgramatico = true;
+        this.modalConfirmacion = true;
+
+        // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
+        modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
+          this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
+        });
+      }else {
+        this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
+              duration: 3000, // Duración del Snackbar en milisegundos
+              panelClass: ['custom-snackbar'],
+              horizontalPosition: 'end', // Options: 'start', 'center', 'end'
+              verticalPosition: 'top', // Options: 'top', 'bottom'
+          });
+      }
+    }
+
+      // Método para manejar la confirmación del usuario
+  manejarConfirmacion(confirmado: boolean) {
+    console.log("ACCION CONFIRMAR EN registar-viaje");
+    console.log(this.viaje);
+    this.guardarViaje();
+  }
+
     guardarViaje(){
 
-      // Abre el modal creando una instancia nueva 
-      const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent); 
-      modalRef.componentInstance.isModalProgramatico = true;
-      this.modalConfirmacion = true;
-
-      // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
-      modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
-        this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
-      });
-              
-
-      // modalRef.componentInstance.isModalProgramatico = true;
-      // // Restablece variable de modal programatico
-      // this.modalProgramatico = false;
-      // // Mostrar el modal de confirmación
-      // const modal = document.getElementById('confirma-servicio-modal');
-      // if(modal) {
-      //   modal.classList.add('show');
-      //   setTimeout(() => {
-      //     modal.style.display = 'block'; // Asegura que se muestre
-      //     this.modalProgramatico = true;
-      //   }, 100); // El retraso es muy corto, pero suficiente para activar la transición
-      //   this.modalProgramatico = true;
-      // }
-
-      //Validamos datos antes de hacer el guardado
-      if (this.validandoDatos()) {
-        // this.viaje.carroId = this.selectedConductor.carroId;
         this.viaje.conductor = this.selectedConductor;
         this.viaje.fecha = new Date();
         this.viaje.carro = this.selectedVehiculo;
@@ -376,32 +392,22 @@ export class RegistrarViajeComponent {
         this.viaje.ruta.estadoOrigen = this.estadoOrigen;
         this.viaje.ruta.estadoDestino = this.estadoDestino;
         this.viaje.ruta.tiempoEstimado = this.duracion;
-
         this.viaje.conductor = this.selectedConductor;
         this.viaje.empresaServicioNombre = this.nombreEmpresaServicio;
 
-        // this.viajeServicio.registrarViaje(this.viaje).subscribe(
-        //     dato => {
-        //           this._snackBar.open('Viaje Registrado con éxito.', '', {
-        //             duration: 2000,
-        //             panelClass: ['success-snackbar'],
-        //             horizontalPosition: 'end',
-        //             verticalPosition: 'top',
-        //         })
-        //           this.irListaViaje(); // Redireccionar después de que se cierre el snackbar
-        //     },
-        //     error => console.log(error)
-        // );
-    }else {
-        this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
-              duration: 3000, // Duración del Snackbar en milisegundos
-              panelClass: ['custom-snackbar'],
-              horizontalPosition: 'end', // Options: 'start', 'center', 'end'
-              verticalPosition: 'top', // Options: 'top', 'bottom'
-          });
-      }
+        this.viajeServicio.registrarViaje(this.viaje).subscribe(
+            dato => {
+                  this._snackBar.open('Viaje Registrado con éxito.', '', {
+                    duration: 2000,
+                    panelClass: ['success-snackbar'],
+                    horizontalPosition: 'end',
+                    verticalPosition: 'top',
+                })
+                  this.irListaViaje(); // Redireccionar después de que se cierre el snackbar
+            },
+            error => console.log(error)
+        );
     }
-
     private cargarListasFiltrosCarro() {
         if(this.selectedVehiculo == undefined || this.selectedVehiculo === '') {
           this.vehiculosAutoCompleteFilters = this.carros;
@@ -470,11 +476,19 @@ export class RegistrarViajeComponent {
   }
 
   quitarErrorEstilos(idElemento:string) {
+
+    if(idElemento === '') {
     // Método para activar el parpadeo de los campos faltantes
     const elementos = document.querySelectorAll('.input-error-blink');
     elementos.forEach((elemento) => {
       elemento.classList.remove('input-error-blink');
     });
+  }else {
+      const elemento = document.getElementById(idElemento);
+      if(elemento) {
+        elemento.classList.remove('input-error-blink');
+      }
+    }
   }
 
   onInputBlur() {
@@ -492,12 +506,6 @@ export class RegistrarViajeComponent {
     this.vehiculoError = false;
   }
 
-  onOptionSelectedDestino(event: MatAutocompleteSelectedEvent) {
-    let element = document.getElementById('autoCompleteRutaDestino');
-    if (element != null) {
-      element.classList.remove('errorValInput');
-    }
-  }
 
   onOptionSelectedConductor(event: MatAutocompleteSelectedEvent) {
     let element = document.getElementById('autoCompleteConductor');
@@ -667,20 +675,15 @@ export class RegistrarViajeComponent {
     event.target.value = this.duracion;
 }
 
-  // Método para manejar la confirmación del usuario
-  manejarConfirmacion(confirmado: boolean) {
 
-    console.log("ACCION CONFIRMAR EN registar-viaje");
-    console.log(this.viaje);
 
-    // if (confirmado) {
-    //   console.log('El usuario ha confirmado.', this.viaje);
-    //   // Realiza las acciones correspondientes, como guardar el viaje.
-    // } else {
-    //   console.log('El usuario ha cancelado.');
-    //   // Realiza las acciones necesarias si el usuario cancela.
-    // }
-  }
+
+// onOptionSelectedDestino(event: MatAutocompleteSelectedEvent) {
+//   let element = document.getElementById('autoCompleteRutaDestino');
+//   if (element != null) {
+//     element.classList.remove('errorValInput');
+//   }
+// }
 
 
 

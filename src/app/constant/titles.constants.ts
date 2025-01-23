@@ -49,5 +49,11 @@ export const TITLES = {
     DATA_NO_FOUND: 'Datos no encontrados automáticamente, favor completar manualmente',
 
 
+    //POP-UP GENERICO 
+    CONFIRM_MODAL_MSJ : 'Confirmar',
+    CANCEL_MODAL_MSJ : 'Cancelar',
+    CLOSE_MODAL_MSJ: 'Cerrar',
+
+
 
   };

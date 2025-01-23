@@ -10,9 +10,9 @@
         </div>
         <div class="modal-body">
               <ng-content></ng-content>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">Close</button>
-            <button type="button" class="btn btn-success" (click)="onAceptar()">Confirmar</button>
+          <div class="modal-footer justify-content-between">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">{{getButtonMsj()}}</button>
+            <button *ngIf="isModalConfirmacion" type="button" class="btn btn-success" (click)="onAceptar()">{{CONFIRMAR_MODAL}}</button>
           </div>
         </div>
       </div>

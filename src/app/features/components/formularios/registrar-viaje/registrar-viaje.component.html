@@ -12,7 +12,8 @@
             [(ngModel)]="nombreEmpresaServicio" 
             name="nombre-empresa-servicio" 
             disabled="false"
-            [placeholder]="COMPANY_NAME_PLACEHOLDER">
+            [placeholder]="COMPANY_NAME_PLACEHOLDER"
+            (ngModelChange)="quitarErrorEstilos('nombre-empresa-servicio')">
         </div>  
         <div class="row contenedorSeleccionRuta g-5">  
             <div id="div-desde" class="col-auto contenedor-rutas">
@@ -176,7 +177,7 @@
                 </a>
             </div>
         </div>
-        <button class="btn btn-success btonGuardar" (click)="quitarErrorEstilos('no-input')" >{{GUARDAR}}</button>
+        <button class="btn btn-success btonGuardar" type="button" (click)="validar()">{{GUARDAR}}</button>
         <app-popup-mensaje-confirmar-viaje (confirmarAccion)="manejarConfirmacion($event)"></app-popup-mensaje-confirmar-viaje>
         <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
         <app-popup-seleccionar-conductor [modalModoSeleccionarConductor]="modalModoSeleccionarConductor"></app-popup-seleccionar-conductor>
