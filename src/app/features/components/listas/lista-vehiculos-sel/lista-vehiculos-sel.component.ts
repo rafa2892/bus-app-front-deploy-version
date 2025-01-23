@@ -22,10 +22,6 @@ export class ListaVehiculosSelComponent {
   anyo : string ='';
   marca : string = '';
 
-  tituloPopUp :string = 'Seleccionar vehiculo';
-  modalLabel = 'seleccionarVehiculoLabel';
-  idModal: string = 'seleccionaVehiculoModal';
-
   @Input() modalModoSeleccionarConductor : boolean;
 
 

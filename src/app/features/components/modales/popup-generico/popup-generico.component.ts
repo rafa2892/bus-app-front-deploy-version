@@ -1,5 +1,6 @@
 import { Component, Input, Output,EventEmitter  } from '@angular/core';
 import { Ruta } from '../../../../core/models/ruta';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-popup-generico',
@@ -8,21 +9,32 @@ import { Ruta } from '../../../../core/models/ruta';
 })
 export class PopupGenericoComponent {
 
+
+    constructor(
+        private modalService: NgbModal) {}
+
+  //Receptores de datos
   @Input() modalLabel!: string;
   @Input() tituloPopUp!: string;
   @Input() idModal!: string;
-  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
-  
   @Input() isModalProgramatico : boolean;
 
+
+  //Emisores de datos
+  @Output() confirmarAccion: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   ngOnInit(): void {
-    if(this.isModalProgramatico) {
-      this.idModal = "verHistorialPopUpProgrmatico";
-    }
   }
 
   reset() {
-    this.closeModal.emit();
+    if(this.isModalProgramatico) {
+      this.modalService.dismissAll();
+    }
+  }
+
+  onAceptar() {
+    console.log("confirmacion desde componente pop generico");
+    this.confirmarAccion.emit(true);
   }
 
 }

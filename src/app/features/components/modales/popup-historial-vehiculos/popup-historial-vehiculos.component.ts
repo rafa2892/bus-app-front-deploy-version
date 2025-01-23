@@ -32,7 +32,6 @@ export class PopupHistorialVehiculosComponent {
     @Input() changeDetecterFlag : boolean;
 
     ngOnInit(): void {
-      console.log("this.isModalProgramatico--->", this.isModalProgramatico);
       if(this.carro != undefined && this.carroSeleccionadoDetalles == undefined) {
         this.carroSeleccionadoDetalles = this.carro;
       }

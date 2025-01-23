@@ -2,26 +2,21 @@
     [modalLabel]="modalLabel" 
     [tituloPopUp]="tituloPopUp"
     [idModal]="idModal"
-    [isModalProgramatico]="isModalProgramatico"
-    (closeModal)="cerrarModal()">
-    
-            <ng-container *ngIf="mostrarListaHistorial">
-                <app-lista-historial 
-                    [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"
-                    (agregarHistorial)="addHistory()"
-                    (cerrarModalProgramatico)="cerrarModal()"
-                    [verSoloRegistroMantenimiento]="verSoloRegistroMantenimiento"
-                    [changeDetecterFlag]="changeDetecterFlag">
-                </app-lista-historial>
-            </ng-container>   
-        
-            <ng-container *ngIf="mostrarRegistrarHistorial">
-                <app-registar-historial 
-                    (historialGuardado)="actualizarCarro($event)"
-                    (onVolver)="cleanInitMethodSimple()" 
-                    [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"
-                    [verSoloRegistroMantenimiento]="verSoloRegistroMantenimiento">
-                </app-registar-historial>
-            </ng-container>
-
-    </app-popup-generico>
+    [isModalProgramatico]="isModalProgramatico">
+    <ng-container *ngIf="mostrarListaHistorial">
+        <app-lista-historial 
+            [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"
+            (agregarHistorial)="addHistory()"
+            [verSoloRegistroMantenimiento]="verSoloRegistroMantenimiento"
+            [changeDetecterFlag]="changeDetecterFlag">
+        </app-lista-historial>
+    </ng-container>   
+    <ng-container *ngIf="mostrarRegistrarHistorial">
+        <app-registar-historial 
+            (historialGuardado)="actualizarCarro($event)"
+            (onVolver)="cleanInitMethodSimple()" 
+            [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"
+            [verSoloRegistroMantenimiento]="verSoloRegistroMantenimiento">
+        </app-registar-historial>
+    </ng-container>
+</app-popup-generico>

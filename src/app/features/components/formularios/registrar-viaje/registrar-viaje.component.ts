@@ -11,9 +11,12 @@ import { TipoVehiculo } from '../../../../core/models/tipo-vehiculo';
 import { Viaje } from '../../../../core/models/viaje';
 import { CarroService } from '../../../../core/services/carro.service';
 import { ConductorService } from '../../../../core/services/conductor.service';
-import { RutasService } from '../../../../core/services/rutas.service';
 import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
 import { TITLES } from '../../../../constant/titles.constants';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PopupGenericoComponent } from '../../modales/popup-generico/popup-generico.component';
+import { PopupMensajeConfirmarViajeComponent } from '../../modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
+
 
 
 
@@ -34,6 +37,7 @@ export class RegistrarViajeComponent {
     //Indicador de carga
     loading = false;
     proposalPlaceSelectedEvent = false;
+    modalConfirmacion = false;
 
     address: string = '';
     autocomplete: any;
@@ -46,6 +50,7 @@ export class RegistrarViajeComponent {
     estadoOrigen: string = '';
     estadoDestino: string = '';
     datosNoEncontrados = false;
+    modalProgramatico: boolean = false;
 
 
     carros : Carro [];
@@ -98,7 +103,9 @@ export class RegistrarViajeComponent {
     MENSAJE_NO_DATA_FOUND = TITLES.DATA_NO_FOUND;
 
     constructor(
+      private modalService: NgbModal,
       private viajeServicio:ViajeServicioService,
+      private cdr: ChangeDetectorRef,
       private router:Router, private carroServicio:CarroService,
       private _snackBar: MatSnackBar,public dialog: MatDialog,
       private conductorService:ConductorService,
@@ -227,9 +234,14 @@ export class RegistrarViajeComponent {
       return conductor ? `${conductor.nombre} ${conductor.apellido}` : '';
     }
 
-    displayVehiculo(carro: any): string {
-      return carro? `${carro.marca} ${carro.modelo} - Unidad: ${carro.numeroUnidad}`: '';
+    displayVehiculo = (carro: any): string => {
+      return carro ? ` ${this.getNumeroUnidadFormateado(carro.numeroUnidad)}  -  ${carro.marca} ${carro.modelo} - ${carro.anyo}` : '';
+    };
+
+    getNumeroUnidadFormateado(numeroUnidad: number): string {
+      return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
     }
+  
 
     private isConductor(object: any): boolean {
       return object && typeof object === 'object' &&
@@ -322,9 +334,33 @@ export class RegistrarViajeComponent {
 
     guardarViaje(){
 
+      // Abre el modal creando una instancia nueva 
+      const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent); 
+      modalRef.componentInstance.isModalProgramatico = true;
+      this.modalConfirmacion = true;
+
+      // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
+      modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
+        this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
+      });
+              
+
+      // modalRef.componentInstance.isModalProgramatico = true;
+      // // Restablece variable de modal programatico
+      // this.modalProgramatico = false;
+      // // Mostrar el modal de confirmación
+      // const modal = document.getElementById('confirma-servicio-modal');
+      // if(modal) {
+      //   modal.classList.add('show');
+      //   setTimeout(() => {
+      //     modal.style.display = 'block'; // Asegura que se muestre
+      //     this.modalProgramatico = true;
+      //   }, 100); // El retraso es muy corto, pero suficiente para activar la transición
+      //   this.modalProgramatico = true;
+      // }
+
       //Validamos datos antes de hacer el guardado
       if (this.validandoDatos()) {
-
         // this.viaje.carroId = this.selectedConductor.carroId;
         this.viaje.conductor = this.selectedConductor;
         this.viaje.fecha = new Date();
@@ -344,18 +380,18 @@ export class RegistrarViajeComponent {
         this.viaje.conductor = this.selectedConductor;
         this.viaje.empresaServicioNombre = this.nombreEmpresaServicio;
 
-        this.viajeServicio.registrarViaje(this.viaje).subscribe(
-            dato => {
-                  this._snackBar.open('Viaje Registrado con éxito.', '', {
-                    duration: 2000,
-                    panelClass: ['success-snackbar'],
-                    horizontalPosition: 'end',
-                    verticalPosition: 'top',
-                })
-                  this.irListaViaje(); // Redireccionar después de que se cierre el snackbar
-            },
-            error => console.log(error)
-        );
+        // this.viajeServicio.registrarViaje(this.viaje).subscribe(
+        //     dato => {
+        //           this._snackBar.open('Viaje Registrado con éxito.', '', {
+        //             duration: 2000,
+        //             panelClass: ['success-snackbar'],
+        //             horizontalPosition: 'end',
+        //             verticalPosition: 'top',
+        //         })
+        //           this.irListaViaje(); // Redireccionar después de que se cierre el snackbar
+        //     },
+        //     error => console.log(error)
+        // );
     }else {
         this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
               duration: 3000, // Duración del Snackbar en milisegundos
@@ -435,18 +471,10 @@ export class RegistrarViajeComponent {
 
   quitarErrorEstilos(idElemento:string) {
     // Método para activar el parpadeo de los campos faltantes
-    if(idElemento === 'no-input') {
-        const elemento = document.getElementById('direccion-desde');
-        const elemento2 = document.getElementById('direccion-destino');
-        if (elemento && elemento2) {
-              elemento.classList.remove('input-error-blink');
-              elemento2.classList.remove('input-error-blink');}
-    }else{
-      const elemento = document.getElementById(idElemento);
-      if (elemento) {
-            elemento.classList.remove('input-error-blink');
-      }
-    }
+    const elementos = document.querySelectorAll('.input-error-blink');
+    elementos.forEach((elemento) => {
+      elemento.classList.remove('input-error-blink');
+    });
   }
 
   onInputBlur() {
@@ -571,9 +599,29 @@ export class RegistrarViajeComponent {
 
   onTypeDown() {
     this.proposalPlaceSelectedEvent = false;
-    this.distancia = '';
     this.duracion = '';
+    this.distancia = '';
   }
+
+
+  distanciaInput(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
+
+    // Eliminar cualquier carácter que no sea un número
+    let valor = inputElement.value.replace(/\D/g, '');
+
+    // Actualizar el valor del modelo (ngModel) solo con números
+    this.distancia = valor;
+  }
+
+  agregarKm(): void {
+    // Verificar si el valor es un número y no está vacío
+    if (!isNaN(Number(this.distancia)) && this.distancia.trim() !== '') {
+      this.distancia = `${this.distancia} km`;
+    } else {
+      this.distancia = '0 Km';
+    }
+  }  
 
   // Método que se ejecuta cuando el usuario escribe en el campo
   onInput(event: any) {
@@ -618,6 +666,22 @@ export class RegistrarViajeComponent {
     // Establecer el valor en el campo de entrada
     event.target.value = this.duracion;
 }
+
+  // Método para manejar la confirmación del usuario
+  manejarConfirmacion(confirmado: boolean) {
+
+    console.log("ACCION CONFIRMAR EN registar-viaje");
+    console.log(this.viaje);
+
+    // if (confirmado) {
+    //   console.log('El usuario ha confirmado.', this.viaje);
+    //   // Realiza las acciones correspondientes, como guardar el viaje.
+    // } else {
+    //   console.log('El usuario ha cancelado.');
+    //   // Realiza las acciones necesarias si el usuario cancela.
+    // }
+  }
+
 
 
 // displayRutaDesde(rutaDesde: any): string {

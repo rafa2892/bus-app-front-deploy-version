@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #32383f;}
+
+body {
+  margin: 0; 
+  font-family: Roboto, 
+  "Helvetica Neue", sans-serif; 
+  background-color: #32383f;
+}
 
 .defaultSizeInput {
     width: 35%;
@@ -14,7 +20,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
       border-radius: 8px !important;
     }
 
-     .mdc-snackbar__surface {
+    .mdc-snackbar__surface {
     background-color: green !important;
   }
 
@@ -22,7 +28,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
     .mat-mdc-button.mat-mdc-snack-bar-action {
       color: white !important;
     }
-
   }
 
   .error-snackbar {
@@ -31,7 +36,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
       border-radius: 8px !important;
     }
 
-     .mdc-snackbar__surface {
+    .mdc-snackbar__surface {
     background-color: red !important;
   }
 
@@ -39,8 +44,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
     .mat-mdc-button.mat-mdc-snack-bar-action {
       color: white !important;
     }
-
-
   }
 
   .pagination-container {
@@ -50,9 +53,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
 
   #botonDetails {
     margin-right: 15%;
-   }
+  }
 
-   .small-button {
+  .small-button {
     font-size: 11px;
     padding: 4px 11px;
   
@@ -71,17 +74,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
       overflow-y: auto;  */
       font-size: smaller;
     }
- 
+
     .defaultInputHeightModal {
       height: 25px;
-     }
+    }
     
-     .tablaListaPopup
-     {
+    .tablaListaPopup
+    {
       margin-top: 5%;
-     }
+    }
 
-     .input-grueso {
+    .input-grueso {
       border-width: 1px; /* Ancho del borde */
       border-style: solid; /* Estilo del borde */
       border-color: #007bff; /* Azul bonito */
@@ -90,6 +93,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-
   #contenedorImagen {
     padding-left: 50px;
     padding-top: 20px;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+      font-style: italic;
+  }
+  
+
+  .modal-content {
+    background-color: #25292e; /* Gris */
+  }
+
+  label {
+    color: white;
+  }
+
+  .modal-title {
+    color: white; /* Cambiar el color a blanco */
   }
 
   

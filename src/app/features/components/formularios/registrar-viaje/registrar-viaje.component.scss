@@ -18,17 +18,21 @@
 }
 
 .mdc-text-field--outlined .mdc-notched-outline  {
-    background-color: white !important;
+    background-color: rgb(44, 43, 43);  /* Fondo gris oscuro */
     z-index: 0 !important;
 }
 
+#autoCompleteConductor .mat-mdc-text-field-wrapper {
+    width: 75% !important; /* Cambia el tamaño solo del input del conductor */
+    margin-right: -19% !important; /* Ajusta el margen derecho del input del conductor */
+}
+
+#autoCompleteConductor {
+    margin-right: -19% !important;
+}
 
 .normal-size-input {
     width: 55%;
-}
-
-.mid-size-input {
-    width: 60%;
 }
 
 .formPosition {
@@ -36,13 +40,6 @@
     position:relative;
     padding-bottom: 50%;
 
-}
-
-.btonGuardar{
-    margin-top: 7%;
-    left: 55%;
-    position: relative;
-    width: 80%;
 }
 
 .estilosTamanioInputs {

@@ -17,15 +17,9 @@ export class ListaConductoresComponent {
 
     // ID del conductor recién agregado
     newConductorId: number;
-
-    tituloPopUp :string = 'Seleccionar conductor';
-    modalLabel = 'seleccionarConductorLabel';
-    idModal: string = 'modalConductor';
-
     conductoresLista : Conductor [];
     conductoresListafiltrado : Conductor [];
     nombre : string = '';
-
     apellido : string= '';
     dni : string= '';
 

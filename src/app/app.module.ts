@@ -44,6 +44,7 @@ import { DatePipe } from '@angular/common';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { PruebaContenedoresEstilosComponent } from './features/components/componentes-pruebas/prueba-contenedores-estilos/prueba-contenedores-estilos.component';
+import { PopupMensajeConfirmarViajeComponent } from './features/components/modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
 
 
 
@@ -78,7 +79,8 @@ import { PruebaContenedoresEstilosComponent } from './features/components/compon
     CardBusDetailComponent,
     RegistrarConductorComponent,
     OnlyLettersDirective,
-    PruebaContenedoresEstilosComponent
+    PruebaContenedoresEstilosComponent,
+    PopupMensajeConfirmarViajeComponent
       ],
   imports: [
     BrowserModule,

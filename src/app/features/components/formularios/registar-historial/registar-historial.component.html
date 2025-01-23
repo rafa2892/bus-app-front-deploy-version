@@ -8,12 +8,12 @@
                     <div id="mat-form-destino" class="normal-size-input">
                         <label for="rutaDestino" class="label-input">Tipo:</label>
                         <select [disabled]="verSoloRegistroMantenimiento || soloConsulta" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                         name="tipoActividad" [(ngModel)]="historial.idTipo">
+                        name="tipoActividad" [(ngModel)]="historial.idTipo">
                           <option *ngIf="!verSoloRegistroMantenimiento" [value]="0" disabled class="first-option">Selecciona un tipo</option>
                           <option *ngFor="let key of claves" [value]="key">{{ datos[key] }}</option>
                         </select>
                     </div>
-             </div>
+            </div>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Descripcíon/Asunto</label>
                 <input [disabled]="soloConsulta" class="form-control" name="dsHistorial" id="exampleFormControlTextarea1" rows="3" placeholder="Describe la información" [(ngModel)]="historial.dsHistorial"/>
@@ -36,8 +36,8 @@
             </div>
         </div> 
     </div>
-          <button class="btn btn-primary btonGuardar" (click)="volver()">Volver</button>
-          <button [disabled]="soloConsulta" class="btn btn-success btonGuardar">Guardar</button>
-     </form>
+        <button class="btn btn-primary btonGuardar" (click)="volver()">Volver</button>
+        <button [disabled]="soloConsulta" class="btn btn-success btonGuardar">Guardar</button>
+    </form>
     </div>
 </div>

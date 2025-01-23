@@ -6,15 +6,13 @@
 
     .mdc-snackbar__surface {
     background-color: red !important;
-  }
-
+    }
 
     .mat-mdc-button.mat-mdc-snack-bar-action {
       color: white !important;
     }
-
-
   }
+
   .seleccionaCarro {
     width: 100%;
     margin-bottom: 5%;
@@ -66,7 +64,7 @@
 
 .tamanio-duracion{
   text-align: center;
-  width: 50%;
+  width: 76%;
 }
 
 /* Overlay para bloquear toda la UI */
@@ -76,7 +74,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.7); /* Semi-transparente */
+  background: rgba(94, 88, 88, 0.488); /* Semi-transparente */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,22 +111,24 @@
   font-weight: bold; /* Resalta el texto */
   font-size: 14px; /* Tamaño adecuado */
   margin-bottom: 5px; /* Espacio entre label y campo */
-  color: #55a2d1; 
+  color: #55a2d1;
   margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
 }
 
 .contenedorSeleccionRuta {
-  margin-bottom: 5%;
+  margin-bottom: 3%;
 }
 
+
 .empresa-servicio-input {
-  margin-bottom: 5%;
-  width: 80%
+  margin-bottom: 2%;
+  max-width: 300px; /* O elige un tamaño específico */
+  display: inline-block; /* Para evitar que el input sea tratado como bloque completo */
 }
 
 .caja-rutas {
-  resize: none; 
-  width: 100%; 
+  resize: none;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -164,8 +164,8 @@
 
 .btn-intercambiador {
   margin-top: 5%;
-  display: flex; 
-  justify-content: center; 
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
@@ -183,6 +183,84 @@
 
 .row-distancia-duracion {
   max-width: fit-content;
+}
+
+.border-custom-color {
+  padding: 1rem; /* p-3 equivalente: Padding en todos los lados */
+  border: 2px solid #d1d1d13d; /* border equivalente: Borde 1px sólido con un color claro */
+  border-radius: 0.25rem; /* rounded equivalente: Bordes redondeados */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* shadow-sm equivalente: Sombra pequeña */
+}
+
+.input-custom-style, .input-custom-style:focus,.input-custom-style:disabled {
+  background-color: rgb(44, 43, 43); /* Fondo gris oscuro */
+  border-color: #007bff; /* Borde azul */
+  color: #fff; /* Texto blanco */
+}
+
+
+.input-custom-style:disabled {
+  cursor: not-allowed; /* Cambia el cursor a "no permitido" */
+  opacity: 1; /* Asegura que no se vea desvanecido */
+  caret-color: transparent;
+}
+
+.textarea-custom-style, .textarea-custom-style:focus {
+  background-color: rgb(44, 43, 43);  /* Fondo gris oscuro */
+  color: #fff;  /* Texto blanco */
+  border-color: #007bff;  /* Borde azul */
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid green;
+  border-color: #007bff;  /* Borde azul */
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgb(44, 43, 43) inset;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: white;
+}
+
+.textarea-custom-style-disabled:disabled {
+  background-color: rgb(44, 43, 43);  /* Fondo gris oscuro */
+  color: #fff;  /* Texto blanco */
+  border-color:rgba(255, 255, 255, 0.4);
+  cursor: not-allowed; /* Cambia el cursor a "no permitido" */
+  opacity: 1; /* Asegura que no se vea desvanecido */
+  caret-color: transparent;
+}
+
+.btonGuardar {
+  margin-top: 2%;
+  width: 20%;
+  margin-left: 26%;
+}
+
+.seleccionaVehiculoPosition {
+  margin-left: 5%;
+}
+
+.custom-border-style {
+  border: 1px solid #ccc; /* Cambia el color del borde según tu diseño */
+  border-radius: 8px; /* Bordes redondeados (opcional) */
+  padding: 20px; /* Añade espacio interno para una mejor visualización */
+  display: inline-block; /* Evita que el contenedor ocupe más del contenido */
+  width: 100%; /* Ajusta al ancho total del contenido del `row` */
+}
+
+#inputSeleccionaVehiculo::placeholder, #inputSeleccionaConductor::placeholder  {
+  color: rgba(255, 255, 255, 0.4); /* Placeholder gris opaco */
+}
+
+#inputSeleccionaVehiculo, #inputSeleccionaConductor  {
+  color: #fff; /* Texto blanco */
 }
 
 
