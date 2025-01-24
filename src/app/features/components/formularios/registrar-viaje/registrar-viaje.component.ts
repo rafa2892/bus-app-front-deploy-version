@@ -85,7 +85,7 @@ export class RegistrarViajeComponent {
     rutaErrorDestino= false;
     idModalBuscarRuta : string = '';
 
-    //Constantes literales 
+    //Constantes literales
     DESDE_LABEL = TITLES.FROM;
     HACIA_LABEL = TITLES.DESTINY;
     PLACEHOLDER_DISTANCE_KMS = TITLES.PLACEHOLDER_DISTANCE_KMS;
@@ -105,7 +105,6 @@ export class RegistrarViajeComponent {
     constructor(
       private modalService: NgbModal,
       private viajeServicio:ViajeServicioService,
-      private cdr: ChangeDetectorRef,
       private router:Router, private carroServicio:CarroService,
       private _snackBar: MatSnackBar,public dialog: MatDialog,
       private conductorService:ConductorService,
@@ -114,17 +113,62 @@ export class RegistrarViajeComponent {
 
 
     ngOnInit(): void {
+
       this.obtenerListaCarro();
       this.obtenerListaConductores();
-      // this.obtenerListaRutas();
-
+      
       // Obtener el parámetro 'id' de la URL de haber uno
       const id = +this.route.snapshot.paramMap.get('id')!;
-      console.log("ID recibido en registrarViaje:", id);
       if(id) {
-        this.selectedVehiculo = this.obtenerCarroPorId(id);
-        console.log("Carro seleccionado:", this.selectedVehiculo);
+        this.obtenerViajePorId(id);
       }
+  }
+
+  obtenerViajePorId(id: number) {
+    this.viajeServicio.obtenerViajeById(id).subscribe({
+      next: (v) => {
+        this.viaje = v;
+        this.poblarFormularioEdicionViaje(this.viaje);
+      },
+      error: (error) => console.log(error),
+      complete: () => console.log('Viaje cargado')
+    });
+  }
+
+  poblarFormularioEdicionViaje(viaje:Viaje) {
+
+    this.selectedConductor = viaje.conductor;
+    this.selectedVehiculo = viaje.carro;
+    this.direccionSalida = viaje.ruta.origen;
+    this.direccionDestino = viaje.ruta.destino;
+    this.distancia = viaje.ruta.distanciaKm;
+    this.duracion = viaje.ruta.tiempoEstimado;
+    this.ciudadOrigen = viaje.ruta.ciudadOrigen;
+    this.ciudadDestino = viaje.ruta.ciudadDestino;
+    this.estadoOrigen = viaje.ruta.estadoOrigen;
+    this.estadoDestino = viaje.ruta.estadoDestino;
+    this.nombreEmpresaServicio = viaje.empresaServicioNombre;
+
+  }
+
+  poblarFormularioCrearViaje() {
+    this.viaje.conductor = this.selectedConductor;
+    this.viaje.fecha = new Date();
+    this.viaje.carro = this.selectedVehiculo;
+
+    // Valores de la ruta
+    this.viaje.ruta.origen = this.direccionSalida;
+    this.viaje.ruta.destino = this.direccionDestino;
+    this.viaje.ruta.distanciaKm = this.distancia;
+    this.viaje.ruta.tiempoEstimado = this.duracion;
+    this.viaje.ruta.ciudadOrigen = this.ciudadOrigen;
+    this.viaje.ruta.ciudadDestino = this.ciudadDestino;
+    this.viaje.ruta.estadoOrigen = this.estadoOrigen;
+    this.viaje.ruta.estadoDestino = this.estadoDestino;
+    this.viaje.ruta.tiempoEstimado = this.duracion;
+
+    this.viaje.conductor = this.selectedConductor;
+    this.viaje.empresaServicioNombre = this.nombreEmpresaServicio;
   }
 
     ngAfterViewInit() {
@@ -246,7 +290,7 @@ export class RegistrarViajeComponent {
     getNumeroUnidadFormateado(numeroUnidad: number): string {
       return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
     }
-  
+
     private isConductor(object: any): boolean {
       return object && typeof object === 'object' &&
         'nombre' in object && typeof object.nombre === 'string' &&
@@ -266,10 +310,10 @@ export class RegistrarViajeComponent {
     }
 
     async validarDatos(): Promise<boolean> {
-      
+
       this.formSubmitted = true;
       this.errorVali = false;
-    
+
       // Validar conductor
       if (!this.isConductor(this.selectedConductor) || this.selectedConductor === '') {
         this.selectedConductor = '';
@@ -283,7 +327,7 @@ export class RegistrarViajeComponent {
           });
         }
       }
-    
+
       // Validar vehículo
       if (!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === '') {
         this.selectedVehiculo = '';
@@ -297,7 +341,7 @@ export class RegistrarViajeComponent {
           });
         }
       }
-    
+
       // Validar dirección de salida
       if (this.direccionSalida === '') {
         const elemento = document.getElementById('direccion-desde');
@@ -305,7 +349,7 @@ export class RegistrarViajeComponent {
           elemento.classList.add('input-error-blink');
         }
       }
-    
+
       // Validar dirección de destino
       if (this.direccionDestino === '') {
         const elemento = document.getElementById('direccion-destino');
@@ -313,7 +357,7 @@ export class RegistrarViajeComponent {
           elemento.classList.add('input-error-blink');
         }
       }
-    
+
       // Validar nombre de la empresa
       if (this.nombreEmpresaServicio === '') {
         const elemento = document.getElementById('nombre-empresa-servicio');
@@ -321,27 +365,29 @@ export class RegistrarViajeComponent {
           elemento.classList.add('input-error-blink');
         }
       }
-    
+
       // Validar duración
       if (!this.errorVali && (!this.duracion || !this.distancia)) {
 
-          let title = !this.duracion ? 'Duración aproximada' : 'Distancia aproximada'; 
-          let inputDisDur = !this.duracion ? 'Duración aproximada' : 'Distancia aproximada'; 
-          
+          let title = !this.duracion ? 'Duración aproximada' : 'Distancia aproximada';
+          let inputDisDur = !this.duracion ? 'Duración aproximada' : 'Distancia aproximada';
+
           if(!this.duracion && !this.distancia) {
-              title = 'Duracion y distancia aproximada'
-              inputDisDur = 'duracion y distancia aproximada'
+              title = 'Duración y distancia aproximada'
+              inputDisDur = 'duración y distancia aproximada'
           }
+          
           const text = `No es obligatorio completar la ${inputDisDur}, pero es muy recomendable.`
           const result = await Swal.fire({
             title: title,
             text: text,
             icon: 'warning',
             showCancelButton: true,
+            cancelButtonText: 'Atras',
             confirmButtonText: 'Continuar',
-            cancelButtonText: 'Modificar',
+            reverseButtons: true,
           });
-      
+
           if (!result.isConfirmed) {
             return false; // Detenemos el flujo
           }
@@ -353,107 +399,6 @@ export class RegistrarViajeComponent {
         return true;
       }
     }
-    
-
-  // validandoDatos() {
-
-  //   this.formSubmitted = true;
-  //   this.errorVali = false;
-
-  //   if(!this.isConductor(this.selectedConductor) || this.selectedConductor === ''){
-  //       this.selectedConductor = ''
-  //       this.conductorError = true;
-  //       this.errorVali = true
-  //       const autoCompleteConductor = document.getElementById('autoCompleteConductor');
-  //       if(autoCompleteConductor) {
-  //         autoCompleteConductor.classList.remove('errorValInput');
-  //         setTimeout(() => {
-  //           autoCompleteConductor.classList.add('errorValInput');
-  //         });
-  //       }
-  //     }
-
-  //   if(!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === ''){
-  //     this.selectedVehiculo = ''
-  //     this.vehiculoError = true;
-  //     this.errorVali = true;
-  //     const autoCompleteCarro = document.getElementById('autoCompleteCarro');
-  //     if(autoCompleteCarro) {
-  //       autoCompleteCarro.classList.remove('errorValInput');
-  //       setTimeout(() => {
-  //           autoCompleteCarro.classList.add('errorValInput');
-  //       });
-  //     }
-  //   }
-
-  //   if(this.direccionSalida === '') {
-  //     // Método para activar el parpadeo de los campos faltantes
-  //     const elemento = document.getElementById('direccion-desde');
-  //     if (elemento) {
-  //       elemento.classList.add('input-error-blink');
-  //     }
-  //   }
-
-  //   if(this.direccionDestino === '') {
-  //     // Método para activar el parpadeo de los campos faltantes
-  //   const elemento = document.getElementById('direccion-destino');
-  //   if (elemento) {
-  //     elemento.classList.add('input-error-blink');
-  //     }
-  //   }
-
-  //   if(this.nombreEmpresaServicio === '') {
-  //     // Método para activar el parpadeo de los campos faltantes
-  //     const elemento = document.getElementById('nombre-empresa-servicio');
-  //     if (elemento) {
-  //       elemento.classList.add('input-error-blink');
-  //     }
-  //   }
-
-  //   if (!this.duracion && !this.errorVali) {
-  //     Swal.fire({
-  //       title: 'Duración aproximada',
-  //       text: 'No es obligatorio complimentar la duración aproximada, pero es muy recomendable.',
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonText: 'Continuar',
-  //       cancelButtonText: 'Detener'
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         console.log('El usuario decidió continuar.');
-  //         // Continúa el flujo
-  //       } else {
-  //         console.log('El usuario decidió detener.');
-  //         this.errorVali = true;
-  //       }
-  //     });
-  //   }
-    
-  //   if (!this.distancia && !this.errorVali) {
-  //     Swal.fire({
-  //       title: 'Distancia aproximada',
-  //       text: 'No es obligatorio completar la distancia aproximada, pero es muy recomendable.',
-  //       icon: 'warning',
-  //       showCancelButton: true,
-  //       confirmButtonText: 'Continuar',
-  //       cancelButtonText: 'Modificar'
-  //     }).then((result) => {
-  //       if (result.isConfirmed) {
-  //         console.log('El usuario decidió continuar.');
-  //       } else {
-  //         console.log('El usuario decidió detener.');
-  //         this.errorVali = true;
-  //       }
-  //     });
-  //   }
-
-  //   console.log(this.errorVali), ">>>>";
-  //   if(this.errorVali) {
-  //     return false;
-  //   }else {
-  //     return true;
-  //   }
-  // }
 
     formatearHorasEspera(){
       const horas = this.viaje.ruta.tiempoEstimado;
@@ -472,12 +417,12 @@ export class RegistrarViajeComponent {
 
       if(esValido){
           //Carga datos nuevo viaje
-          this.cargarDatosViaje();
-          // Abre el modal creando una instancia nueva 
-          const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent); 
+          this.poblarFormularioCrearViaje();
+          // Abre el modal creando una instancia nueva
+          const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent);
           modalRef.componentInstance.isModalProgramatico = true;
           modalRef.componentInstance.viaje = this.viaje;
-          
+
           // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
           modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
             this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
@@ -492,31 +437,10 @@ export class RegistrarViajeComponent {
       }
     }
 
-    cargarDatosViaje() {
-      
-      this.viaje.conductor = this.selectedConductor;
-      this.viaje.fecha = new Date();
-      this.viaje.carro = this.selectedVehiculo;
-
-      // Valores de la ruta
-      this.viaje.ruta.origen = this.direccionSalida;
-      this.viaje.ruta.destino = this.direccionDestino;
-      this.viaje.ruta.distanciaKm = this.distancia;
-      this.viaje.ruta.tiempoEstimado = this.duracion;
-      this.viaje.ruta.ciudadOrigen = this.ciudadOrigen;
-      this.viaje.ruta.ciudadDestino = this.ciudadDestino;
-      this.viaje.ruta.estadoOrigen = this.estadoOrigen;
-      this.viaje.ruta.estadoDestino = this.estadoDestino;
-      this.viaje.ruta.tiempoEstimado = this.duracion;
-
-      this.viaje.conductor = this.selectedConductor;
-      this.viaje.empresaServicioNombre = this.nombreEmpresaServicio;
+    // Método para manejar la confirmación del usuario
+    manejarConfirmacion(confirmado: boolean) {
+      this.guardarViaje();
     }
-
-      // Método para manejar la confirmación del usuario
-  manejarConfirmacion(confirmado: boolean) {
-    this.guardarViaje();
-  }
 
     guardarViaje(){
         this.viajeServicio.registrarViaje(this.viaje).subscribe(
@@ -527,9 +451,18 @@ export class RegistrarViajeComponent {
                     horizontalPosition: 'end',
                     verticalPosition: 'top',
                 })
-                  this.irListaViaje(); // Redireccionar después de que se cierre el snackbar
+                  this.irListaViaje();
             },
-            error => console.log(error)
+            error => {
+              // Si ocurre un error
+              console.log(error);
+              this._snackBar.open(TITLES.ERROR_SERVIDOR_BACK, '', {
+                duration: 5000,
+                panelClass: ['error-snackbar'],
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+              });
+            }
         );
     }
     private cargarListasFiltrosCarro() {
@@ -694,7 +627,7 @@ export class RegistrarViajeComponent {
   formatearDuracion(duracionString: string): string {
     // Dividir el string por espacios para extraer las partes
     const timeParts = duracionString.split(' ');
-  
+
     // Variables para almacenar horas y minutos
     let hours = 0;
     let minutes = 0;
@@ -713,7 +646,7 @@ export class RegistrarViajeComponent {
     // Retornar en formato HH:MM
     return `${formattedHours}:${formattedMinutes}`;
   }
-  
+
 
   onKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter') {
@@ -753,7 +686,7 @@ export class RegistrarViajeComponent {
     } else {
       this.distancia = '0 Km';
     }
-  }  
+  }
 
   // Método que se ejecuta cuando el usuario escribe en el campo
   onInput(event: any) {

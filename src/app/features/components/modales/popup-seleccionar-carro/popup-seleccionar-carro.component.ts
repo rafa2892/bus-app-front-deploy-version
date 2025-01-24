@@ -32,7 +32,7 @@ export class PopupSeleccionarCarroComponent {
  }
 
 
-  constructor(private carroServicio:CarroService, private registrarViajeComponent : RegistrarViajeComponent, private router:Router) { }
+  constructor(private carroServicio:CarroService, private registrarViajeComponent : RegistrarViajeComponent, private router:Router) {}
 
 
   private obtenerCarros () {
@@ -42,15 +42,12 @@ export class PopupSeleccionarCarroComponent {
     });
   }
 
-
- verDetalles(id:number){
+verDetalles(id:number){
   }
 
 seleccionar(carro:Carro) {
     this.registrarViajeComponent.seleccionarCarro(carro);
     this.clearFilters();
-    this.router.navigate(['/registrar-viaje']);
-    
   }
 
   onInputChangeNumeroUnidad() {

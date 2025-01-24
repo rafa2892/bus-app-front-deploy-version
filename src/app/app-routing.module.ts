@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'lista-viajes', component: ListaViajesComponent},
   { path: 'registrar-carro', component: RegistrarCarroComponent},
   { path: 'registrar-viaje', component: RegistrarViajeComponent},
+  { path: 'registrar-viaje/:id', component: RegistrarViajeComponent},
   { path: 'actualizar-vehiculo/:id', component: RegistrarCarroComponent},
   { path: 'rutas', component: ListaRutasComponent},
   { path: 'registrar-ruta', component: RegistrarRutaComponent},
@@ -41,8 +42,6 @@ const routes: Routes = [
   { path: 'registrar-conductor/:id', component: RegistrarConductorComponent},
   { path: 'lista-viajes/:idConductor', component: ListaViajesComponent},
   { path: 'prueba', component: PruebaContenedoresEstilosComponent},
-  
-
    // Ruta comodín con redirección y corrección de URL
   { path: '**', redirectTo: '/lista-carros', pathMatch: 'full' }
 ];

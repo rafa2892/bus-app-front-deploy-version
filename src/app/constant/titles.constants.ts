@@ -29,6 +29,7 @@ export const TITLES = {
     SAVE: 'Guardar',
     EDIT: 'Editar',
     ERROR_ONLY_NUMBERS: '***Solo se pueden introducir números***',
+    ERROR_SERVIDOR_BACK : 'Ha ocurrido un error. Intenta nuevamente o contacte con el administrador.',
 
 
     //REGISTRAR-VIAJES
@@ -53,6 +54,8 @@ export const TITLES = {
     CONFIRM_MODAL_MSJ : 'Confirmar',
     CANCEL_MODAL_MSJ : 'Cancelar',
     CLOSE_MODAL_MSJ: 'Cerrar',
+
+    
 
 
 

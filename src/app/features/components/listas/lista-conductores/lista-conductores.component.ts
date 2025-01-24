@@ -73,7 +73,6 @@ export class ListaConductoresComponent {
     }
 
     seleccionar(conductor:Conductor) {
-      this.router.navigate(['/registrar-viaje']);
       this.seleccionarConductor.emit(conductor);
     }
 

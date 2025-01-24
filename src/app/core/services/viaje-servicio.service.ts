@@ -26,10 +26,17 @@ export class ViajeServicioService {
   }
 
   obtenerListaViajePorConductor(id: number): Observable<Viaje[]> {
-    // return this.httpClient.get<Viaje[]>(`${this.baseUrl}/${id}`);
     return this.httpClient.get<Viaje[]>(`${this.baseUrl}/conductor/${id}`);
   }
 
+  obtenerViajeById(id: number): Observable<Viaje> {
+    return this.httpClient.get<Viaje>(`${this.baseUrl}/${id}`);
+  }
+
+  eliminar(id: number): Observable<Object> {
+    return this.httpClient.delete(`${this.baseUrl}/${id}`);
+  }
+  
   
 
 }

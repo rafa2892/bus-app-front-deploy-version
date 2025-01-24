@@ -107,13 +107,6 @@
   color: blue;
 }
 
-.label-input {
-  font-weight: bold; /* Resalta el texto */
-  font-size: 14px; /* Tamaño adecuado */
-  margin-bottom: 5px; /* Espacio entre label y campo */
-  color: #55a2d1;
-  margin-bottom: 5px; /* Espacio entre la etiqueta y el input */
-}
 
 .contenedorSeleccionRuta {
   margin-bottom: 3%;
@@ -203,6 +196,7 @@
   cursor: not-allowed; /* Cambia el cursor a "no permitido" */
   opacity: 1; /* Asegura que no se vea desvanecido */
   caret-color: transparent;
+  border-color:rgba(255, 255, 255, 0.4);
 }
 
 .textarea-custom-style, .textarea-custom-style:focus {

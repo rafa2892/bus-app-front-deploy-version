@@ -80,22 +80,16 @@
         <td><small>{{conductor.nombre.toUpperCase()}}</small></td>
         <td>{{conductor.apellido.toUpperCase()}}</td>
         <td>{{conductor.dni.toUpperCase()}}</td>
-      
-      
         <td>
           <div id="botonera" class="d-flex align-items-center justify-content-start gap-2">
-
               <div *ngIf="modalModoSeleccionarConductor">
                 <button type="button" title="Seleccionar" data-bs-dismiss="modal" id="botonSelect" (click)="seleccionar(conductor)" class="btn btn-success small-button">
                   <fa-icon class="selectIcon" [icon]="selectIcon"></fa-icon>
                 </button>
               </div> 
-                    
-            
               <button type="button" title="Ver detalles del Carro" data-bs-dismiss="modal" id="botonDetails" (click)="verDetalles(conductor.id)" class="btn btn-primary small-button">
                 <fa-icon class="detailsIcon small-icon" [icon]="detailsIcon"></fa-icon>
               </button>
-
               <div *ngIf="!modalModoSeleccionarConductor">
                 <button type="button" title="Editar" data-bs-dismiss="modal" id="botonSelect" (click)="editar(conductor)" class="btn btn-warning small-button">
                   <fa-icon class="selectIcon small-icon" [icon]="faEdit"></fa-icon>
@@ -105,8 +99,6 @@
                 </button>
               </div>  
           </div> 
-
-
         </td>  
       </tr>
     </tbody>

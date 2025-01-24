@@ -48,7 +48,7 @@ export class ListaVehiculosSelComponent {
   seleccionar(carro:Carro) {
     this.registrarViajeComponent.seleccionarCarro(carro);
     this.clearFilters();
-    this.router.navigate(['/registrar-viaje']);
+    // this.router.navigate(['/registrar-viaje']);
     
   }
 

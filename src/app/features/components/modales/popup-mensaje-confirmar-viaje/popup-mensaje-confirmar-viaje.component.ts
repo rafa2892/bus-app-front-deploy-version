@@ -18,6 +18,14 @@ export class PopupMensajeConfirmarViajeComponent {
 
   //Emisores de datos
   @Output() confirmarAccion: EventEmitter<boolean> = new EventEmitter<boolean>();
+  
+
+  //RECEPTORES DATOS 
+  @Input() viajeSelDetails: Viaje;
+  @Input() isModalConfirmacion: boolean;
+
+  ngOnInit(): void {
+  }
 
   manejarConfirmacion(confirmado: boolean) {
     this.confirmarAccion.emit(true);
@@ -27,4 +35,22 @@ export class PopupMensajeConfirmarViajeComponent {
     return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
   }
 
+  getViajeSeleccionado(){
+    if(this.viajeSelDetails) {
+        this.viaje = this.viajeSelDetails;
+        this.isModalConfirmacion = false;
+        return true;
+    }else {
+        return false;
+    }
+  }
+
+  getTituloModal(): string{
+    if(this.viaje) {
+      return 'Confirmar servicio';
+    }
+    else {
+      return 'Detalles servicio';
+    }
+  }
 }

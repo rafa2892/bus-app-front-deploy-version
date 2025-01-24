@@ -116,5 +116,9 @@ body {
     color: white !important; /* Cambiar el color a blanco */
   }
 
+  .table td, .table- th {
+    font-size: 14px; /* Cambia el tamaño según tu necesidad */
+  }
+
   
   

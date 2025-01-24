@@ -29,7 +29,7 @@ export class PopupSeleccionarConductorComponent {
 
   ngOnInit(): void {
     this.obtenerConductores();
- }
+  }
 
   constructor(
     private coductorService:ConductorService, 
@@ -50,7 +50,6 @@ export class PopupSeleccionarConductorComponent {
   seleccionar(conductor:Conductor) {
     this.registrarViajeComponent.seleccionarConductor(conductor);
     this.clearFilters();
-    this.router.navigate(['/registrar-viaje']);
   }
 
   clearFilters(){

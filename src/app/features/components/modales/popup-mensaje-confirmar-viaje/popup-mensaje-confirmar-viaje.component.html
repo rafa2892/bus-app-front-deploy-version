@@ -2,13 +2,13 @@
 
 <app-popup-generico 
     [modalLabel]="modalLabel" 
-    [tituloPopUp]="tituloPopUp"
+    [tituloPopUp]="getTituloModal()"
     [idModal]="idModal"
     [isModalProgramatico]="isModalProgramatico"
     (confirmarAccion)="manejarConfirmacion($event)"
-    [isModalConfirmacion]="true">
+    [isModalConfirmacion]="isModalConfirmacion">
 
-    <div *ngIf="viaje">
+    <div *ngIf="viaje ? true : getViajeSeleccionado()">
         <label class="label-input d-block">Compañia Servicio  :
             <span class="confirma-viaje-span">{{viaje.empresaServicioNombre}}</span>
         </label> 

@@ -155,7 +155,8 @@
                     placeholder="Selecciona el vehiculo" 
                     [(ngModel)]="selectedVehiculo" 
                     [matAutocomplete]="autoVehiculo" 
-                    name="seleccionavehiculo" displayVehiculo
+                    name="seleccionavehiculo" 
+                    displayVehiculo
                     (blur)="onInputBlur()"
                     (focus)="onFocusEventVehiculo()"
                     (input) ="filtrarAutocompletarCarro(selectedVehiculo)" 
