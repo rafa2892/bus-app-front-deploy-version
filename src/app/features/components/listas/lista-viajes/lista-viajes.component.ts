@@ -6,6 +6,7 @@ import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 import Swal from 'sweetalert2';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TITLES } from '../../../../constant/titles.constants';
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -24,11 +25,15 @@ export class ListaViajesComponent {
   //viaje Seleccionado Detalles
   viajeSelDetails : Viaje;
 
+  //Bandera modal de confirmación
+  isModalConfirmacion: boolean = false;
+
   constructor(
     private viajeServicio:ViajeServicioService,
     private router:Router,
     private activatedRoute: ActivatedRoute,
-    private _snackBar: MatSnackBar) {
+    private _snackBar: MatSnackBar,
+    private globalUtilsService : GlobalUtilsService ) {
   }
 
   ngOnInit(): void {
@@ -65,24 +70,19 @@ export class ListaViajesComponent {
     });
   }
 
-  getNumeroUnidadFormateado(numeroUnidad: number): string {
-    return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
-  }
-
   detallesViaje(viaje:Viaje) {
-    this.viajeSelDetails = viaje;
+    this.viajeSelDetails = { ...viaje }; // Crea una copia del objeto seleccionado
   }
 
   //CRUD
-  
   editar(viaje:Viaje) {
     this.router.navigate(['/registrar-viaje', viaje.id]);
   }
 
-  async eliminar(id:number){
-    const eliminarConfirmado = await this.eliminarViaje();
+  async eliminar(viaje:Viaje){
+    const eliminarConfirmado = await this.eliminarViaje(viaje);
     if (eliminarConfirmado) {
-      this.viajeServicio.eliminar(id).subscribe({
+      this.viajeServicio.eliminar(viaje.id).subscribe({
         next: () => {
           this.mostrarNotificacion('Viaje eliminado con éxito.', 'success-snackbar');
           this.obtenerListaViaje();
@@ -105,10 +105,19 @@ export class ListaViajesComponent {
     });
   }
 
-  async eliminarViaje(): Promise<boolean>{
+  async eliminarViaje(viaje:Viaje): Promise<boolean>{
+
+    const texto = `
+    <div class="prueba" style="margin-bottom: -1px;"><strong>Servicio num:</strong> ${viaje.id}</div><br>
+    <div style="margin-bottom: -1px;"><strong>Salida:</strong> ${viaje.ruta.ciudadOrigen}</div><br>
+    <div style="margin-bottom: -1px;"><strong>Destino:</strong> ${viaje.ruta.ciudadDestino}</div><br>
+    <div style="margin-bottom: -1px;"><strong>Vehículo Num Unidad:</strong> ${viaje.carro.numeroUnidad}</div><br>
+    <div style="margin-bottom: -1px;"><strong>Conductor:</strong> ${viaje.conductor.nombre} ${viaje.conductor.apellido}</div>
+  `;
+
     const result = await Swal.fire({
-        title: 'Confirmar eliminar',
-        text: 'Se va a eliminar permanentemente un servicio registrado (viaje), ¿Desea continuar con la eliminación?',
+        title: 'Confirma eliminar servicio',
+        html: texto,
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'Atras',
@@ -121,6 +130,10 @@ export class ListaViajesComponent {
     }else {
     return true;
     }
+  }
+
+  getNumeroUnidadFormateado(numeroUnidad:number) : string {
+    return this.globalUtilsService.getNumeroUnidadFormateado(numeroUnidad);
   }
 
 }

@@ -4,7 +4,7 @@ export const TITLES = {
 
     // FORMULARIO REGISTRAR CONDUCTOR
     NO_VIAJES_REGISTERED: (name:string) => 'EL conductor ' + name + ' no tiene viajes registrados',
-    NO_VIAJES: 'No tiene viajes registrados',
+    NO_VIAJES: '0',
     ERROR_REQUIRED_FIELDS: 'Por favor, complete todos los campos requeridos',
     ADD_DRIVER: 'Registrar Conductor',
     EDIT_DRIVER: 'Editar Conductor',
@@ -12,7 +12,7 @@ export const TITLES = {
     NO_DATA: 'Sin datos',
     KM_REGISTERED: 'Kilómetros registrados',
     KM : 'Km.',
-    CREATED_BY_USER: 'Dado alta por el usuario : ',
+    CREATED_BY_USER: 'Dado alta usuario ',
     REGISTERED_TRIPS: 'N. Viajes',
     REGISTRATION_DATE: 'Fecha de alta',
     DNI_DRIVER: 'Cedula del conductor',
@@ -54,6 +54,11 @@ export const TITLES = {
     CONFIRM_MODAL_MSJ : 'Confirmar',
     CANCEL_MODAL_MSJ : 'Cancelar',
     CLOSE_MODAL_MSJ: 'Cerrar',
+
+    //POP-UP MODAL DE CONFIRMACIÓN  POPUP-MENSAJE-CONFIRMAR-VIAJE
+    SERVICE_DETAILS :'Detalles del servicio',
+    EDITING_SERVICE :'Editando servicio',
+    CONFIRM_SERVICE :'Confirmar servicio'
 
     
 

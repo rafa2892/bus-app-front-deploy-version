@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faEye, faIdCard, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faIdCard, faListAlt, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
 import { TITLES } from '../../../../constant/titles.constants';
@@ -23,6 +23,7 @@ export class RegistrarConductorComponent {
   faIdCard = faIdCard;  
   plusIcon = faPlusCircle;
   eyeicon = faEye;
+  detailIcon = faListAlt;
 
   // Parámetros de la vista o component
   nonNumericError: boolean;

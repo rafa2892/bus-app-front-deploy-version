@@ -1,19 +1,21 @@
-<!-- <p>popup-mensaje-confirmar-viaje works!</p> -->
-
 <app-popup-generico 
     [modalLabel]="modalLabel" 
-    [tituloPopUp]="getTituloModal()"
+    [tituloPopUp]="tituloPopUp"
     [idModal]="idModal"
     [isModalProgramatico]="isModalProgramatico"
     (confirmarAccion)="manejarConfirmacion($event)"
     [isModalConfirmacion]="isModalConfirmacion">
-
     <div *ngIf="viaje ? true : getViajeSeleccionado()">
         <label class="label-input d-block">Compañia Servicio  :
             <span class="confirma-viaje-span">{{viaje.empresaServicioNombre}}</span>
         </label> 
         <label class="label-input d-block">Vehiculo  :  
-            <span class="confirma-viaje-span">{{getNumeroUnidadFormateado(viaje.carro.numeroUnidad)}} - {{viaje.carro.modelo}} - {{viaje.carro.anyo}}</span>
+            <span class="custom-color-prefijo-unidad">
+                {{getNumeroUnidadFormateado(viaje.carro.numeroUnidad)}}
+            </span> 
+            <span class="confirma-viaje-span"> 
+                - {{viaje.carro.modelo}} - {{viaje.carro.anyo}}   
+            </span>
         </label> 
         <label class="label-input d-block">Tipo de Vehiculo  : <span class="confirma-viaje-span">{{viaje.carro.tipoDeVehiculo}}</span></label> 
         <label class="label-input d-block">Conductor  :
@@ -24,6 +26,12 @@
             {{viaje.ruta.ciudadDestino}} - {{viaje.ruta.estadoDestino}}</span>
         </label> 
         <label class="label-input d-block">KMs  : <span class="confirma-viaje-span">  {{ viaje.ruta.distanciaKm ? viaje.ruta.distanciaKm : 'Sin información' }}</span></label> 
-        <label class="label-input d-block">Duración  :  <span class="confirma-viaje-span">{{viaje.ruta.tiempoEstimado ? viaje.ruta.tiempoEstimado : 'Sin información'}}</span></label> 
+        <label class="label-input d-block">Duración  :  <span class="confirma-viaje-span">{{viaje.ruta.tiempoEstimado ? viaje.ruta.tiempoEstimado : 'Sin información'}}</span></label>
+        <div *ngIf="!isModalConfirmacion">
+            <label class="label-input d-block">Dado de alta por usuario  :  <span class="confirma-viaje-span">{{viaje.dadoAltaUser}}</span></label>  
+            <label class="label-input d-block">Fecha de registro  :   
+                <span class="date confirma-viaje-span">{{ viaje.fecha | date:'dd/MM/yyyy' }} {{ viaje.fecha | date:'HH:mm' }}</span>
+            </label>
+        </div>
     </div>
 </app-popup-generico>

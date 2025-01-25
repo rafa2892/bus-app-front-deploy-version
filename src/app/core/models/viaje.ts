@@ -11,6 +11,7 @@ export class Viaje {
     comentarios:string;
     empresaServicioNombre:string = '';
     ruta: Ruta = new Ruta();
+    dadoAltaUser : string = '';
 
 
 

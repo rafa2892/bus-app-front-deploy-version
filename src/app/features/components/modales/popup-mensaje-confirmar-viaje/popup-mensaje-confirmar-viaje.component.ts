@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Viaje } from '../../../../core/models/viaje';
+import { TITLES } from '../../../../constant/titles.constants';
 
 @Component({
   selector: 'app-popup-mensaje-confirmar-viaje',
@@ -8,7 +9,7 @@ import { Viaje } from '../../../../core/models/viaje';
 })
 export class PopupMensajeConfirmarViajeComponent {
 
-  tituloPopUp :string = 'Confirmar servicio';
+  tituloPopUp :string = TITLES.CONFIRM_SERVICE;
   modalLabel = 'confirmarServicioLabel';
   idModal: string = 'confirma-servicio-modal';
 
@@ -16,15 +17,37 @@ export class PopupMensajeConfirmarViajeComponent {
   isModalProgramatico : boolean = false;
   viaje: Viaje; 
 
+  //Banderas features modal generico
+  isEdicionModeEnabled : boolean = false;
+
   //Emisores de datos
   @Output() confirmarAccion: EventEmitter<boolean> = new EventEmitter<boolean>();
   
-
   //RECEPTORES DATOS 
   @Input() viajeSelDetails: Viaje;
-  @Input() isModalConfirmacion: boolean;
+  @Input() isModalConfirmacion: boolean = true;
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+
+    if(this.viaje && 
+       this.viaje.id &&
+       this.isModalConfirmacion) {
+          this.tituloPopUp = TITLES.EDITING_SERVICE;
+    }
+  }
+
+  ngOnChanges() {
+
+    // Forzar la detección de cambios cuando las propiedades de entrada cambien
+    this.cdr.detectChanges(); 
+
+    //Forzamos actualizar el detalle del viaje
+    if(this.viajeSelDetails){
+        this.viaje = this.viajeSelDetails;
+        this.tituloPopUp = TITLES.SERVICE_DETAILS;
+    }
   }
 
   manejarConfirmacion(confirmado: boolean) {
@@ -38,19 +61,9 @@ export class PopupMensajeConfirmarViajeComponent {
   getViajeSeleccionado(){
     if(this.viajeSelDetails) {
         this.viaje = this.viajeSelDetails;
-        this.isModalConfirmacion = false;
         return true;
     }else {
         return false;
-    }
-  }
-
-  getTituloModal(): string{
-    if(this.viaje) {
-      return 'Confirmar servicio';
-    }
-    else {
-      return 'Detalles servicio';
     }
   }
 }

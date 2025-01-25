@@ -130,8 +130,13 @@
 }
 
 .custom-mat-field {
+  width: 100%;
+}
+
+.custom-mat-field-vehiculo {
   width: 85%;
 }
+
 
 @keyframes parpadeo {
   0% {
@@ -257,6 +262,26 @@ select:-webkit-autofill:focus {
   color: #fff; /* Texto blanco */
 }
 
+.font-size-sm {
+  font-size: 12px;
+}
+
+.font-size-mid {
+  font-size: 14px;
+}
+
+.bold-font {
+  font-weight: bold;
+}
+
+.italic-font {
+  font-style: italic;
+}
+
+.year-style {
+  color:rgb(44, 133, 32);
+  font-size: 15px;
+}
 
 
 

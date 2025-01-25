@@ -16,10 +16,7 @@ import { TITLES } from '../../../../constant/titles.constants';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupMensajeConfirmarViajeComponent } from '../../modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
 import Swal from 'sweetalert2';
-
-
-
-
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 
 @Component({
   selector: 'app-registrar-viaje',
@@ -51,7 +48,6 @@ export class RegistrarViajeComponent {
     estadoDestino: string = '';
     datosNoEncontrados = false;
     modalProgramatico: boolean = false;
-
 
     carros : Carro [];
     vehiculosAutoCompleteFilters : Carro [];
@@ -98,6 +94,7 @@ export class RegistrarViajeComponent {
     SELECCIONA_CONDUCTOR_LABEL = TITLES.SELECT_DRIVER;
     SELECCIONA_VEHICULO = TITLES.SELECT_CAR;
     GUARDAR = TITLES.SAVE;
+    EDITAR = TITLES.EDIT
     NUEVA_RUTA = TITLES.NEW_ROUTE;
     MENSAJE_DATA_FOUND = TITLES.DATA_FOUND;
     MENSAJE_NO_DATA_FOUND = TITLES.DATA_NO_FOUND;
@@ -109,7 +106,8 @@ export class RegistrarViajeComponent {
       private _snackBar: MatSnackBar,public dialog: MatDialog,
       private conductorService:ConductorService,
       private ngZone: NgZone,
-      private readonly route: ActivatedRoute){}
+      private readonly route: ActivatedRoute,
+      private globalUtilsService : GlobalUtilsService){}
 
 
     ngOnInit(): void {
@@ -287,8 +285,8 @@ export class RegistrarViajeComponent {
       return carro ? ` ${this.getNumeroUnidadFormateado(carro.numeroUnidad)}  -  ${carro.marca} ${carro.modelo} - ${carro.anyo}` : '';
     };
 
-    getNumeroUnidadFormateado(numeroUnidad: number): string {
-      return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
+    getNumeroUnidadFormateado(numeroUnidad:number) : string {
+      return this.globalUtilsService.getNumeroUnidadFormateado(numeroUnidad);
     }
 
     private isConductor(object: any): boolean {
@@ -422,6 +420,11 @@ export class RegistrarViajeComponent {
           const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent);
           modalRef.componentInstance.isModalProgramatico = true;
           modalRef.componentInstance.viaje = this.viaje;
+
+          if(this.viaje.id) {
+            modalRef.componentInstance.isEdicionModeEnabled = true;
+          }
+    
 
           // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
           modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {

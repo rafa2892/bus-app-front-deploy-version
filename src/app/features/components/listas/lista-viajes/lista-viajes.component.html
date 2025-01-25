@@ -19,7 +19,7 @@
       </thead>
       <tbody class="table-dark">
       <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: 10, currentPage: p}">
-        <td>{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
+        <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
         <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
         <td>{{ viaje.carro.tipoDeVehiculo }}</td>
         <td>
@@ -50,7 +50,7 @@
           <button title="Editar Vehiculo" (click)="editar(viaje)" class="btn btn-warning botonesAccion small-button">
             <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
           </button>
-          <button title="Eliminar Vehiculo"  (click)="eliminar(viaje.id)" class="btn btn-danger botonesAccion small-button">
+          <button title="Eliminar Vehiculo"  (click)="eliminar(viaje)" class="btn btn-danger botonesAccion small-button">
             <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
           </button>
         </td>
@@ -63,6 +63,11 @@
       previousLabel="Anterior" 
       nextLabel="Siguiente"></pagination-controls>
     </div>
-    <app-popup-mensaje-confirmar-viaje [viajeSelDetails]="viajeSelDetails"></app-popup-mensaje-confirmar-viaje>
+
+    <!--Modal de confirmacion o muestra de detalles-->
+    <app-popup-mensaje-confirmar-viaje 
+      [isModalConfirmacion]="isModalConfirmacion" 
+      [viajeSelDetails]="viajeSelDetails">
+    </app-popup-mensaje-confirmar-viaje>
 
 

@@ -114,7 +114,7 @@
             </div>   
         </div>
         <div class="row mt-4">
-            <div id="seleccionaConductor" class="col-lg-4  border-custom-color">
+            <div id="seleccionaConductor" class="col-lg-5  border-custom-color">
                 <label for="seleccionaConductor" class="label-input d-block">{{SELECCIONA_CONDUCTOR_LABEL}}</label>
                 <div>
                     <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
@@ -134,7 +134,9 @@
                         class="estilosTamanioInputs">
                         <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
                         <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
-                            {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
+                            <span class="font-size-mid bold-font">
+                                {{ conductor.nombre + ' ' + conductor.apellido | uppercase }}
+                            </span>
                         </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
@@ -143,9 +145,9 @@
                     </a>
                 </div>
             </div>
-            <div id="seleccionaVehiculo" class="col-lg-4 seleccionaVehiculoPosition border-custom-color">
+            <div id="seleccionaVehiculo" class="col-lg-5 seleccionaVehiculoPosition border-custom-color">
                 <label for="seleccionaVehiculo" class="label-input d-block">{{SELECCIONA_VEHICULO}}</label>
-                <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteCarro" 
+                <mat-form-field appearance="outline" class="custom-mat-field-vehiculo"  id="autoCompleteCarro" 
                 [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
                     <input
                     autocomplete="off"
@@ -163,7 +165,12 @@
                     class="estilosTamanioInputs">
                     <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
                     <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
-                        {{ carro.marca + ' ' + carro.modelo + 'numero unidad : ' + getNumeroUnidadFormateado(carro.numeroUnidad) | uppercase }}
+                        <strong><span class="custom-color-prefijo-unidad">{{getNumeroUnidadFormateado(carro.numeroUnidad)}} </span></strong>
+                        <span class="font-size-sm bold-font">
+                            {{ ' ' + carro.marca + ' ' }}
+                            {{  carro.modelo  | uppercase }}
+                        </span>
+                        <span class="italic-font year-style font-size-sm bold-font">{{  carro.anyo }}</span>
                     </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
@@ -172,7 +179,11 @@
                 </a>
             </div>
         </div>
-        <button class="btn btn-success btonGuardar" type="button" (click)="validar()">{{GUARDAR}}</button>
+        <button 
+            [className]="viaje.id ? 'btn btn-warning btonGuardar' : 'btn btn-success btonGuardar'" 
+            type="button" 
+            (click)="validar()">{{ viaje.id ? EDITAR : GUARDAR}}
+        </button>
         <app-popup-mensaje-confirmar-viaje (confirmarAccion)="manejarConfirmacion($event)"></app-popup-mensaje-confirmar-viaje>
         <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
         <app-popup-seleccionar-conductor [modalModoSeleccionarConductor]="modalModoSeleccionarConductor"></app-popup-seleccionar-conductor>

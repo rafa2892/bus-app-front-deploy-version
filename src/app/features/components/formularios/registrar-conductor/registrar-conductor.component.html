@@ -1,130 +1,155 @@
-
 <div class="contenedor-conductor">
-    <h3 class="text-center">
-        <fa-icon class="carIcon" [icon]="plusIcon"></fa-icon><fa-icon class="plusIcon" [icon]="faIdCard"></fa-icon> 
+    <h3 class="text-center tituloFormularioRegistrarConductor">
+        <fa-icon 
+        [class.plusIcon]="isDesdeDetalles" 
+        [class.detailsIcon]="!isDesdeDetalles"
+        [icon]="isDesdeDetalles ? plusIcon : detailIcon">
+        </fa-icon>
+        <fa-icon class="cardIcon" [icon]="faIdCard"></fa-icon> 
         <span class="tituloRegistroVehiculo">{{titulo}}</span>
     </h3>
-    <div class="row">
-        <div class="col">
-            <div id="formulario-registrar-conductor" class="col-md-6 offset-md-3" style="width: 100%;">
-                <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor" #form="ngForm">
-                    <label for="nombreConductor" class="label-input">{{NOMBRE_LABEL}}</label>
-                    <div id="nombreConductor" class="d-flex">
-                            <input type="text" matInput
-                            [(ngModel)]="nuevoConductor.nombre"
-                            [disabled]="isDesdeDetalles" 
-                            name="nombre-conductor"
-                            id="nombre-conductor"
-                            placeholder="Nombre" 
-                            style="text-transform: uppercase"
-                            (focus)="quitarError('nombre-conductor')"
-                            [ngClass]="{ 'input-error': camposFaltantes.includes('nombre-conductor') }"
-                            class="form-control defaultSizeInput"
-                            appOnlyLetters>
+
+
+    <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor" #form="ngForm">
+        <div class="row">  
+            <div id="formulario-registrar-conductor" class="col-md-6">
+                <label for="nombreConductor" class="label-input">{{NOMBRE_LABEL}}</label>
+                <div id="nombreConductor" class="d-flex">
+                    <input type="text" matInput
+                    [(ngModel)]="nuevoConductor.nombre"
+                    [disabled]="isDesdeDetalles" 
+                    name="nombre-conductor"
+                    id="nombre-conductor"
+                    placeholder="Nombre" 
+                    style="text-transform: uppercase"
+                    (focus)="quitarError('nombre-conductor')"
+                    [ngClass]="{ 'input-error': camposFaltantes.includes('nombre-conductor') }"
+                    class="form-control defaultSizeInput input-custom-style"
+                    appOnlyLetters>
+                </div>
+
+                    
+                <label for="apellidoConductor" class="label-input">{{APELLIDO_LABEL}}</label>
+                <div id="apellidoConductor" class="d-flex">
+                    <input type="text" matInput
+                    oninput="this.value = this.value.toUpperCase()"
+                    [(ngModel)]="nuevoConductor.apellido" 
+                    [disabled]="isDesdeDetalles" 
+                    name="apellido-conductor"
+                    id="apellido-conductor"
+                    placeholder="Apellido"
+                    style="text-transform: uppercase"
+                    (focus)="quitarError('apellido-conductor')"
+                    [ngClass]="{ 'input-error': camposFaltantes.includes('apellido-conductor') }"
+                    class="form-control defaultSizeInput input-custom-style"
+                    appOnlyLetters
+                    >
+                </div>
+
+
+                <div class="row">
+                    <label for="dniConductor" class="label-input">{{CEDULA_CONDUCTOR_LABEL}}</label>
+                    <div class="col-md-4">
+                        <div id="mat-form-destino">
+                            <select 
+                            oninput="this.value = this.value.toUpperCase()"
+                            class="form-select form-select-sm mb-3 dniTipoInput input-custom-style" 
+                            aria-label=".form-select-lg example" name="estadoDestino" 
+                            [(ngModel)]="nuevoConductor.dniTipo"
+                            [disabled]="isDesdeDetalles">
+                                <option *ngFor="let tipo of tiposDNI" [ngValue]="tipo">{{tipo}} <span class="separadorTipoDNI" style="font-size: 20px;">-</span>
+                            </select>
+                        </div>  
+                    </div> 
+
+
+                    <div class="col-md-6 campo">
+                            <div id="inputDniConductor" class="d-flex">
+                                <input type="text"
+                                appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'cedula')"
+                                id="cedula-conductor"
+                                [(ngModel)]="nuevoConductor.dni" 
+                                [disabled]="isDesdeDetalles"
+                                placeholder="Ingrese Cedula"
+                                name="cedula-conductor"
+                                class="form-control defaultSizeInput inputDniConductor input-custom-style"
+                                (focus)="quitarError('cedula-conductor')"
+                                [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }"
+                                maxlength="8">
+                                <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">{{ERROR_ONLY_NUMBERS}}</small>
+                            </div>   
+                        </div>  
                     </div>
-                    <label for="apellidoConductor" class="label-input">{{APELLIDO_LABEL}}</label>
-                    <div id="apellidoConductor" class="d-flex">
-                        <input type="text" matInput
-                        oninput="this.value = this.value.toUpperCase()"
-                        [(ngModel)]="nuevoConductor.apellido" 
-                        [disabled]="isDesdeDetalles" 
-                        name="apellido-conductor"
-                        id="apellido-conductor"
-                        placeholder="Apellido"
-                        (focus)="quitarError('apellido-conductor')"
-                        [ngClass]="{ 'input-error': camposFaltantes.includes('apellido-conductor') }"
-                        class="form-control defaultSizeInput"
-                        appOnlyLetters
-                        >
-                    </div>
-                    <div class="row">
-                        <label for="dniConductor" class="label-input">{{CEDULA_CONDUCTOR_LABEL}}</label>
-                        <div class="col-md-4">
-                            <div id="mat-form-destino">
-                                <select 
-                                oninput="this.value = this.value.toUpperCase()"
-                                class="form-select form-select-sm mb-3 dniTipoInput" 
-                                aria-label=".form-select-lg example" name="estadoDestino" 
-                                [(ngModel)]="nuevoConductor.dniTipo"
-                                [disabled]="isDesdeDetalles">
-                                    <option *ngFor="let tipo of tiposDNI" [ngValue]="tipo">{{tipo}} <span class="separadorTipoDNI" style="font-size: 20px;">-</span>
-                                </select>
-                            </div>  
-                        </div> 
-                        <div class="col-md-6 campo">
-                                <div id="inputDniConductor" class="d-flex">
-                                    <input type="text"
-                                        appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'cedula')"
-                                        id="cedula-conductor"
-                                        [(ngModel)]="nuevoConductor.dni" 
-                                        [disabled]="isDesdeDetalles"
-                                        name="cedula-conductor"
-                                        class="form-control defaultSizeInput inputDniConductor"
-                                        (focus)="quitarError('cedula-conductor')"
-                                        [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }">
-                                    <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">{{ERROR_ONLY_NUMBERS}}</small>
-                                </div>   
-                            </div>  
-                        </div>
-                        <!-- Fecha de nacimiento -->
-                        <label for="fechaNacimiento" class="label-input">{{DATE_OF_BIRTH_LABEL}}</label>
-                        <mat-form-field class="full-width">
-                            <input 
+
+                    <!-- Fecha de nacimiento -->
+                    <label for="fechaNacimiento"class="label-input">{{DATE_OF_BIRTH_LABEL}}</label>
+                    <mat-form-field id="mat-picker-date-component" class="full-width" [ngClass]="isDesdeDetalles ? 'picker-custom-disabled' : ''">
+                        <input
                             matInput 
                             [matDatepicker]="picker" 
                             name="fecha-nacimiento" 
                             id="fecha-nacimiento"
+                            placeholder="Ingrese fecha"
                             [disabled]="isDesdeDetalles"
-                                [(ngModel)]="nuevoConductor.fechaNacimiento">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-                        <button type="button" class="btn btn-primary btonGuarda" (click)="volverAtras()">{{VOLVER}}</button>
-                    <button type="submit" class="btonGuardar" [ngClass]="nuevoConductor.id ? 'btn btn-warning' : 'btn btn-success'">{{nuevoConductor.id?EDITAR:GUARDAR}}</button> 
-                </form>
+                            [(ngModel)]="nuevoConductor.fechaNacimiento"> 
+                        <mat-datepicker-toggle [ngClass]="isDesdeDetalles ? 'toggle-picker-disabled' : ''" matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker id="dataPicker" #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">  
+                    <div *ngIf="isDesdeDetalles" id="formulario-detalles-conductor">
+                        <div id="fecha-alta-content">
+                            <label for="fechaAlta" class="label-input">{{FECHA_ALTA}}</label>
+                            <input type="text"
+                            disabled="true"
+                            [(ngModel)]="nuevoConductor.fechaAltaString" 
+                            name="fecha-alta-conductor"
+                            id="fecha-alta-conductor-input"
+                            class="form-control input-custom-style defaultSizeInput input-custom-size w-25">
+                        </div>
+
+
+                        <label for="alta-por-user" class="label-input">{{DADO_ALTA_POR_LABEL}}</label>
+                        <div id="usuario-alta-conductor" class="d-flex align-items-center">
+                            <input type="text"
+                            disabled="true"
+                            [(ngModel)]="nuevoConductor.dadoAltaPor" 
+                            name="alta-user-conductor"
+                            id="alta-por-input"
+                            class="form-control defaultSizeInput input-custom-style w-25">
+                        </div>
+
+
+
+                        <label for="numero-viajes" class="label-input">{{NUM_VIAJES_LABEL}}</label>
+                        <div id="numero-viajes-content" class="d-flex align-items-center">
+                            <input type="text"
+                            disabled="true"
+                            [(ngModel)]="numeroViajes" 
+                            name="numero-viajes-conductor"
+                            id="numero-viajes-conductor-input"
+                            class="form-control defaultSizeInput input-custom-style input-custom-size w-15">
+                            <button type="button" id="verViajesbtn" class="btn btn-link p-0 buton-ordenar ver-viajes-boton" (click)="irListaViajes(nuevoConductor.id)">
+                                <fa-icon [icon]="eyeicon" class="fa-2x"></fa-icon>
+                            </button>
+                        </div>
+
+
+
+                        <label for="km-registrados" class="label-input">{{KM_REGISTRADOS_LABEL}}</label>
+                        <div id="km-registrados-content" class="d-flex align-items-center">
+                            <input type="text"
+                            disabled="true"
+                            [value]="nuevoConductor.kmRegistrados || NO_KM_REGISTERED"
+                            name="km-registrados-conductor"
+                            id="km-regis-conductor-input"
+                            class="form-control defaultSizeInput input-custom-style w-25">
+                        </div>
+                    </div>   
+                </div>
             </div>
-        </div>
-        <div class="col">  
-             <div *ngIf="isDesdeDetalles" id="formulario-detalles-conductor">
-                <div id="fecha-alta-content">
-                    <label for="fechaAlta" class="label-input">{{FECHA_ALTA}}</label>
-                    <input type="text"
-                    disabled="true"
-                    [(ngModel)]="nuevoConductor.fechaAltaString" 
-                    name="fecha-alta-conductor"
-                    id="fecha-alta-conductor-input"
-                    class="form-control defaultSizeInput">
-                </div>
-                <label for="alta-por-user" class="label-input">{{DADO_ALTA_POR_LABEL}}</label>
-                <div id="usuario-alta-conductor" class="d-flex">
-                    <input type="text"
-                    disabled="true"
-                    [(ngModel)]="nuevoConductor.dadoAltaPor" 
-                    name="alta-user-conductor"
-                    id="alta-por-input"
-                    class="form-control defaultSizeInput">
-                </div>
-                <label for="numero-viajes" class="label-input">{{NUM_VIAJES_LABEL}}</label>
-                <div id="numero-viajes-content" class="d-flex align-items-center">
-                    <input type="text"
-                    disabled="true"
-                    [(ngModel)]="numeroViajes" 
-                    name="numero-viajes-conductor"
-                    id="numero-viajes-conductor-input"
-                    class="form-control defaultSizeInput">
-                    <button type="button" id="verViajesbtn" class="btn btn-link p-0 buton-ordenar ver-viajes-boton" (click)="irListaViajes(nuevoConductor.id)">
-                        <fa-icon [icon]="eyeicon" class="fa-2x"></fa-icon>
-                    </button>
-                </div>
-                <label for="km-registrados" class="label-input">{{KM_REGISTRADOS_LABEL}}</label>
-                <div id="km-registrados-content" class="d-flex align-items-center">
-                    <input type="text"
-                    disabled="true"
-                    [value]="nuevoConductor.kmRegistrados || NO_KM_REGISTERED"
-                    name="km-registrados-conductor"
-                    id="km-regis-conductor-input"
-                    class="form-control defaultSizeInput">
-                </div>
-            </div>   
-    </div>
-</div>
+        <button type="button" class="btn btn-primary bton-footer boton-volver" (click)="volverAtras()">{{VOLVER}}</button>
+        <button type="submit" class="btonGuardar" [ngClass]="nuevoConductor.id ? 'btn btn-warning' : 'btn btn-success'">{{nuevoConductor.id?EDITAR:GUARDAR}}</button> 
+    </form>
+</div>    

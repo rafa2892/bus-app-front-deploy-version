@@ -20,4 +20,8 @@
   th, td {
     text-align: center;
   }
+
+  .prueba {
+    background-color: red !important;
+  }
   
