@@ -17,8 +17,8 @@ export const TITLES = {
     REGISTRATION_DATE: 'Fecha de alta',
     DNI_DRIVER: 'Cedula del conductor',
     DATE_OF_BIRTH: 'Fecha de nacimiento (DD/MM/YYYY)',
-    NAME : 'Nombre',
-    LAST_NAME : 'Apellido',
+    NAMES : 'Nombres',
+    LAST_NAMES : 'Apellidos',
 
 
     //GENERALES
@@ -58,7 +58,13 @@ export const TITLES = {
     //POP-UP MODAL DE CONFIRMACIÓN  POPUP-MENSAJE-CONFIRMAR-VIAJE
     SERVICE_DETAILS :'Detalles del servicio',
     EDITING_SERVICE :'Editando servicio',
-    CONFIRM_SERVICE :'Confirmar servicio'
+    CONFIRM_SERVICE :'Confirmar servicio',
+
+    //POP-UP MODAL FILTROS
+    APPLY_FILTERS : 'Aplicar filtros',
+    FILTERS_TITLE : 'Filtros',
+    FILTERS_INPUT_NAME_PLACEHOLDER : 'Conductor',
+    FILTERS_INPUT_CAR_PLACEHOLDER : 'Carro'
 
     
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Optional, Output } from '@angular/core';
 import {CarroService} from "../../../../core/services/carro.service";
 import {Carro} from "../../../../core/models/carro";
 import {RegistrarViajeComponent} from "../../formularios/registrar-viaje/registrar-viaje.component";
@@ -26,13 +26,18 @@ export class PopupSeleccionarCarroComponent {
   modalLabel = 'seleccionarVehiculoLabel';
   idModal: string = 'seleccionaVehiculoModal';
 
+  @Output() selectVehiculoHandlerFromSon = new EventEmitter<any>();
+
 
   ngOnInit(): void {
     this.obtenerCarros();
- }
+  }
 
 
-  constructor(private carroServicio:CarroService, private registrarViajeComponent : RegistrarViajeComponent, private router:Router) {}
+  constructor(
+    private carroServicio:CarroService, 
+    @Optional() private registrarViajeComponent : RegistrarViajeComponent, 
+    private router:Router) {}
 
 
   private obtenerCarros () {
@@ -72,13 +77,7 @@ seleccionar(carro:Carro) {
 
 }
 
-
 Searchfilters(){
-
-
-
-
-
 }
 
 onInputChangeModelFilter() {
@@ -101,15 +100,13 @@ onInputChangeYearFilter() {
 
   if (this.anyo.trim() === '') {
     return;
-} else {
-    const modeloBuscado = this.anyo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
-    this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
-        carro.anyo.toString().toLowerCase().includes(modeloBuscado)
-    );
-    
-}
-
-
+  }else {
+      const modeloBuscado = this.anyo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
+      this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
+          carro.anyo.toString().toLowerCase().includes(modeloBuscado)
+      );
+      
+  }
 }
 
 onBlurNumeroUnidad() {
@@ -125,6 +122,10 @@ clearFilters(){
   this.carrosFiltrado = this.carros;
 }
 
+//Datos desde el hijo (Vehiculo seleccionado)
+selectVehiculoHandler(carro:any) {
+  this.selectVehiculoHandlerFromSon.emit(carro);
+}
 
 
 }

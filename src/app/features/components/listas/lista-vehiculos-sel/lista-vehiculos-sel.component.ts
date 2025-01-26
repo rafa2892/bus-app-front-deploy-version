@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Optional, Output } from '@angular/core';
 import { Carro } from '../../../../core/models/carro';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 import { CarroService } from '../../../../core/services/carro.service';
@@ -22,12 +22,17 @@ export class ListaVehiculosSelComponent {
   anyo : string ='';
   marca : string = '';
 
+  //Receptores
   @Input() modalModoSeleccionarConductor : boolean;
+
+
+  //Transmisores
+  @Output() selectVehiculoHandlerFromSon = new EventEmitter<any>();
 
 
   constructor(
     private carroServicio:CarroService, 
-    private registrarViajeComponent : RegistrarViajeComponent, 
+    @Optional() private registrarViajeComponent : RegistrarViajeComponent, 
     private router:Router) {}
     
   ngOnInit(): void {
@@ -46,10 +51,15 @@ export class ListaVehiculosSelComponent {
   }
 
   seleccionar(carro:Carro) {
-    this.registrarViajeComponent.seleccionarCarro(carro);
+
+    if(!this.registrarViajeComponent) {
+      this.selectVehiculoHandlerFromSon.emit(carro);
+    }else {
+      this.registrarViajeComponent.seleccionarCarro(carro);
+    }
     this.clearFilters();
     // this.router.navigate(['/registrar-viaje']);
-    
+
   }
 
   onInputChangeNumeroUnidad() {

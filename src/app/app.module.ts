@@ -45,6 +45,7 @@ import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { PruebaContenedoresEstilosComponent } from './features/components/componentes-pruebas/prueba-contenedores-estilos/prueba-contenedores-estilos.component';
 import { PopupMensajeConfirmarViajeComponent } from './features/components/modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
+import { FiltrosAvanzadoViajesComponent } from './features/components/modales/filtros-avanzado-viajes/filtros-avanzado-viajes.component';
 
 
 
@@ -80,7 +81,8 @@ import { PopupMensajeConfirmarViajeComponent } from './features/components/modal
     RegistrarConductorComponent,
     OnlyLettersDirective,
     PruebaContenedoresEstilosComponent,
-    PopupMensajeConfirmarViajeComponent
+    PopupMensajeConfirmarViajeComponent,
+    FiltrosAvanzadoViajesComponent
       ],
   imports: [
     BrowserModule,

@@ -19,7 +19,11 @@
         </label> 
         <label class="label-input d-block">Tipo de Vehiculo  : <span class="confirma-viaje-span">{{viaje.carro.tipoDeVehiculo}}</span></label> 
         <label class="label-input d-block">Conductor  :
-            <span class="confirma-viaje-span">{{viaje.conductor.nombre}}  {{viaje.conductor.apellido}}</span>
+            <span 
+                class="confirma-viaje-span" 
+                [ngClass]="viaje.conductor ? 'actived-market-style': 'deleted-market-style'">
+                {{viaje.conductor? viaje.conductor.nombre + ' ' + viaje.conductor.apellido : viaje.deletedDriver}}
+            </span>
         </label> 
         <label class="label-input d-block">Ruta  : <span class="confirma-viaje-span">
             {{viaje.ruta.ciudadOrigen}} - {{viaje.ruta.estadoOrigen}} ->

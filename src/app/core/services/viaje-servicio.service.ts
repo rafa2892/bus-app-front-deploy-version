@@ -36,6 +36,35 @@ export class ViajeServicioService {
   eliminar(id: number): Observable<Object> {
     return this.httpClient.delete(`${this.baseUrl}/${id}`);
   }
+
+// En el servicio ViajeServicioService
+obtenerViajesFiltrados(
+  numeroUnidad: string,
+  conductorId: number | null,
+  fechaDesde:string, 
+  fechaHasta:string): Observable<Viaje[]> {
+
+    const params = new URLSearchParams();
+
+    if (numeroUnidad) params.append('numeroUnidad', numeroUnidad);
+    if (conductorId) params.append('conductorId', conductorId.toString());
+    if (fechaDesde) params.append('fechaDesde', fechaDesde);
+    if (fechaHasta) params.append('fechaHasta', fechaHasta);
+
+     // Construir la URL final
+    const url = `${this.baseUrl}/filtrar?${params.toString()}`;
+    return this.httpClient.get<Viaje[]>(url);
+
+    // return this.httpClient.get<Viaje[]>(
+    //   `${this.baseUrl}/filtrar?numeroUnidad=${numeroUnidad || ''}` +
+    //   `&conductorId=${conductorId || ''}` +
+    //   `&fechaDesde=${fechaDesde || ''}` +
+    //   `&fechaHasta=${fechaHasta || ''}`
+    // );
+
+
+}
+
   
   
 

@@ -13,14 +13,14 @@
     <form (ngSubmit)="onSubmit()" id="formularioRegistrarConductor" #form="ngForm">
         <div class="row">  
             <div id="formulario-registrar-conductor" class="col-md-6">
-                <label for="nombreConductor" class="label-input">{{NOMBRE_LABEL}}</label>
+                <label for="nombreConductor" class="label-input">{{NOMBRES_LABEL}}</label>
                 <div id="nombreConductor" class="d-flex">
                     <input type="text" matInput
                     [(ngModel)]="nuevoConductor.nombre"
                     [disabled]="isDesdeDetalles" 
                     name="nombre-conductor"
                     id="nombre-conductor"
-                    placeholder="Nombre" 
+                    [placeholder]="NOMBRES_LABEL" 
                     style="text-transform: uppercase"
                     (focus)="quitarError('nombre-conductor')"
                     [ngClass]="{ 'input-error': camposFaltantes.includes('nombre-conductor') }"
@@ -29,7 +29,7 @@
                 </div>
 
                     
-                <label for="apellidoConductor" class="label-input">{{APELLIDO_LABEL}}</label>
+                <label for="apellidoConductor" class="label-input">{{APELLIDOS_LABEL}}</label>
                 <div id="apellidoConductor" class="d-flex">
                     <input type="text" matInput
                     oninput="this.value = this.value.toUpperCase()"
@@ -37,14 +37,14 @@
                     [disabled]="isDesdeDetalles" 
                     name="apellido-conductor"
                     id="apellido-conductor"
-                    placeholder="Apellido"
+                    [placeholder]="APELLIDOS_LABEL"
                     style="text-transform: uppercase"
                     (focus)="quitarError('apellido-conductor')"
                     [ngClass]="{ 'input-error': camposFaltantes.includes('apellido-conductor') }"
                     class="form-control defaultSizeInput input-custom-style"
-                    appOnlyLetters
-                    >
+                    appOnlyLetterss>
                 </div>
+                
 
 
                 <div class="row">
@@ -61,29 +61,30 @@
                             </select>
                         </div>  
                     </div> 
-
-
                     <div class="col-md-6 campo">
-                            <div id="inputDniConductor" class="d-flex">
-                                <input type="text"
-                                appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'cedula')"
-                                id="cedula-conductor"
-                                [(ngModel)]="nuevoConductor.dni" 
-                                [disabled]="isDesdeDetalles"
-                                placeholder="Ingrese Cedula"
-                                name="cedula-conductor"
-                                class="form-control defaultSizeInput inputDniConductor input-custom-style"
-                                (focus)="quitarError('cedula-conductor')"
-                                [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }"
-                                maxlength="8">
-                                <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">{{ERROR_ONLY_NUMBERS}}</small>
-                            </div>   
-                        </div>  
-                    </div>
+                        <div id="inputDniConductor" class="d-flex">
+                            <input type="tel"
+                            id="cedula-conductor"
+                            [(ngModel)]="nuevoConductor.dni" 
+                            [disabled]="isDesdeDetalles"
+                            placeholder="Ingrese Cedula"
+                            name="cedula-conductor"
+                            class="form-control defaultSizeInput inputDniConductor input-custom-style"
+                            (focus)="quitarError('cedula-conductor')"
+                            [ngClass]="{ 'input-error': camposFaltantes.includes('cedula-conductor') }"
+                            (input)="formatCedula($event)"
+                            maxlength="10"
+                            (keypress)="onKeyPress($event)">
+                            <small *ngIf="nonNumericError" class="text-danger ms-2 align-self-center">{{ERROR_ONLY_NUMBERS}}</small>
+                        </div>   
+                    </div>  
+                </div>
 
-                    <!-- Fecha de nacimiento -->
+                    <!-- Fecha de desde filtros -->
                     <label for="fechaNacimiento"class="label-input">{{DATE_OF_BIRTH_LABEL}}</label>
-                    <mat-form-field id="mat-picker-date-component" class="full-width" [ngClass]="isDesdeDetalles ? 'picker-custom-disabled' : ''">
+                    <mat-form-field id="mat-picker-date-component"
+                    class="full-width" 
+                    [ngClass]="datePickerClassStylesHandler()">                   
                         <input
                             matInput 
                             [matDatepicker]="picker" 
@@ -91,8 +92,13 @@
                             id="fecha-nacimiento"
                             placeholder="Ingrese fecha"
                             [disabled]="isDesdeDetalles"
-                            [(ngModel)]="nuevoConductor.fechaNacimiento"> 
-                        <mat-datepicker-toggle [ngClass]="isDesdeDetalles ? 'toggle-picker-disabled' : ''" matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            [(ngModel)]="nuevoConductor.fechaNacimiento"
+                            (dateChange)="resetDatePickerStyles('mat-picker-date-component')"
+                            readonly> 
+                        <mat-datepicker-toggle 
+                            [ngClass]="isDesdeDetalles ? 'toggle-picker-disabled' : 'toggle-picker-enabled'" 
+                            matIconSuffix [for]="picker">
+                        </mat-datepicker-toggle>
                         <mat-datepicker id="dataPicker" #picker></mat-datepicker>
                     </mat-form-field>
                 </div>

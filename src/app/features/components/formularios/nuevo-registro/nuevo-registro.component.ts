@@ -24,7 +24,6 @@ export class NuevoRegistroComponent {
   ngOnInit(): void {
         // Obtener el parámetro 'id' de la URL
         this.id = +this.route.snapshot.paramMap.get('id')!;
-        console.log('ID recibido:', this.id);
   }
 
   agregarRegistroDeMantenimiento(id:number) {

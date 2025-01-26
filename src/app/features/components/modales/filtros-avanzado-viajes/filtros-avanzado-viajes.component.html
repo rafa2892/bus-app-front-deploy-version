@@ -1,0 +1,97 @@
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{FILTROS_TITULOS}}</h5>
+                    <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+                </div>
+
+                <!-- Fecha de desde filtros -->
+                <div class="modal-body">
+                    <div class="d-flex align-items-center justify-content-start">
+                        <mat-form-field id="mat-picker-date-component"
+                        class="full-width" 
+                        [ngClass]="">                   
+                            <input
+                                matInput 
+                                [matDatepicker]="dataPickerDesde" 
+                                name="fecha-desde" 
+                                id="fecha-desde"
+                                placeholder="Desde"
+                                [disabled]="false"
+                                [(ngModel)]="fechaDesde"
+                                (dateChange)="selectedDateFormat(fechaDesde, 'desde')"
+                                readonly> 
+                            <mat-datepicker-toggle 
+                                matIconSuffix [for]="dataPickerDesde">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker id="dataPickerDesde" #dataPickerDesde></mat-datepicker>
+                        </mat-form-field>
+
+                        <!-- Fecha de hasta filtros -->
+                        <mat-form-field id="mat-picker-date-component"
+                        class="full-width" 
+                        [ngClass]="">                   
+                            <input
+                                matInput 
+                                [matDatepicker]="dataPickerHasta" 
+                                name="fecha-hasta" 
+                                id="fecha-hasta"
+                                placeholder="Hasta"
+                                [disabled]="false"
+                                [(ngModel)]="fechaHasta"
+                                (dateChange)="selectedDateFormat(fechaHasta, 'hasta')"
+                                readonly> 
+                            <mat-datepicker-toggle 
+                                matIconSuffix [for]="dataPickerHasta">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker id="dataPickerHasta" #dataPickerHasta></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                        <div class="d-flex align-items-center justify-content-start">
+                            <div id="conductor-seleccionado" class="d-flex">
+                                <input type="text" matInput
+                                name="nombre-conductor"
+                                id="nombre-conductor"
+                                [placeholder]="CONDUCTOR_PLACEHOLDER_INPUT" 
+                                style="text-transform: uppercase"
+                                class="form-control defaultSizeInput input-custom-style"
+                                appOnlyLetters
+                                [value]="getConductor()">
+                            </div>
+                            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
+                                <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                            </a>
+                        </div> 
+
+                        <div class="d-flex align-items-center justify-content-start">
+                            <div id="carro-seleccionado" class="d-flex">
+                                <input type="text" matInput
+                                name="nombre-conductor"
+                                id="nombre-conductor"
+                                [placeholder]="CAR_PLACEHOLDER_INPUT" 
+                                style="text-transform: uppercase"
+                                class="form-control defaultSizeInput input-custom-style"
+                                [value]="getCarro()">
+                            </div>
+                            <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
+                                <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                            </a>
+                        </div> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeModal()">{{CANCELAR}}</button>
+                    <button type="button" (click)="aplicarFiltros()" class="btn btn-primary">{{APLICAR_FILTROS}}</button>
+                </div>
+                <button type="button" (click)="resetFilters()" class="btn btn-primary">RESETEAR</button>
+            </div>
+        </div>
+
+        <!-- MODALS-POP-UP -->
+        <app-popup-seleccionar-carro 
+            (selectVehiculoHandlerFromSon)="selectedVehiculoHandler($event)">
+        </app-popup-seleccionar-carro>
+        <app-popup-seleccionar-conductor 
+            (selectConductorHandlerFromSon)="selectedConductorHandler($event)" 
+            [modalModoSeleccionarConductor]="true">
+        </app-popup-seleccionar-conductor>

@@ -3,7 +3,7 @@
         [modalLabel]="modalLabel" 
         [tituloPopUp]="tituloPopUp"
         [idModal]="idModal">
-          <app-lista-vehiculos-sel></app-lista-vehiculos-sel>
+          <app-lista-vehiculos-sel (selectVehiculoHandlerFromSon)="selectVehiculoHandler($event)"></app-lista-vehiculos-sel>
       </app-popup-generico>
 
 

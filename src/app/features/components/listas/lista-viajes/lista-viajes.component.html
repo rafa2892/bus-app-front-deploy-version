@@ -1,6 +1,17 @@
     
-    
-    
+    <div class="d-flex align-items-center justify-content-start">
+      <div>
+        <button title="Ver detalles del Vehiculo" (click)="abrirModalFiltros()" class="btn btn-primary botonesAccion small-button">
+          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+        </button>
+      </div>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
+      </div>
+      <button type="button" (click)="resetFilters()" class="btn btn-primary">RESETEAR</button>
+    </div>
+
     
     
     <table id="listaViajes" class="table table-striped">
@@ -19,7 +30,7 @@
       </thead>
       <tbody class="table-dark">
       <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: 10, currentPage: p}">
-        <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
+        <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad , viaje) }}</td>
         <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
         <td>{{ viaje.carro.tipoDeVehiculo }}</td>
         <td>
@@ -27,8 +38,11 @@
           <hr class="separador" style="margin: 5px 0; border: none; border-top: 2px solid #ffffff !important;">
           <div>{{ viaje.ruta.ciudadDestino + ', ' + viaje.ruta.estadoDestino }}</div>
         </td>
-        <td>{{ (viaje.conductor.nombre ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : 'No definido') | uppercase }}</td>
-        <td>
+
+          <td [ngClass]="viaje.conductor ? 'actived-market-style': 'deleted-market-style'">
+            {{ (viaje.conductor ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : viaje.deletedDriver) | uppercase }}</td>
+          <td>
+
           <span class="date">{{ viaje.fecha | date:'dd/MM/yyyy' }}</span>
           <span class="time separated">{{ viaje.fecha | date:'HH:mm' }}</span>
         </td>
@@ -69,5 +83,6 @@
       [isModalConfirmacion]="isModalConfirmacion" 
       [viajeSelDetails]="viajeSelDetails">
     </app-popup-mensaje-confirmar-viaje>
+    
 
 

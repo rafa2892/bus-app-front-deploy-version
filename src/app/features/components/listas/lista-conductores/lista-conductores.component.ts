@@ -76,12 +76,6 @@ export class ListaConductoresComponent {
       this.seleccionarConductor.emit(conductor);
     }
 
-    clearFilters(){
-    }
-
-    onBlurNombre() {
-    }
-
     onInputChangeNombre() {
       const nombre = this.nombre.trim().toLowerCase();
       const apellido = this.apellido.trim().toLowerCase();
@@ -94,12 +88,6 @@ export class ListaConductoresComponent {
       return marcaCoincide && añoCoincide && cedula;
       });
     }  
-
-    onInputChangeApellidoFilter() {
-    }
-
-    onInputChangeDniFilter() {
-    }
 
     irRegistrarConductor() {
       this.router.navigate(['/registrar-conductor']);
@@ -180,11 +168,43 @@ export class ListaConductoresComponent {
         });
         break;
     }
-    // Reinicia la paginación a la primera página
     this.p = 1;
   }
   
+  //CRUD
+  eliminar(id:number) {
+    if (confirm('¿Estás seguro de eliminar este conductor?')) {
+      this.conductorService.eliminar(id).subscribe({
+        next: () => {
+          this.obtenerConductores();
+        },
+        error: (error) => console.error('Error al eliminar conductor:', error),
+      });
+    }
+  }
 
+  editar(conductor:Conductor) {
+    this.router.navigate(['/registrar-conductor', conductor.id]);
+  }
+
+
+  //NO IMPLEMENTADO
+
+  onInputChangeApellidoFilter() {
+  }
+
+  onInputChangeDniFilter() {
+  }
+
+
+  clearFilters(){
+  }
+
+  onBlurNombre() {
+  }
+
+
+  
   // ordenarLista() {
   //   switch (this.ordenSeleccionado) {
   //     case 'nombreAsc':
@@ -204,20 +224,5 @@ export class ListaConductoresComponent {
   // // Reinicia la paginación a la primera página
   //   this.p = 1;
   //   }
-
-  eliminar(id:number) {
-    if (confirm('¿Estás seguro de eliminar este conductor?')) {
-      this.conductorService.eliminar(id).subscribe({
-        next: () => {
-          this.obtenerConductores();
-        },
-        error: (error) => console.error('Error al eliminar conductor:', error),
-      });
-    }
-  }
-
-  editar(conductor:Conductor) {
-    this.router.navigate(['/registrar-conductor', conductor.id]);
-  }
 
 }

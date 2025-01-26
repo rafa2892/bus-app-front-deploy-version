@@ -125,6 +125,16 @@ body {
     font-weight: bold;
   }
 
+  .deleted-market-style {
+    color: rgb(255, 17, 0) !important;
+    font-weight: bold !important;
+  }
+
+  .actived-market-style {
+    color: rgb(46, 135, 2) !important;
+    font-weight: bold !important;
+  }
+
   .input-custom-style, .input-custom-style:focus {
     background-color: rgb(44, 43, 43); /* Fondo gris oscuro */
     border-color: #007bff; /* Borde azul */

@@ -245,7 +245,6 @@ export class RegistrarViajeComponent {
       this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
         if (carro) {
           this.selectedVehiculo = carro;
-          console.log("Carro seleccionado dentro del subscribe:", this.selectedVehiculo);
         } else {
           console.error("No se encontró el carro con el ID:", id);
         }
@@ -414,8 +413,10 @@ export class RegistrarViajeComponent {
       const esValido = await this.validarDatos();
 
       if(esValido){
+        
           //Carga datos nuevo viaje
           this.poblarFormularioCrearViaje();
+
           // Abre el modal creando una instancia nueva
           const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent);
           modalRef.componentInstance.isModalProgramatico = true;
@@ -424,14 +425,13 @@ export class RegistrarViajeComponent {
           if(this.viaje.id) {
             modalRef.componentInstance.isEdicionModeEnabled = true;
           }
-    
 
           // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
           modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
             this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
           });
       }else if(this.errorVali) {
-        this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
+              this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
               duration: 3000, // Duración del Snackbar en milisegundos
               panelClass: ['custom-snackbar'],
               horizontalPosition: 'end', // Options: 'start', 'center', 'end'
@@ -477,7 +477,6 @@ export class RegistrarViajeComponent {
     private obtenerListaCarro () {
       this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
       this.carros = dato;
-      console.log("Carros:", this.carros);
       this.cargarListasFiltrosCarro();
       });
     }
@@ -536,14 +535,13 @@ export class RegistrarViajeComponent {
   }
 
   quitarErrorEstilos(idElemento:string) {
-
     if(idElemento === '') {
     // Método para activar el parpadeo de los campos faltantes
     const elementos = document.querySelectorAll('.input-error-blink');
     elementos.forEach((elemento) => {
       elemento.classList.remove('input-error-blink');
     });
-  }else {
+    }else {
       const elemento = document.getElementById(idElemento);
       if(elemento) {
         elemento.classList.remove('input-error-blink');
@@ -722,7 +720,6 @@ export class RegistrarViajeComponent {
       //Sustituimos los minutos por 59 si es mayor a 59
         if (minutes && minutes.length === 2) {
           if (parseInt(minutes) > 59) {
-            console.log("Minutos mayor a 59");
             minutes = '59';  // Ajustamos los minutos a 59
             value = `${hours}:${minutes}`;
         }

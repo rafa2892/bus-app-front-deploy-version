@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Optional, Output } from '@angular/core';
 import { RegistrarViajeComponent } from '../../formularios/registrar-viaje/registrar-viaje.component';
 import { Router } from '@angular/router';
 import { Conductor } from '../../../../core/models/conductor';
@@ -25,7 +25,12 @@ export class PopupSeleccionarConductorComponent {
   detailsIcon = fontAwesomeIcons.detailsIcon;
   selectIcon = fontAwesomeIcons.selectIcon;
 
+  //Receptores
   @Input() modalModoSeleccionarConductor : boolean;
+
+  //Transmisores
+  @Output() selectConductorHandlerFromSon = new EventEmitter<any>();
+
 
   ngOnInit(): void {
     this.obtenerConductores();
@@ -33,8 +38,7 @@ export class PopupSeleccionarConductorComponent {
 
   constructor(
     private coductorService:ConductorService, 
-    private registrarViajeComponent : RegistrarViajeComponent,
-    private router:Router) { }
+    @Optional() private registrarViajeComponent : RegistrarViajeComponent) { }
 
   obtenerConductores(){
       this.coductorService.obtenerListaConductores().subscribe(dato =>  {
@@ -44,18 +48,14 @@ export class PopupSeleccionarConductorComponent {
       
   }
 
-  verDetalles(id:number) {
-  }
-
+  //HANDLE THE DRIVER SELECTION
   seleccionar(conductor:Conductor) {
-    this.registrarViajeComponent.seleccionarConductor(conductor);
+    if(!this.registrarViajeComponent) {
+      this.selectConductorHandlerFromSon.emit(conductor);
+    }else {
+      this.registrarViajeComponent.seleccionarConductor(conductor);
+    }
     this.clearFilters();
-  }
-
-  clearFilters(){
-  }
-
-  onBlurNombre() {
   }
 
   onInputChangeNombre() {
@@ -72,9 +72,19 @@ export class PopupSeleccionarConductorComponent {
   }  
 
 
-  onInputChangeApellidoFilter() {
+//NO IMPLEMENTED
+
+  verDetalles(id:number) {
   }
 
+  clearFilters(){
+  }
+
+  onBlurNombre() {
+  }
+
+  onInputChangeApellidoFilter() {
+  }
 
   onInputChangeDniFilter() {
   }

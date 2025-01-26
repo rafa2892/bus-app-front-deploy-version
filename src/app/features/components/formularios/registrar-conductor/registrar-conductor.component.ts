@@ -49,8 +49,8 @@ export class RegistrarConductorComponent {
   CEDULA_CONDUCTOR_LABEL = TITLES.DNI_DRIVER;
   DATE_OF_BIRTH_LABEL = TITLES.DATE_OF_BIRTH;
   ERROR_ONLY_NUMBERS = 'Solo se permiten números';
-  NOMBRE_LABEL = TITLES.NAME;
-  APELLIDO_LABEL = TITLES.LAST_NAME
+  NOMBRES_LABEL = TITLES.NAMES;
+  APELLIDOS_LABEL = TITLES.LAST_NAMES
   NO_KM_REGISTERED = TITLES.NO_DATA;
 
   constructor(
@@ -143,9 +143,12 @@ export class RegistrarConductorComponent {
     // Verifica cada campo
     if (!nombre) this.camposFaltantes.push('nombre-conductor');
     if (!apellido) this.camposFaltantes.push('apellido-conductor');
-    if (!dni) this.camposFaltantes.push('cedula-conductor');
     if (!fechaNacimiento) this.camposFaltantes.push('fecha-nacimiento');
-  
+
+    //Comprobamos correcto DNI y FECHA
+    const dniValido = /^\d{8,9}$/.test(dni);
+    if (!dni) this.camposFaltantes.push('cedula-conductor');
+
     // Si hay campos faltantes, muestra un mensaje de error y aplica un efecto visual
     if (this.camposFaltantes.length > 0) {
       this.activarParpadeo(this.camposFaltantes);
@@ -157,6 +160,8 @@ export class RegistrarConductorComponent {
       });
       return false;
     }
+
+
     this.nuevoConductor.fechaAlta = new Date();
     return true;
   }
@@ -164,7 +169,17 @@ export class RegistrarConductorComponent {
   // Método para activar el parpadeo de los campos faltantes
   activarParpadeo(campos: string[]) {
     campos.forEach((campoId) => {
+      
       const elemento = document.getElementById(campoId);
+      if(campoId === 'fecha-nacimiento') {
+        const elementoPicker =  document.getElementById('mat-picker-date-component');
+        elementoPicker?.classList.add('input-error-date-picker');
+        setTimeout(() => {
+          elementoPicker?.classList.remove('input-error-date-picker');
+        }, 1500)
+      } 
+      
+
       if (elemento) {
         elemento.classList.add('input-error-blink');
         // Remueve la clase después de 2 segundos
@@ -173,6 +188,7 @@ export class RegistrarConductorComponent {
         }, 1500);
       }
     });
+    
   }
 
   // Método para quitar el efecto visual de error de un campo
@@ -182,6 +198,21 @@ export class RegistrarConductorComponent {
       elemento.classList.remove('input-error');
     }
   }
+
+  resetDatePickerStyles(idElemento:string): void {
+    const elemento = document.getElementById(idElemento);
+    if(elemento){
+      elemento.classList.remove('input-error-date-picker-static');
+    }
+  }
+
+  datePickerClassStylesHandler() {
+    return {
+      'picker-custom-disabled': this.isDesdeDetalles,
+      'input-error-date-picker-static': this.camposFaltantes.includes('fecha-nacimiento'),
+    };
+  }
+ 
   
   // Método para guardar un nuevo conductor
   guardarNuevoConductor() {
@@ -228,9 +259,37 @@ export class RegistrarConductorComponent {
       return;
     }
     else{
-    this.router.navigate(['/lista-viajes', id]);
+    const baseUrl = window.location.origin; // Obtiene la base de la URL (ej.: http://localhost:4200)
+    const url = this.router.serializeUrl(this.router.createUrlTree(['/registrar-viaje', id]));
+    window.open(baseUrl + url, '_blank'); // Abre en una nueva pestaña
     }
   }
+
+  onKeyPress(event: KeyboardEvent) {
+    const key = event.key;
+    if (!/\d/.test(key)) {
+      event.preventDefault(); // Impide la entrada si no es un número
+    }
+  }
+
+  formatCedula(event: any) {
+    let value = event.target.value;
+
+    // Eliminar cualquier carácter que no sea un número
+    value = value.replace(/\D/g, '');
+
+    // Limitar a un máximo de 9 caracteres
+    if (value.length > 9) {
+      value = value.slice(0, 9);
+    }
+  
+    // Formatear agregando puntos cada 3 dígitos desde la derecha
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  
+    // Actualizar el valor del input
+    this.nuevoConductor.dni = value;
+  }
+  
 
   volverAtras() {
     this.location.back();
