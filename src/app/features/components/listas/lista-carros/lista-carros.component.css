@@ -1,7 +1,5 @@
 #botonesAcciones {
-
     margin-left: 7%;
-
 }
 
 .editIcon, .deleteIcon, .eyeIcon{
@@ -9,8 +7,6 @@
     color: white;
     margin-left: 45%;
 }
-
-
 
 .button-icon {
     display: flex;

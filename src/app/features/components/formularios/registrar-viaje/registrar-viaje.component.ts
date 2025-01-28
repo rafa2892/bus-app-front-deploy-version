@@ -31,8 +31,9 @@ export class RegistrarViajeComponent {
     conductor: Conductor = new Conductor();
     ruta: Ruta = new Ruta();
 
-    //Indicador de carga
+    //spinner de carga
     loading = false;
+
     proposalPlaceSelectedEvent = false;
     modalConfirmacion = false;
 

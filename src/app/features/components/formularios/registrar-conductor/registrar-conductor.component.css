@@ -57,35 +57,6 @@ mat-form-field {
     margin-bottom: 5%;
 }
 
-::ng-deep .mat-focused .mat-form-field-label {
-  /*change color of label*/
-  color: white !important;
-}
-
-::ng-deep.mat-form-field-underline {
-/*change color of underline*/
-background-color: white !important;
-} 
-
-::ng-deep.mat-form-field-ripple {
-/*change color of underline when focused*/
-background-color: white !important;;
-}
-
-::ng-deep .picker-custom-disabled .mat-mdc-text-field-wrapper {
-  background-color: rgb(44, 43, 43) !important;
-  border: 1px solid rgba(255, 255, 255, 0.4); /* border equivalente: Borde 1px sólido con un color claro */
-  border-radius: 0.25rem; /* rounded equivalente: Bordes redondeados */
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* shadow-sm equivalente: Sombra pequeña */
-}
-
-::ng-deep .mat-mdc-text-field-wrapper {
-  background-color: rgb(44, 43, 43) !important;
-  border: 1px solid #007bff; /* border equivalente: Borde 1px sólido con un color claro */
-  border-radius: 0.25rem; /* rounded equivalente: Bordes redondeados */
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* shadow-sm equivalente: Sombra pequeña */
-}
-
 ::ng-deep .input-error-date-picker-static .mat-mdc-text-field-wrapper  {
   border: 1px solid red; 
   box-shadow: 0 0 5px red; 
@@ -104,19 +75,6 @@ caret-color: transparent;
 #fecha-nacimiento {
   color: white;
   caret-color: transparent;
-}
-
-::ng-deep .toggle-picker-enabled .mdc-icon-button {
-  color: white !important;
-  background-color: #007bff !important;
-  margin-left: -15% !important;
-  transform: scale(0.8);
-  padding: 0;
-}
-
-::ng-deep .toggle-picker-disabled .mdc-icon-button {
-  color: #9e9e9e !important;
-  background-color: transparent !important;
 }
 
 .input-custom-size {
@@ -151,3 +109,38 @@ caret-color: transparent;
 .boton-volver {
   margin-right: 2%;
 }
+
+/* Clases estilos calendario picker back-ground negro
+
+*/
+::ng-deep .toggle-picker-enabled .mdc-icon-button {
+  color: white !important;
+  background-color: #007bff !important;
+  margin-left: -15% !important;
+  transform: scale(0.8);
+  padding: 0;
+}
+
+::ng-deep .toggle-picker-disabled .mdc-icon-button {
+  color: #9e9e9e !important;
+  background-color: transparent !important;
+}
+
+::ng-deep .picker-custom-disabled .mat-mdc-text-field-wrapper {
+  background-color: rgb(44, 43, 43) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4); /* border equivalente: Borde 1px sólido con un color claro */
+  border-radius: 0.25rem; /* rounded equivalente: Bordes redondeados */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* shadow-sm equivalente: Sombra pequeña */
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background-color: rgb(44, 43, 43) !important;
+  border: 1px solid #007bff; /* border equivalente: Borde 1px sólido con un color claro */
+  border-radius: 0.25rem; /* rounded equivalente: Bordes redondeados */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* shadow-sm equivalente: Sombra pequeña */
+}
+
+
+/* ************ TERMINA ESTILOS PARA DATE PICKER
+
+*/

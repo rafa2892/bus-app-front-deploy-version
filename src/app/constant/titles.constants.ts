@@ -50,6 +50,14 @@ export const TITLES = {
     DATA_NO_FOUND: 'Datos no encontrados automáticamente, favor completar manualmente',
 
 
+    //LISTA DE VIAJES LITERALS
+    FILTROS_TITULO_INPUT: 'Filtros',
+    SWITCH_BUTTON_FILTERS_ACTIVE:'Activar filtros',
+    SWITCH_BUTTON_FILTERS_DESACTIVE:'Desactivar filtros',
+    RESET_FILTER_TITLE_BUTTON : 'Resetear filtros',
+
+
+
     //POP-UP GENERICO 
     CONFIRM_MODAL_MSJ : 'Confirmar',
     CANCEL_MODAL_MSJ : 'Cancelar',

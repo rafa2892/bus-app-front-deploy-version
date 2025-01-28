@@ -67,46 +67,9 @@
   width: 76%;
 }
 
-/* Overlay para bloquear toda la UI */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(94, 88, 88, 0.488); /* Semi-transparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Aseguramos que esté encima de todo */
-}
-
-/* Estilo del spinner */
-.spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-}
-
-/* Animación del spinner */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Clases para bloquear la interacción */
-.blocked {
-  pointer-events: none; /* Esto bloquea la interacción con los elementos mientras está en 'loading' */
-  opacity: 0.5; /* Agrega un efecto visual de bloqueo */
-}
-
 .lupaIcon {
   color: blue;
 }
-
 
 .contenedorSeleccionRuta {
   margin-bottom: 3%;

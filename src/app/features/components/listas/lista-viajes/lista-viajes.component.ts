@@ -10,6 +10,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FiltrosAvanzadoViajesComponent } from '../../modales/filtros-avanzado-viajes/filtros-avanzado-viajes.component';
 import { Conductor } from '../../../../core/models/conductor';
 import { Carro } from '../../../../core/models/carro';
+import { DatePipe } from '@angular/common';
+import { TITLES } from '../../../../constant/titles.constants';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -24,18 +26,32 @@ export class ListaViajesComponent {
     deleteIcon = fontAwesomeIcons.deleteIcon;
     eyeIcon = fontAwesomeIcons.eyeIcon;
 
-    
     fechaDesde : Date | null;
     fechaHasta : Date | null;
     conductor :Conductor | null;
     carro : Carro | null;
 
+    fechaDesdeStr : string  | null;
+    fechaHastaStr : string  | null;
+
+    //Banderas
+    isSwitchFiltersOn :boolean;
 
     //viaje Seleccionado Detalles
     viajeSelDetails : Viaje;
 
     //Bandera modal de confirmación
     isModalConfirmacion: boolean = false;
+
+    //spinner de carga
+    loading = false;
+
+    //Literals
+    FILTROS_TITULO_INPUT = TITLES.FILTROS_TITULO_INPUT;
+    DESACTIVAR_FILTRO_TITULO = TITLES.SWITCH_BUTTON_FILTERS_DESACTIVE;
+    ACTIVAR_FILTRO_TITULO  = TITLES.SWITCH_BUTTON_FILTERS_ACTIVE;
+    RESETEAR_FILTRO_TITULO = TITLES.RESET_FILTER_TITLE_BUTTON;
+
 
     constructor(
       private viajeServicio:ViajeServicioService,
@@ -47,10 +63,11 @@ export class ListaViajesComponent {
     }
 
     ngOnInit(): void {
+
       const idConductorStr = this.activatedRoute.snapshot.paramMap.get('idConductor');
 
       //Convertimos el valor a número
-      const idConductor = idConductorStr ? +idConductorStr : null;
+      const idConductor = idConductorStr ? + idConductorStr : null;
 
       // Si se recibe un id de conductor, se filtran los viajes por ese conductor
       if(idConductor) {
@@ -65,8 +82,7 @@ export class ListaViajesComponent {
         next: (dato) => {
           // Si el backend devuelve null, asignamos un array vacío
           this.viajes = dato || [];
-        console.log(this.viajes);
-
+          this.loading = false;
         },
         error: (error) => {
           console.error('Error al obtener la lista de viajes:', error);
@@ -161,7 +177,7 @@ export class ListaViajesComponent {
     }
 
     applyFilterHandlerFromSon(){
-      this.modalService.dismissAll();
+      this.getViajesFiltrados();
     }
 
     abrirModalFiltros(): void {
@@ -191,9 +207,7 @@ export class ListaViajesComponent {
         modalRef.componentInstance.carro = this.carro;
         modalRef.componentInstance.selectedVehiculoHandler(this.carro);
       }
-
       this.eventModalHandler(modalRef);
-    
     }
 
     eventModalHandler(modalRef:any) {
@@ -203,9 +217,15 @@ export class ListaViajesComponent {
         
       this.fechaDesde = modalRef.componentInstance.fechaDesde;
       this.fechaHasta = modalRef.componentInstance.fechaHasta;
+
+      this.fechaDesdeStr = modalRef.componentInstance.fechaDesdeStr;
+      this.fechaHastaStr = modalRef.componentInstance.fechaHastaStr;
+
       this.conductor = modalRef.componentInstance.conductor;
       this.carro = modalRef.componentInstance.carro;
+
       this.viajes = modalRef.componentInstance.viajesFiltrados;
+      this.isSwitchFiltersOn = true;
 
       this.applyFilterHandlerFromSon(); 
 
@@ -217,15 +237,55 @@ export class ListaViajesComponent {
       });
   }
 
+
+  
+    // Monitorear cambios en el estado del interruptor
+    switchHandler() {
+      // Si filtros cargados va a bbdd nuevamente
+      if(this.carro ||  this.conductor ||  this.fechaDesdeStr || this.fechaHastaStr) {
+            this.loading = true;
+      }
+        if(!this.isSwitchFiltersOn) {
+          this.obtenerListaViaje(); 
+        }else {
+          this.getViajesFiltrados();
+        }
+    }
+
     resetFilters(): void {
 
       this.fechaDesde = null;
       this.fechaHasta = null;
       this.carro = null;
       this.conductor = null;
+      this.fechaDesdeStr = null;
+      this.fechaHastaStr = null;
+
       this.obtenerListaViaje();
-      
     }
 
+
+    // Método para buscar los viajes filtrados
+    getViajesFiltrados() {
+      this.viajeServicio.obtenerViajesFiltrados(this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr).subscribe(
+        (datos) => {
+          this.viajes = datos;
+          this.modalService.dismissAll();
+          this.loading = false;
+        },(error) => {
+          console.error('Error al obtener los viajes:', error);
+          if(error.status === 404) {
+            this._snackBar.open('No hay registros con los parametros dados', '', {
+            duration: 5000,
+            panelClass: ['error-snackbar'],
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            });
+          }
+        }
+      );
+    }
+
+  
     
 }

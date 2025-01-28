@@ -1,19 +1,35 @@
     
-    <div class="d-flex align-items-center justify-content-start">
-      <div>
-        <button title="Ver detalles del Vehiculo" (click)="abrirModalFiltros()" class="btn btn-primary botonesAccion small-button">
-          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
-        </button>
-      </div>
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
-      </div>
-      <button type="button" (click)="resetFilters()" class="btn btn-primary">RESETEAR</button>
-    </div>
+   
+      <div class="filters-container align-items-center justify-content-start margin">
 
-    
-    
+      <!--Spinner de carga-->
+        <div *ngIf="loading" class="overlay">
+          <div class="spinner"></div>
+      </div>
+
+
+          <button title="Filtros avanzados" (click)="abrirModalFiltros()" class="btn btn-primary btn-filter small-button">
+            <span class="button-icon bold-description-filters"> {{this.FILTROS_TITULO_INPUT}}</span> 
+            <span><img src="../../../../../assets/filter-icon.png" alt="Intercambiar" class="default-img-icon-size"></span>
+          </button>
+        <div class="block-buttons">
+          <div class="form-check form-switch switch-button">
+            <input 
+            id="flexSwitchCheckDefault"
+            [(ngModel)]="isSwitchFiltersOn" 
+            (change)="switchHandler()" 
+            class="form-check-input" 
+            type="checkbox" role="switch"
+            [title]="isSwitchFiltersOn ? DESACTIVAR_FILTRO_TITULO : ACTIVAR_FILTRO_TITULO">
+            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+          </div>
+          <button type="button"  [title]="RESETEAR_FILTRO_TITULO" (click)="resetFilters()" class="btn btn-primary btn-reset-filter">
+            <span class="button-icon bold-description-filters"> 
+              <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
+            </span>
+          </button>
+        </div>
+    </div>
     <table id="listaViajes" class="table table-striped">
       <thead class="table-dark">
       <tr>
@@ -38,11 +54,10 @@
           <hr class="separador" style="margin: 5px 0; border: none; border-top: 2px solid #ffffff !important;">
           <div>{{ viaje.ruta.ciudadDestino + ', ' + viaje.ruta.estadoDestino }}</div>
         </td>
-
-          <td [ngClass]="viaje.conductor ? 'actived-market-style': 'deleted-market-style'">
-            {{ (viaje.conductor ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : viaje.deletedDriver) | uppercase }}</td>
-          <td>
-
+        <td [ngClass]="viaje.conductor ? 'actived-market-style': 'deleted-market-style'">
+          {{ (viaje.conductor ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : viaje.deletedDriver) | uppercase }}
+        </td>
+        <td>
           <span class="date">{{ viaje.fecha | date:'dd/MM/yyyy' }}</span>
           <span class="time separated">{{ viaje.fecha | date:'HH:mm' }}</span>
         </td>
@@ -77,6 +92,7 @@
       previousLabel="Anterior" 
       nextLabel="Siguiente"></pagination-controls>
     </div>
+
 
     <!--Modal de confirmacion o muestra de detalles-->
     <app-popup-mensaje-confirmar-viaje 

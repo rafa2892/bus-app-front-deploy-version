@@ -39,14 +39,14 @@ export class ViajeServicioService {
 
 // En el servicio ViajeServicioService
 obtenerViajesFiltrados(
-  numeroUnidad: string,
-  conductorId: number | null,
-  fechaDesde:string, 
-  fechaHasta:string): Observable<Viaje[]> {
+  numeroUnidad: number | null | undefined,
+  conductorId: number | null | undefined,
+  fechaDesde:string | null, 
+  fechaHasta:string | null): Observable<Viaje[]> {
 
     const params = new URLSearchParams();
 
-    if (numeroUnidad) params.append('numeroUnidad', numeroUnidad);
+    if (numeroUnidad) params.append('numeroUnidad', numeroUnidad.toString());
     if (conductorId) params.append('conductorId', conductorId.toString());
     if (fechaDesde) params.append('fechaDesde', fechaDesde);
     if (fechaHasta) params.append('fechaHasta', fechaHasta);
