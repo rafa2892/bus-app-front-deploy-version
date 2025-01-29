@@ -8,7 +8,10 @@ export class GlobalUtilsService {
   constructor() { }
 
   getNumeroUnidadFormateado(numeroUnidad: number): string {
-    return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
+    if(numeroUnidad)
+      return `UN-${numeroUnidad.toString().padStart(3, '0')}`;
+    else
+      return '';
   }
 
 

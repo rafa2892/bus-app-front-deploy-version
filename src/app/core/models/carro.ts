@@ -1,5 +1,8 @@
+import { Bateria } from "./bateria";
 import { Historial } from "./historial";
 import { Imagen } from "./imagen";
+import { Poliza } from "./poliza";
+import { TituloPropiedad } from "./titulo-propiedad";
 
 export class Carro {
 
@@ -9,9 +12,13 @@ export class Carro {
   consumo:number;
   numeroUnidad:number;
   marca:string;
-  tipoDeVehiculo:string;
+  tipoVehiculo:string;
+
+  //Car objects attributes
   imagenes: Imagen [];
   imegenesGuardar : Imagen [];
   registroHistorial : Historial [] = [];
-  
+  bateria: Bateria;
+  poliza: Poliza;
+  tituloPropiedad:TituloPropiedad;
 }

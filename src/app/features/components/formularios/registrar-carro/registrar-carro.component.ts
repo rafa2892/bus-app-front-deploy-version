@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Carro } from '../../../../core/models/carro';
 import { CarroService } from '../../../../core/services/carro.service';
 import { Router,ActivatedRoute } from '@angular/router';
-import { faCar, faPlus, faPlusCircle} from '@fortawesome/free-solid-svg-icons';
+import { faCar, faPlusCircle} from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Imagen } from '../../../../core/models/imagen';
 import { TipoVehiculo } from '../../../../core/models/tipo-vehiculo';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TITLES } from '../../../../constant/titles.constants';
 
 
 @Component({
@@ -13,7 +15,10 @@ import { TipoVehiculo } from '../../../../core/models/tipo-vehiculo';
   templateUrl: './registrar-carro.component.html',
   styleUrl: './registrar-carro.component.css'
 })
-export class RegistrarCarroComponent  implements OnInit{
+export class RegistrarCarroComponent  implements OnInit {
+
+  carroForm: FormGroup;
+  step: number = 1; // Para rastrear el paso actual
 
 carro : Carro =  new Carro();
 carroLista : Carro [] ;
@@ -42,15 +47,25 @@ listaTipoVehiculos : TipoVehiculo [] = [];
 tipoVehiculo :string;
 idSeleccionada: number = 0;
 
+
+//LITERALES
+OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
+RAZON_TITULO = TITLES.NAME_COMPANY_PERSON_TITLE;
+
 //Mensajes Error
 mensajeNumeroUnidadFormato : string = 'El número de unidad que intentas ingresar ya se encuentra registrado, por favor ingresa otro numero de unidad';
 mensajeNumeroUnidadCampoObligatorio = 'El número de unidad es un campo obligatorio';
 mensajeNumeroUnidadRegistrada = 'El número de unidad que has intentado registrar ya se encuentra asignado a otro carro, por favor registra la unidad con otro número'
 mensajeCampoMarcaObligatorio = 'El campo Marca es obligario'
 
-constructor(private carroServicio:CarroService,private router:Router,private _snackBar: MatSnackBar,private route: ActivatedRoute){}
-
-
+constructor(
+  private carroServicio:CarroService,
+  private router:Router,
+  private _snackBar: MatSnackBar,
+  private route: ActivatedRoute,
+  private fb: FormBuilder){
+    this.inicializateCarroForm(fb);
+  }
 
 ngOnInit(): void {
   this.route.params.subscribe(params => {
@@ -61,12 +76,73 @@ ngOnInit(): void {
       }
       this.obtenerCarros();
   });
-
   this.obtenerListaTipoVehiculos();
 }
 
-obtenerListaTipoVehiculos(){
+ngAfterViewInit(): void {
+  this.addCommonStyles();
+}
 
+ngAfterViewChecked(): void {
+  this.addCommonStyles();
+}
+
+inicializateCarroForm(fb:FormBuilder) {
+  this.carroForm = this.fb.group({
+    carro: this.fb.group({
+      marca: ['', Validators.required],
+      modelo: ['', Validators.required],
+      anyo: ['', Validators.required],
+      tipoVehiculo: ['', Validators.required],
+      consumo: ['', Validators.required],
+      numeroUnidad: ['', Validators.required],
+    }),
+    bateria: this.fb.group({
+      marca: [''],
+      modelo: [''],
+      capacidad: [''],
+      fechaInstalacion: [''],
+      fechaRetiro: [''],
+      observaciones: [''],
+    }),
+    tituloPropiedad: this.fb.group({
+      nombre: [''],
+      apellido: [''],
+      descripcion: [''],
+      imagen: [''],
+    }),
+    poliza: this.fb.group({
+      aseguradora: [''],
+      poliza: [''],
+      vigente: [null],
+      tipo: [''],
+      cobertura: [''],
+      observaciones: [''],
+      fechaExpire: [null],
+      fechaInicio: [null],
+      diasPorVencer: [null],
+    }),
+    imagenes: this.fb.array([]),
+  });
+}
+
+addCommonStyles() {
+  const inputs = document.querySelectorAll('input');
+  inputs.forEach(input => {
+    input.classList.add('form-control');
+    input.classList.add('defaultSizeInput');
+  });
+
+  const textAreas = document.querySelectorAll('textarea');
+  textAreas.forEach(input => {
+    input.classList.add('form-control');
+    input.classList.add('textarea-custom-style');
+  });
+  
+}
+
+
+obtenerListaTipoVehiculos(){
   this.carroServicio.obtenerListaTipoVehiculos().subscribe(dato =>  {
     this.listaTipoVehiculos = dato;
   });
@@ -96,65 +172,71 @@ obtenerCarros(){
 
 validandoDatos(listaCarros: Carro[], nuevoNumeroUnidad: number): boolean {
   this.convertirImagenesABase64();
+  this.asignarValoresCarro();
 
   this.generalErrorFlag = false;
   const anyoActual = new Date().getFullYear();
 
-  if(this.carro.id != undefined && this.carro.id != null && this.carro.id > 0) {
-    let carro = this.obtenerCarroPorId(this.carro.id);
-    if(carro.id == this.carro.id && carro.numeroUnidad == this.carro.numeroUnidad) {
-      this.generalErrorFlag = false;
-      this.nonNumericNumUnidad = false;
-    }
-    else if(carro.id == this.carro.id && carro.numeroUnidad != this.carro.numeroUnidad) {
-      if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
-        this.generalErrorFlag = true;
-        this.nonNumericNumUnidad = true;
-      }
-    }
-  }
-  else if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
-      this.generalErrorFlag = true;
-      this.nonNumericNumUnidad = true;
-  }
+//   if(this.carro.id != undefined && this.carro.id != null && this.carro.id > 0) {
+//     let carro = this.obtenerCarroPorId(this.carro.id);
+//     if(carro.id == this.carro.id && carro.numeroUnidad == this.carro.numeroUnidad) {
+//       this.generalErrorFlag = false;
+//       this.nonNumericNumUnidad = false;
+//     }
+//     else if(carro.id == this.carro.id && carro.numeroUnidad != this.carro.numeroUnidad) {
+//       if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
+//         this.generalErrorFlag = true;
+//         this.nonNumericNumUnidad = true;
+//       }
+//     }
+//   }
+//   else if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
+//       this.generalErrorFlag = true;
+//       this.nonNumericNumUnidad = true;
+//   }
 
-  if(this.carro.numeroUnidad === undefined || this.carro.numeroUnidad === null || this.carro.numeroUnidad === 0 || this.carro.numeroUnidad.toString().trim() == '') {
-    this.noNumeroUnidad = true;
-    this.generalErrorFlag = true;
-}
+//   if(this.carro.numeroUnidad === undefined || this.carro.numeroUnidad === null || this.carro.numeroUnidad === 0 || this.carro.numeroUnidad.toString().trim() == '') {
+//     this.noNumeroUnidad = true;
+//     this.generalErrorFlag = true;
+// }
 
-  if (this.carro.marca === undefined || this.carro.marca === null ||  this.carro.marca === '') {
-     this.noMarcaError = true;
-     this.generalErrorFlag = true;
-  }
+//   if (this.carro.marca === undefined || this.carro.marca === null ||  this.carro.marca === '') {
+//       this.noMarcaError = true;
+//       this.generalErrorFlag = true;
+//   }
 
-
-  if(this.carro.modelo === undefined ||  this.carro.modelo === null ||   this.carro.modelo === '') {
-      this.noModeloError = true;
-      this.generalErrorFlag = true;
-  }
+//   if(this.carro.modelo === undefined ||  this.carro.modelo === null ||   this.carro.modelo === '') {
+//       this.noModeloError = true;
+//       this.generalErrorFlag = true;
+//   }
  
-  if(this.carro.anyo === undefined || this.carro.anyo ===null || this.carro.anyo === 0 || this.carro.anyo.toString().trim() == '') {
-      this.noAnyoError = true;
-      this.mensaje = 'El año es un campo obligatorio, por favor introduce el año del carro a registrar'
-      this.generalErrorFlag = true;
-  }
+//   if(this.carro.anyo === undefined || this.carro.anyo ===null || this.carro.anyo === 0 || this.carro.anyo.toString().trim() == '') {
+//       this.noAnyoError = true;
+//       this.mensaje = 'El año es un campo obligatorio, por favor introduce el año del carro a registrar'
+//       this.generalErrorFlag = true;
+//   }
 
+//   else if((this.carro.anyo.toString().trim() != '')  &&  this.carro.anyo < 1900 || this.carro.anyo > anyoActual) {
+//     this.noAnyoError = true;
+//     this.mensaje = 'Año invalido, introduzca un año entre 1900 y ' + anyoActual;
+//     this.generalErrorFlag = true;
+//   }
 
-  else if((this.carro.anyo.toString().trim() != '')  &&  this.carro.anyo < 1900 || this.carro.anyo > anyoActual) {
-    this.noAnyoError = true;
-    this.mensaje = 'Año invalido, introduzca un año entre 1900 y ' + anyoActual;
-    this.generalErrorFlag = true;
-  }
+//   if(this.generalErrorFlag === true)
+//   return false;
 
-  if(this.generalErrorFlag === true)
-  return false;
-
-  else
+//   else
   return true;
 
 }
 
+asignarValoresCarro() {
+  const formData = this.carroForm.value;
+  this.carro = formData.carro;
+  this.carro.bateria = formData.bateria;
+  this.carro.poliza = formData.poliza;
+  this.carro.tituloPropiedad = formData.tituloPropiedad;
+}
 
 convertirImagenesABase64(): Promise<void> {
   return new Promise<void>((resolve, reject) => {
@@ -188,6 +270,7 @@ async leerArchivoComoDataURL(file: File): Promise<void> {
 }
 
 guardarCarro() {
+
   this.convertirImagenesABase64().then(() => {
     if (this.validandoDatos(this.carroLista, this.carro.numeroUnidad)) {
       this.convertirMayus();
@@ -205,6 +288,7 @@ guardarCarro() {
       }, error => console.log(error));
     }
     else {
+      console.log(this.carro);
         this.carroServicio.registrarCarro(this.carro).subscribe(dato => {
         this._snackBar.open('Carro registrado con éxito.', '', {
           duration: 2000,
@@ -229,8 +313,8 @@ private trimInputs(){
 }
 
 convertirMayus() {
-this.carro.marca = this.carro.marca.trim().toLocaleUpperCase();
-this.carro.modelo = this.carro.modelo.trim().toLocaleUpperCase();
+// this.carro.marca = this.carro.marca.trim().toLocaleUpperCase();
+// this.carro.modelo = this.carro.modelo.trim().toLocaleUpperCase();
 }
 
 irListaCarro() {
@@ -276,8 +360,38 @@ handleNonNumericCount(count: number , anyo: string) {
         }
       }
     }
-
   }
+
+  backStep() {
+   if(this.step > 1) 
+      this.step = (this.step - 1);
+  }
+
+  nextStep() {
+      if(this.step === 1)
+      this.step = 2;
+     else if (this.step === 2 && this.carroForm.get('bateria')?.valid) {
+      this.step = 3;
+    } else if (this.step === 3 && this.carroForm.get('tituloPropiedad')?.valid) {
+      this.step = 4;
+    } else if (this.step === 4 && this.carroForm.get('poliza')?.valid) {
+    this.step = 5; // Paso 5: Imágenes
+    } else if (this.step === 5 && this.carroForm.get('imagenes')?.valid) {
+
+    // Si estamos en el paso 5, envía los datos del formulario
+      // this.onSubmit();
+
+    } else {
+      // Si el paso actual no es válido, mostrar un mensaje de error
+      this._snackBar.open('Por favor complete todos los campos del paso actual.', '', {
+        duration: 2000,
+        panelClass: ['error-snackbar'],
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      });
+    }
+  }
+  
 
 
   

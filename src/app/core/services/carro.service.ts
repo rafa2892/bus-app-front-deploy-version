@@ -39,6 +39,7 @@ export class CarroService {
   
   //Este metodo nos funciona para regitrar un carro
   registrarCarro(carro:Carro) : Observable<Object>{
+    console.log("Registrando carro")
     return this.httpClient.post(`${this.baseUrl}`, carro);
 
   }

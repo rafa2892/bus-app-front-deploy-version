@@ -159,6 +159,22 @@ body {
     caret-color: transparent;
     border-color:rgba(255, 255, 255, 0.4);
   }
+
+  .input-custom-style:disabled {
+    cursor: not-allowed; /* Cambia el cursor a "no permitido" */
+    opacity: 1; /* Asegura que no se vea desvanecido */
+    caret-color: transparent;
+    border-color:rgba(255, 255, 255, 0.4);
+  }
+  
+  .textarea-custom-style, .textarea-custom-style:focus {
+    background-color: rgb(44, 43, 43);  /* Fondo gris oscuro */
+    color: #fff;  /* Texto blanco */
+    border-color: #007bff;  /* Borde azul */
+    
+  }
+
+  
   
   .niputaidea {
     background-color: blue;
@@ -202,6 +218,4 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
-
 

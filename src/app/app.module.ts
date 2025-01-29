@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { ListaCarrosComponent } from './features/components/listas/lista-carros/lista-carros.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { RegistrarCarroComponent } from './features/components/formularios/registrar-carro/registrar-carro.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListaViajesComponent } from './features/components/listas/lista-viajes/lista-viajes.component';
 import { RegistrarViajeComponent } from './features/components/formularios/registrar-viaje/registrar-viaje.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -101,6 +101,7 @@ import { FiltrosAvanzadoViajesComponent } from './features/components/modales/fi
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    ReactiveFormsModule
 
   ],
   providers: [

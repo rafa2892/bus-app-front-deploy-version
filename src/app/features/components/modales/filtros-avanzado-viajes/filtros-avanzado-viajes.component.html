@@ -18,7 +18,7 @@
                                 placeholder="Desde"
                                 [disabled]="false"
                                 [(ngModel)]="fechaDesde"
-                                [matDatepickerFilter]="filterDates"
+                                [matDatepickerFilter]="filterDatesDesde"
                                 (dateChange)="selectedDateFormat(fechaDesde, 'desde')"
                                 readonly> 
                             <mat-datepicker-toggle 
@@ -40,7 +40,7 @@
                                 placeholder="Hasta"
                                 [disabled]="!fechaDesde"
                                 [(ngModel)]="fechaHasta"
-                                [matDatepickerFilter]="filterDates"
+                                [matDatepickerFilter]="filterDatesHasta"
                                 (dateChange)="selectedDateFormat(fechaHasta, 'hasta')"
                                 readonly> 
                             <mat-datepicker-toggle 
@@ -49,52 +49,48 @@
                             <mat-datepicker id="dataPickerHasta" #dataPickerHasta></mat-datepicker>
                         </mat-form-field>
                     </div>
-
-
-
-
-                        <div class="align-items-center justify-content-start">
-                            <div id="conductor-seleccionado" class="d-flex separator">
-                                <input type="text" matInput
-                                name="nombre-conductor"
-                                id="nombre-conductor"
-                                [placeholder]="CONDUCTOR_PLACEHOLDER_INPUT" 
-                                style="text-transform: uppercase"
-                                class="form-control defaultSizeInput input-custom-style size-filters-selected-input"
-                                appOnlyLetters
-                                disabled="true"
-                                [value]="getConductor()">
-                                <div class="selection-modal-opener">
-                                    <a class="btn botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
-                                        <span><img src="../../../../../assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
-                                    </a>    
-                                </div>
-                                <div class="reset-filter-button-container">
-                                    <button type="button" [title]="RESETEAR_FILTRO_TITULO" (click)="resetFilters()" class="btn btn-primary btn-reset-filter">
-                                        <span class="button-icon bold-description-filters"> 
-                                            <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
-                                        </span>
-                                    </button>
-                                </div>
+                    <div class="align-items-center justify-content-start">
+                        <div id="conductor-seleccionado" class="d-flex separator">
+                            <input type="text" matInput
+                            name="nombre-conductor"
+                            id="nombre-conductor"
+                            [placeholder]="CONDUCTOR_PLACEHOLDER_INPUT" 
+                            style="text-transform: uppercase"
+                            class="form-control defaultSizeInput  size-filters-selected-input"
+                            appOnlyLetters
+                            disabled="true"
+                            [value]="getConductor()">
+                            <div class="selection-modal-opener">
+                                <a class="btn botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
+                                    <span><img src="../../../../../assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
+                                </a>    
                             </div>
-                        </div> 
-                        <div class="align-items-center justify-content-start">
-                            <div id="carro-seleccionado" class="d-flex separator">
-                                <input type="text" matInput
-                                name="car-selected"
-                                id="car-selected"
-                                [placeholder]="CAR_PLACEHOLDER_INPUT" 
-                                style="text-transform: uppercase"
-                                disabled="true"
-                                class="form-control defaultSizeInput input-custom-style size-filters-selected-input"
-                                [value]="getCarro()">
-                                <div class="selection-modal-opener">     
-                                    <a class="btn botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
-                                        <span><img src="../../../../../assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
-                                    </a>    
-                                </div>
+                            <div class="reset-filter-button-container">
+                                <button type="button" [title]="RESETEAR_FILTRO_TITULO" (click)="resetFilters()" class="btn btn-primary btn-reset-filter">
+                                    <span class="button-icon bold-description-filters"> 
+                                        <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
+                                    </span>
+                                </button>
                             </div>
-                        </div> 
+                        </div>
+                    </div> 
+                    <div class="align-items-center justify-content-start">
+                        <div id="carro-seleccionado" class="d-flex separator">
+                            <input type="text" matInput
+                            name="car-selected"
+                            id="car-selected"
+                            [placeholder]="CAR_PLACEHOLDER_INPUT" 
+                            style="text-transform: uppercase"
+                            disabled="true"
+                            class="form-control defaultSizeInput  size-filters-selected-input"
+                            [value]="getCarro()">
+                            <div class="selection-modal-opener">     
+                                <a class="btn botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
+                                    <span><img src="../../../../../assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
+                                </a>    
+                            </div>
+                        </div>
+                    </div> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="closeModal()">{{CANCELAR}}</button>

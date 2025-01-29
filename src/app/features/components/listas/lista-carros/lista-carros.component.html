@@ -16,7 +16,7 @@
     <tr *ngFor="let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
       <td>{{carro.numeroUnidad}}</td>
       <td>{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
-      <td>{{carro.tipoDeVehiculo}}</td>
+      <td>{{carro.tipoVehiculo}}</td>
       <td>{{carro.anyo}}</td>
       <td>{{carro.consumo}}</td>
       <td>

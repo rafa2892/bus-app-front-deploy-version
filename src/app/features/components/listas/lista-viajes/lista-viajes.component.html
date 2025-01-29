@@ -1,18 +1,15 @@
     
    
       <div class="filters-container align-items-center justify-content-start margin">
-
-      <!--Spinner de carga-->
-        <div *ngIf="loading" class="overlay">
-          <div class="spinner"></div>
-      </div>
-
-
+        <!--Spinner de carga-->
+          <div *ngIf="loading" class="overlay">
+            <div class="spinner"></div>
+          </div>
           <button title="Filtros avanzados" (click)="abrirModalFiltros()" class="btn btn-primary btn-filter small-button">
             <span class="button-icon bold-description-filters"> {{this.FILTROS_TITULO_INPUT}}</span> 
             <span><img src="../../../../../assets/filter-icon.png" alt="Intercambiar" class="default-img-icon-size"></span>
           </button>
-        <div class="block-buttons">
+          <div class="block-buttons">
           <div class="form-check form-switch switch-button">
             <input 
             id="flexSwitchCheckDefault"
@@ -48,7 +45,7 @@
       <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: 10, currentPage: p}">
         <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad , viaje) }}</td>
         <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
-        <td>{{ viaje.carro.tipoDeVehiculo }}</td>
+        <td>{{ viaje.carro.tipoVehiculo }}</td>
         <td>
           <div>{{ viaje.ruta.ciudadOrigen + ', ' + viaje.ruta.estadoOrigen }}</div>
           <hr class="separador" style="margin: 5px 0; border: none; border-top: 2px solid #ffffff !important;">

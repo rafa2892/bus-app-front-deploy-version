@@ -1,111 +1,453 @@
-<div class="col-md-6 offset-md-3 registroCarro">
-    <h3 class="text-center">
-        <fa-icon class="carIcon" [icon]="plusIcon"></fa-icon><fa-icon class="plusIcon" [icon]="carIcon"></fa-icon> <span class="tituloRegistroVehiculo">Registro de Vehículo</span>
-    </h3>
-<div id="formularioRegistrarCarro">
-    <form (ngSubmit)="onSubmit()" id="registraCarroForm">
-        <div class="form-group">
+    <form [formGroup]="carroForm" class=""(ngSubmit)="onSubmit()">
+        <!-- Paso 1: Carro -->
+        <div *ngIf="step === 1" formGroupName="carro" class="row">
+            <h2>Datos del Carro</h2>
+            <div class="col">    
+                <div>
+                    <label class="label-input" for="marca">Marca:</label>
+                    <input 
+                        id="marca" 
+                        formControlName="marca" 
+                        placeholder="Ingrese marca"/>
+                    <div *ngIf="carroForm.get('carro.marca')?.invalid && carroForm.get('carro.marca')?.touched">
+                        <small class="error" *ngIf="carroForm.get('carro.marca')?.hasError('required')">La marca es obligatorio.</small>
+                    </div>
+                </div>
+                <div>
+                    <label for="modelo">Modelo:</label>
+                    <input id="modelo" formControlName="modelo" placeholder="Ingrese el modelo" />
+                    <div *ngIf="carroForm.get('carro.modelo')?.invalid && carroForm.get('carro.modelo')?.touched">
+                        <small class="error" *ngIf="carroForm.get('carro.modelo')?.hasError('required')">El modelo es obligatorio.</small>
+                    </div>
+                </div>
+                <div>
+                    <label for="anyo">Año:</label>
+                    <input id="anyo" formControlName="anyo" placeholder="Ingrese el año" type="number" />
+                    <div *ngIf="carroForm.get('carro.anyo')?.invalid && carroForm.get('carro.anyo')?.touched">
+                        <small class="error" *ngIf="carroForm.get('carro.anyo')?.hasError('required')">El año es obligatorio.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <label for="tipoVehiculo">Tipo de vehículo:</label>
+                </div> 
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select form-select-lg mb-3 input-custom-style" aria-label=".form-select-lg example" id="tipoVehiculo" formControlName="tipoVehiculo">
+                            <option selected disabled>Selecciona un tipo de vehículo</option>
+                            <option *ngFor="let tipos of listaTipoVehiculos" [ngValue]="tipos.descripcion">{{ tipos.descripcion }}</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <div *ngIf="carroForm.get('carro.tipoVehiculo')?.invalid && carroForm.get('carro.tipoVehiculo')?.touched">
+                            <small class="text-danger" *ngIf="carroForm.get('carro.tipoVehiculo')?.hasError('required')">El tipo de vehículo es obligatorio.</small>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="consumo">Consumo:</label>
+                    <input id="consumo" formControlName="consumo" placeholder="Ingrese el consumo" type="number" />
+                    <div *ngIf="carroForm.get('carro.consumo')?.invalid && carroForm.get('carro.consumo')?.touched">
+                        <small class="error" *ngIf="carroForm.get('carro.consumo')?.hasError('required')">El consumo es obligatorio.</small>
+                    </div>
+                </div>
+                <div>
+                    <label for="numeroUnidad">Número de Unidad:</label>
+                    <input id="numeroUnidad" formControlName="numeroUnidad" placeholder="Ingrese el número de unidad" />
+                    <div *ngIf="carroForm.get('carro.numeroUnidad')?.invalid && carroForm.get('carro.numeroUnidad')?.touched">
+                        <small class="error" *ngIf="carroForm.get('carro.numeroUnidad')?.hasError('required')">El número de unidad es obligatorio.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Paso 2: Batería -->
+        <div *ngIf="step === 2" formGroupName="bateria">
+            <h2>Información de la Batería</h2>
+        
             <div>
-                <label>Marca : </label>
-            </div> 
-            <div class="row">
-                <div class="col">
-                  <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.marca" name="marca" [ngClass]="{ 'input-grueso': !noMarcaError, 'input-error': noMarcaError }" (input)="onInputChange()">
-                </div>
-                <div class="col">
-                    <small *ngIf="noMarcaError" class="text-danger">{{mensajeCampoMarcaObligatorio}}</small>
-                </div>
+            <label for="marca">Marca:</label>
+            <input id="marca" formControlName="marca" placeholder="Ingrese la marca de la batería" />
+            <div *ngIf="carroForm.get('bateria.marca')?.invalid && carroForm.get('bateria.marca')?.touched">
+                <small class="error" *ngIf="carroForm.get('bateria.marca')?.hasError('required')">La marca es obligatoria.</small>
             </div>
-        </div>
-
-        <div class="form-group">
+            </div>
+        
             <div>
-                <label>Modelo : </label>
-            </div> 
-            <div class="row">
-                <div class="col">
-                  <input type = "text" class="form-control" id="modelo" [(ngModel)]="carro.modelo" name="modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
-                </div>
-                <div class="col">
-                    <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
-                </div>
+            <label for="modelo">Modelo:</label>
+            <input id="modelo" formControlName="modelo" placeholder="Ingrese el modelo de la batería" />
+            <div *ngIf="carroForm.get('bateria.modelo')?.invalid && carroForm.get('bateria.modelo')?.touched">
+                <small class="error" *ngIf="carroForm.get('bateria.modelo')?.hasError('required')">El modelo es obligatorio.</small>
             </div>
-        </div>
-
-
-        <div class="form-group">
+            </div>
+        
             <div>
-                <label>Tipo de vehiculo : </label>
-            </div> 
-            <div class="row">
-                <div class="col">
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tipoDeVehiculo" [(ngModel)]="carro.tipoDeVehiculo">
-                        <option selected disabled>Selecciona un tipo de vehiculo</option>
-                        <option *ngFor="let tipos of listaTipoVehiculos" [ngValue]="tipos.descripcion">{{ tipos.descripcion }}</option>
-                    </select>
+            <label for="capacidad">Capacidad:</label>
+            <input id="capacidad" formControlName="capacidad" placeholder="Ingrese la capacidad" type="number" />
+            <div *ngIf="carroForm.get('bateria.capacidad')?.invalid && carroForm.get('bateria.capacidad')?.touched">
+                <small class="error" *ngIf="carroForm.get('bateria.capacidad')?.hasError('required')">La capacidad es obligatoria.</small>
+            </div>
+            </div>
+        
+            <!-- <div>
+            <label for="fechaInstalacion">Fecha de Instalación:</label>
+            <input id="fechaInstalacion" formControlName="fechaInstalacion" placeholder="Ingrese la fecha de instalación" type="date" />
+            <div *ngIf="carroForm.get('bateria.fechaInstalacion')?.invalid && carroForm.get('bateria.fechaInstalacion')?.touched">
+                <small class="error" *ngIf="carroForm.get('bateria.fechaInstalacion')?.hasError('required')">La fecha de instalación es obligatoria.</small>
+            </div>
+            </div> -->
+        
+            <!-- <div>
+            <label for="fechaRetiro">Fecha de Retiro:</label>
+            <input id="fechaRetiro" formControlName="fechaRetiro" placeholder="Ingrese la fecha de retiro" type="date" />
+            <div *ngIf="carroForm.get('bateria.fechaRetiro')?.invalid && carroForm.get('bateria.fechaRetiro')?.touched">
+                <small class="error" *ngIf="carroForm.get('bateria.fechaRetiro')?.hasError('required')">La fecha de retiro es obligatoria.</small>
+            </div>textarea-custom-style
+            </div> -->
+
+                <div>
+                    <div id="observation-block-container" class="col-3">
+                        <label for="observaciones" class="label-input">{{OBSERVACION_TITULO}}</label>
+                        <textarea id="observaciones"  formControlName="observaciones" placeholder="Ingrese observaciones"></textarea>
+                        <div *ngIf="carroForm.get('bateria.observaciones')?.invalid && carroForm.get('bateria.observaciones')?.touched">
+                            <small class="error" *ngIf="carroForm.get('bateria.observaciones')?.hasError('required')">Las observaciones son obligatorias.</small>
+                        </div>
+                    </div>
+            </div>
+            <!-- Bo
+        
+            <div>
+                <label for="observaciones">Observaciones:</label>
+                <textarea id="observaciones" formControlName="observaciones" placeholder="Ingrese observaciones"></textarea>
+                <div *ngIf="carroForm.get('bateria.observaciones')?.invalid && carroForm.get('bateria.observaciones')?.touched">
+                    <small class="error" *ngIf="carroForm.get('bateria.observaciones')?.hasError('required')">Las observaciones son obligatorias.</small>
                 </div>
-                <div class="col">
-                    <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
+            </div>
+        
+            Botón de Enviar -->
+            <!-- <button type="submit" [disabled]="carroForm.invalid">Guardar</button> -->
+        </div>
+
+        <!-- Paso 3: Título de Propiedad -->
+        <div *ngIf="step === 3" formGroupName="tituloPropiedad">
+            <h2>Información del Título de Propiedad</h2>
+        
+            <div>
+                <label for="nombre">{{RAZON_TITULO}}</label>
+                <input id="nombre" formControlName="nombre" placeholder="Ingrese nombre/Razón social" />
+                <div *ngIf="carroForm.get('tituloPropiedad.nombre')?.invalid && carroForm.get('tituloPropiedad.nombre')?.touched">
+                    <small class="error" *ngIf="carroForm.get('tituloPropiedad.nombre')?.hasError('required')">El nombre es obligatorio.</small>
+                </div>
+            </div>
+        
+            <div id="description-block-container" class="col-3">
+            <label for="descripcion">{{OBSERVACION_TITULO}}</label>
+            <textarea id="descripcion" formControlName="descripcion" placeholder="Ingrese la descripción"></textarea>
+                <div *ngIf="carroForm.get('tituloPropiedad.descripcion')?.invalid && carroForm.get('tituloPropiedad.descripcion')?.touched">
+                    <small class="error" *ngIf="carroForm.get('tituloPropiedad.descripcion')?.hasError('required')">La descripción es obligatoria.</small>
+                </div>
+            </div>
+        
+            <div>
+                <label for="imagen">Imagen:</label>
+                <input id="imagen" formControlName="imagen" type="file" />
+                <div *ngIf="carroForm.get('tituloPropiedad.imagen')?.invalid && carroForm.get('tituloPropiedad.imagen')?.touched">
+                    <small class="error" *ngIf="carroForm.get('tituloPropiedad.imagen')?.hasError('required')">La imagen es obligatoria.</small>
+                </div>
+            </div>
+        </div>
+            <!-- Paso 4: Póliza -->
+        <div *ngIf="step === 4" formGroupName="poliza">
+            <h2>Información de la Póliza</h2>
+        
+            <div>
+            <label for="aseguradora">Aseguradora:</label>
+            <input id="aseguradora" formControlName="aseguradora" placeholder="Ingrese la aseguradora" />
+            <div *ngIf="carroForm.get('poliza.aseguradora')?.invalid && carroForm.get('poliza.aseguradora')?.touched">
+                <small class="error" *ngIf="carroForm.get('poliza.aseguradora')?.hasError('required')">La aseguradora es obligatoria.</small>
+            </div>
+            </div>
+        
+            <div>
+            <label for="poliza">Póliza Num:</label>
+            <input id="poliza" formControlName="poliza" placeholder="Ingrese el número de póliza" />
+            <div *ngIf="carroForm.get('poliza.poliza')?.invalid && carroForm.get('poliza.poliza')?.touched">
+                <small class="error" *ngIf="carroForm.get('poliza.poliza')?.hasError('required')">El número de póliza es obligatorio.</small>
+            </div>
+            </div>
+        
+            <!-- <div>
+            <label for="vigente">Vigente:</label>
+            <input id="vigente" formControlName="vigente" type="checkbox" />
+            </div>
+         -->
+            <!-- <div>
+                <label for="tipo">Tipo:</label>
+                <input id="tipo" formControlName="tipo" placeholder="Ingrese el tipo de póliza" />
+                <div *ngIf="carroForm.get('poliza.tipo')?.invalid && carroForm.get('poliza.tipo')?.touched">
+                    <small class="error" *ngIf="carroForm.get('poliza.tipo')?.hasError('required')">El tipo es obligatorio.</small>
+                </div>
+            </div>
+         -->
+
+
+            <div>
+                <label for="cobertura">Cobertura:</label>
+                <input id="cobertura" formControlName="cobertura" placeholder="Ingrese la cobertura" />
+                <div *ngIf="carroForm.get('poliza.cobertura')?.invalid && carroForm.get('poliza.cobertura')?.touched">
+                    <small class="error" *ngIf="carroForm.get('poliza.cobertura')?.hasError('required')">La cobertura es obligatoria.</small>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+
+                <div class="col-6">
+                    <label for="fechaInicio">Fecha Expedición:</label>
+                    <input id="fechaInicio" formControlName="fechaInicio" type="date" />
+                </div>
+
+                <div class="col-6">
+                    <label for="diasPorVencer">Días por Vencer:</label>
+                    <input id="diasPorVencer" formControlName="diasPorVencer" type="number" />
+                </div>
+
+                <div class="col-6">
+                    <label for="fechaExpire">Fecha de Expiración:</label>
+                    <input id="fechaExpire" formControlName="fechaExpire" type="date" />
+                </div>
+            </div>
+
+            
+
+            <div>
+                <label for="observaciones">Observaciones:</label>
+                <textarea id="observaciones" formControlName="observaciones" placeholder="Ingrese las observaciones"></textarea>
+                <div *ngIf="carroForm.get('poliza.observaciones')?.invalid && carroForm.get('poliza.observaciones')?.touched">
+                    <small class="error" *ngIf="carroForm.get('poliza.observaciones')?.hasError('required')">Las observaciones son obligatorias.</small>
                 </div>
             </div>
         </div>
 
-
-        <div class="mb-3">
-            <label for="formFileSm" class="form-label">Imagenes</label>
-            <input class="form-control form-control-sm" id="formFileSm" type="file" multiple (change)="onFileSelected($event)">
-            <small class="form-text text-muted" *ngIf="selectedFiles.length >= 1"> {{selectedFiles.length}} archivo(s) seleccionado(s)</small>
-            <div *ngFor="let selectedFile of selectedFiles; let i = index" class="form-check">
-                <input class="form-check-input" type="checkbox" [checked]="true">
-                <label class="form-check-label">
-                    {{selectedFile.name}}
-                </label>
+        <!-- Paso 5: Imágenes -->
+    <div *ngIf="step === 5">
+        <h2>Imágenes del Carro</h2>
+            <!-- Agregar imagen -->
+            <div>
+            <label for="imagenes">Cargar Imágenes:</label>
+            <!-- <input type="file" (change)="onFileChange($event)" multiple /> -->
             </div>
+
+            <div class="mb-3">
+                <label for="formFileSm" class="form-label">Imagenes</label>
+                <input class="form-control form-control-sm" id="formFileSm" type="file" multiple (change)="onFileSelected($event)">
+                <small class="form-text text-muted" *ngIf="selectedFiles.length >= 1"> {{selectedFiles.length}} archivo(s) seleccionado(s)</small>
+                <div *ngFor="let selectedFile of selectedFiles; let i = index" class="form-check">
+                    <input class="form-check-input" type="checkbox" [checked]="true">
+                    <label class="form-check-label">
+                        {{selectedFile.name}}
+                    </label>
+                </div>
+            </div>
+
+
+            
+            
+            <!-- Mostrar imágenes cargadas -->
+            <!-- <div *ngIf="carroForm.get('imagenes').value.length > 0">
+                <h3>Imágenes Cargadas</h3>
+                <div *ngFor="let img of carroForm.get('imagenes').value">
+                    <img [src]="img" alt="Imagen del carro" width="100" />
+                </div>
+            </div>
+            
+            -->
+                <!-- Botón para pasar al siguiente paso -->
+                <button type="submit" [disabled]="carroForm.invalid">Guardar</button>
         </div>
+
+            <!-- Botón para pasar al siguiente paso -->
+            <button type="button" (click)="backStep()">Atrás</button>
+
+            
+            <button *ngIf="!(this.step === 5)" type="button" (click)="nextStep()">Siguiente</button>
+        </form>
+
+
+
 
 
         
-        <div class="form-group">
-            <div>
-                <label>Año YYYY: </label>
-            </div>    
-            <div class="row">
-                <div class="col">
-                    <input maxlength="4" type = "text" class="form-control anyoInput defaultSizeInput" id="anyo" [(ngModel)] = "carro.anyo" name="anyo" (input)="onInputChange()" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'anyo')" [ngClass]="{ 'input-grueso':!noAnyoError , 'input-error': noAnyoError }">
-                </div>
-                <div class="col">
-                    <small *ngIf="nonNumericError" class="text-danger">La fecha debe introducirse en formato "YYYY", en numeros, ejemplo año actual : "{{anyoActual}}"</small>
-                    <small *ngIf="noAnyoError" class="text-danger">{{mensaje}}</small>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label>Consumo aproximado cada 100 km: </label>
+        <!-- <form (ngSubmit)="onSubmit()" id="registraCarroForm">
+            <div class="form-group">
+                <div>
+                    <label>Marca : </label>
+                </div> 
                 <div class="row">
                     <div class="col">
-                        <input type = "text" (input)="onInputChange()"  class="form-control defaultSizeInput" id="consumoDefecto" [(ngModel)] = "carro.consumo" name="consumo" appOnlyNumber  (nonNumericCount)="handleNonNumericCount($event, 'consumo')" [ngClass]="{ 'input-grueso':!nonNumericConsumo , 'input-error': nonNumericConsumo }"  >
+                    <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.marca" name="marca" [ngClass]="{ 'input-grueso': !noMarcaError, 'input-error': noMarcaError }" (input)="onInputChange()">
                     </div>
                     <div class="col">
-                        <small *ngIf="nonNumericConsumo" class="text-danger">Solo se aceptan números.</small>
+                        <small *ngIf="noMarcaError" class="text-danger">{{mensajeCampoMarcaObligatorio}}</small>
                     </div>
                 </div>
             </div>
-        <div class="form-group">
-            <label>Numero Unidad : </label>
+
+            <div class="form-group">
+                <div>
+                    <label>Modelo : </label>
+                </div> 
                 <div class="row">
                     <div class="col">
-                        <input maxlength="4" type = "text" (input)="onInputChange()" class="form-control defaultSizeInput" id="numeroUni"  [ngClass]="{'input-error': noNumeroUnidad || nonNumericNumUnidad || unidadRepetida, 'input-grueso': !noNumeroUnidad && !nonNumericNumUnidad}"  [(ngModel)] = "carro.numeroUnidad" name="numUnidad" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'numeroUni')">
+                    <input type = "text" class="form-control" id="modelo" [(ngModel)]="carro.modelo" name="modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
                     </div>
                     <div class="col">
-                        <small *ngIf="nonNumericNumUnidad" class="text-danger">{{mensajeNumeroUnidadFormato}}</small>
-                        <small *ngIf="noNumeroUnidad" class="text-danger">{{mensajeNumeroUnidadCampoObligatorio}}</small>
-                        <small *ngIf="unidadRepetida" class="text-danger">{{mensajeNumeroUnidadRegistrada}}</small>
+                        <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
                     </div>
+                </div>
             </div>
-        </div>
-            <div class="text-center"> <!-- Div para centrar el botón -->
-                <button class="btn btn-primary saveButtonRegistrarCarro">Guardar</button>
+
+
+            <div class="form-group">
+                <div>
+                    <label>Tipo de vehiculo : </label>
+                </div> 
+                <div class="row">
+                    <div class="col">
+                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tipoDeVehiculo" [(ngModel)]="carro.tipoDeVehiculo">
+                            <option selected disabled>Selecciona un tipo de vehiculo</option>
+                            <option *ngFor="let tipos of listaTipoVehiculos" [ngValue]="tipos.descripcion">{{ tipos.descripcion }}</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
+                    </div>
+                </div>
             </div>
-        </form>
-    </div>
-</div>
+
+
+            <div class="mb-3">
+                <label for="formFileSm" class="form-label">Imagenes</label>
+                <input class="form-control form-control-sm" id="formFileSm" type="file" multiple (change)="onFileSelected($event)">
+                <small class="form-text text-muted" *ngIf="selectedFiles.length >= 1"> {{selectedFiles.length}} archivo(s) seleccionado(s)</small>
+                <div *ngFor="let selectedFile of selectedFiles; let i = index" class="form-check">
+                    <input class="form-check-input" type="checkbox" [checked]="true">
+                    <label class="form-check-label">
+                        {{selectedFile.name}}
+                    </label>
+                </div>
+            </div>
+
+
+            
+            <div class="form-group">
+                <div>
+                    <label>Año YYYY: </label>
+                </div>    
+                <div class="row">
+                    <div class="col">
+                        <input maxlength="4" type = "text" class="form-control anyoInput defaultSizeInput" id="anyo" [(ngModel)] = "carro.anyo" name="anyo" (input)="onInputChange()" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'anyo')" [ngClass]="{ 'input-grueso':!noAnyoError , 'input-error': noAnyoError }">
+                    </div>
+                    <div class="col">
+                        <small *ngIf="nonNumericError" class="text-danger">La fecha debe introducirse en formato "YYYY", en numeros, ejemplo año actual : "{{anyoActual}}"</small>
+                        <small *ngIf="noAnyoError" class="text-danger">{{mensaje}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Consumo aproximado cada 100 km: </label>
+                    <div class="row">
+                        <div class="col">
+                            <input type = "text" (input)="onInputChange()"  class="form-control defaultSizeInput" id="consumoDefecto" [(ngModel)] = "carro.consumo" name="consumo" appOnlyNumber  (nonNumericCount)="handleNonNumericCount($event, 'consumo')" [ngClass]="{ 'input-grueso':!nonNumericConsumo , 'input-error': nonNumericConsumo }"  >
+                        </div>
+                        <div class="col">
+                            <small *ngIf="nonNumericConsumo" class="text-danger">Solo se aceptan números.</small>
+                        </div>
+                    </div>
+                </div>
+            <div class="form-group">
+                <label>Numero Unidad : </label>
+                    <div class="row">
+                        <div class="col">
+                            <input maxlength="4" type = "text" (input)="onInputChange()" class="form-control defaultSizeInput" id="numeroUni"  [ngClass]="{'input-error': noNumeroUnidad || nonNumericNumUnidad || unidadRepetida, 'input-grueso': !noNumeroUnidad && !nonNumericNumUnidad}"  [(ngModel)] = "carro.numeroUnidad" name="numUnidad" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'numeroUni')">
+                        </div>
+                        <div class="col">
+                            <small *ngIf="nonNumericNumUnidad" class="text-danger">{{mensajeNumeroUnidadFormato}}</small>
+                            <small *ngIf="noNumeroUnidad" class="text-danger">{{mensajeNumeroUnidadCampoObligatorio}}</small>
+                            <small *ngIf="unidadRepetida" class="text-danger">{{mensajeNumeroUnidadRegistrada}}</small>
+                        </div>
+                </div>
+            </div>
+                <div class="text-center">
+                    <button class="btn btn-primary saveButtonRegistrarCarro">Guardar</button>
+                </div>
+            </form> -->
+        <!-- </div> -->

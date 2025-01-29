@@ -84,6 +84,6 @@
         cursor: not-allowed; /* Cambia el cursor a "no permitido" */
         opacity: 1; /* Asegura que no se vea desvanecido */
         caret-color: transparent;
-        border-color:white;
+        border-color:whit;
     }
     

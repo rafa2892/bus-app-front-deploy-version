@@ -42,3 +42,29 @@
     border-style: solid; /* Estilo del borde */
     border-color: #007bff; /* Azul bonito */
 }
+
+
+form input {
+  background-color: rgb(44, 43, 43); /* Fondo gris oscuro */
+  border-color: #007bff; /* Borde azul */
+  color: #fff; /* Texto blanco */
+}
+
+
+.input-custom-style:focus,.input-custom-style:disabled {
+  background-color: rgb(44, 43, 43); /* Fondo gris oscuro */
+  border-color: #007bff; /* Borde azul */
+  color: #fff; /* Texto blanco */
+}
+
+.defaultSizeInput {
+  width: 35%;
+  margin-bottom: 2%;
+}
+
+.input-custom-style:disabled {
+  cursor: not-allowed; /* Cambia el cursor a "no permitido" */
+  opacity: 1; /* Asegura que no se vea desvanecido */
+  caret-color: transparent;
+  border-color:rgba(255, 255, 255, 0.4);
+}

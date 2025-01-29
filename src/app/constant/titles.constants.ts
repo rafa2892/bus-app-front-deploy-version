@@ -56,8 +56,6 @@ export const TITLES = {
     SWITCH_BUTTON_FILTERS_DESACTIVE:'Desactivar filtros',
     RESET_FILTER_TITLE_BUTTON : 'Resetear filtros',
 
-
-
     //POP-UP GENERICO 
     CONFIRM_MODAL_MSJ : 'Confirmar',
     CANCEL_MODAL_MSJ : 'Cancelar',
@@ -72,10 +70,12 @@ export const TITLES = {
     APPLY_FILTERS : 'Aplicar filtros',
     FILTERS_TITLE : 'Filtros',
     FILTERS_INPUT_NAME_PLACEHOLDER : 'Conductor',
-    FILTERS_INPUT_CAR_PLACEHOLDER : 'Carro'
+    FILTERS_INPUT_CAR_PLACEHOLDER : 'Carro',
 
+    //REGISTRAR CARRO LITERALES
+    COMMENTS_LABEL_TITLE : 'Observaciones/Comentarios',
+    NAME_COMPANY_PERSON_TITLE : 'Nombre/Razón social'
     
-
 
 
   };

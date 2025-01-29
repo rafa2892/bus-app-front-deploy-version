@@ -76,7 +76,11 @@ export class FiltrosAvanzadoViajesComponent {
 
 //APPLIES THE FILTER TO THE TABLE (VIAJES)
   aplicarFiltros() {
+    //if date fechaHasta is empty, then is iqual to the fechaDesde
+    if(!this.fechaHasta)
+      this.fechaHasta = this.fechaDesde;
 
+    //Emits event applies filters
     this.applyFiltersHandler.emit({
               fechaDesde: this.fechaDesde,
               fechaHasta: this.fechaHasta,
@@ -84,7 +88,6 @@ export class FiltrosAvanzadoViajesComponent {
               carro: this.carro,
               viajesFiltrados: this.viajesFiltrados // Incluimos los viajes filtrados para mayor flexibilidad
             });
-            
   }
 
   closeModal() {
@@ -142,19 +145,26 @@ export class FiltrosAvanzadoViajesComponent {
     return '';
   }
 
-  filterDates = (date: Date | null): boolean => {
-   
+  filterDatesHasta = (date: Date | null): boolean => {
     if(this.fechaDesde) {
       if (!date) return false;
       if (this.fechaDesde > date) return false;
     }
-    
+    return this.validarDiasFuturos(date);
+  };
+  
+  filterDatesDesde = (date: Date | null): boolean => {
+    return this.validarDiasFuturos(date);
+  };
+
+  validarDiasFuturos(date: Date | null) : boolean {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
     // Bloquear fechas futuras
     return date ? date <= today : false;
-  };
+  }
+
+
 
   getNumeroUnidadFormateado(numeroUnidad:number) : string {
     return this.globalUtilsService.getNumeroUnidadFormateado(numeroUnidad);
