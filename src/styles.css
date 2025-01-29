@@ -10,8 +10,9 @@ body {
 }
 
 .defaultSizeInput {
-    width: 35%;
+    /* width: auto;
     margin-bottom: 5%;
+    min-width: 150px; */
 }
 
 .success-snackbar {
@@ -109,7 +110,6 @@ body {
       font-style: italic;
   }
   
-
   .modal-content {
     background-color: #25292e; /* Gris */
   }
@@ -217,5 +217,19 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.bus-img {
+  width: 11%;
+  background-color: white !important;
+  border-radius: 50%;
+  margin-left: 2em;
+  margin-top: 2em;
+}
+
+#contenedorPrincipal {
+  position: relative;
+  bottom: 5em;
+  left: 4em;
 }
 

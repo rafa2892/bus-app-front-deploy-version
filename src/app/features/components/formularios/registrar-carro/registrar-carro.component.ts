@@ -18,7 +18,8 @@ import { TITLES } from '../../../../constant/titles.constants';
 export class RegistrarCarroComponent  implements OnInit {
 
   carroForm: FormGroup;
-  step: number = 1; // Para rastrear el paso actual
+  step: number = 4;
+  ; // Para rastrear el paso actual
 
 carro : Carro =  new Carro();
 carroLista : Carro [] ;
@@ -67,6 +68,8 @@ constructor(
     this.inicializateCarroForm(fb);
   }
 
+  
+
 ngOnInit(): void {
   this.route.params.subscribe(params => {
       const id = +params['id'];
@@ -108,7 +111,7 @@ inicializateCarroForm(fb:FormBuilder) {
     tituloPropiedad: this.fb.group({
       nombre: [''],
       apellido: [''],
-      descripcion: [''],
+      observaciones: [''],
       imagen: [''],
     }),
     poliza: this.fb.group({
@@ -120,7 +123,7 @@ inicializateCarroForm(fb:FormBuilder) {
       observaciones: [''],
       fechaExpire: [null],
       fechaInicio: [null],
-      diasPorVencer: [null],
+      diasPorVencer: [{ value: null, disabled: true }],
     }),
     imagenes: this.fb.array([]),
   });
@@ -140,7 +143,6 @@ addCommonStyles() {
   });
   
 }
-
 
 obtenerListaTipoVehiculos(){
   this.carroServicio.obtenerListaTipoVehiculos().subscribe(dato =>  {
@@ -170,64 +172,54 @@ obtenerCarros(){
   });
 }
 
+
+
 validandoDatos(listaCarros: Carro[], nuevoNumeroUnidad: number): boolean {
+
   this.convertirImagenesABase64();
   this.asignarValoresCarro();
 
   this.generalErrorFlag = false;
   const anyoActual = new Date().getFullYear();
 
-//   if(this.carro.id != undefined && this.carro.id != null && this.carro.id > 0) {
-//     let carro = this.obtenerCarroPorId(this.carro.id);
-//     if(carro.id == this.carro.id && carro.numeroUnidad == this.carro.numeroUnidad) {
-//       this.generalErrorFlag = false;
-//       this.nonNumericNumUnidad = false;
-//     }
-//     else if(carro.id == this.carro.id && carro.numeroUnidad != this.carro.numeroUnidad) {
-//       if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
-//         this.generalErrorFlag = true;
-//         this.nonNumericNumUnidad = true;
-//       }
-//     }
-//   }
-//   else if (listaCarros.some(carro => carro.numeroUnidad == nuevoNumeroUnidad)) {
-//       this.generalErrorFlag = true;
-//       this.nonNumericNumUnidad = true;
-//   }
+  if(listaCarros.some(carro => carro.numeroUnidad === nuevoNumeroUnidad)) {
+      console.log(listaCarros);
+      this.generalErrorFlag = true;
+      this.nonNumericNumUnidad = true;
+  }
 
-//   if(this.carro.numeroUnidad === undefined || this.carro.numeroUnidad === null || this.carro.numeroUnidad === 0 || this.carro.numeroUnidad.toString().trim() == '') {
-//     this.noNumeroUnidad = true;
-//     this.generalErrorFlag = true;
-// }
+  if(this.carro.numeroUnidad) {
+    this.noNumeroUnidad = true;
+    this.generalErrorFlag = true;
+  }
 
-//   if (this.carro.marca === undefined || this.carro.marca === null ||  this.carro.marca === '') {
-//       this.noMarcaError = true;
-//       this.generalErrorFlag = true;
-//   }
+  if (this.carro.marca) {
+      this.noMarcaError = true;
+      this.generalErrorFlag = true;
+  }
 
-//   if(this.carro.modelo === undefined ||  this.carro.modelo === null ||   this.carro.modelo === '') {
-//       this.noModeloError = true;
-//       this.generalErrorFlag = true;
-//   }
- 
-//   if(this.carro.anyo === undefined || this.carro.anyo ===null || this.carro.anyo === 0 || this.carro.anyo.toString().trim() == '') {
-//       this.noAnyoError = true;
-//       this.mensaje = 'El año es un campo obligatorio, por favor introduce el año del carro a registrar'
-//       this.generalErrorFlag = true;
-//   }
+  if(this.carro.modelo) {
+      this.noModeloError = true;
+      this.generalErrorFlag = true;
+  }
 
-//   else if((this.carro.anyo.toString().trim() != '')  &&  this.carro.anyo < 1900 || this.carro.anyo > anyoActual) {
-//     this.noAnyoError = true;
-//     this.mensaje = 'Año invalido, introduzca un año entre 1900 y ' + anyoActual;
-//     this.generalErrorFlag = true;
-//   }
+  if(this.carro.anyo) {
+      this.noAnyoError = true;
+      this.mensaje = 'El año es un campo obligatorio, por favor introduce el año del carro a registrar'
+      this.generalErrorFlag = true;
+  }
 
-//   if(this.generalErrorFlag === true)
-//   return false;
+  else if((this.carro.anyo)  &&  this.carro.anyo < 1900 || this.carro.anyo > anyoActual) {
+    this.noAnyoError = true;
+    this.mensaje = 'Año invalido, introduzca un año entre 1900 y ' + anyoActual;
+    this.generalErrorFlag = true;
+  }
 
-//   else
-  return true;
+  if(this.generalErrorFlag === true)
+    return false;
 
+  else
+    return true;
 }
 
 asignarValoresCarro() {
@@ -363,9 +355,9 @@ handleNonNumericCount(count: number , anyo: string) {
   }
 
   backStep() {
-   if(this.step > 1) 
-      this.step = (this.step - 1);
-  }
+    if(this.step > 1) 
+        this.step = (this.step - 1);
+    }
 
   nextStep() {
       if(this.step === 1)
