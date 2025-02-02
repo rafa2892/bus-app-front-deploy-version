@@ -35,7 +35,7 @@
         <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-warning botonesAccion">
           <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
         </button>
-        <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro)" class="btn btn-danger botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
+        <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro)" class="btn btn-danger botonesAccion">
           <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
         </button>  
       </td>  
@@ -49,7 +49,8 @@
     nextLabel="Siguiente"></pagination-controls>
   </div>
 </div>
-<app-popup-historial-vehiculos [changeDetecterFlag]="changeDetecterFlag" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos>
+
+<!-- <app-popup-historial-vehiculos [changeDetecterFlag]="changeDetecterFlag" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos> -->
 <app-card-bus-detail [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-card-bus-detail>
 
 

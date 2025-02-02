@@ -111,7 +111,9 @@ export class ListaViajesComponent {
     }
 
     async eliminar(viaje:Viaje){
+      
       const eliminarConfirmado = await this.eliminarViaje(viaje);
+
       if (eliminarConfirmado) {
         this.viajeServicio.eliminar(viaje.id).subscribe({
           next: () => {
@@ -136,7 +138,7 @@ export class ListaViajesComponent {
       });
     }
 
-    async eliminarViaje(viaje:Viaje): Promise<boolean>{
+    async eliminarViaje(viaje:Viaje): Promise<boolean> {
 
       let nombreConductorAux = '';
 

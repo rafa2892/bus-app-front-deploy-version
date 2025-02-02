@@ -1,7 +1,3 @@
-
-
-
-
 .formContainer {
   margin-left: 11em;
 }
@@ -67,22 +63,10 @@
 }
 
 
-form input {
-  background-color: rgb(44, 43, 43); /* Fondo gris oscuro */
-  border-color: #007bff; /* Borde azul */
-  color: #fff; /* Texto blanco */
-}
-
-
 .input-custom-style:focus,.input-custom-style:disabled {
   background-color: rgb(44, 43, 43); /* Fondo gris oscuro */
   border-color: #007bff; /* Borde azul */
   color: #fff; /* Texto blanco */
-}
-
-.defaultSizeInput {
-  width: 12em;
-  margin-bottom: 2%;
 }
 
 .input-custom-style:disabled {
@@ -90,6 +74,11 @@ form input {
   opacity: 1; /* Asegura que no se vea desvanecido */
   caret-color: transparent;
   border-color:rgba(255, 255, 255, 0.4);
+}
+
+.defaultSizeInput {
+  width: 12em;
+  margin-bottom: 2%;
 }
 
 .number-input-custom-style {
@@ -102,7 +91,7 @@ form input {
 }
 
 .separador {
-  margin-top: 3em;
+  margin-top: 2.5em;
 }
 
 .select-custom-style {
@@ -125,57 +114,99 @@ input:disabled {
   margin-top: -1em;
 }
 
+.number-input-custom-font {
+  max-width: 3.5em;
+  font-size: 20px;
+}
+
+.number-input-custom-font {
+  font-size: 22px;
+  width: 3em;
+}
+
+.dias-por-vencer {
+  margin-left: 2em; 
+}
 
 
 /* Clases estilos calendario picker back-ground negro
 
+*/
+@keyframes parpadeo {
+  0% {
+    border-color: red;
+  }
+  50% {
+    border-color: white;
+  }
+  100% {
+    border-color: red;
+  }
+}
 
+.input-error-blink {
+  animation: parpadeo 0.3s infinite;
+}
+
+/* Clases estilos calendario picker back-ground negro
 
 */
 
-/*fuente color gris fondo oscuro input date picker*/
-::ng-deep .date-picker input:disabled,
-.date-picker input::placeholder{
-    color: #9e9e9e;
-    caret-color: transparent;
-}
-
-::ng-deep .date-picker input {
-    color: white;
-    caret-color: transparent;
-}
-
-    
-
-
+/* Icono selector blanco con fondo azul */
 ::ng-deep .toggle-picker-enabled .mdc-icon-button {
   color: white !important;
   background-color: #007bff !important;
   margin-left: -15% !important;
   transform: scale(0.8);
   padding: 0;
-}
-
-::ng-deep .toggle-picker-disabled .mdc-icon-button {
+  }
+  
+  ::ng-deep .toggle-picker-disabled .mdc-icon-button {
   color: #9e9e9e !important;
   background-color: transparent !important;
-}
-
-::ng-deep .picker-custom-disabled .mat-mdc-text-field-wrapper {
+  }
+  
+  ::ng-deep .picker-custom-disabled .mat-mdc-text-field-wrapper {
   background-color: rgb(44, 43, 43) !important;
   border: 1px solid rgba(255, 255, 255, 0.4); /* border equivalente: Borde 1px sólido con un color claro */
   border-radius: 0.25rem; /* rounded equivalente: Bordes redondeados */
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* shadow-sm equivalente: Sombra pequeña */
-}
+  }
 
-::ng-deep .mat-mdc-text-field-wrapper {
+  ::ng-deep .mat-mdc-form-field-input-control, ::ng-deep .mat-mdc-form-field-input-control::placeholder  {
+    background-color: rgb(44, 43, 43) !important;
+    color: #9e9e9e !important;
+  }
+  
+  ::ng-deep .mat-mdc-text-field-wrapper {
   background-color: rgb(44, 43, 43) !important;
   border: 1px solid #007bff; /* border equivalente: Borde 1px sólido con un color claro */
   border-radius: 0.25rem; /* rounded equivalente: Bordes redondeados */
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* shadow-sm equivalente: Sombra pequeña */
-}
+  }
+  
+  
+  /* ************ TERMINA ESTILOS PARA DATE PICKER
+  
+  */
 
 
-/* ************ TERMINA ESTILOS PARA DATE PICKER
+  /*
+  
+  Estilos indicadores fecha vencimiento 
 
-*/
+  .
+  */
+
+  .dias-por-vencer .yellow-warn {
+    color:orange;
+  }
+
+  .dias-por-vencer .danger-warn {
+    color:orangered;
+  }
+
+  .dias-por-vencer .green {
+    color: green;
+  }
+  

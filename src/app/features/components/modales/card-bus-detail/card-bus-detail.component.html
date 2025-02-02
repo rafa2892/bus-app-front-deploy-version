@@ -12,21 +12,30 @@
             <mat-card-subtitle>{{carroSeleccionadoDetalles.modelo + ' ' + carroSeleccionadoDetalles.anyo}}</mat-card-subtitle>
           </mat-card-header>
           <div id="corouselDetallesVehiculo" class="carousel slide centrarImg" >
+
+
             <div class="carousel-indicators">
               <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index">
                 <button id="indicadoresImagenes" type="button" data-bs-target="#corouselDetallesVehiculo" style="background-color: blue;" [attr.data-bs-slide-to]="i" [class.active]="i === index" (click)="selectImage(i)" [attr.aria-label]="'Slide ' + (i + 1)"></button>
               </ng-container>
             </div>
+
+            <img *ngIf="noImage()" [src]="imagenNotFound" alt="Imagen no disponible" />
+
             <div class="carousel-inner">
               <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index"  [class.active]="i === index">
                 <div class="carousel-item" [class.active]="i === index"  data-bs-interval="false">
                   <a data-bs-toggle="modal" data-bs-target="#popup-zoom-img">
-                    <img class="d-block w-100 lupa-cursor" [src]="imagen">
+                    <img class="d-block w-100 lupa-cursor" [src]="imagen.url">
                   </a>
                 </div>
               </ng-container>
             </div>
-            <ng-container *ngIf="getImagenUrl(carroSeleccionadoDetalles).length > 1">
+
+            
+
+
+            <ng-container *ngIf="mostrarCambioImg()">
               <a id="prevBoton" class="carousel-control-prev" (click)="prevImage()" role="button" data-bs-slide="prev" style="left: -20%;">
                 <span class="carousel-control-prev-icon" aria-hidden="true"><img class ="carousel-control-prev-icon" src="../../assets/before.png"></span>
                 <span class="sr-only">Previous</span>
@@ -60,5 +69,5 @@
       </div>
     </div>
   </div>
-  <app-popup-imagenes-zoom [imagenescodificadasFront]="imagenescodificadasFront" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-popup-imagenes-zoom>
+  <app-popup-imagenes-zoom [imagenescodificadasFront]="imagenesCodificadasFront" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-popup-imagenes-zoom>
 </div>

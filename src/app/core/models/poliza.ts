@@ -1,5 +1,5 @@
 export class Poliza {
-    id: number; // Long
+    id: number;
     aseguradora: string;
     poliza: string;
     vigente: boolean;

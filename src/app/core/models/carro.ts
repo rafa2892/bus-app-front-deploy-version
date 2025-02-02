@@ -16,9 +16,10 @@ export class Carro {
 
   //Car objects attributes
   imagenes: Imagen [];
+  imagenesBd: Imagen [];
   imegenesGuardar : Imagen [];
   registroHistorial : Historial [] = [];
-  bateria: Bateria;
+  bateria: Bateria = new Bateria();
   poliza: Poliza;
   tituloPropiedad:TituloPropiedad;
 }

@@ -1,6 +1,7 @@
-import { Component, Input, ChangeDetectorRef, Output, EventEmitter  } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Carro } from '../../../../core/models/carro';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { CarroService } from '../../../../core/services/carro.service';
 
 
 @Component({
@@ -18,12 +19,12 @@ export class CardBusDetailComponent {
   imageCache: Map<string, string> = new Map<string, string>();
   imagenURL: string;
   imagen:string = '';
-  imagenescodificadasFront : any [];
+  imagenesCodificadasFront : any [] | undefined;
   imagenNotFound  = '../../assets/no_image_avaible.jpg';
   index : number = 0;
 
 
-  constructor(private sanitizer: DomSanitizer, private cdr: ChangeDetectorRef){
+  constructor(private sanitizer: DomSanitizer, private cdr: ChangeDetectorRef, private carroService:CarroService){
     this.imagenURL = '';
   }
   
@@ -37,30 +38,29 @@ export class CardBusDetailComponent {
     this.carroSeleccionadoDetalles = new Carro();
  }
 
-getImagenUrl(carroSeleccionado: any) {
+  getImagenUrl(carroSeleccionado: any) {
 
+      this.imagenesCodificadasFront = this.carroService.getImagenUrl(carroSeleccionado)
+      
+      if(this.imagenesCodificadasFront) {
+        return this.imagenesCodificadasFront;
+      }else{
+        this.index = 0;
+        return [this.imagenNotFound];
+      }
 
-      if(carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
-        let imagenesDecodificadas: string[] = []; 
-        if (carroSeleccionado != undefined && carroSeleccionado.imagenes != undefined && carroSeleccionado.imagenes.length >= 1) {
-          carroSeleccionado.imagenes.forEach((imagen: { imagen: string }) => {
-            if (imagen.imagen) {
-              let imagenDecodificada = atob(imagen.imagen);
-              imagenesDecodificadas.push(imagenDecodificada);
-            }
-          });
-          this.imagenescodificadasFront = imagenesDecodificadas;
-        }
-        return this.imagenescodificadasFront;
   }
-  else {
-    this.index = 0;
-    return [this.imagenNotFound];
+
+  mostrarCambioImg() : boolean {
+    if(this.imagenesCodificadasFront && this.imagenesCodificadasFront.length > 1) {
+        return true;
+    }
+    return false;
   }
-}
+      
 
   nextImage() {
-    if(this.index < (this.imagenescodificadasFront.length - 1 )){
+    if(this.imagenesCodificadasFront && this.index < (this.imagenesCodificadasFront.length - 1 )){
         this.index++;
     }
     else {
@@ -73,7 +73,8 @@ getImagenUrl(carroSeleccionado: any) {
       this.index--;
     }
     else {
-      this.index = this.imagenescodificadasFront.length - 1;
+      if(this.imagenesCodificadasFront) 
+        this.index = this.imagenesCodificadasFront.length - 1;
     }
   }
 
@@ -82,4 +83,10 @@ getImagenUrl(carroSeleccionado: any) {
   }
 
 
+  noImage() {
+    if(this.imagenesCodificadasFront && this.imagenesCodificadasFront.length < 1) {
+        return true;
+    }
+    return false;
+  }
 }

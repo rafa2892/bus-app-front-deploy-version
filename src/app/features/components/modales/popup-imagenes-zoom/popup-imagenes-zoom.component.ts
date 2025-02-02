@@ -9,7 +9,7 @@ import { Carro } from '../../../../core/models/carro';
 export class PopupImagenesZoomComponent {
 
   @Input() carroSeleccionadoDetalles: Carro;
-  @Input() imagenescodificadasFront : any [];
+  @Input() imagenescodificadasFront : any [] | undefined;
 
 
   ngOnInit(): void {

@@ -5,5 +5,6 @@ export class TituloPropiedad {
     nombre: string;
     apellido: string;
     observaciones: string;
-    carro: Carro;  // Relación con la entidad Carro
+    archivoPDF: File | null = null;
+    archivoPDFnombre :string;
 }

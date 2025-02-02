@@ -7,9 +7,6 @@ import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
 import { TITLES } from '../../../../constant/titles.constants';
 
-
-
-
 @Component({
   selector: 'app-registro-conductor',
   templateUrl: './registrar-conductor.component.html',

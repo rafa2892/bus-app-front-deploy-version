@@ -1,6 +1,6 @@
 export class Imagen {
 
-    id : number;
+    id : number | null;
     imagen: string;
     imagenDesc : string;
     imagenUrl :string;
