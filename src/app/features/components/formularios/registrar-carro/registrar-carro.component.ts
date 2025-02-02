@@ -1,4 +1,4 @@
-    import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,23 +40,11 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     diasVencimiento : any = '';
     diasVencimientoStyle: string = '';
 
-    //variables validaciones input
-    generalErrorFlag = false;
-    noModeloError = false;
-    noMarcaError = false;
-    noAnyoError = false;
-    noNumeroUnidad = false;
-    nonNumericError = false;
-    nonNumericConsumo = false;
-    nonNumericNumUnidad = false;
-    unidadRepetida =  false;
-
     //Parametros
     tituloPropiedadPDFSelectedFile : File | null = null;
     tituloProPiedadPDFName : string;
 
     imagenes: string [];
-    imagenesBase64 : string [];
     imagenesGuardar : Imagen [] = [];
     imagenesBD : Imagen [] = [];
 
@@ -71,11 +59,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
     RAZON_TITULO = TITLES.NAME_COMPANY_PERSON_TITLE;
 
-    //Mensajes Error
-    mensajeNumeroUnidadFormato : string = 'El número de unidad que intentas ingresar ya se encuentra registrado, por favor ingresa otro numero de unidad';
-    mensajeNumeroUnidadCampoObligatorio = 'El número de unidad es un campo obligatorio';
-    mensajeNumeroUnidadRegistrada = 'El número de unidad que has intentado registrar ya se encuentra asignado a otro carro, por favor registra la unidad con otro número'
-    mensajeCampoMarcaObligatorio = 'El campo Marca es obligario'
 
     constructor(
       private carroServicio:CarroService,
@@ -100,12 +83,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       this.obtenerListaTipoVehiculos();
     }
 
-    async checkPDFexist(carro:Carro) {
-      if(carro && carro.id) {
-        this.existePDFTitulo = await this.carroServicio.existeTituloPropiedadPdfFILE(carro.id);
-      }
-    }
-
     ngAfterViewInit(): void {
       this.addCommonStyles();
     }
@@ -115,7 +92,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     }
 
     inicializateCarroForm(fb: FormBuilder) {
-
       this.carroForm = this.fb.group({
         carro: this.fb.group({
           id:[null],
@@ -174,7 +150,13 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
         input.classList.add('form-control');
         input.classList.add('textarea-custom-style');
       });
-      
+    }
+
+    async onSubmit(){
+      const formValido = await this.validandoDatos();
+      if(formValido) {
+        this.guardarCarro(formValido);
+      }
     }
 
     obtenerListaTipoVehiculos(){
@@ -230,6 +212,12 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
         });
     }
 
+    async checkPDFexist(carro:Carro) {
+      if(carro && carro.id) {
+        this.existePDFTitulo = await this.carroServicio.existeTituloPropiedadPdfFILE(carro.id);
+      }
+    }
+
     //Obtiene el nombre del archivo
     getNamePDFFile() : string {
 
@@ -249,13 +237,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
         this.carroLista = dato;
       });
-    }
-
-    async onSubmit(){
-      const formValido = await this.validandoDatos();
-      if(formValido) {
-        this.guardarCarro(formValido);
-      }
     }
 
     parametrizarCarro() {
@@ -351,7 +332,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
           if(confirmarGuardado)
             this.guardarCarro(formValido);
         }
-      }
+    }
 
     async confirmaGuardado(carro:Carro): Promise<boolean> {
       const result = await Swal.fire({
@@ -416,57 +397,34 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     this.router.navigate(['/lista-carros']);
     }
 
-    handleNonNumericCount(count: number , anyo: string) {
-      (count >= 3 && anyo === 'anyo') ?   this.nonNumericError = true :  this.nonNumericError = false;
-      (count >= 3 && anyo === 'consumo') ?   this.nonNumericConsumo = true :  this.nonNumericConsumo = false;
-      (count >= 3 && anyo === 'numeroUni') ?   this.nonNumericNumUnidad = true :  this.nonNumericNumUnidad = false;
-    }
+    // handleNonNumericCount(count: number , anyo: string) {
+    //   (count >= 3 && anyo === 'anyo') ?   this.nonNumericError = true :  this.nonNumericError = false;
+    //   (count >= 3 && anyo === 'consumo') ?   this.nonNumericConsumo = true :  this.nonNumericConsumo = false;
+    //   (count >= 3 && anyo === 'numeroUni') ?   this.nonNumericNumUnidad = true :  this.nonNumericNumUnidad = false;
+    // }
 
-    onInputChange() {
-      if(this.carro.marca != '' && this.carro.marca != undefined)
-      this.noMarcaError = false;
+    // onInputChange() {
+    //   if(this.carro.marca != '' && this.carro.marca != undefined)
+    //   this.noMarcaError = false;
   
-      if(this.carro.modelo != '' && this.carro.modelo != undefined) 
-        this.noModeloError = false;
+    //   if(this.carro.modelo != '' && this.carro.modelo != undefined) 
+    //     this.noModeloError = false;
 
-      if(this.carro.anyo != undefined &&  this.carro.anyo.toString().trim()  != '')  
-        this.noAnyoError = false;
+    //   if(this.carro.anyo != undefined &&  this.carro.anyo.toString().trim()  != '')  
+    //     this.noAnyoError = false;
 
-      if(this.carro.numeroUnidad != undefined &&  this.carro.numeroUnidad.toString().trim() != '') 
-        this.noNumeroUnidad = false;
-    }
-
-    // onFileSelected(event:any) {
-    //   const files: FileList = event.target.files;
-    //   for (let i = 0; i < files.length; i++) {
-    //     const file = files.item(i);
-    //     if (file) {
-    //       // Verificar si el archivo no está ya en la lista
-    //       if (!this.selectedFilesWithId.some(existingFile => existingFile.file.name === file.name)) {
-    //             this.selectedFilesWithId.push({file, id:null});
-    //       }
-    //     }
-    //   }
+    //   if(this.carro.numeroUnidad != undefined &&  this.carro.numeroUnidad.toString().trim() != '') 
+    //     this.noNumeroUnidad = false;
     // }
 
     onFileSelected(event: any) {
-
-
       const files: FileList = event.target.files;
-
-
       for (let i = 0; i < files.length; i++) {
-
         const file = files.item(i);
 
-
         if (file) {
-
           const reader = new FileReader();
-          
           reader.onload = (e: any) => {
-
-
             let  imageUrl = e.target.result;
 
             // Crear un objeto de tipo Imagen
@@ -487,7 +445,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
             // Forzar la actualización de la vista
             this.cdr.detectChanges();
           };
-    
           // Leer el archivo como URL de datos
           reader.readAsDataURL(file);
         }
@@ -553,7 +510,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
     calculoDiasVencimiento() {
       const dataForm = this.carroForm.value;
-
+      
       if(dataForm.carro.poliza.fechaInicio && dataForm.carro.poliza.fechaExpire) {
 
       const fechaExp = dataForm.carro.poliza.fechaInicio;
