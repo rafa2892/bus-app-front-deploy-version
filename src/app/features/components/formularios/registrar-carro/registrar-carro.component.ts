@@ -25,7 +25,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     export class RegistrarCarroComponent  implements OnInit {
 
     carroForm: FormGroup;
-    step: number = 5;
+    step: number = 4;
 
     selectedFilesWithId: FileWithId[] = [];
 
@@ -38,7 +38,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     existePDFTitulo : boolean | undefined = false;
 
     //Poliza variables aux
-    diasVencimiento : any = '';
+    diasPorVencer : any = '';
     diasVencimientoStyle: string = '';
 
     //Parametros
@@ -60,6 +60,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     //LITERALES
     OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
     RAZON_TITULO = TITLES.NAME_COMPANY_PERSON_TITLE;
+    MSJ_BTON_NEXT_STEP = TITLES.TITLE_DISABLED_BTON_NEXT_STEP;
 
 
     constructor(
@@ -96,12 +97,14 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     inicializateCarroForm(fb: FormBuilder) {
       this.carroForm = this.fb.group({
         carro: this.fb.group({
+
+          
           id:[null],
           marca: [null, Validators.required],
           modelo: [null, Validators.required],
-          anyo: [null, Validators.required],
+          anyo: [null, Validators.required,],
           tipoVehiculo: [null, Validators.required],
-          consumo: [null, Validators.required],
+          consumo: [null],
           numeroUnidad: [null, Validators.required],
 
           bateria: this.fb.group({
@@ -184,7 +187,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       });
     }
 
-
     setFiles() {
       // Agregar las imágenes del carro a la lista de archivos seleccionados
       if (this.carro.imagenesBd && this.carro.imagenesBd.length > 0) {
@@ -218,6 +220,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
             imagenes: this.carro.imagenes,
           }
         });
+        this.calculoDiasVencimiento();
     }
 
     async checkPDFexist(carro:Carro) {
@@ -334,18 +337,18 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
             horizontalPosition: 'end',
             verticalPosition: 'top',
           });
-          return true;
+          return false; //FIXME
         };
         return true;
   }
 
     async guardadoBasico() {
-        const formValido = await this.validandoDatos();
-        if(formValido){
-          const confirmarGuardado = await this.confirmaGuardado(this.carro);
-          if(confirmarGuardado)
-            this.guardarCarro(formValido);
-        }
+      const formValido = await this.validandoDatos();
+      if(formValido){
+        const confirmarGuardado = await this.confirmaGuardado(this.carro);
+        if(confirmarGuardado)
+          this.guardarCarro(formValido);
+      }
     }
 
     async confirmaGuardado(carro:Carro): Promise<boolean> {
@@ -526,13 +529,13 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
     nextStep() {
         if(this.step === 1)
-        this.step = 2;
+          this.step = 2;
         else if (this.step === 2 && this.carroForm.get('carro.bateria')?.valid) {
-        this.step = 3;
+          this.step = 3;
       } else if (this.step === 3 && this.carroForm.get('carro.tituloPropiedad')?.valid) {
-        this.step = 4;
+          this.step = 4;
       } else if (this.step === 4 && this.carroForm.get('carro.poliza')?.valid) {
-      this.step = 5; // Paso 5: Imágenes
+          this.step = 5; // Paso 5: Imágenes
       } else if (this.step === 5 && this.carroForm.get('carro.imagenes')?.valid) {
       } else {
         // Si el paso actual no es válido, mostrar un mensaje de error
@@ -547,21 +550,27 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
     calculoDiasVencimiento() {
       const dataForm = this.carroForm.value;
-      
       if(dataForm.carro.poliza.fechaInicio && dataForm.carro.poliza.fechaExpire) {
 
-      const fechaExp = dataForm.carro.poliza.fechaInicio;
-      const fechaVenc = dataForm.carro.poliza.fechaExpire;
+      // Asegúrate de que fechaInicio y fechaExpire sean Date (si no lo son, convertirlas)
+      let fechaExp = new Date(dataForm.carro.poliza.fechaInicio);
+      let fechaVenc = new Date(dataForm.carro.poliza.fechaExpire)
 
       const diffTime = Math.abs(fechaVenc.getTime() - fechaExp.getTime()); // Diferencia en milisegundos
       const diffDays = Math.ceil(diffTime / (1000 * 3600 * 24)); 
 
-      if(fechaVenc > fechaExp) {
+      //Guardamos valor de dias vencimiento
+      this.diasPorVencer = diffDays;
+
+      if(fechaVenc >= fechaExp) {
         this.carroForm.get('carro.poliza.diasPorVencer')?.setValue(diffDays);
-        if(diffDays > 30 && diffDays < 60) {this.diasVencimientoStyle = 'yellow-warn'}
-        if(diffDays < 30) {this.diasVencimientoStyle = 'danger-warn'}
         if(diffDays > 60) {this.diasVencimientoStyle = 'green'}
-      }else{ this.carroForm.get('carro.poliza.diasPorVencer')?.setValue('');}
+        if(diffDays > 30 && diffDays < 60){this.diasVencimientoStyle = 'yellow-warn'}
+        if(diffDays === 0) {this.diasVencimientoStyle = 'danger-warn'}
+      }else{
+          this.carroForm.get('carro.poliza.diasPorVencer')?.setValue('')
+          this.diasPorVencer = '';
+        }
         
 
         // const diasControl = this.carroForm.get('carro.poliza.diasPorVencer');
@@ -616,4 +625,22 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     if(this.cambiosFormularioFiles || this.carroForm.dirty) {return false;}
     else{return true;} 
   }
+
+  disabledLogicSaveButton() {
+    if (this.step === 1 && this.carroForm.invalid) {
+      return true;
+    }
+    return false;
+  }
+
+  getIconExpireDateCalculation(): string {
+    if(this.diasPorVencer || this.diasPorVencer === 0) {
+      const dv = this.diasPorVencer;
+      if(dv > 60) return 'assets/okey-icon.png'
+      if(dv > 30 && dv < 60) return 'assets/warning-icon.png'
+      if(dv < 30) return 'assets/danger-icon.png'
+    }
+    return ''
+  }
+
 }

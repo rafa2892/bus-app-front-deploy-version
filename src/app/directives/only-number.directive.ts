@@ -19,6 +19,10 @@ export class OnlyNumberDirective {
         this.countNonNumeric++;
         // console.log(this.countNonNumeric)
         this.el.nativeElement.value = initialValue.replace(/[^0-9]*/g, '').slice(0, 4);
+
+        // Notifica a Angular que el valor cambió (evita validaciones incorrectas)
+        this.el.nativeElement.dispatchEvent(new Event('input'));
+
         if (this.countNonNumeric >= 3) {
           this.nonNumericCount.emit(this.countNonNumeric);
         }

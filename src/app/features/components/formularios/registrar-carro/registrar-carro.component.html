@@ -215,7 +215,6 @@
                             [matDatepicker]="pickerVenci"
                             name="fecha-expire"
                             id="fecha-expire"
-                            [value]="diasVencimiento"
                             class="form-control input-custom-style"
                             placeholder="Ingrese fecha"
                             (dateChange)="calculoDiasVencimiento()"
@@ -227,7 +226,7 @@
                         <mat-datepicker id="dataPicker" #pickerVenci></mat-datepicker>
                     </mat-form-field>
                     </div>
-                    <div class="form-group dias-por-vencer">
+                    <div class="form-group dias-por-vencer d-flex gap-3 align-items-center">
                         <label for="diasPorVencer">Días por Vencer:</label>
                         <input 
                         id="diasPorVencer" 
@@ -235,6 +234,12 @@
                         formControlName="diasPorVencer" 
                         type="text"
                         [ngClass]="getDiasVencimientoStyle()"/>
+                        <span class="mb-2">
+                            <img *ngIf="diasPorVencer || diasPorVencer === 0" [src]="getIconExpireDateCalculation()" 
+                            id="img" 
+                            alt="No imagen" 
+                            class="default-img-icon-size">
+                        </span>
                     </div>
                 </div>
             </div>
@@ -246,25 +251,24 @@
 
         <div formGroupName="imagenes" >
         <h2>Imágenes del Carro</h2>
-            <!-- Agregar imagen -->
-            <div>
-            <label for="imagenes">Cargar Imágenes:</label>
-            <!-- <input type="file" (change)="onFileChange($event)" multiple /> -->
-            </div>
 
-            <div class="mb-3">
-            <label for="formFileSm" class="form-label">Imagenes</label>
-            <div class="d-flex gap-3 align-items-start"> 
-                <input 
-                class="form-control file-selector-input" 
-                id="formFileSm" 
-                type="file" 
-                multiple 
-                [disabled]="selectedFilesWithId && selectedFilesWithId.length >= 4"
-                (change)="onFileSelected($event)"
-                accept=".png, .jpeg, .jpg">
-                <span class="ml-3 msj4ImgMax" *ngIf="selectedFilesWithId && selectedFilesWithId.length >= 4">4 imagenes maximo por vehiculo</span>
-            </div>
+            <!-- Agregar imagen -->
+            <div class="mb-3 mt-4">
+                <label for="formFileSm" class="form-label mb-3">Cargar Imagenes</label>
+                <div class="d-flex gap-3 align-items-start"> 
+                    <input 
+                    class="form-control file-selector-input" 
+                    id="formFileSm" 
+                    type="file" 
+                    multiple 
+                    [disabled]="selectedFilesWithId && selectedFilesWithId.length >= 4"
+                    (change)="onFileSelected($event)"
+                    accept=".png, .jpeg, .jpg">
+                    <span class="ml-3 msj4ImgMax" *ngIf="selectedFilesWithId && selectedFilesWithId.length >= 4">4 imagenes maximo por vehiculo</span>
+                </div>
+
+                
+
 
                 <!-- <small class="form-text text-muted" *ngIf="selectedFilesWithId.length >= 1"> {{selectedFilesWithId.length}} archivo(s) seleccionado(s)</small>
                 <div *ngFor="let selectedFile of selectedFilesWithId; let i = index" class="form-check">
@@ -274,63 +278,37 @@
                     </label>
                 </div> -->
 
-                <div class="imagenes-container">
+                <div class="imagenes-container mt-5">
                     <div *ngFor="let imagen of getImagenUrl(this.carro)" class="imagen-wrapper">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <button class="delete-img-btn"  (click)="removeImage(imagen)">
+                            <span><img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
+                        </button>
                         <label class="form-check-label">
                             {{imagen.imagenDescr}}
                         </label>
-                      <img [src]="imagen.url" alt="Imagen cargada" />
-                      <button (click)="removeImage(imagen)">Eliminar</button>
                     </div>
-                  </div>
-                  
-
-                <!-- <div *ngFor="let imagen of getImagenUrl(this.carro)">
-                    <img [src]="imagen.url" alt="Imagen cargada" />
-                    <button (click)="removeImage(imagen)">Eliminar</button>
-                </div> -->
-
-                <!-- <div *ngFor="let imagen of getImagenUrl(this.carro)">
-                    <img [src]="imagen.url" alt="Imagen cargada" />
-                    <button *ngIf="imagen.id">Eliminar</button>
-                </div> -->
-                
-                <!-- <div *ngFor="let imagenUrl of getImagenUrl(this.carro)">
-                    <img [src]="imagenUrl" alt="Imagen cargada" />
-                    <button *ngIf="">Eliminar</button>
-                </div> -->
-
-                <!-- <div *ngFor="let imagen of carro.imagenesBd">
-                    <img [src]="'data:image/jpeg;base64,' + imagenSrc" alt="Imagen del carro" />
-                </div> -->
-
-                <!-- <img  *ngIf="imagenSrc" [src]="imagenSrc" alt="Imagen del carro" /> -->
-
-                <!-- <img [src]="imagenSrc" alt="cul" /> -->
-
-                <!-- <button type ="button" (click)="prueba()">prueba</button> -->
-
-            </div>
-        </div>
-
-
-            <!-- Mostrar imágenes cargadas -->
-            <!-- <div *ngIf="carroForm.get('imagenes').value.length > 0">
-                <h3>Imágenes Cargadas</h3>
-                <div *ngFor="let img of carroForm.get('imagenes').value">
-                    <img [src]="img" alt="Imagen del carro" width="100" />
+                        <img [src]="imagen.url" alt="Imagen cargada" />
+                    </div>
                 </div>
             </div>
-
-            -->
-                <!-- Botón para pasar al siguiente paso -->
-                <!-- <button type="submit" [disabled]="carroForm.invalid">Guardar</button> -->
-
-                <button type="submit" [disabled]="guardarDisabledButton()">Guardar</button>
         </div>
-        <button *ngIf="this.step !== 5" (click)="guardadoBasico()" type="button">Guardar y omitir</button>
-        <button  *ngIf="!(this.step === 1)" type="button" (click)="backStep()">Atrás</button>
-        <button *ngIf="!(this.step === 5)" type="button" (click)="nextStep()">Siguiente</button>
+            <!-- Botón para pasar al siguiente paso -->
+            <!-- <button type="submit" [disabled]="carroForm.invalid">Guardar</button> -->
+        </div>
+        
+        <button *ngIf="!(this.step === 1)" type="button" (click)="backStep()">Atrás</button>
+        <button *ngIf="this.step === 5" type="submit" [disabled]="guardarDisabledButton()">Guardar</button>
+        <button *ngIf="this.step !== 5" type="button" (click)="guardadoBasico()">Guardar y omitir</button>
+       
+        
+        <button 
+            *ngIf="!(this.step === 5)" 
+            type="button"  
+            [attr.title]="disabledLogicSaveButton() ? MSJ_BTON_NEXT_STEP : ''"
+            [disabled]="disabledLogicSaveButton()"
+            (click)="nextStep()">Siguiente
+        </button>
 
     </form>
 

@@ -216,7 +216,7 @@ input:disabled {
   .imagenes-container {
     display: flex;
     flex-wrap: wrap; /* Permite que las imágenes pasen a la siguiente línea si no caben */
-    gap: 10px; /* Espacio entre las imágenes */
+    gap: 20px; /* Espacio entre las imágenes */
   }
   
   .imagen-wrapper {
@@ -226,8 +226,9 @@ input:disabled {
   }
   
   .imagen-wrapper img {
-    width: 100px; /* Ajusta el tamaño de la imagen */
-    height: auto; /* Mantiene la proporción */
+    width: 200px; /* Ajusta el tamaño de la imagen */
+    height: 200px; /* Ajusta la altura para un tamaño uniforme */
+    object-fit: cover; /* Esto asegura que la imagen no se deforme, pero se recorta si es necesario */
     border-radius: 5px; /* Bordes redondeados opcionales */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave */
   }
@@ -238,10 +239,35 @@ input:disabled {
     font-size: 12px;
     cursor: pointer;
   }
+  
 
    /* ************ FIN Estilos imagenes selector
   
   */
+
+  .delete-img-btn {
+
+    background: none; /* Sin fondo */
+    border: none; /* Sin borde */
+    padding: 0; /* Sin relleno */
+    cursor: pointer; /* Cambiar el cursor a mano */
+    display: flex; /* Centrar la imagen */
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease;
+
+  }
+
+  .delete-img-btn:hover img {
+    transform: scale(1.2); /* Aumenta el tamaño de la imagen */
+    box-shadow: 0 0 8px 4px   rgba(250, 14, 14, 0.8); /* Sombra blanca */
+}
+
+  .default-img-icon-size#img {
+    width: 25px;
+    height: 25px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease; /* Suaviza la transición */
+  }
   
   .msj4ImgMax {
     color: orangered; 

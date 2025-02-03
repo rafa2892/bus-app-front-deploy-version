@@ -74,8 +74,6 @@ export const TITLES = {
 
     //REGISTRAR CARRO LITERALES
     COMMENTS_LABEL_TITLE : 'Observaciones/Comentarios',
-    NAME_COMPANY_PERSON_TITLE : 'Nombre/Razón social'
-    
-
-
+    NAME_COMPANY_PERSON_TITLE : 'Nombre/Razón social',
+    TITLE_DISABLED_BTON_NEXT_STEP : 'Complete los datos obligarios para avanzar al siguiente segmento del formulario o guarde solo los datos basicos del vehiculo'
   };
