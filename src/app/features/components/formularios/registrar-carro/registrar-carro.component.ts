@@ -14,6 +14,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     export interface FileWithId {
       file: File;
       id: number | null;
+      url : any;
     }
 
     @Component({
@@ -46,7 +47,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
     imagenes: string [];
     imagenesGuardar : Imagen [] = [];
-    imagenesBD : Imagen [] = [];
 
     listaTipoVehiculos : TipoVehiculo [] = [];
     tipoVehiculo :string;
@@ -54,6 +54,8 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
     // Campos faltantes en el formulario
     camposFaltantes: string[] = [];
+
+    cambiosFormularioFiles: boolean = false;
 
     //LITERALES
     OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
@@ -153,10 +155,18 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     }
 
     async onSubmit(){
+
+      // if (this.carroForm.dirty) {
+      //   console.log("El formulario ha sido modificado.");
+      // } else {
+      //   console.log("No se han realizado cambios.");
+      // }
+
       const formValido = await this.validandoDatos();
       if(formValido) {
         this.guardarCarro(formValido);
       }
+
     }
 
     obtenerListaTipoVehiculos(){
@@ -165,25 +175,23 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       });
     }
 
-    obtenerCarroPorId(id: number): Carro {
+    obtenerCarroPorId(id: number) {
       this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
         this.carro = carro;
         this.setFiles();
         this.setFormulario();
         this.checkPDFexist(this.carro);
       });
-      return this.carro;
     }
 
 
     setFiles() {
       // Agregar las imágenes del carro a la lista de archivos seleccionados
       if (this.carro.imagenesBd && this.carro.imagenesBd.length > 0) {
-            this.imagenesBD = this.carro.imagenesBd;
             this.carro.imagenesBd.forEach(imagen => {
               // Simular la creación de un objeto File utilizando la URL de la imagen
               const file = new File([imagen.imagenUrl], imagen.imagenDesc);
-              this.selectedFilesWithId.push({ file, id: imagen.id });
+              this.selectedFilesWithId.push({ file, url: imagen.imagenUrl, id: imagen.id });
             });
       }
       // Agrega el archivo de la base de datos al formulario
@@ -303,14 +311,20 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
           this.camposFaltantes.push('carro-anyo');
         }
 
-        // Esperar respuesta de la API antes de continuar
+        //Evalua si el numero de unidad ya se encuentra registrado con otra unidad en modo edicion o creacion nueva
         if (numeroUnidad) {
-          const existe = await this.carroServicio.verificarExistenciaPorNumeroUnidad(numeroUnidad).toPromise();
-          if (existe) {
-            this.camposFaltantes.push('numero-unidad');
-            mensajeError = 'El número de unidad ya se  encuentra registrado a otra unidad'
+          let existe;
+          if(this.carro.id) {
+            existe = await this.carroServicio.verificarNumeroUnidadModoEdicion(numeroUnidad, this.carro.id).toPromise();
+          }else{
+            existe = await this.carroServicio.verificarExistenciaPorNumeroUnidad(numeroUnidad).toPromise();
           }
+        if (existe) {
+          this.camposFaltantes.push('numero-unidad');
+          mensajeError = 'El número de unidad ya se  encuentra registrado a otra unidad'
         }
+      }
+
         // Si hay campos faltantes, muestra un mensaje de error y aplica un efecto visual
         if (this.camposFaltantes.length > 0) {
           this.gb.activarParpadeo(this.camposFaltantes);
@@ -355,7 +369,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       return new Promise<void>((resolve, reject) => {
         const promises: Promise<void>[] = [];
         for (let i = 0; i < this.selectedFilesWithId.length; i++) {
-          // promises.push(this.leerArchivoComoDataURL(this.selectedFiles[i], this.imagenesBD[i]));
           promises.push(this.leerArchivoComoDataURL(this.selectedFilesWithId[i]));
         }
         Promise.all(promises)
@@ -389,42 +402,30 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     }
 
     convertirMayus() {
-    // this.carro.marca = this.carro.marca.trim().toLocaleUpperCase();
-    // this.carro.modelo = this.carro.modelo.trim().toLocaleUpperCase();
+      if(this.carro.marca && this.carro.modelo) {
+        this.carro.marca = this.carro.marca.trim().toLocaleUpperCase();
+        this.carro.modelo = this.carro.modelo.trim().toLocaleUpperCase();
+      }
     }
 
     irListaCarro() {
     this.router.navigate(['/lista-carros']);
     }
 
-    // handleNonNumericCount(count: number , anyo: string) {
-    //   (count >= 3 && anyo === 'anyo') ?   this.nonNumericError = true :  this.nonNumericError = false;
-    //   (count >= 3 && anyo === 'consumo') ?   this.nonNumericConsumo = true :  this.nonNumericConsumo = false;
-    //   (count >= 3 && anyo === 'numeroUni') ?   this.nonNumericNumUnidad = true :  this.nonNumericNumUnidad = false;
-    // }
-
-    // onInputChange() {
-    //   if(this.carro.marca != '' && this.carro.marca != undefined)
-    //   this.noMarcaError = false;
-  
-    //   if(this.carro.modelo != '' && this.carro.modelo != undefined) 
-    //     this.noModeloError = false;
-
-    //   if(this.carro.anyo != undefined &&  this.carro.anyo.toString().trim()  != '')  
-    //     this.noAnyoError = false;
-
-    //   if(this.carro.numeroUnidad != undefined &&  this.carro.numeroUnidad.toString().trim() != '') 
-    //     this.noNumeroUnidad = false;
-    // }
-
     onFileSelected(event: any) {
+
+      //Activamos bandera de cambio
+      this.cambiosFormularioFiles = true;
+
       const files: FileList = event.target.files;
+
       for (let i = 0; i < files.length; i++) {
         const file = files.item(i);
 
         if (file) {
           const reader = new FileReader();
           reader.onload = (e: any) => {
+
             let  imageUrl = e.target.result;
 
             // Crear un objeto de tipo Imagen
@@ -435,11 +436,14 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
               imagenUrl: imageUrl    // La URL de la imagen
             };
 
-            // Agregar la nueva imagen a la lista
+           //Inicializamos lista de imagenesBD en caso de que no este
             if (!this.carro.imagenesBd) {
               this.carro.imagenesBd = [];
             }
-            this.selectedFilesWithId.push({file, id:null});
+             // Agregar la nueva imagen a la lista y al selector
+            this.selectedFilesWithId.push({file, url: imageUrl, id:null});
+
+            //Al llenar esta lista, se renderiza en el front las imagenes seleccionadas con el getImgURL del servicio
             this.carro.imagenesBd.push(nuevaImagen);
 
             // Forzar la actualización de la vista
@@ -450,10 +454,43 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
         }
       }
     }
-    
-    
 
+    removeImage(imagen: Imagen) {
+
+      //Activamos bandera de cambio
+      this.cambiosFormularioFiles = true;
+
+      this.carro.imagenesBd = this.carro.imagenesBd.filter(img => {
+        // Comparar por imagenUrl cuando no tiene id (Imagen no persistida)
+        if (!imagen.id && img.imagenUrl === imagen.imagenUrl) {
+            return false;
+        }else if (img.id === imagen.id) {
+           return false; // Si todo coincide, eliminar la imagen
+        }
+        return true; // Mantener las imágenes que no coincidan completamente
+      });
+
+      this.selectedFilesWithId = this.selectedFilesWithId.filter(f => {
+        // Comparar por imagenUrl
+        if ( !f.id && f.url === imagen.imagenUrl) {
+            return false;
+        }else if (f.id && f.id === imagen.id) {
+           return false; // Si todo coincide, eliminar la imagen
+        }
+        return true; // Mantener las imágenes que no coincidan completamente
+      });
+
+      //Buscar en `selectedFilesWithId` usando el nombre del archivo
+      this.selectedFilesWithId = this.selectedFilesWithId.filter(item => item.id !== imagen.id);
+      // Forzar actualización de la vista
+      this.cdr.detectChanges();
+    }
+    
     onPdfSelected(event: any) {
+
+      //Activamos bandera de cambio
+      this.cambiosFormularioFiles = true;
+
       const file = event.target.files[0];
 
       if (file) {
@@ -575,7 +612,8 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     return this.carroServicio.getImagenUrl(carro);
   }
 
-  pruebaMostrarImagenes() {
-    console.log(this.carro);
+  guardarDisabledButton() : boolean {
+    if(this.cambiosFormularioFiles || this.carroForm.dirty) {return false;}
+    else{return true;} 
   }
 }

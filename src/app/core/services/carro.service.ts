@@ -105,49 +105,42 @@ export class CarroService {
     return this.httpClient.get<boolean>(`${this.baseUrl}/existe/${numeroUnidad}`);
   }
 
-  getImagenUrl(carro: any) {
-    
-    if(carro != undefined && carro.imagenesBd != undefined && carro.imagenesBd.length >= 1) {
-        let imagenesDecodificadas: { url: string, id: number | undefined }[] = []; 
+  verificarNumeroUnidadModoEdicion(numeroUnidad: number, carroId: number): Observable<boolean> {
+    // Enviar ambos parámetros como query parameters
+    return this.httpClient.get<boolean>(`${this.baseUrl}/existeEdicion`, {
+      params: { numeroUnidad: numeroUnidad.toString(), carroId: carroId.toString() }
+    });
+  }
 
-        carro.imagenesBd.forEach((imagen: { id:number, imagen: string }) => {
+
+
+
+  //Metodo utilidad
+  getImagenUrl(carro: Carro) {
+    if(carro != undefined && carro.imagenesBd != undefined && carro.imagenesBd.length >= 1) {
+
+      //Declaracion del arreglo (imagenes del front)
+        let imagenesDecodificadas: { url: string, id: number | undefined, imagenUrl: string, imagenDescr : string } [] = []; 
+
+        //Se itera sobre las imagenes, con un foreach declarativo para evitar errores
+        carro.imagenesBd.forEach((imagen: { id: number | null, imagen: string, imagenDesc :string }) => {
+
+          //Si las imagenes tienen id, es necesario para imagenes persistidas (FIXME)
           if (imagen.imagen && imagen.id) {
             let imagenDecodificada = atob(imagen.imagen);
-            imagenesDecodificadas.push({ url: imagenDecodificada, id: imagen.id });
+            imagenesDecodificadas.push({ url: imagenDecodificada, id: imagen.id, imagenUrl: imagen.imagen, imagenDescr: imagen.imagenDesc });
           }
+          //Añade las imagenes nuevas (no necesitan transformación)
           if (!imagen.id) {
-            imagenesDecodificadas.push({ url: imagen.imagen, id: undefined });
+            imagenesDecodificadas.push({ url: imagen.imagen, id: undefined, imagenUrl: imagen.imagen, imagenDescr: imagen.imagenDesc});
           }
         });
+
+
         return imagenesDecodificadas;
     }
     return [];
   }
 
 
-  // getImagenUrl(carro: any) {
-  //   console.log(carro);
-
-
-  //   if(carro != undefined && carro.imagenesBd != undefined && carro.imagenesBd.length >= 1) {
-  //     let imagenesDecodificadas: string[] = []; 
-
-  //       carro.imagenesBd.forEach((imagen: { id:number, imagen: string }) => {
-  //         if (imagen.imagen && imagen.id) {
-  //           let imagenDecodificada = atob(imagen.imagen);
-  //           imagenesDecodificadas.push(imagenDecodificada);
-  //         }
-
-  //         if(!imagen.id) {
-  //           imagenesDecodificadas.push(imagen.imagen);
-  //         }
-
-
-  //       });
-
-
-  //       return imagenesDecodificadas;
-  //   }
-  //   return;
-  // }
 }
