@@ -563,10 +563,12 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       this.diasPorVencer = diffDays;
 
       if(fechaVenc >= fechaExp) {
-        this.carroForm.get('carro.poliza.diasPorVencer')?.setValue(diffDays);
+      
         if(diffDays > 60) {this.diasVencimientoStyle = 'green'}
         if(diffDays > 30 && diffDays < 60){this.diasVencimientoStyle = 'yellow-warn'}
-        if(diffDays < 30) {this.diasVencimientoStyle = 'danger-warn'}
+        if(diffDays < 30 || diffDays === 0) {this.diasVencimientoStyle = 'danger-warn'}
+
+        this.carroForm.get('carro.poliza.diasPorVencer')?.setValue(diffDays);
       }else{
           this.carroForm.get('carro.poliza.diasPorVencer')?.setValue('')
           this.diasPorVencer = '';
