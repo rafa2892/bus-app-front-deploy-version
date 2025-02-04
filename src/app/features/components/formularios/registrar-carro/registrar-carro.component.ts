@@ -25,7 +25,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     export class RegistrarCarroComponent  implements OnInit {
 
     carroForm: FormGroup;
-    step: number = 4;
+    step: number =  1;
 
     selectedFilesWithId: FileWithId[] = [];
 
@@ -566,7 +566,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
         this.carroForm.get('carro.poliza.diasPorVencer')?.setValue(diffDays);
         if(diffDays > 60) {this.diasVencimientoStyle = 'green'}
         if(diffDays > 30 && diffDays < 60){this.diasVencimientoStyle = 'yellow-warn'}
-        if(diffDays === 0) {this.diasVencimientoStyle = 'danger-warn'}
+        if(diffDays < 30) {this.diasVencimientoStyle = 'danger-warn'}
       }else{
           this.carroForm.get('carro.poliza.diasPorVencer')?.setValue('')
           this.diasPorVencer = '';
