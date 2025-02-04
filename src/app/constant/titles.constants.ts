@@ -80,6 +80,7 @@ export const TITLES = {
     //CONFIRM MODALS LITERALS
     RESTORE_MSJ_CONFIRM_TITLE_MODAL : 'Confirma',
     RESTORE_MSJ_CONFIRM_MODAL : 'Se reestablecera el formulario, ¿Desea continuar?',
+    SAVE_BASIC_INFO_CAR_TOOLTIP : 'Guardar los datos basicos del carro'
     
 
   };

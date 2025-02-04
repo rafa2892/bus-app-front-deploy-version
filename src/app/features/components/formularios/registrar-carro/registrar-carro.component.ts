@@ -10,7 +10,9 @@ import { Imagen } from '../../../../core/models/imagen';
 import { TipoVehiculo } from '../../../../core/models/tipo-vehiculo';
 import { CarroService } from '../../../../core/services/carro.service';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
-    
+declare var bootstrap: any;
+
+
     export interface FileWithId {
       file: File;
       id: number | null;
@@ -26,6 +28,8 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
     carroForm: FormGroup;
     step: number =  1;
+
+    
 
     selectedFilesWithId: FileWithId[] = [];
 
@@ -61,6 +65,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
     RAZON_TITULO = TITLES.NAME_COMPANY_PERSON_TITLE;
     MSJ_BTON_NEXT_STEP = TITLES.TITLE_DISABLED_BTON_NEXT_STEP;
+    TOOLTIP_MSJ_GUARDADO_BASICO = TITLES.SAVE_BASIC_INFO_CAR_TOOLTIP
 
     steps: number[] = [1, 2, 3, 4, 5]; // Los pasos disponibles
 
@@ -95,6 +100,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     }
 
     ngAfterViewInit(): void {
+      this.buildCustomsToolTipBS();
       this.addCommonStyles();
     }
 
@@ -150,6 +156,15 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       });
     }
 
+    buildCustomsToolTipBS() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl, {
+      delay: { "show": 500, "hide": 500 } // Retraso en milisegundos
+      });});
+    }
+
+
     addCommonStyles() {
       const inputs = document.querySelectorAll('input');
       inputs.forEach(input => {
@@ -163,21 +178,24 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
         input.classList.add('form-control');
         input.classList.add('textarea-custom-style');
       });
-    }
+
+ 
+      // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      // tooltipTriggerList.map(function (tooltipTriggerEl) {
+      //   return new bootstrap.Tooltip(tooltipTriggerEl), {
+      //     delay: { "show": 3000, "hide": 3000 } // Retraso en milisegundos
+      //   } // ERROR ARGUMENTS; IS GOOD TO LEARN ABOUT PASS THROUGH A OBJECT AND BUILD IT IN THE ARGUMENTS BOX
+      // });
+
+
+  
+  }
 
     async onSubmit(){
-
-      // if (this.carroForm.dirty) {
-      //   console.log("El formulario ha sido modificado.");
-      // } else {
-      //   console.log("No se han realizado cambios.");
-      // }
-
       const formValido = await this.validandoDatos();
       if(formValido) {
         this.guardarCarro(formValido);
       }
-
     }
 
     obtenerListaTipoVehiculos(){

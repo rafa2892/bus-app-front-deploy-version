@@ -366,8 +366,21 @@
         
     <div class="button-container">
         <div class="left-buttons">  
-            <button *ngIf="this.step === 5" type="submit" class="btn btn-primary btn-styles" [disabled]="guardarDisabledButton()">Guardar</button>
-            <button *ngIf="this.step !== 5" type="button" class="btn btn-primary btn-styles" (click)="guardadoBasico()">Guardar y omitir</button>
+            <button 
+            *ngIf="this.step === 5" 
+            type="submit" 
+            class="btn btn-primary btn-styles"  
+            [disabled]="guardarDisabledButton()">Guardar
+            </button>
+            <button 
+                *ngIf="this.step !== 5" 
+                type="button" 
+                class="btn btn-primary btn-styles" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="bottom"
+                [attr.title]="TOOLTIP_MSJ_GUARDADO_BASICO"
+                (click)="guardadoBasico()">Guardar y omitir
+            </button>
         </div>
         <div class="right-buttons"> 
             <button 
@@ -377,6 +390,7 @@
                 (click)="backStep()">Atrás
             </button>
             <button 
+                data-bs-toggle="tooltip" data-bs-placement="top"
                 *ngIf="!(this.step === 5)" 
                 type="button"
                 class="btn btn-primary btn-styles hover-styles"
