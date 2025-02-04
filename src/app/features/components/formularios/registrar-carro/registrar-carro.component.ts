@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCar, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -61,6 +61,14 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
     RAZON_TITULO = TITLES.NAME_COMPANY_PERSON_TITLE;
     MSJ_BTON_NEXT_STEP = TITLES.TITLE_DISABLED_BTON_NEXT_STEP;
+
+    steps: number[] = [1, 2, 3, 4, 5]; // Los pasos disponibles
+
+    async goToStep(stepNumber: number) {
+      const datosValidos = await this.validandoDatos();
+      if(datosValidos) 
+        {this.step = stepNumber;}
+    }
 
 
     constructor(
@@ -137,7 +145,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
             fechaInicio: [null],
             diasPorVencer: [{ value: null, disabled: true }],
           }),
-          imagenes: this.fb.array([]),
+          imagenesBd: this.fb.array([]),
         }),
       });
     }
@@ -203,7 +211,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     }
 
     setFormulario() {
-
         // Rellenar el formulario con los datos del carro
         this.carroForm.patchValue({
           carro: {
@@ -217,11 +224,21 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
             bateria: this.carro.bateria,
             tituloPropiedad: this.carro.tituloPropiedad,
             poliza: this.carro.poliza,
-            imagenes: this.carro.imagenes,
           }
+        });
+        // Agregar las imagenes al form
+        this.carro.imagenesBd.forEach(imagen => {
+          const imagenFormGroup = this.fb.group({
+            id: [imagen.id],
+            imagen: [imagen.imagen],
+            imagenDesc: [imagen.imagenDesc],
+            imagenUrl: [imagen.imagenUrl]
+          });
+          (this.carroForm.get('carro.imagenesBd') as FormArray).push(imagenFormGroup);
         });
         this.calculoDiasVencimiento();
     }
+
 
     async checkPDFexist(carro:Carro) {
       if(carro && carro.id) {
@@ -231,7 +248,6 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
     //Obtiene el nombre del archivo
     getNamePDFFile() : string {
-
       if(this.tituloPropiedadPDFSelectedFile && this.tituloPropiedadPDFSelectedFile.name) {
           return this.tituloPropiedadPDFSelectedFile.name;
       }
@@ -254,10 +270,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       const datosLimpios = JSON.parse(JSON.stringify(this.carroForm.value, (key, value) =>
         (value && typeof value === "object" && Object.values(value).every(v => v === null)) ? null : value
       ));
-
-      if(datosLimpios){
-        this.carro = datosLimpios.carro;
-      }
+      if(datosLimpios){this.carro = datosLimpios.carro;}
     }
 
     async guardarCarro(formValido:boolean) {
@@ -316,12 +329,12 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
 
         //Evalua si el numero de unidad ya se encuentra registrado con otra unidad en modo edicion o creacion nueva
         if (numeroUnidad) {
-          let existe;
-          if(this.carro.id) {
-            existe = await this.carroServicio.verificarNumeroUnidadModoEdicion(numeroUnidad, this.carro.id).toPromise();
-          }else{
-            existe = await this.carroServicio.verificarExistenciaPorNumeroUnidad(numeroUnidad).toPromise();
-          }
+            let existe;
+            if(this.carro.id) {
+              existe = await this.carroServicio.verificarNumeroUnidadModoEdicion(numeroUnidad, this.carro.id).toPromise();
+            }else{
+              existe = await this.carroServicio.verificarExistenciaPorNumeroUnidad(numeroUnidad).toPromise();
+            }
         if (existe) {
           this.camposFaltantes.push('numero-unidad');
           mensajeError = 'El número de unidad ya se  encuentra registrado a otra unidad'
@@ -343,7 +356,9 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
   }
 
     async guardadoBasico() {
+
       const formValido = await this.validandoDatos();
+
       if(formValido){
         const confirmarGuardado = await this.confirmaGuardado(this.carro);
         if(confirmarGuardado)
@@ -566,7 +581,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       
         if(diffDays > 60) {this.diasVencimientoStyle = 'green'}
         if(diffDays > 30 && diffDays < 60){this.diasVencimientoStyle = 'yellow-warn'}
-        if(diffDays < 30 || diffDays === 0) {this.diasVencimientoStyle = 'danger-warn'}
+        if(diffDays < 30) {this.diasVencimientoStyle = 'danger-warn'}
 
         this.carroForm.get('carro.poliza.diasPorVencer')?.setValue(diffDays);
       }else{
@@ -645,4 +660,68 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
     return ''
   }
 
+  getIconByStep(step:number)  {
+    if(step === 0)
+      return 'assets/bus-icon.png'
+    if(step === 1) 
+      return 'assets/battery-icon.png'
+    if(step === 2) 
+      return 'assets/property-title-icon.png'
+    if(step === 3) 
+      return 'assets/insurance-policy-icon.png'
+    if(step === 4) 
+      return'assets/images-icon.png'
+
+    return '';
+  }
+
+  deleteTituloPDF() {
+
+  // Limpiar la variable que contiene el archivo
+  this.tituloPropiedadPDFSelectedFile = null;
+
+  // Restablecer el input de archivo (opcional)
+  const fileInput = document.getElementById('pdfUploader') as HTMLInputElement;
+
+  if (fileInput) {
+    fileInput.value = ''; // Borra el archivo seleccionado en el input
+  }
+
+  // Si tienes un FormControl para el PDF, también lo reseteas
+  this.carroForm.get('carro.tituloPropiedad.archivoPDF')?.setValue(null);
+  }
+
+  async resetFormulario(carro:Carro) {
+
+    const title = TITLES.RESTORE_MSJ_CONFIRM_TITLE_MODAL;
+    const text = TITLES.RESTORE_MSJ_CONFIRM_MODAL;
+    const confirma = await this.carroServicio.msjConfirmaModal(title, text);
+
+    if(confirma) {
+      this.obtenerCarroPorId(carro.id);
+    }
+  }
+
+  quitarError(campoId: string) {
+    const elemento = document.getElementById(campoId);
+
+    if(elemento && campoId === 'carro-anyo') {
+      const elemento = document.getElementById(campoId);
+      const anyoActual = new Date().getFullYear();
+  
+      this.carroForm.get('carro.anyo')?.valueChanges.subscribe(value => {
+      if((value && value.length === 4 && value > 1900 && value <= anyoActual)) {
+        elemento?.classList.remove('input-error');
+      }});
+    }else if(elemento) {
+        elemento.classList.remove('input-error');
+    }
+
+    
+
+
+
+  }
+
+  
 }

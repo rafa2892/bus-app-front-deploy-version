@@ -273,4 +273,179 @@ input:disabled {
     color: orangered; 
     margin-top: 0.5em;
   }
+
+  .button-container {
+    display: flex;
+    justify-content: space-between; /* Separa los grupos de botones */
+    align-items: center;
+  }
+
+  .right-buttons {
+      display: flex;
+      gap: 10px; /* Espacio entre los botones "Atrás" y "Siguiente" */
+      margin-left: auto; /* Mueve estos botones a la derecha */
+      margin-right: 30em;
+  }
+
+  .btn-styles {
+    /* background-color: #778899; */
+    background-color: #60a4fd;
+    border-color: #60a4fd;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  }
+
+  .btn-styles:hover {
+    transform: scale(1.1); /* Aumenta el tamaño un 10% */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+  }
+
+  .btn-primary:disabled {
+    cursor: not-allowed !important; /* Permite que el cursor cambie */
+    pointer-events: auto !important; /* Reactiva los eventos del mouse */
+}
+
+
+ /* ************Estilos step navegador selector */
+
+.step-navigation {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.step-navigation button {
+  background-color: transparent;
+  border: none;
+  color: #60a4fd;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease, transform 0.3s ease;  /* Añadido para la transición de tamaño */
+}
+
+.step-navigation button:hover {
+  background-color: #60a4fd;
+  color: white;
+  transform: scale(1.1);  /* El tamaño aumenta al 110% */
+}
+
+.step-navigation button.active {
+  background-color: #60a4fd;
+  color: white;
+  cursor: default;
+}
+
+ /* ************ FIN step navegador estilos  */
   
+ 
+
+ /* ************ Iconos grandes step form  */
+.larger-icon {
+  width: 50px;  /* Increase width */
+  height: 50px; /* Increase height */
+}
+ /* ************ Fin grandes step form  */
+
+  /* ************ Titulos estilos  */
+h2 {
+  font-size: 28px;  /* Tamaño más grande para destacar el título */
+  font-weight: 600;  /* Un peso de fuente que lo haga más prominente */
+  color: #60a4fd;  /* Un color gris oscuro para un contraste adecuado */
+  text-transform: capitalize;  /* La primera letra de cada palabra en mayúsculas */
+  margin-bottom: 15px;  /* Espacio debajo del título */
+  border-bottom: 2px solid #60a4fd;  /* Línea delgada y colorida debajo del título */
+  padding-bottom: 10px;  /* Espacio entre el texto y la línea */
+}
+ /* ************ fin titulos estilos  */
+
+
+  /* ************ Boton descargar estilos  */
+.btn-download {
+  background-color: transparent;
+  border: none;
+  color: #60a4fd; /* Color azul para el icono */
+  font-size: 18px;
+  padding: 8px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.btn-download:hover {
+  background-color: white; /* Se pone blanco */
+  color: #60a4fd; /* Mantiene el color del icono */
+  transform: scale(1.1); /* Efecto de agrandar un poco */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); /* Agrega sombra para más estilo */
+}
+
+.btn-download:active {
+  transform: scale(0.95); /* Pequeña reducción al hacer click */
+}
+  /* ************ FIN boton descargar estilos  */
+  
+
+
+
+
+.pdf-container {
+  border: 2px solid #2f4f4f; /* Borde alrededor de los botones */
+  border-radius: 8px; /* Bordes redondeados */
+  padding: 15px; /* Espaciado interno */
+  background-color: transparent; /* Sin fondo */
+  box-shadow: none; /* Sin sombra */
+  display: inline-block;
+  margin-bottom: 2em;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  transition: all 0.3s ease; /* Transición suave */
+}
+
+.btn-delete-pdf {
+  margin-bottom: 2em;
+} 
+
+.text-area-styles {
+  margin-left: 10em;
+}
+
+.pdf-container small {
+  color: white;
+}
+
+  /* ************ Boton restaurar formulario estilos  */
+.btn-reset {
+  background-color: transparent;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-reset img {
+  transition: transform 0.3s ease-in-out;
+}
+
+.btn-reset:hover {
+  background-color: #007bff;
+  border-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.btn-reset:hover img {
+  transform: scale(1.2);
+}
+  /* ************ Fin Boton restaurar formulario estilos  */
+
+  .error-icon {
+    color: red;
+    font-size: 20px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+

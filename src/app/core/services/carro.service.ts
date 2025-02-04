@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import { Carro } from '../models/carro';
 import { TipoVehiculo } from '../models/tipo-vehiculo';
 import { Historial } from '../models/historial';
+import Swal from 'sweetalert2';
 
 
 
@@ -113,10 +114,9 @@ export class CarroService {
   }
 
 
-
-
   //Metodo utilidad
   getImagenUrl(carro: Carro) {
+
     if(carro != undefined && carro.imagenesBd != undefined && carro.imagenesBd.length >= 1) {
 
       //Declaracion del arreglo (imagenes del front)
@@ -140,6 +140,24 @@ export class CarroService {
         return imagenesDecodificadas;
     }
     return [];
+  }
+
+  
+  async msjConfirmaModal(title:string, text:string) : Promise<boolean>{
+    const result = await Swal.fire({
+      title: title,
+      text: text,
+      icon: 'warning',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Confirmar',
+      reverseButtons: true,
+  });
+  if (!result.isConfirmed) {
+    return false; // Detenemos el flujo
+  }else {
+  return true;
+  }
   }
 
 
