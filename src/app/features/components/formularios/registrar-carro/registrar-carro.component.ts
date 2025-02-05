@@ -58,8 +58,9 @@ declare var bootstrap: any;
 
     // Campos faltantes en el formulario
     camposFaltantes: string[] = [];
-
     cambiosFormularioFiles: boolean = false;
+
+    isDisabledTitleFlag : boolean = true
 
     //LITERALES
     OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
@@ -186,9 +187,6 @@ declare var bootstrap: any;
       //     delay: { "show": 3000, "hide": 3000 } // Retraso en milisegundos
       //   } // ERROR ARGUMENTS; IS GOOD TO LEARN ABOUT PASS THROUGH A OBJECT AND BUILD IT IN THE ARGUMENTS BOX
       // });
-
-
-  
   }
 
     async onSubmit(){
@@ -374,9 +372,7 @@ declare var bootstrap: any;
   }
 
     async guardadoBasico() {
-
       const formValido = await this.validandoDatos();
-
       if(formValido){
         const confirmarGuardado = await this.confirmaGuardado(this.carro);
         if(confirmarGuardado)
@@ -659,13 +655,6 @@ declare var bootstrap: any;
   guardarDisabledButton() : boolean {
     if(this.cambiosFormularioFiles || this.carroForm.dirty) {return false;}
     else{return true;} 
-  }
-
-  disabledLogicSaveButton() {
-    if (this.step === 1 && this.carroForm.invalid) {
-      return true;
-    }
-    return false;
   }
 
   getIconExpireDateCalculation(): string {

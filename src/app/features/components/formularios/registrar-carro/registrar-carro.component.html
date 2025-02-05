@@ -390,13 +390,14 @@
                 (click)="backStep()">Atrás
             </button>
             <button 
-                data-bs-toggle="tooltip" data-bs-placement="top"
+                id="nextBton"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
                 *ngIf="!(this.step === 5)" 
                 type="button"
                 class="btn btn-primary btn-styles hover-styles"
-                [attr.title]="disabledLogicSaveButton() ? MSJ_BTON_NEXT_STEP : ''"
-                [disabled]="disabledLogicSaveButton()"
-                id="nextBton"
+                [attr.data-bs-original-title]="carroForm.invalid && this.step === 1 ? MSJ_BTON_NEXT_STEP : ''"
+                [disabled]="carroForm.invalid && this.step === 1"
                 (click)="nextStep()">Siguiente
             </button>
         </div>
