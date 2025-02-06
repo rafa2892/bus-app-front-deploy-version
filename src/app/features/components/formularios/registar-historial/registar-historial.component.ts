@@ -20,6 +20,7 @@ export class RegistarHistorialComponent {
   historial : Historial = new Historial;
   soloConsulta: boolean = true; // Define la propiedad para almacenar el valor del parámetro
   carroId:string;
+  isMantenimiento:boolean;
   id:any;
   tipo:any;
  
@@ -36,9 +37,14 @@ export class RegistarHistorialComponent {
     private activatedRoute: ActivatedRoute) { }  
 
   ngOnInit(): void {
+
+
   this.id = + this.activatedRoute.snapshot.paramMap.get('id')!;
   this.tipo = this.activatedRoute.snapshot.paramMap.get('tipo');  // 'carro' o 'historial'
-   
+
+  const isMantenimiento  = this.activatedRoute.snapshot.paramMap.get('isMantenimiento');  // 'carro' o 'historial'
+  if(isMantenimiento) {this.isMantenimiento = isMantenimiento === 'true';}
+
   if(this.id && this.tipo === 'historialId') {
     this.obtenerHistorial(this.id);
     this.activatedRoute.queryParams.subscribe(params => {
@@ -64,17 +70,24 @@ export class RegistarHistorialComponent {
 }
 
   private obtenerTipos () {
-    this.carroServicio.obtenerTiposHistorial().subscribe(dato =>  {
+    this.historialServicio.obtenerTiposHistorial().subscribe(dato =>  {
       this.datos = dato;
       this.claves = Object.keys(this.datos);
       this.tipoHistorialList = Object.values(this.datos);
     });
 
+
     //Preseleccionar opción por defecto en el select de tipo de historial
-    if(this.verSoloRegistroMantenimiento) {
+    //DATA come from BBDD 
+    // int 0 = default value = 0
+    // int 1 = new Service
+    // int 2 = mantinence 
+    // int 3 = comment 
+
+    if(this.isMantenimiento) {
       this.historial.idTipo = 2;
     }else {
-      this.historial.idTipo = 0;
+      this.historial.idTipo = 3;
     }
   }
 
@@ -117,15 +130,31 @@ export class RegistarHistorialComponent {
     if(this.historial.carro === undefined || this.historial.carro === null) {
         this.historial.carro = this.carroSeleccionadoDetalles;
     }
-    this.historialServicio.registrarHistorial(this.historial).subscribe({
-      next: (dato) => {
-        // Acción a realizar después de que se haya guardado correctamente
-        // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-        // this.historialGuardado.emit(this.carroSeleccionadoDetalles);
-        this.volver();
-      },
-      error: (error) => console.log(error)
-    });
+
+    if(!this.historial.id) {
+      this.historialServicio.registrarHistorial(this.historial).subscribe({
+        next: (dato) => {
+          // Acción a realizar después de que se haya guardado correctamente
+          // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+          // this.historialGuardado.emit(this.carroSeleccionadoDetalles);
+          this.volver();
+        },
+        error: (error) => console.log(error)
+      });
+    }
+
+    else {
+      this.historialServicio.actualizarHistorial(this.historial).subscribe({
+        next: (dato) => {
+          // Acción a realizar después de que se haya guardado correctamente
+          // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+          // this.historialGuardado.emit(this.carroSeleccionadoDetalles);
+          this.volver();
+        },
+        error: (error) => console.log(error)
+      });
+
+    }
   }
 
   private obtenerCarroPorId(id: number) {

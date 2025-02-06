@@ -26,11 +26,11 @@
         <button title="Registros de mantenimiento" (click)="verHistorial(carro,true)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
           <span class="button-icon"><fa-icon class="eyeIcon" [icon]="repairIcon"></fa-icon></span>
         </button>
-        <button title="Detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
-          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
-        </button>
         <button title="Historial de actividades" (click)="verHistorial(carro,false)" class="btn btn-info botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
           <span class="button-icon"><fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon></span>
+        </button>
+        <button title="Detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
+          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
         </button>
         <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-warning botonesAccion">
           <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
@@ -49,8 +49,7 @@
     nextLabel="Siguiente"></pagination-controls>
   </div>
 </div>
-
-<!-- <app-popup-historial-vehiculos [changeDetecterFlag]="changeDetecterFlag" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos> -->
+<app-popup-historial-vehiculos [changeDetecterFlag]="changeDetecterFlag" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos>
 <app-card-bus-detail [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-card-bus-detail>
 
 

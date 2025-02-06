@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'lista-mantenimiento', component:RegistrosComponent},
   { path: 'nuevo-registro/:id', component:NuevoRegistroComponent},
   { path: 'nuevo-mantenimiento/:id', component:RegistrarMantenimientoComponent},
-  { path: 'registrar-historial/:tipo/:id', component: RegistarHistorialComponent},
+  { path: 'registrar-historial/:tipo/:id/:isMantenimiento', component: RegistarHistorialComponent},
   { path: 'registrar-conductor', component: RegistrarConductorComponent},
   { path: 'registrar-conductor/:isDesdedetalles/:id', component: RegistrarConductorComponent},
   { path: 'registrar-conductor/:id', component: RegistrarConductorComponent},

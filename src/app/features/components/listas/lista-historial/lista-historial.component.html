@@ -28,14 +28,24 @@
         <td>
           {{ historial.userLogin.usu || 'Usuario no disponible' }}
         </td>
-        <td>
-        <button title="Ver historial de actividades" (click)="verDetalleshistorial(historial.id, true)" class="btn btn-primary botonesAccion" data-bs-dismiss="modal">
-          <span class="button-icon"><fa-icon class="deleteIcon" [icon]="detailsIcon"></fa-icon></span>
-        </button>
-        <button title="Editar historial de actividades" (click)="verDetalleshistorial(historial.id, false)" class="btn btn-warning botonesAccion" data-bs-dismiss="modal">
-          <span class="button-icon"><fa-icon class="deleteIcon" [icon]="editIcon"></fa-icon></span>
-        </button>
+
+
+        <td class="d-flex gap-3">
+          <button title="Ver historial de actividades" (click)="verDetalleshistorial(historial.id, true)" class="btn btn-primary botonesAccion" data-bs-dismiss="modal">
+            <span class="button-icon"><fa-icon class="deleteIcon" [icon]="detailsIcon"></fa-icon></span>
+          </button>
+          <button title="Editar historial de actividades" (click)="verDetalleshistorial(historial.id, false)" class="btn btn-warning botonesAccion" data-bs-dismiss="modal">
+            <span class="button-icon"><fa-icon class="deleteIcon" [icon]="editIcon"></fa-icon></span>
+          </button>
+          <div class="btn-delete-pdf">
+            <button type="button" class="delete-img-btn" (click)="deleteHistorial(historial.id)">
+                <span><img src="assets/delete.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
+            </button>
+        </div>
       </td>
+
+
+
     </tr>
   </tbody>
 </table>
@@ -47,6 +57,6 @@
 </div>
 
 <div class="modal-footer d-flex justify-content-start" id="addHsitory">
-  <label for="btonAddHistory">Añade un historico </label>
   <button id="btonAddHistory" type="button" (click)="addHistory()" class="btn btn-primary addHistory" title="Añadir un historico" data-bs-dismiss="modal">+</button>
+  <label for="btonAddHistory"> {{verSoloRegistroMantenimiento ? 'Registro mantenimiento/reparación' : 'Registro actividad/comentarios'}} </label>
 </div>

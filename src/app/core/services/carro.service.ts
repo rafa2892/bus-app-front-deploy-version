@@ -21,9 +21,6 @@ export class CarroService {
   private baseUrlTipoVehiculos = this.baseUrl.concat('/tipoVehiculos');
 
   //Obtiene el listado de tipos de historial
-  private baseUrlTiposHistorial = this.baseUrl.concat('/tiposHistorial'); 
-
-  //Obtiene el listado de tipos de historial
   private baseUrlGuardarHistorial = this.baseUrl.concat('/guardarHistorial');
 
   constructor(private httpClient : HttpClient) { }
@@ -38,7 +35,6 @@ export class CarroService {
     return this.httpClient.get<TipoVehiculo[]>(`${this.baseUrlTipoVehiculos}`);
   }
 
-  
   //Este metodo nos funciona para regitrar un carro
   registrarCarro(carro:Carro) : Observable<Object>{
     return this.httpClient.post(`${this.baseUrl}`, carro);
@@ -56,10 +52,6 @@ export class CarroService {
 
   obtenerCarroPorId(id: number): Observable<Carro> {
     return this.httpClient.get<Carro>(`${this.baseUrl}/${id}`);
-  }
-
-  obtenerTiposHistorial(): Observable<{ [key: string]: string }> {
-    return this.httpClient.get<{ [key: number]: string }>(this.baseUrlTiposHistorial);
   }
 
   existeTituloPropiedadPdfFILE(id: number): Promise<boolean | undefined> {

@@ -43,12 +43,11 @@ export class RegistrarMantenimientoComponent {
  }
 
   private obtenerTipos () {
-    this.carroServicio.obtenerTiposHistorial().subscribe(dato =>  {
-    this.datos = dato;
-    this.claves = Object.keys(this.datos);
-    this.tipoHistorialList = Object.values(this.datos);
+    this.historialServicio.obtenerTiposHistorial().subscribe(dato =>  {
+      this.datos = dato;
+      this.claves = Object.keys(this.datos);
+      this.tipoHistorialList = Object.values(this.datos);
     });
-
     this.historial.idTipo = 2;
   }
   volver() {

@@ -6,6 +6,8 @@ import { CarroService } from '../../../../core/services/carro.service';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { HistorialService } from '../../../../core/services/historial.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -34,7 +36,11 @@ export class ListaHistorialComponent {
   editIcon = fontAwesomeIcons.editIcon;
 
   @Input() changeDetecterFlag : boolean;
-  constructor(private readonly carroServicio:CarroService, private router: Router, private historialService:HistorialService) {}
+  constructor(
+    private readonly carroServicio:CarroService, 
+    private router: Router, 
+    private historialService:HistorialService,
+    private modalService: NgbModal) {}
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -59,20 +65,38 @@ export class ListaHistorialComponent {
         this.carro = c;
       })
     ).subscribe(() => {
-
       this.carroSeleccionadoDetalles = { ...this.carro };
-      
+
+
+    //Preseleccionar opción por defecto en el select de tipo de historial ****historial.idTipo***
+    //DATA come from BBDD 
+    // int 0 = default value = 0
+    // int 1 = new Service
+    // int 2 = mantinence 
+    // int 3 = comment 
+
+    /* Muestra la lista de historial de acuerdo a si es por mantenimiento o vista general*/
+
       if (this.verSoloRegistroMantenimiento) {
             this.carroSeleccionadoDetalles.registroHistorial = this.carro.registroHistorial.filter(
             historial => historial.idTipo === 2
         );
       }
+      
+      // else{
+      //       this.carroSeleccionadoDetalles.registroHistorial = this.carro.registroHistorial.filter(
+      //       historial => historial.idTipo === 3
+      //   );
+      // }
+
+
     });
   }
 
  addHistory() { 
   // this.agregarHistorial.emit();
-  this.router.navigate(['/registrar-historial/carroId', this.carroSeleccionadoDetalles.id]);
+  this.modalService.dismissAll();
+  this.router.navigate(['/registrar-historial/carroId', this.carroSeleccionadoDetalles.id, this.verSoloRegistroMantenimiento ]);
  }
 
 getClassByTipoHistorial(history:Historial) : string {
@@ -101,10 +125,27 @@ getIconByTipoHistorial(history:Historial) : any {
 return this.infoIcon;
 }
 
-verDetalleshistorial(id:number,soloConsulta: boolean) {
-  this.router.navigate(['/registrar-historial/historialId', id], { queryParams: { soloConsulta } });
-  this.cerrarModalProgramatico.emit();
+verDetalleshistorial(id:number, soloConsulta: boolean) {
+  this.router.navigate(['/registrar-historial/historialId', id, false], { queryParams: { soloConsulta } });
+  this.modalService.dismissAll();
+  // this.cerrarModalProgramatico.emit();
 }
+
+async deleteHistorial(id: number) {
+  if (!confirm('¿Estás seguro de que quieres eliminar este historial?')) {
+    return;
+  }
+
+  try {
+    await firstValueFrom(this.historialService.deleteHistorial(id));
+    alert('Historial eliminado correctamente');
+    await this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id); // Recargar historial
+  } catch (error) {
+    console.error('Error al eliminar el historial:', error);
+    alert('Ocurrió un error al eliminar el historial');
+  }
+}
+
 
 
 }

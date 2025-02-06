@@ -381,9 +381,22 @@ declare var bootstrap: any;
     }
 
     async confirmaGuardado(carro:Carro): Promise<boolean> {
+
+      let title;
+      let text;
+
+      if(carro.id) {
+        title = 'Modificación de vehiculo';
+        text = 'Atención, se modificara el vehiculo con los datos introducidos, ¿Desea continuar?'
+      } else {
+        title ='Registro basico';
+        text = 'Se guardara el vehiculo en la base de datos solo con los datos basicos, ¿Desea continuar?'
+      }
+
+
       const result = await Swal.fire({
-          title: 'Registro basico',
-          html: 'Se guardara el vehiculo en la base de datos solo con los datos basicos',
+          title: title,
+          html: text,
           icon: 'warning',
           showCancelButton: true,
           cancelButtonText: 'Cancelar',

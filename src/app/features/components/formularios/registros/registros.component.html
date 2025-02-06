@@ -2,30 +2,22 @@
     <thead class="table-dark">
       <tr>
         <th>Tipo</th>
-        <th>Comentario</th>
-        <th>Fecha de alta</th>
-        <th>Registrado por</th>
+        <th>Fecha</th>
+        <th>Usuario</th>
       </tr>
     </thead>
     <tbody class="table-dark">
-      <tr *ngFor="let historial of historialDeActividades | paginate: { itemsPerPage: 25, currentPage: p }">
+      <tr *ngFor="let r of rigistroActividades | paginate: { itemsPerPage: 25, currentPage: p }">
         <td>
-          <small>
-            <button [ngClass]="getClassByTipoHistorial(historial)" class="btn btn-primary btonGuardar" ><fa-icon  [icon]="getIconByTipoHistorial(historial)" class="lupaIcon"></fa-icon></button>{{historial.descripcionTipo}}
-          </small>
-        </td>
-        <td>
-          <small>
-            {{historial.comentarios}}
-          </small>
+          <span class="bold-font" [ngClass]="getColorFont(r)">{{r.comentarios}}</span>
         </td>
           <td>
             <small>
-              <span class="date">{{ historial.fechaAlta | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+              <span class="date">{{ r.fecha | date:'dd/MM/yyyy HH:mm:ss'}}</span>
             </small>
           </td>
           <td>
-            {{historial.userLogin.usu}}
+            {{r.userName}}
           </td>
       </tr>
     </tbody>

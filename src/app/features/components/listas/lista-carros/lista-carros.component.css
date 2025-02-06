@@ -28,6 +28,14 @@ td button {
       color: blue; /* Change to your desired color */
   }
 
+  .modal-custom-size {
+    /* max-width: 800px;        
+    width: 80%;           
+    max-height: 400px;     
+    overflow-y: auto;  */
+    font-size: smaller;
+  }
+
   
   
 

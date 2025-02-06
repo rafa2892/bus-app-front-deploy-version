@@ -27,6 +27,7 @@ export class ListaCarrosComponent {
   carro: Carro;
   changeDetecterFlag : boolean;
   carroId:number;
+  modalManager : any;
   
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
  
@@ -40,7 +41,6 @@ export class ListaCarrosComponent {
   }
 
   ngOnInit(): void {
-
     // Comprobar si hay un 'state' al que se redirigió
     const navigationState = history.state;
 
@@ -58,10 +58,16 @@ export class ListaCarrosComponent {
   }
 
   openHistorialModal(carro: Carro) {
-    const modalRef = this.modalService.open(PopupHistorialVehiculosComponent); // Abre el modal
+    const modalRef = this.modalService.open(PopupHistorialVehiculosComponent, { 
+      windowClass: 'modal-custom-size', 
+      size: 'lg'
+    });
+
     modalRef.componentInstance.isModalProgramatico = true;
-    modalRef.componentInstance.verSoloRegistroMantenimiento = true;
     modalRef.componentInstance.carro = this.carro;
+
+    if(modalRef)
+      this.modalManager = modalRef;
   }
 
   private obtenerCarroPorId(id: number, abrirModal: boolean = false) {
@@ -76,7 +82,6 @@ export class ListaCarrosComponent {
   private obtenerCarros() {
     this.carroServicio.obtenerListaCarro().subscribe(carros => {
       this.carros = carros;
-      console.log(this.carros);
     });
   }
 
@@ -91,9 +96,14 @@ export class ListaCarrosComponent {
   }
 
   verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
+
     this.carroSeleccionadoDetalles = carroSelected;
     this.changeDetecterFlag = !this.changeDetecterFlag;
     this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles, verSoloRegistroMantenimiento);
+
+    //Indica si muestra todos los tipos de historiales o solo de mantenimiento
+    if(this.modalManager.componentInstance)
+      {this.modalManager.componentInstance.verSoloRegistroMantenimiento = verSoloRegistroMantenimiento;}
   }
 
   insertarRegistro(id: number) {
@@ -111,6 +121,7 @@ export class ListaCarrosComponent {
   
     this.authService.refreshToken(refreshToken).subscribe({
       next: (response) => {
+
         // const newToken = response;
         // this.authService.setToken(newToken);
         // localStorage.setItem('refreshToken', response.refreshToken);

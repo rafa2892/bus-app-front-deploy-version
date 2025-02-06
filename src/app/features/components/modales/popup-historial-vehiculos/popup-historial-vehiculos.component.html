@@ -3,6 +3,8 @@
     [tituloPopUp]="tituloPopUp"
     [idModal]="idModal"
     [isModalProgramatico]="isModalProgramatico">
+
+
     <ng-container *ngIf="mostrarListaHistorial">
         <app-lista-historial 
             [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"
@@ -11,6 +13,8 @@
             [changeDetecterFlag]="changeDetecterFlag">
         </app-lista-historial>
     </ng-container>   
+
+
     <ng-container *ngIf="mostrarRegistrarHistorial">
         <app-registar-historial 
             (historialGuardado)="actualizarCarro($event)"
@@ -19,4 +23,6 @@
             [verSoloRegistroMantenimiento]="verSoloRegistroMantenimiento">
         </app-registar-historial>
     </ng-container>
+
+    
 </app-popup-generico>

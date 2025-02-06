@@ -1,0 +1,16 @@
+.bold-font {
+    font-weight: bold; /* Resalta el texto */
+    font-size: 14px; /* Tamaño adecuado */
+}
+
+.blue-color-font {
+    color: #55a2d1;
+}
+
+.warning-color-font {
+    color:rgb(254, 182, 15);
+}
+
+.danger-color-font {
+    color:rgb(254, 103, 15);
+}
