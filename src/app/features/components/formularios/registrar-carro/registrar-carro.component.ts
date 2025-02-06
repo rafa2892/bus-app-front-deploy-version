@@ -696,26 +696,29 @@ declare var bootstrap: any;
   }
 
   deleteTituloPDF() {
+      // Limpiar la variable que contiene el archivo
+      this.tituloPropiedadPDFSelectedFile = null;
+      this.cambiosFormularioFiles = true;
 
-  // Limpiar la variable que contiene el archivo
-  this.tituloPropiedadPDFSelectedFile = null;
+      // Restablecer el input de archivo (opcional)
+      const fileInput = document.getElementById('pdfUploader') as HTMLInputElement;
 
-  // Restablecer el input de archivo (opcional)
-  const fileInput = document.getElementById('pdfUploader') as HTMLInputElement;
+      if (fileInput) {
+        fileInput.value = ''; // Borra el archivo seleccionado en el input
+      }
 
-  if (fileInput) {
-    fileInput.value = ''; // Borra el archivo seleccionado en el input
-  }
-
-  // Si tienes un FormControl para el PDF, también lo reseteas
-  this.carroForm.get('carro.tituloPropiedad.archivoPDF')?.setValue(null);
-  }
+      // Si tienes un FormControl para el PDF, también lo reseteas
+      this.carroForm.get('carro.tituloPropiedad.archivoPDF')?.setValue(null);
+      }
 
   async resetFormulario(carro:Carro) {
 
     const title = TITLES.RESTORE_MSJ_CONFIRM_TITLE_MODAL;
     const text = TITLES.RESTORE_MSJ_CONFIRM_MODAL;
     const confirma = await this.carroServicio.msjConfirmaModal(title, text);
+
+    this.carroForm.reset();
+    this.cambiosFormularioFiles = false
 
     if(confirma) {
       this.obtenerCarroPorId(carro.id);

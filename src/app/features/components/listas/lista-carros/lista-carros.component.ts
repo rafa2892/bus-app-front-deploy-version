@@ -6,6 +6,8 @@ import { faEdit, faEye, faHistory, faPlus, faTrash, faScrewdriverWrench} from '@
 import { PopupHistorialVehiculosComponent } from '../../modales/popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { AuthService } from '../../../../core/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 
 @Component({
   selector: 'app-lista-carros',
@@ -37,7 +39,8 @@ export class ListaCarrosComponent {
     private authService:AuthService, 
     private carroServicio: CarroService, 
     private router: Router, 
-    private route: ActivatedRoute, ) {
+    private route: ActivatedRoute,
+    private globalUtilService:GlobalUtilsService ) {
   }
 
   ngOnInit(): void {
@@ -110,10 +113,27 @@ export class ListaCarrosComponent {
     this.router.navigate(['/nuevo-registro', id]);
   }
 
-  eliminarCarro(id: any) {
-    this.carroServicio.eliminarCarro(id).subscribe(dato => {
-      this.obtenerCarros();
-    })
+  async eliminarCarro(id: number) {
+
+   const borrar = await this.confirmaMensaje();
+
+   if(borrar) {
+      this.carroServicio.eliminarCarro(id).subscribe(dato => {
+        this.obtenerCarros();
+      })}
+  }
+
+  async confirmaMensaje(): Promise<boolean> {
+    let title ='Eliminar vehiculo';
+    let text = '<p>Se eliminara la unidad (vehiculo) <strong>PERMANENTEMENTE</strong> de la base de datos, ¿Desea continuar?</p>'
+
+    const result = await this.globalUtilService.getMensajeConfirmaModal(title,text)
+
+    if (!result.isConfirmed) {
+      return false; // Detenemos el flujo
+    }else {
+      return true;
+    }
   }
 
   refreshToken() {

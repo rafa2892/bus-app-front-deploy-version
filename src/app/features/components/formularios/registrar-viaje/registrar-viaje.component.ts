@@ -447,6 +447,8 @@ export class RegistrarViajeComponent {
     }
 
     guardarViaje(){
+      
+      if(!this.viaje.id) {
         this.viajeServicio.registrarViaje(this.viaje).subscribe(
             dato => {
                   this._snackBar.open('Viaje Registrado con éxito.', '', {
@@ -467,7 +469,28 @@ export class RegistrarViajeComponent {
                 verticalPosition: 'top',
               });
             }
+        );}else{
+        this.viajeServicio.actualizarViaje(this.viaje).subscribe(
+          dato => {
+                this._snackBar.open('Viaje Registrado con éxito.', '', {
+                  duration: 2000,
+                  panelClass: ['success-snackbar'],
+                  horizontalPosition: 'end',
+                  verticalPosition: 'top',
+              })
+                this.irListaViaje();
+          },error => {
+            // Si ocurre un error
+            console.log(error);
+            this._snackBar.open(TITLES.ERROR_SERVIDOR_BACK, '', {
+              duration: 5000,
+              panelClass: ['error-snackbar'],
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+            });
+          }
         );
+      }
     }
     private cargarListasFiltrosCarro() {
         if(this.selectedVehiculo == undefined || this.selectedVehiculo === '') {

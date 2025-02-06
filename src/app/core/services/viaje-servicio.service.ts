@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Viaje} from '../models/viaje';
 import {Observable} from "rxjs";
-import { Conductor } from '../models/conductor';
 
 
 @Injectable({
@@ -25,6 +24,10 @@ export class ViajeServicioService {
     return this.httpClient.post(`${this.baseUrl}`, viaje);
   }
 
+  actualizarViaje(viaje:Viaje) : Observable<Object>{
+    return this.httpClient.put(`${this.baseUrl}/${viaje.id}`, viaje);
+  }
+
   obtenerListaViajePorConductor(id: number): Observable<Viaje[]> {
     return this.httpClient.get<Viaje[]>(`${this.baseUrl}/conductor/${id}`);
   }
@@ -37,12 +40,12 @@ export class ViajeServicioService {
     return this.httpClient.delete(`${this.baseUrl}/${id}`);
   }
 
-// En el servicio ViajeServicioService
-obtenerViajesFiltrados(
-  numeroUnidad: number | null | undefined,
-  conductorId: number | null | undefined,
-  fechaDesde:string | null, 
-  fechaHasta:string | null): Observable<Viaje[]> {
+  // En el servicio ViajeServicioService
+  obtenerViajesFiltrados(
+    numeroUnidad: number | null | undefined,
+    conductorId: number | null | undefined,
+    fechaDesde:string | null, 
+    fechaHasta:string | null): Observable<Viaje[]> {
 
     const params = new URLSearchParams();
 
@@ -51,7 +54,7 @@ obtenerViajesFiltrados(
     if (fechaDesde) params.append('fechaDesde', fechaDesde);
     if (fechaHasta) params.append('fechaHasta', fechaHasta);
 
-     // Construir la URL final
+    // Construir la URL final
     const url = `${this.baseUrl}/filtrar?${params.toString()}`;
     return this.httpClient.get<Viaje[]>(url);
 
@@ -61,11 +64,5 @@ obtenerViajesFiltrados(
     //   `&fechaDesde=${fechaDesde || ''}` +
     //   `&fechaHasta=${fechaHasta || ''}`
     // );
-
-
-}
-
-  
-  
-
+  }
 }

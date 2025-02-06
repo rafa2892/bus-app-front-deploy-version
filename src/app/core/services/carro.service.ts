@@ -38,16 +38,14 @@ export class CarroService {
   //Este metodo nos funciona para regitrar un carro
   registrarCarro(carro:Carro) : Observable<Object>{
     return this.httpClient.post(`${this.baseUrl}`, carro);
-
   }
 
   actualizarCarro(id:number, carro:Carro) {
     return this.httpClient.put(`${this.baseUrl}/${id}`,carro);
-
   }
 
   eliminarCarro(id:number) : Observable<Object>{
-        return this.httpClient.delete(`${this.baseUrl}/${id}`);
+    return this.httpClient.delete(`${this.baseUrl}/${id}`);
   }
 
   obtenerCarroPorId(id: number): Observable<Carro> {

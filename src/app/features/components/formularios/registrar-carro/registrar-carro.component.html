@@ -10,7 +10,7 @@
     <div class="d-flex justify-content-end">
         <button 
         class="btn btn-reset" 
-        [disabled]="!(this.carro && this.carro.id)" 
+        [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
         (click)="resetFormulario(this.carro)"
         title="Reestablecer el formulario">
             <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
