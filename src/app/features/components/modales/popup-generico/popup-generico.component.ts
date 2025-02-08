@@ -24,6 +24,8 @@ export class PopupGenericoComponent {
   //Receptores de datos (caracteristicas singulares de componentes padres)
   @Input() isModalConfirmacion: boolean = false; // Recibe el booleano desde el padre.
   @Input() viaje: Viaje; // Recibe el booleano desde el padre.
+
+  @Input() modalSizeClase: string; // Recibe el booleano desde el padre.
   
 
   //Emisores de datos
@@ -51,12 +53,17 @@ export class PopupGenericoComponent {
   getButtonMsj() {
     if(this.isModalConfirmacion) {
       return TITLES.CANCEL_MODAL_MSJ;
-    }
-
-    else {
+    }else {
       return TITLES.CLOSE_MODAL_MSJ;
     }
+  }
 
+  getModalSizeClass() :string {
+    if(this.modalSizeClase) {
+        return this.modalSizeClase;
+    }else {
+      return 'modal-lg';
+    }
   }
 
 }

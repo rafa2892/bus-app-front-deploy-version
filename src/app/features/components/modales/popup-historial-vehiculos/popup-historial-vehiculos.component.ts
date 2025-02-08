@@ -15,7 +15,6 @@ export class PopupHistorialVehiculosComponent {
 
     constructor(
       private carroServicio:CarroService, 
-      private cdr: ChangeDetectorRef, 
       private modalService: NgbModal) {}
 
     tituloPopUp :string = 'Historial';

@@ -1,0 +1,4 @@
+::ng-deep .mat-datepicker-content,
+::ng-deep .cdk-overlay-container {
+    z-index: 1070 !important;
+}

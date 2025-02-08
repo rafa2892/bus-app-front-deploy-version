@@ -1,0 +1,51 @@
+<app-popup-generico
+    [modalLabel]="modalLabel" 
+    [tituloPopUp]="tituloPopUp"
+    [idModal]="idModal"
+    [modalSizeClase]="modalSizeClass"
+    [isModalProgramatico]="isModalProgramatico">
+    <div class="d-flex align-items-center justify-content-start separator dates-container">
+
+
+        <mat-form-field id="mat-picker-date-component" class="full-width date-picker">                   
+            <input
+                matInput 
+                [matDatepicker]="dataPickerDesde" 
+                name="fecha-desde" 
+                id="fecha-desde"
+                [placeholder]="getPlaceHolderDesde()"
+                [disabled]="false"
+                [(ngModel)]="fechaDesde"
+                [matDatepickerFilter]="filterDatesDesde"
+                (dateChange)="selectedDateFormat(fechaDesde, 'desde')"
+                readonly> 
+            <mat-datepicker-toggle 
+                class="toggle-picker-enabled" 
+                matIconSuffix [for]="dataPickerDesde">
+            </mat-datepicker-toggle>
+            <mat-datepicker id="dataPickerDesde" #dataPickerDesde></mat-datepicker>
+        </mat-form-field>
+
+        
+        <mat-form-field *ngIf="isEnabled()" id="mat-picker-date-component"
+        class="full-width date-picker"
+        [ngClass]="!fechaDesde ? 'picker-custom-disabled' : ''">                   
+            <input
+                matInput 
+                [matDatepicker]="dataPickerHasta" 
+                name="fecha-hasta" 
+                id="fecha-hasta"
+                placeholder="Hasta"
+                [disabled]="!fechaDesde"
+                [(ngModel)]="fechaHasta"
+                [matDatepickerFilter]="filterDatesHasta"
+                (dateChange)="selectedDateFormat(fechaHasta, 'hasta')"
+                readonly> 
+            <mat-datepicker-toggle 
+                [ngClass]="!fechaDesde ? 'toggle-picker-disabled' : 'toggle-picker-enabled'"  matIconSuffix [for]="dataPickerHasta">
+            </mat-datepicker-toggle>
+            <mat-datepicker id="dataPickerHasta" #dataPickerHasta></mat-datepicker>
+        </mat-form-field>
+        <button (click)="descargarExcel()">Descargar Excel</button>
+    </div>
+</app-popup-generico>
