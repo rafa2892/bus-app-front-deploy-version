@@ -1,5 +1,6 @@
   import { Injectable } from '@angular/core';
   import Swal from 'sweetalert2';
+  declare var bootstrap: any;
 
   @Injectable({
     providedIn: 'root'
@@ -52,6 +53,16 @@
 
       return result;
     }
+
+  // Método para inicializar tooltips
+  initTooltips(): void {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+      return new bootstrap.Tooltip(tooltipTriggerEl, {
+        delay: { "show": 500, "hide": 500 } // Retraso en milisegundos
+      });
+    });
+  }
 
 
 

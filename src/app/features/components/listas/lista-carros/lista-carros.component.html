@@ -1,44 +1,70 @@
+<button type="button" class="btn btn-excel" data-bs-toggle="dropdown" (click)="descargarExcel()">
+  <span><img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size"> Exportar excel</span>
+</button>
 
 <div class="listaVehiculoContainer">
   <h2>Lista Vehiculos</h2>
-  <table class="table table-striped">
+  <table class="table table-striped table-sm">
     <thead class="table-dark">
     <tr>
-      <th>Numero unidad</th>
-      <th>Modelo</th>
-      <th>Tipo Vehiculo</th>
-      <th>Año</th>
-      <th>Consumo Medio</th>
-      <th>Acciones</th>
+      <th class="text-center">Num.Unidad</th>
+      <th class="text-center">Modelo</th>
+      <th class="text-center">Tipo Vehiculo</th>
+      <th class="text-center">Año</th>
+      <th class="text-center" style="font-size: 12px;">Consumo Medio</th>
+      <th class="text-center">Acciones</th>
     </tr>
     </thead>
     <tbody class="table-dark">
     <tr *ngFor="let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
-      <td>{{carro.numeroUnidad}}</td>
-      <td>{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
-      <td>{{carro.tipoVehiculo}}</td>
-      <td>{{carro.anyo}}</td>
-      <td>{{carro.consumo}}</td>
+
+
+      <td class="text-center">
+        <button 
+          title="Detalles del Vehiculo" 
+          (click)="detallesVehiculo(carro)" 
+          class="btn btn-sm botonesAccion" 
+          data-bs-toggle="modal" 
+          data-bs-target="#card-bus-detail">
+            <span id="numUnidad" class="font-color-num-unidad">{{getNumeroUnidadFormateado(carro.numeroUnidad)}}</span>
+        </button>
+      </td>
+
+
+      <td class="text-center">{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
+      <td class="text-center">{{carro.tipoVehiculo}}</td>
+      <td class="text-center">{{carro.anyo}}</td>
+      <td class="text-center">{{carro.consumo}}</td>
+
+
       <td>
-        <button title="Insertar Registro" (click)="insertarRegistro(carro.id)" class="btn btn-primary botonesAccion">
+        <button 
+        data-bs-toggle="tooltip" 
+        data-bs-placement="bottom"
+        [attr.data-bs-original-title]="'Insertar registro'"
+        (click)="insertarRegistro(carro.id)" 
+        class="btn btn-primary botonesAccion btn-sm">
           <span class="button-icon"><fa-icon class="eyeIcon" [icon]="faPlus"></fa-icon></span>
         </button>
-        <button title="Registros de mantenimiento" (click)="verHistorial(carro,true)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
+        <button title="Registros de mantenimiento" (click)="verHistorial(carro,true)" class="btn btn-primary botonesAccion btn-sm" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
           <span class="button-icon"><fa-icon class="eyeIcon" [icon]="repairIcon"></fa-icon></span>
         </button>
-        <button title="Historial de actividades" (click)="verHistorial(carro,false)" class="btn btn-info botonesAccion" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
+        <button title="Historial de actividades" (click)="verHistorial(carro,false)" class="btn btn-info botonesAccion btn-sm" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
           <span class="button-icon"><fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon></span>
         </button>
-        <button title="Detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
+        <button title="Detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion btn-sm" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
           <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
         </button>
-        <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-warning botonesAccion">
+        <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-warning botonesAccion btn-sm ">
           <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
         </button>
-        <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro.id)" class="btn btn-danger botonesAccion">
+        <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro.id)" class="btn btn-danger botonesAccion btn-sm">
           <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
         </button>  
       </td>  
+
+
+
     </tr>
     </tbody>
 </table>

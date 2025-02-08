@@ -12,6 +12,8 @@ import { Conductor } from '../../../../core/models/conductor';
 import { Carro } from '../../../../core/models/carro';
 import { DatePipe } from '@angular/common';
 import { TITLES } from '../../../../constant/titles.constants';
+import { ExcelService } from '../../../../core/services/excel-service.service';
+import { EmailService } from '../../../../core/services/email-service.service';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -46,11 +48,19 @@ export class ListaViajesComponent {
     //spinner de carga
     loading = false;
 
+    tipoExport : string | null = null;
+
     //Literals
     FILTROS_TITULO_INPUT = TITLES.FILTROS_TITULO_INPUT;
     DESACTIVAR_FILTRO_TITULO = TITLES.SWITCH_BUTTON_FILTERS_DESACTIVE;
     ACTIVAR_FILTRO_TITULO  = TITLES.SWITCH_BUTTON_FILTERS_ACTIVE;
     RESETEAR_FILTRO_TITULO = TITLES.RESET_FILTER_TITLE_BUTTON;
+
+    //LITERALES EXPORTAR EXCEL
+    TIPO_EXPORT_ENTRE_FECHAS = TITLES.EXCEL_EXPORT_VIAJES_TYPE_BETWEEN_DATES;
+    TIPO_EXPORT_DIA_ESPECIFICO = TITLES.EXCEL_EXPORT_VIAJES_TYPE_SPECIFIC_DAY;
+    TIPO_EXPORT_TODAY = TITLES.EXCEL_EXPORT_VIAJES_TYPE_TODAY;
+    TIPO_EXPORT_YESTERDAY = TITLES.EXCEL_EXPORT_VIAJES_TYPE_YESTERDAY;
 
 
     constructor(
@@ -59,13 +69,14 @@ export class ListaViajesComponent {
       private activatedRoute: ActivatedRoute,
       private _snackBar: MatSnackBar,
       private globalUtilsService : GlobalUtilsService,
-      private modalService: NgbModal) {
+      private modalService: NgbModal,
+      private excelService: ExcelService,
+      private emailService: EmailService) {
     }
 
     ngOnInit(): void {
 
       const idConductorStr = this.activatedRoute.snapshot.paramMap.get('idConductor');
-
       //Convertimos el valor a número
       const idConductor = idConductorStr ? + idConductorStr : null;
 
@@ -174,7 +185,7 @@ export class ListaViajesComponent {
       }
     }
 
-    getNumeroUnidadFormateado(numeroUnidad:number, viaje:Viaje) : string {
+    getNumeroUnidadFormateado(numeroUnidad:number) : string {
       return this.globalUtilsService.getNumeroUnidadFormateado(numeroUnidad);
     }
 
@@ -288,6 +299,25 @@ export class ListaViajesComponent {
       );
     }
 
-  
+    downloadExcel() {
+      if(this.tipoExport) {
+        this.excelService.downloadExcel(this.tipoExport);
+      }
+    }
+
+    enviarCorreo() {
+      this.emailService.enviarCorreo().subscribe({
+        next: (response) => alert(response),
+        error: (error) => alert('Error al enviar el correo: ' + error.message)
+      });
+    }
+
+    setTipoExport(tipoExport:string) {
+      this.tipoExport = tipoExport;
+      if(this.tipoExport === this.TIPO_EXPORT_TODAY || this.tipoExport === this.TIPO_EXPORT_YESTERDAY) {
+          this.downloadExcel();
+      }
+    }
+    
     
 }

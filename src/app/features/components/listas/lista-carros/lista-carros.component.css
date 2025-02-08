@@ -18,9 +18,48 @@
     margin-top: -60px;
 }
 
+.botonesAccion {
+    background-color: transparent !important;
+    border: none;
+    box-shadow: none;
+  }
+
+  .botonesAccion fa-icon {
+    color: #55a2d1 !important;
+  }
+/*----- Estilo botonera */
+  .botonesAccion:hover fa-icon {
+    color: #3b81a8 !important; /* Un tono más oscuro para efecto hover */
+  }
+
+  .botonesAccion {
+    transition: all 0.3s ease; /* Transición suave para el tamaño y fondo */
+  }
+  
+  .botonesAccion:hover {
+    transform: scale(1.25); /* Hace que el botón se agrande un poco */
+    background-color: rgba(85, 162, 209, 0.2); /* Fondo translúcido y suave que combina */
+    box-shadow: 0 4px 8px rgba(85, 162, 209, 0.4); /* Añadir sombra sutil */
+  }
+  
+  .botonesAccion fa-icon {
+    color: #55a2d1 !important; /* Color del ícono */
+    transition: color 0.3s ease; /* Transición suave para el color */
+  }
+  
+  .botonesAccion:hover fa-icon {
+    color: white !important; /* El ícono se pone blanco solo cuando el botón tiene hover */
+  }
+
+  .botonesAccion:hover span#numUnidad{
+    color: white !important; /* El ícono se pone blanco solo cuando el botón tiene hover */
+  }
+
 td button {
     margin: 5px; /* Ajusta el valor según el espaciado deseado */
   }
+
+/*-----   FIN  Estilo botonera */
 
 
   .carousel-control-prev,
@@ -34,6 +73,12 @@ td button {
     max-height: 400px;     
     overflow-y: auto;  */
     font-size: smaller;
+  }
+
+  .font-color-num-unidad {
+    color: #55a2d1;
+    font-weight: bold ;
+    font-style: italic;
   }
 
   

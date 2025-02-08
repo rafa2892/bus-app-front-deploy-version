@@ -80,7 +80,15 @@ export const TITLES = {
     //CONFIRM MODALS LITERALS
     RESTORE_MSJ_CONFIRM_TITLE_MODAL : 'Confirma',
     RESTORE_MSJ_CONFIRM_MODAL : 'Se reestablecera el formulario, ¿Desea continuar?',
-    SAVE_BASIC_INFO_CAR_TOOLTIP : 'Guardar los datos basicos del carro'
+    SAVE_BASIC_INFO_CAR_TOOLTIP : 'Guardar los datos basicos del carro',
+
+    EXCEL_EXPORT_VIAJES_TYPE_BETWEEN_DATES : 'por-fechas',
+    EXCEL_EXPORT_VIAJES_TYPE_SPECIFIC_DAY : 'dia-especifico',
+    EXCEL_EXPORT_VIAJES_TYPE_TODAY : 'hoy',
+    EXCEL_EXPORT_VIAJES_TYPE_YESTERDAY : 'ayer',
+   
+
+
     
 
   };

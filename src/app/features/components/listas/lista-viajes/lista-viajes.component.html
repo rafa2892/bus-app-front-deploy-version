@@ -1,32 +1,60 @@
     
-   
-      <div class="filters-container align-items-center justify-content-start margin">
-        <!--Spinner de carga-->
-          <div *ngIf="loading" class="overlay">
-            <div class="spinner"></div>
+      <!-- <button (click)="enviarCorreo()">Enviar Excel por Correo</button> -->
+       
+      <div class="d-flex align-items-center justify-content-start margin">
+        <div class="d-flex filters-container-border  filters-container">
+          <!--Spinner de carga-->
+            <div *ngIf="loading" class="overlay">
+              <div class="spinner"></div>
+            </div>
+            <button title="Filtros avanzados" (click)="abrirModalFiltros()" class="btn btn-primary btn-filter small-button">
+              <span class="button-icon bold-description-filters"> {{this.FILTROS_TITULO_INPUT}}</span> 
+              <span><img src="../../../../../assets/filter-icon.png" alt="Intercambiar" class="default-img-icon-size"></span>
+            </button>
+            <div class="block-buttons">
+            <div class="form-check form-switch switch-button">
+              <input 
+              id="flexSwitchCheckDefault"
+              [(ngModel)]="isSwitchFiltersOn" 
+              (change)="switchHandler()" 
+              class="form-check-input" 
+              type="checkbox" role="switch"
+              [title]="isSwitchFiltersOn ? DESACTIVAR_FILTRO_TITULO : ACTIVAR_FILTRO_TITULO">
+              <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+            </div>
+            <button type="button"  [title]="RESETEAR_FILTRO_TITULO" (click)="resetFilters()" class="btn btn-primary btn-reset-filter">
+              <span class="button-icon bold-description-filters"> 
+                <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
+              </span>
+            </button>
           </div>
-          <button title="Filtros avanzados" (click)="abrirModalFiltros()" class="btn btn-primary btn-filter small-button">
-            <span class="button-icon bold-description-filters"> {{this.FILTROS_TITULO_INPUT}}</span> 
-            <span><img src="../../../../../assets/filter-icon.png" alt="Intercambiar" class="default-img-icon-size"></span>
-          </button>
-          <div class="block-buttons">
-          <div class="form-check form-switch switch-button">
-            <input 
-            id="flexSwitchCheckDefault"
-            [(ngModel)]="isSwitchFiltersOn" 
-            (change)="switchHandler()" 
-            class="form-check-input" 
-            type="checkbox" role="switch"
-            [title]="isSwitchFiltersOn ? DESACTIVAR_FILTRO_TITULO : ACTIVAR_FILTRO_TITULO">
-            <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-          </div>
-          <button type="button"  [title]="RESETEAR_FILTRO_TITULO" (click)="resetFilters()" class="btn btn-primary btn-reset-filter">
-            <span class="button-icon bold-description-filters"> 
-              <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
-            </span>
-          </button>
-        </div>
-    </div>
+      </div>
+
+    <div class="ms-auto" style="margin-right: 2em;">
+      <!-- Example split danger button -->
+
+
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-excel" data-bs-toggle="dropdown">
+          <span><img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size">Exportar excel</span>
+        </button>
+        <button type="button" class="btn btn-excel dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="setTipoExport(TIPO_EXPORT_ENTRE_FECHAS)"  data-bs-toggle="modal" data-bs-target="#excelExporterOptions" href="#">Entre dos fechas</a></li>
+          <li><a class="dropdown-item" (click)="setTipoExport(TIPO_EXPORT_DIA_ESPECIFICO)"  data-bs-toggle="modal" data-bs-target="#excelExporterOptions" href="#">Dia específico</a></li>
+          <li><a class="dropdown-item" (click)="setTipoExport(TIPO_EXPORT_TODAY)">Hoy</a></li>
+          <li><a class="dropdown-item" (click)="setTipoExport(TIPO_EXPORT_YESTERDAY)" >Ayer</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item">Salir</a></li>
+        </ul>
+      </div>
+  </div>
+</div>
+
+
     <table id="listaViajes" class="table table-striped">
       <thead class="table-dark">
       <tr>
@@ -43,7 +71,7 @@
       </thead>
       <tbody class="table-dark">
       <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: 10, currentPage: p}">
-        <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad , viaje) }}</td>
+        <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
         <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
         <td>{{ viaje.carro.tipoVehiculo }}</td>
         <td>
@@ -96,6 +124,8 @@
       [isModalConfirmacion]="isModalConfirmacion" 
       [viajeSelDetails]="viajeSelDetails">
     </app-popup-mensaje-confirmar-viaje>
+
+    <app-popup-excel-exporter-options-viaje [tipoExport]="tipoExport"></app-popup-excel-exporter-options-viaje>
     
 
 

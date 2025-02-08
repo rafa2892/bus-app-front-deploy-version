@@ -52,8 +52,6 @@ body {
     box-shadow 0.3s ease; /* Transición suave */
   }
 
-  
-
   .pagination-container {
     display: flex;
     justify-content: center;
@@ -173,8 +171,6 @@ body {
     
   }
 
-  
-  
   .niputaidea {
     background-color: blue;
   }
@@ -243,3 +239,30 @@ body {
 }
 
     
+
+/* ----- Boton exportar excel, estilos  globales*/
+.btn-excel {
+  background-color: #217346; /* Verde Excel */
+  border-color: #1e663b;
+  color: white;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-excel:hover {
+  background-color: #1e663b; /* Color más oscuro al pasar el mouse */
+  border-color: #1b5c34;
+  transform: scale(1.05); /* Efecto de agrandado */
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+}
+
+/* Ajustar la imagen dentro del botón */
+.btn-excel img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+/* ----- FIN Boton exportar excel, estilos  globales -----------S*/
+
+

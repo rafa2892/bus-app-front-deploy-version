@@ -8,6 +8,8 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+import { ExcelService } from '../../../../core/services/excel-service.service';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-lista-carros',
@@ -40,7 +42,8 @@ export class ListaCarrosComponent {
     private carroServicio: CarroService, 
     private router: Router, 
     private route: ActivatedRoute,
-    private globalUtilService:GlobalUtilsService ) {
+    private globalUtilService:GlobalUtilsService,
+    private excelService:ExcelService ) {
   }
 
   ngOnInit(): void {
@@ -59,6 +62,21 @@ export class ListaCarrosComponent {
     });
     this.obtenerCarros();
   }
+
+  ngAfterViewInit(): void {
+    this.buildCustomsToolTipBS();
+  }
+
+  buildCustomsToolTipBS() {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+      return new bootstrap.Tooltip(tooltipTriggerEl, {
+        delay: { "show": 500, "hide": 500 } // Retraso en milisegundos
+      });
+    });
+  }
+
+
 
   openHistorialModal(carro: Carro) {
     const modalRef = this.modalService.open(PopupHistorialVehiculosComponent, { 
@@ -151,4 +169,12 @@ export class ListaCarrosComponent {
       }
     });
   }
+  descargarExcel() {
+    this.excelService.downloadExcel("carros");
+  }
+
+  getNumeroUnidadFormateado(numUnidad:number) { 
+    return this.globalUtilService.getNumeroUnidadFormateado(numUnidad);
+  }
+
 }

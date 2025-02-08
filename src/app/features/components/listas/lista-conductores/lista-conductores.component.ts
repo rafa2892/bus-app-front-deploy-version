@@ -4,6 +4,7 @@ import { faCheck, faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-ico
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
+import { ExcelService } from '../../../../core/services/excel-service.service';
 
 @Component({
   selector: 'app-lista-conductores',
@@ -40,7 +41,8 @@ export class ListaConductoresComponent {
     constructor(
       private conductorService: ConductorService, 
       private router: Router, 
-      private route: ActivatedRoute) {
+      private route: ActivatedRoute,
+      private excelService: ExcelService) {
     }
 
     ngOnInit(): void {
@@ -202,6 +204,12 @@ export class ListaConductoresComponent {
 
   onBlurNombre() {
   }
+
+
+  descargarExcel() {
+    this.excelService.downloadExcel("conductores");
+  }
+
 
 
   

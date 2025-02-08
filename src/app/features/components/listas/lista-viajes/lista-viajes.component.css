@@ -57,12 +57,17 @@
   margin-bottom: 2%;
 }
 
+.filters-container-border {
+  border: 2px solid #2f4f4f; /* Borde alrededor de los botones */
+
+}
+
 .filters-container {
-  display: inline-flex;
+  /* display: inline-flex; */
   align-items: center;
   justify-content: start;
   margin-left: 20px; /* Margen izquierdo para separar */
-  border: 2px solid #2f4f4f; /* Borde alrededor de los botones */
+
   border-radius: 10px; /* Bordes redondeados */
   padding: 10px; /* Espaciado interno alrededor de los botones */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
@@ -90,6 +95,7 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
 
 
 
