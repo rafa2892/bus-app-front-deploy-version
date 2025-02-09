@@ -67,6 +67,15 @@ export class ListaCarrosComponent {
     this.buildCustomsToolTipBS();
   }
 
+  private tooltipsInitialized = false;
+  
+  ngAfterViewChecked(): void {
+    if (!this.tooltipsInitialized && this.carros?.length) {
+      this.buildCustomsToolTipBS();
+      this.tooltipsInitialized = true;
+    }
+  }
+
   buildCustomsToolTipBS() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl: any) {
@@ -103,6 +112,7 @@ export class ListaCarrosComponent {
   private obtenerCarros() {
     this.carroServicio.obtenerListaCarro().subscribe(carros => {
       this.carros = carros;
+      setTimeout(() => this.buildCustomsToolTipBS(), 100); // Espera a que el DOM se actualice
     });
   }
 

@@ -17,54 +17,93 @@
     </thead>
     <tbody class="table-dark">
     <tr *ngFor="let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
-
-
       <td class="text-center">
         <button 
-          title="Detalles del Vehiculo" 
-          (click)="detallesVehiculo(carro)" 
-          class="btn btn-sm botonesAccion" 
-          data-bs-toggle="modal" 
-          data-bs-target="#card-bus-detail">
-            <span id="numUnidad" class="font-color-num-unidad">{{getNumeroUnidadFormateado(carro.numeroUnidad)}}</span>
+              type="button" 
+              (click)="detallesVehiculo(carro)" 
+              class="btn btn-sm botonesAccion"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom"
+              data-bs-toggle="modal" 
+              data-bs-target="#card-bus-detail">
+            <span 
+              id="numUnidad" 
+              class="font-color-num-unidad"  
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom"
+              data-bs-original-title="Ver detalles unidad">
+                {{getNumeroUnidadFormateado(carro.numeroUnidad)}}
+          </span>
         </button>
       </td>
-
-
       <td class="text-center">{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
       <td class="text-center">{{carro.tipoVehiculo}}</td>
       <td class="text-center">{{carro.anyo}}</td>
       <td class="text-center">{{carro.consumo}}</td>
-
-
       <td>
         <button 
-        data-bs-toggle="tooltip" 
-        data-bs-placement="bottom"
-        [attr.data-bs-original-title]="'Insertar registro'"
-        (click)="insertarRegistro(carro.id)" 
-        class="btn btn-primary botonesAccion btn-sm">
-          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="faPlus"></fa-icon></span>
+        (click)="verHistorial(carro,true)" 
+        class="btn btn-primary botonesAccion btn-sm" 
+        data-bs-toggle="modal"
+        data-bs-target="#verHistorialPopUp">
+          <span 
+          class="button-icon"  
+          data-bs-toggle="tooltip" 
+          data-bs-placement="bottom"
+          data-bs-original-title="Historial de mantenimeinto">
+            <fa-icon class="eyeIcon" [icon]="repairIcon"></fa-icon>
+          </span>
         </button>
-        <button title="Registros de mantenimiento" (click)="verHistorial(carro,true)" class="btn btn-primary botonesAccion btn-sm" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
-          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="repairIcon"></fa-icon></span>
+        <button 
+        (click)="verHistorial(carro,false)" 
+        class="btn btn-info botonesAccion btn-sm" 
+        data-bs-toggle="modal" 
+        data-bs-target="#verHistorialPopUp">
+          <span 
+          data-bs-toggle="tooltip" 
+          data-bs-placement="bottom"
+          data-bs-original-title="Historial"
+          class="button-icon">
+            <fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon>
+          </span>
         </button>
-        <button title="Historial de actividades" (click)="verHistorial(carro,false)" class="btn btn-info botonesAccion btn-sm" data-bs-toggle="modal" data-bs-target="#verHistorialPopUp">
-          <span class="button-icon"><fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon></span>
+        <button 
+          (click)="detallesVehiculo(carro)" 
+          class="btn btn-primary botonesAccion btn-sm" 
+          data-bs-toggle="modal" 
+          data-bs-target="#card-bus-detail">
+            <span 
+            class="button-icon"
+            data-bs-toggle="tooltip" 
+            data-bs-placement="bottom"
+            data-bs-original-title="Detalles">
+              <fa-icon class="eyeIcon" [icon]="eyeIcon">
+              </fa-icon>
+            </span>
         </button>
-        <button title="Detalles del Vehiculo" (click)="detallesVehiculo(carro)" class="btn btn-primary botonesAccion btn-sm" data-bs-toggle="modal" data-bs-target="#card-bus-detail">
-          <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+        <button 
+        (click)="actualizarCarro(carro.id)" 
+        class="btn btn-warning botonesAccion btn-sm">
+          <span class="button-icon"
+            data-bs-toggle="tooltip" 
+            data-bs-placement="bottom"
+            data-bs-original-title="Editar vehiculo">
+            <fa-icon class="editIcon" [icon]="editIcon">
+            </fa-icon></span>
         </button>
-        <button title="Editar Vehiculo" (click)="actualizarCarro(carro.id)" class="btn btn-warning botonesAccion btn-sm ">
-          <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
-        </button>
-        <button title="Eliminar Vehiculo" (click)="eliminarCarro(carro.id)" class="btn btn-danger botonesAccion btn-sm">
-          <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
-        </button>  
+        <button
+          (click)="eliminarCarro(carro.id)" 
+          class="btn btn-danger botonesAccion btn-sm">
+          <span 
+            class="button-icon"
+            data-bs-toggle="tooltip" 
+            data-bs-placement="bottom"
+            data-bs-original-title="Editar vehiculo">
+            <fa-icon class="deleteIcon" [icon]="deleteIcon">
+            </fa-icon>
+          </span>
+        </button> 
       </td>  
-
-
-
     </tr>
     </tbody>
 </table>
