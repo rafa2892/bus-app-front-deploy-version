@@ -12,20 +12,3 @@
     margin-top: 5em;
 }
 
-::ng-deep.delete-img-btn {
-
-    background: none; /* Sin fondo */
-    border: none; /* Sin borde */
-    padding: 0; /* Sin relleno */
-    cursor: pointer; /* Cambiar el cursor a mano */
-    display: flex; /* Centrar la imagen */
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease;
-
-  }
-
-  ::ng-deep.delete-img-btn:hover img {
-    transform: scale(1.2); /* Aumenta el tamaño de la imagen */
-    box-shadow: 0 0 8px 4px   rgba(250, 14, 14, 0.8); /* Sombra blanca */
-}

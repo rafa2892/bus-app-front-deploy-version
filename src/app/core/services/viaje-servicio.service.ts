@@ -32,6 +32,14 @@ export class ViajeServicioService {
     return this.httpClient.get<Viaje[]>(`${this.baseUrl}/conductor/${id}`);
   }
 
+  obtenerListaViajePorCarro(id: number): Observable<Viaje[]> {
+    return this.httpClient.get<Viaje[]>(`${this.baseUrl}/byCarro/${id}`);
+  }
+
+  countByCarroId(id: number): Observable<number> {
+    return this.httpClient.get<number>(`${this.baseUrl}/countByCarro/${id}`);
+  }
+
   obtenerViajeById(id: number): Observable<Viaje> {
     return this.httpClient.get<Viaje>(`${this.baseUrl}/${id}`);
   }

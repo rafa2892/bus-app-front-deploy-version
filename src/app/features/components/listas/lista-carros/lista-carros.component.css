@@ -81,6 +81,16 @@ td button {
     font-style: italic;
   }
 
+  .titulo-btn-container {
+    margin-bottom: 2em;
+  }
+
+  .default-img-icon-size#img {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease; /* Suaviza la transición */
+  }
+
   
   
 

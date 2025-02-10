@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, ViewChild } from '@angular/core'
 import {Viaje} from "../../../../core/models/viaje";
 import {ViajeServicioService} from "../../../../core/services/viaje-servicio.service";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,10 +10,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FiltrosAvanzadoViajesComponent } from '../../modales/filtros-avanzado-viajes/filtros-avanzado-viajes.component';
 import { Conductor } from '../../../../core/models/conductor';
 import { Carro } from '../../../../core/models/carro';
-import { DatePipe } from '@angular/common';
 import { TITLES } from '../../../../constant/titles.constants';
 import { ExcelService } from '../../../../core/services/excel-service.service';
 import { EmailService } from '../../../../core/services/email-service.service';
+import { CarroService } from '../../../../core/services/carro.service';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -21,6 +21,8 @@ import { EmailService } from '../../../../core/services/email-service.service';
   styleUrl: './lista-viajes.component.css'
 })
 export class ListaViajesComponent {
+
+  
 
     viajes: Viaje[];
     p: number = 1;
@@ -71,12 +73,15 @@ export class ListaViajesComponent {
       private globalUtilsService : GlobalUtilsService,
       private modalService: NgbModal,
       private excelService: ExcelService,
-      private emailService: EmailService) {
+      private emailService: EmailService,
+      private carroService:CarroService) {
     }
 
     ngOnInit(): void {
 
       const idConductorStr = this.activatedRoute.snapshot.paramMap.get('idConductor');
+
+      const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
       //Convertimos el valor a número
       const idConductor = idConductorStr ? + idConductorStr : null;
 
@@ -86,7 +91,26 @@ export class ListaViajesComponent {
       } else {
         this.obtenerListaViaje();
       }
+
+      if(idCarroStr) {
+        const idCarro = Number(idCarroStr); // Convierte a número
+        this.carroService.obtenerCarroPorId(idCarro).subscribe({
+          next: (dato) => {
+            // Si el backend devuelve null, asignamos un array vacío
+            this.carro = dato;
+            this.getViajesFiltrados();
+            this.loading = false;
+          },
+          error: (error) => {
+            console.error('Error al obtener la lista de viajes:', error);
+            this.viajes = []; // En caso de error, dejamos la lista vacía
+            this.mostrarNotificacion('No se pudo cargar la lista de viajes.', 'error-snackbar');
+          }
+        });
+      }
     }
+
+ 
 
     private obtenerListaViaje(): void {
       this.viajeServicio.obtenerListaViaje().subscribe({
@@ -236,12 +260,9 @@ export class ListaViajesComponent {
 
       this.conductor = modalRef.componentInstance.conductor;
       this.carro = modalRef.componentInstance.carro;
-
       this.viajes = modalRef.componentInstance.viajesFiltrados;
-      this.isSwitchFiltersOn = true;
 
       this.applyFilterHandlerFromSon(); 
-
     });
 
       // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
@@ -285,6 +306,7 @@ export class ListaViajesComponent {
           this.viajes = datos;
           this.modalService.dismissAll();
           this.loading = false;
+          this.isSwitchFiltersOn = true;
         },(error) => {
           console.error('Error al obtener los viajes:', error);
           if(error.status === 404) {

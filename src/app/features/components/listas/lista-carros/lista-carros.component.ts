@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Carro } from "../../../../core/models/carro";
 import { CarroService } from "../../../../core/services/carro.service";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +9,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 import { ExcelService } from '../../../../core/services/excel-service.service';
+import { CardBusDetailComponent } from '../../modales/card-bus-detail/card-bus-detail.component';
+import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
+import { HistorialService } from '../../../../core/services/historial.service';
 declare var bootstrap: any;
 
 @Component({
@@ -34,6 +37,7 @@ export class ListaCarrosComponent {
   modalManager : any;
   
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
+  @ViewChild(CardBusDetailComponent) cardBus: CardBusDetailComponent;
  
  
   constructor(
@@ -43,7 +47,10 @@ export class ListaCarrosComponent {
     private router: Router, 
     private route: ActivatedRoute,
     private globalUtilService:GlobalUtilsService,
-    private excelService:ExcelService ) {
+    private excelService:ExcelService,
+    private viajeService:ViajeServicioService,
+    private historialService:HistorialService,
+    private changeDetectorRef:ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -80,7 +87,7 @@ export class ListaCarrosComponent {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl: any) {
       return new bootstrap.Tooltip(tooltipTriggerEl, {
-        delay: { "show": 500, "hide": 500 } // Retraso en milisegundos
+        delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
       });
     });
   }
@@ -123,8 +130,46 @@ export class ListaCarrosComponent {
   detallesVehiculo(carroSelected: Carro) {
     this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
       this.carroSeleccionadoDetalles = c;
+      this.cardBus.isEnableViajes 
+      this.countViajesByCarroId();
+      this.countHistorialByCarroId();
     });
   }
+
+  numeroViajes : number = 0;
+  countViajesByCarroId() {
+      this.viajeService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
+      next: (c) => {
+        this.numeroViajes = c;
+        if(c > 0){
+          this.cardBus.isEnableViajes = true
+        }
+        else{
+          this.cardBus.isEnableViajes = false;
+        }
+      },
+      error: (error) => console.log(error),
+      complete: () => console.log('Conductor cargado')
+    });
+  }
+
+  numeroHistorial : number = 0;
+  countHistorialByCarroId() {
+      this.historialService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
+      next: (h) => {
+        this.numeroHistorial = h;
+        if(h > 0) {
+          this.cardBus.isEnableHistories = true
+        }
+        else{
+          this.cardBus.isEnableHistories = false;
+        }
+      },
+      error: (error) => console.log(error),
+      complete: () => console.log('Conductor cargado')
+    });
+  }
+  
 
   verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
 

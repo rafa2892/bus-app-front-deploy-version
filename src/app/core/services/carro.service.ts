@@ -23,6 +23,8 @@ export class CarroService {
   //Obtiene el listado de tipos de historial
   private baseUrlGuardarHistorial = this.baseUrl.concat('/guardarHistorial');
 
+  imagenNotFound  = 'assets/no_image_avaible.jpg';
+
   constructor(private httpClient : HttpClient) { }
 
   //Este metodo nos funciona para obtener los listados de carro

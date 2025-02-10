@@ -1,14 +1,3 @@
-.example-card {
-    max-width: 400px;
-  }
-  
-
-  .imagen-tamaño-carousel {
-    width: 200px; /* Establece el ancho deseado */
-    height: 150px; /* Establece la altura deseada */
-    object-fit: cover; /* Para asegurar que las imágenes se ajusten al tamaño definido */
-  }
-
   .activeColor {
     background-color: blue;
   }
@@ -22,13 +11,79 @@
   }
 
   .modalHeader {
-    margin-bottom: 40px;
+    margin-top: -1em;
+    margin-bottom: -3em;
   }
   
   .botonPrevio {
     background-image: url('../../../../../assets/before.png');
   }
 
-  .centrarImg {
-    left: 50%;
+  /* H5 titulos estilos*/
+  .subtitulo-marca-anyo  {
+    font-style: italic;
+    font-weight: bold;
+    font-size: 16px;
+    color: #3498db;;
   }
+
+
+
+/*---- Carousel ESTILOS*/
+
+/*---- TAMAÑO IMAGEN--- IMG SIZE*/
+  #corouselDetallesVehiculo .carousel-item img {
+    height: 300px; /* Mantiene la proporción */
+    width: 400px;
+    max-height: 300px !important;
+    max-width: 400px !important;
+  }
+
+  #corouselDetallesVehiculo .inner-container img {
+    height: 300px; /* Mantiene la proporción */
+    width: 400px;
+    max-height: 300px !important;
+    max-width: 400px !important;
+  }
+
+  .btn-download {
+    font-size: 13px;
+  }
+
+
+  .centrarImg {
+    left: 14%;
+    width: 85%;
+
+  }
+
+  .inner-container {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .prev-next-btn {
+    position: absolute;
+  }
+
+  .carousel-control-prev {
+    left: -4em;
+    top: -28em;
+  }
+
+  .carousel-control-next {
+    left: 34em;
+    top: -28em;
+  }
+
+
+  /* -----Lista estilos---- */
+.width-custom {
+    width: 27%;
+  }
+ 
+
+
+
+  
+

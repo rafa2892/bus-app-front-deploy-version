@@ -184,7 +184,7 @@ body {
     height: 32px;
   }
 
-  button {
+  button, img {
     caret-color: transparent;
   }
 
@@ -219,7 +219,7 @@ body {
 }
 
 .bus-img {
-  width: 11%;
+  width: 8%;
   background-color: white !important;
   border-radius: 50%;
   margin-left: 2em;
@@ -265,4 +265,44 @@ body {
 
 /* ----- FIN Boton exportar excel, estilos  globales -----------S*/
 
+::ng-deep.delete-img-btn {
+
+  background: none; /* Sin fondo */
+  border: none; /* Sin borde */
+  padding: 0; /* Sin relleno */
+  cursor: pointer; /* Cambiar el cursor a mano */
+  display: flex; /* Centrar la imagen */
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease;
+
+}
+
+::ng-deep.delete-img-btn:hover img {
+  transform: scale(1.2); /* Aumenta el tamaño de la imagen */
+  box-shadow: 0 0 8px 4px   rgba(250, 14, 14, 0.8); /* Sombra blanca */
+}
+
+
+  /* ***** ----Boton descargar estilos----  */
+  .btn-download {
+    background-color: transparent;
+    border: none;
+    color: #60a4fd; /* Color azul para el icono */
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out, transform 0.15s ease-in-out;
+  }
+  
+  .btn-download:hover {
+    background-color: white; /* Se pone blanco */
+    color: #60a4fd; /* Mantiene el color del icono */
+    transform: scale(1.1); /* Efecto de agrandar un poco */
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2); /* Agrega sombra para más estilo */
+  }
+  
+  .btn-download:active {
+    transform: scale(0.95); /* Pequeña reducción al hacer click */
+  }
 

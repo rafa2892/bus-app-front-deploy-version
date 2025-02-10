@@ -339,14 +339,6 @@
                     <span class="ml-3 msj4ImgMax" *ngIf="selectedFilesWithId && selectedFilesWithId.length >= 4">4 imagenes maximo por vehiculo</span>
                 </div>
 
-                <!-- <small class="form-text text-muted" *ngIf="selectedFilesWithId.length >= 1"> {{selectedFilesWithId.length}} archivo(s) seleccionado(s)</small>
-                <div *ngFor="let selectedFile of selectedFilesWithId; let i = index" class="form-check">
-                    <input class="form-check-input" type="checkbox" [checked]="true">
-                    <label class="form-check-label">
-                        {{selectedFile.file.name}}
-                    </label>
-                </div> -->
-
                 <div class="imagenes-container mt-5">
                     <div *ngFor="let imagen of getImagenUrl(this.carro)" class="imagen-wrapper">
                     <div class="d-flex align-items-center gap-3 mb-3">
