@@ -12,7 +12,6 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 export class LoginComponent {
 
   userIconLogin = faUser;
-
   userLogin:UserAuth;
   constructor(private authService:AuthService, private router: Router){}
 
@@ -22,6 +21,7 @@ export class LoginComponent {
 
   onLogin(): void {
     this.authService.logout();
+
     this.authService.login(this.userLogin).subscribe({
       next: (response) => {
         this.authService.setToken(response.jwtToken);

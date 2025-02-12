@@ -44,17 +44,8 @@ export class AuthService {
     return localStorage.getItem('refreshToken');
   }
 
-  setAuthenticated(b:boolean) : void {
-    this.isAuthenByServer  = b;
-  }
-
-  getAuthenticated() : boolean {
-    return this.isAuthenByServer;
-  }
-
   isAuthenticated(): boolean {
     return !!this.getToken(); // Devuelve verdadero si hay un token
-
   }
 
   isTokenValid(token: string): boolean {
@@ -63,8 +54,16 @@ export class AuthService {
       return false;
     }
     try {
+
       const decodedToken: any = jwtDecode(token);
-      return decodedToken.exp ? decodedToken.exp > Math.floor(Date.now() / 1000) : false;
+      const isValid =  decodedToken.exp ? decodedToken.exp > Math.floor(Date.now() / 1000) : false;
+      
+      if(isValid) {
+        return isValid;
+      }else {
+        this.logout();
+        return false;}
+
     } catch (error) {
       console.error('Token inválido o error al decodificar', error);
       return false;

@@ -16,8 +16,8 @@ export class AuthInterceptor implements HttpInterceptor {
     const token = this.authService.getToken() || '';
     const refreshToken = this.authService.getRefreshToken() || '';
 
-     // Verifica si el token es válido antes de clonar la solicitud
-     if (token && this.isTokenValid(token)) {
+    // Verifica si el token es válido antes de clonar la solicitud
+    if (token && this.isTokenValid(token)) {
       const clonedRequest = req.clone({
         setHeaders: {
           Authorization: `Bearer ${token}`
@@ -51,13 +51,16 @@ export class AuthInterceptor implements HttpInterceptor {
           return next.handle(clonedRequest); // Si ya estamos refrescando, simplemente manejamos la solicitud original
         }
       }
-      else if(!this.isTokenValid(token)) {
+      else if(!this.authService.isTokenValid(token)) {
+        this.authService.logout();
         this.redirectToLogin();
       }
       return next.handle(clonedRequest);
+    }else {
+      this.authService.logout();
+      this.redirectToLogin();
     }
-    else {this.redirectToLogin();}
-    return next.handle(req);
+      return next.handle(req);
   }
   
   redirectToLogin() {
