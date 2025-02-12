@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserAuth } from '../../../core/models/user-auth';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  userIconLogin = faUser;
 
   userLogin:UserAuth;
   constructor(private authService:AuthService, private router: Router){}
@@ -23,7 +26,7 @@ export class LoginComponent {
       next: (response) => {
         this.authService.setToken(response.jwtToken);
         localStorage.setItem('refreshToken', response.refreshToken);
-        this.router.navigate(['/lista-carros']);
+        this.router.navigate(['/lista-viajes']);
       },
       error: (error) => {
         if (error.status === 401) {

@@ -118,7 +118,7 @@
 .input-error-blink {
   animation: parpadeo 0.5s 2 forwards;
   border-color: red;
-  border-width: 2px !important;
+  border-width: 1px !important;
 }
 
 .formulario-viaje {

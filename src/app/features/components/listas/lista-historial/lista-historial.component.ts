@@ -9,7 +9,10 @@
     import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     import { firstValueFrom } from 'rxjs';
     import { DatePipe } from '@angular/common';
-import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+    import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+    import { TITLES } from '../../../../constant/titles.constants';
+    declare var bootstrap: any;
+
 
 
     @Component({
@@ -42,6 +45,9 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       fechaDesdeStr : string;
       fechaHastaStr : string;
 
+      isAppliedFilters : boolean = false;
+      toolTipMsjFiltros :string = 'Selecciona una fecha o ambas fechas para aplicar filtro por fechas';
+
       @Input() changeDetecterFlag : boolean;
       constructor(
         private readonly carroServicio:CarroService, 
@@ -66,14 +72,24 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
           const idCarro = Number(idCarroStr);
           this.obtenerCarroPorId(idCarro);
         }
+      }
 
-      // this.obtenerHistorialById(228);
+      buildCustomsToolTipBS() {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+          return new bootstrap.Tooltip(tooltipTriggerEl, {
+            delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
+          });
+        });
       }
 
       private obtenerHistorialById(id: number) {
         this.historialService.getHistorialPorId(id).subscribe(c => {
         });
+      }
 
+      ngAfterViewInit(): void {
+        this.buildCustomsToolTipBS();
       }
         
       private obtenerCarroPorId(id: number) {
@@ -91,6 +107,7 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
         // int 1 = new Service
         // int 2 = mantinence 
         // int 3 = comment 
+
         /* Muestra la lista de historial de acuerdo a si es por mantenimiento o vista general*/
           if (this.verSoloRegistroMantenimiento) {
                 this.carroSeleccionadoDetalles.registroHistorial = this.carro.registroHistorial.filter(
@@ -196,27 +213,40 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
       return this.globalService.getNumeroUnidadFormateado(numUni);
     }
 
+
     obtenerHistorialBetweenDays() {
 
       if(!this.fechaHasta) {
         this.fechaHasta = this.fechaDesde;
       }
 
+    if(this.fechaDesde && this.fechaHasta) {
       const carId = this.carroSeleccionadoDetalles.id;
-      this.historialService.obtenerHistorialBetweenDays(carId, this.fechaHasta)
-      .subscribe({
-        next: (historiales) => {
-          this.carroSeleccionadoDetalles.registroHistorial = historiales;
-        },
-        error: (error) => {
-          console.error('Error al obtener el historial:', error);
-        }
-      });
+      this.historialService.obtenerHistorialBetweenDays(carId, this.fechaDesde, this.fechaHasta)
+        .subscribe({
+          next: (historiales) => {
+            if(historiales.length > 0){
+              this.isAppliedFilters = true;
+              this.carroSeleccionadoDetalles.registroHistorial = historiales;
+            }else {
+              this.globalService.showErrorMessageSnackBar(TITLES.ERROR_NOT_REGISTERS_FOUND);
+            }
+          },
+          error: (error) => {
+            console.error('Error al obtener el historial:', error);
+          }
+        });
+      }
+      else {
+        this.globalService.showErrorMessageSnackBar(TITLES.ERROR_NOT_DATES_SUBMIT)
+      }
     }
 
     resetFilterByDate() {
       this.obtenerHistorialPorCarro();
-
+      this.isAppliedFilters = false;
+      this.fechaDesde = null;
+      this.fechaHasta = null;
     }
 
     obtenerHistorialPorCarro() {
@@ -234,6 +264,14 @@ import { GlobalUtilsService } from '../../../../core/services/global-utils.servi
           console.error('Error al obtener el historial por carro:', error);
         }
       });
+    }
+
+    getToolTipMsj(): string {
+      if(this.fechaDesde){
+        this.toolTipMsjFiltros = 'Aplicar filtro para la(s) fecha(s) dada(s)'
+        return this.toolTipMsjFiltros;
+      }
+      return this.toolTipMsjFiltros;
     }
     
 }

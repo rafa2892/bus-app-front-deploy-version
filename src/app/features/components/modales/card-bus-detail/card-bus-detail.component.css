@@ -79,7 +79,11 @@
 
   /* -----Lista estilos---- */
 .width-custom {
-    width: 27%;
+    width: 32%;
+  }
+
+  .btn-consulta-carro {
+    margin-bottom: 2em;
   }
  
 

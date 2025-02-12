@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Historial } from '../../../../core/models/historial';
 import { Carro } from '../../../../core/models/carro';
 import { HistorialService } from '../../../../core/services/historial.service';
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+import { faComment, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-registar-historial',
@@ -23,6 +25,12 @@ export class RegistarHistorialComponent {
   isMantenimiento:boolean;
   id:any;
   tipo:any;
+
+  //Iconos
+  repairIcon = faScrewdriverWrench;
+  commentIcon = faComment;
+
+  camposFaltantes: string[] = [];
  
 
   @Input() verSoloRegistroMantenimiento : boolean;
@@ -34,7 +42,8 @@ export class RegistarHistorialComponent {
     private carroServicio:CarroService, 
     private historialServicio:HistorialService,  
     private router:Router, 
-    private activatedRoute: ActivatedRoute) { }  
+    private activatedRoute: ActivatedRoute,
+    private globalService:GlobalUtilsService ) { }  
 
   ngOnInit(): void {
 
@@ -43,6 +52,7 @@ export class RegistarHistorialComponent {
   this.tipo = this.activatedRoute.snapshot.paramMap.get('tipo');  // 'carro' o 'historial'
 
   const isMantenimiento  = this.activatedRoute.snapshot.paramMap.get('isMantenimiento');  // 'carro' o 'historial'
+
   if(isMantenimiento) {this.isMantenimiento = isMantenimiento === 'true';}
 
   if(this.id && this.tipo === 'historialId') {
@@ -94,35 +104,43 @@ export class RegistarHistorialComponent {
 //Emite el evento de volver cerra el popup de registro de historial
   volver() {
 
+
     // Si existe un 'id', realiza la navegación hacia '/carros' con un estado
     if (this.id && this.tipo === 'historialId') {
       this.router.navigate(['/carros', this.historial.carro.id], {
         state: { redireccion: true }  // Puedes incluir cualquier dato que quieras
-      });
+      }); this
     }else if(this.id && this.tipo === 'carroId'){
         this.router.navigate(['/carros', this.carroSeleccionadoDetalles.id], {
-          state: { redireccion: true }  // Puedes incluir cualquier dato que quieras
+          state: { 
+            redireccion: true,
+            verSoloRegistroMantenimiento: this.isMantenimiento }  // Puedes incluir cualquier dato que quieras
         });
       // this.onVolver.emit();
     }
   }
   
   onFileSelected(event:any) {
-    // const files: FileList = event.target.files;
-    // for (let i = 0; i < files.length; i++) {
-    //   const file = files.item(i);
-    //   if (file) {
-    //     // Verificar si el archivo no está ya en la lista
-    //     if (!this.selectedFiles.some(existingFile => existingFile.name === file.name)) {
-    //       this.selectedFiles.push(file);
-    //     }
-    //   }
-    // }
   }
 
+  
+
   validacionDatos(): boolean{
-    this.historial.descripcionTipo = this.datos[this.historial.idTipo];
-    return true;
+    const histDescr = this.historial.dsHistorial; 
+    let camposFaltantes = this.camposFaltantes;
+
+    if(!histDescr) camposFaltantes.push('descr-input');
+    if(camposFaltantes.length > 0) {
+      this.globalService.activarParpadeo(camposFaltantes);
+      this.globalService.showErrorMessageSnackBar('El campo descripción es obligatorio');
+      return false;
+    }
+      return true;
+  }
+
+  quitarErrorStyle(idElemento:string) {
+    this.camposFaltantes.length = 0;
+    this.globalService.quitarError(idElemento);
   }
 
   guardarHistorial() {
@@ -134,9 +152,6 @@ export class RegistarHistorialComponent {
     if(!this.historial.id) {
       this.historialServicio.registrarHistorial(this.historial).subscribe({
         next: (dato) => {
-          // Acción a realizar después de que se haya guardado correctamente
-          // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-          // this.historialGuardado.emit(this.carroSeleccionadoDetalles);
           this.volver();
         },
         error: (error) => console.log(error)
@@ -146,9 +161,6 @@ export class RegistarHistorialComponent {
     else {
       this.historialServicio.actualizarHistorial(this.historial).subscribe({
         next: (dato) => {
-          // Acción a realizar después de que se haya guardado correctamente
-          // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
-          // this.historialGuardado.emit(this.carroSeleccionadoDetalles);
           this.volver();
         },
         error: (error) => console.log(error)
@@ -160,6 +172,7 @@ export class RegistarHistorialComponent {
   private obtenerCarroPorId(id: number) {
     this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
       this.carroSeleccionadoDetalles = c;
+      this.historial.carro = c;
     });
 
   }
@@ -167,7 +180,29 @@ export class RegistarHistorialComponent {
   obtenerHistorial(id: number) {
       this.historialServicio.getHistorialPorId(id).subscribe(h => {
         this.historial = h;
+        console.log(h);
       });
   }
-}
 
+  darFormatoFecha(fechaAlta: Date) : string {
+    return this.globalService.getStringDate(fechaAlta);
+  }
+
+  getCompleteCarDetailName(carro:Carro){
+    if(carro) {
+      return `${carro.marca} ${carro.modelo} `
+    }
+    return '';
+
+  }
+
+  getNumeroUnidadFormateado(): string {
+
+    if(this.historial.carro) {
+      const numUniHist = this.historial.carro.numeroUnidad;
+      return this.globalService.getNumeroUnidadFormateado(numUniHist);
+    }
+   return '';  
+  }
+
+}

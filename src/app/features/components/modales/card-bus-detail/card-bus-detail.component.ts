@@ -52,7 +52,8 @@ export class CardBusDetailComponent {
  }
  
 
- ngAfterViewInit() {
+  ngAfterViewInit(): void {
+    this.globalService.buildCustomsToolTipBS();
  }
 
  ngAfterViewChecked(): void {
@@ -127,7 +128,11 @@ export class CardBusDetailComponent {
   verHistorialByCarro(id:number) {
     this.router.navigate(['lista-historial/', id]);
   }
-
-
+      
+  
+  irFormularioCarroConsulta(id:number) {
+    const esEdicion = false; // O el valor que desees (true o false)
+    this.router.navigate(['actualizar-vehiculo', id], { queryParams: { esEdicion } });
+  }
 
 }

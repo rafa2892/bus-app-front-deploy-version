@@ -2,12 +2,34 @@
       <!-- <button (click)="enviarCorreo()">Enviar Excel por Correo</button> -->
        
       <div class="d-flex align-items-center justify-content-start margin">
+
+
+        <button 
+          type="button" 
+          data-bs-dismiss="modal" 
+          data-bs-toggle="tooltip" 
+          data-bs-placement="bottom"
+          data-bs-original-title="Registra un nuevo servicio"
+          id="botonDetails"
+          (click)="registrarNuevoCarro()"
+          class="btn btn-primary btn-styles">
+          <span class="button-icon">Registrar servicio
+            <fa-icon class="eyeIcon" style="margin-left: 1em;"  [icon]="plusIcon"></fa-icon>
+          </span> 
+        </button>
+
+
         <div class="d-flex filters-container-border  filters-container">
           <!--Spinner de carga-->
             <div *ngIf="loading" class="overlay">
               <div class="spinner"></div>
             </div>
-            <button title="Filtros avanzados" (click)="abrirModalFiltros()" class="btn btn-primary btn-filter small-button">
+            <button 
+              title="Filtros avanzados" 
+              (click)="abrirModalFiltros()" 
+              class="btn btn-primary btn-filter small-button"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom">
               <span class="button-icon bold-description-filters"> {{this.FILTROS_TITULO_INPUT}}</span> 
               <span><img src="../../../../../assets/filter-icon.png" alt="Intercambiar" class="default-img-icon-size"></span>
             </button>
@@ -19,10 +41,18 @@
               (change)="switchHandler()" 
               class="form-check-input" 
               type="checkbox" role="switch"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom"
               [title]="isSwitchFiltersOn ? DESACTIVAR_FILTRO_TITULO : ACTIVAR_FILTRO_TITULO">
               <label class="form-check-label" for="flexSwitchCheckDefault"></label>
             </div>
-            <button type="button"  [title]="RESETEAR_FILTRO_TITULO" (click)="resetFilters()" class="btn btn-primary btn-reset-filter">
+            <button 
+            type="button" 
+             [title]="RESETEAR_FILTRO_TITULO" 
+             (click)="resetFilters()" 
+             data-bs-toggle="tooltip" 
+             data-bs-placement="bottom"
+             class="btn btn-primary btn-reset-filter">
               <span class="button-icon bold-description-filters"> 
                 <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
               </span>
@@ -33,10 +63,19 @@
     <div class="ms-auto" style="margin-right: 2em;">
       <!-- Example split danger button -->
       <div class="btn-group">
-        <button type="button" class="btn btn-excel" data-bs-toggle="dropdown">
+        <button 
+          type="button" 
+          class="btn btn-excel" 
+          data-bs-toggle="dropdown"
+          data-bs-placement="bottom">
           <span><img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size">Exportar excel</span>
         </button>
-        <button type="button" class="btn btn-excel dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+        <button 
+          type="button" 
+          class="btn btn-excel dropdown-toggle dropdown-toggle-split" 
+          data-bs-toggle="dropdown" 
+          aria-expanded="false"
+          data-bs-placement="bottom">
           <span class="visually-hidden">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu">

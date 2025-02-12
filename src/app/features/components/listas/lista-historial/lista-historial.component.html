@@ -1,125 +1,141 @@
 
-    <div class="d-flex align-items-center justify-content-between separator dates-container">
-
-      <div class="d-flex">
-        <h2>{{getNumUnidadFormateado(carro.numeroUnidad)}} - {{carro.marca + ' ' + carro.modelo}}</h2>
-      </div>
-
-      <div class="fechas-contenedores d-flex align-items-center">
-
-        <div class="d-flex justify-content-end">
-          <button 
-          class="btn btn-reset" 
-          (click)="resetFilterByDate()"
-          title="Reestablecer el formulario">
-              <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
-          </button>
-      </div>
-        <div class="btn-delete-pdf">
-            <button type="button" (click)="obtenerHistorialBetweenDays()" class="delete-img-btn">
-                <span><img src="assets/delete.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
-            </button>
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 style="font-size: bold; font-style: italic; font-size: 20px;">
+          {{getNumUnidadFormateado(carro.numeroUnidad)}} - {{carro.marca + ' ' + carro.modelo}}
+        </h5>
+          <div class="d-flex align-items-center">
+            <button 
+            class="btn btn-reset" 
+            (click)="resetFilterByDate()"
+            title="Reestablecer fechas del filtro">
+            <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
+        </button>
+          <div class="d-flex gap-3">
+            <div class="fechas-container">  
+              <mat-form-field id="mat-picker-date-component" class="full-width date-picker">                   
+                  <input
+                      matInput 
+                      [matDatepicker]="dataPickerDesde" 
+                      name="fecha-desde" 
+                      id="fecha-desde"
+                      placeholder="Desde"
+                      [disabled]="false"
+                      [(ngModel)]="fechaDesde"
+                      [matDatepickerFilter]="filterDatesDesde"
+                      (dateChange)="selectedDateFormat(fechaDesde, 'desde')"
+                      readonly> 
+                      <mat-datepicker-toggle 
+                          class="toggle-picker-enabled" 
+                          matIconSuffix [for]="dataPickerDesde">
+                      </mat-datepicker-toggle>
+                      <mat-datepicker id="dataPickerDesde" #dataPickerDesde></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field  id="mat-picker-date-component"
+              class="full-width date-picker"
+              [ngClass]="!fechaDesde ? 'picker-custom-disabled' : ''">                   
+                  <input
+                      matInput 
+                      [matDatepicker]="dataPickerHasta" 
+                      name="fecha-hasta" 
+                      id="fecha-hasta"
+                      placeholder="Hasta"
+                      [disabled]="!fechaDesde"
+                      [(ngModel)]="fechaHasta"
+                      [matDatepickerFilter]="filterDatesHasta"
+                      (dateChange)="selectedDateFormat(fechaHasta, 'hasta')"
+                      readonly> 
+                  <mat-datepicker-toggle 
+                      [ngClass]="!fechaDesde ? 'toggle-picker-disabled' : 'toggle-picker-enabled'"  matIconSuffix [for]="dataPickerHasta">
+                  </mat-datepicker-toggle>
+                  <mat-datepicker id="dataPickerHasta" #dataPickerHasta></mat-datepicker>
+              </mat-form-field>
+                <button 
+                type="button" 
+                (click)="obtenerHistorialBetweenDays()" 
+                class="btn btn-primary btn-filter btn-sm"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                [attr.data-bs-original-title]="getToolTipMsj()">
+                    <span><img src="assets/filter-icon.png" id="img-icon" alt="Intercambiar"  class="default-img-icon-size"></span>
+                    <span *ngIf="isAppliedFilters"><img src="assets/okey-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
+                    <span *ngIf="!isAppliedFilters"><img src="assets/close-icon.png" id="close-icon-img" alt="Intercambiar"  class="default-img-icon-size"></span>
+                </button>
+            </div>
         </div>
-
-
-        <mat-form-field id="mat-picker-date-component" class="full-width date-picker">                   
-            <input
-                matInput 
-                [matDatepicker]="dataPickerDesde" 
-                name="fecha-desde" 
-                id="fecha-desde"
-                [disabled]="false"
-                [(ngModel)]="fechaDesde"
-                [matDatepickerFilter]="filterDatesDesde"
-                (dateChange)="selectedDateFormat(fechaDesde, 'desde')"
-                readonly> 
-                <mat-datepicker-toggle 
-                    class="toggle-picker-enabled" 
-                    matIconSuffix [for]="dataPickerDesde">
-                </mat-datepicker-toggle>
-                <mat-datepicker id="dataPickerDesde" #dataPickerDesde></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field  id="mat-picker-date-component"
-        class="full-width date-picker"
-        [ngClass]="!fechaDesde ? 'picker-custom-disabled' : ''">                   
-            <input
-                matInput 
-                [matDatepicker]="dataPickerHasta" 
-                name="fecha-hasta" 
-                id="fecha-hasta"
-                placeholder="Hasta"
-                [disabled]="!fechaDesde"
-                [(ngModel)]="fechaHasta"
-                [matDatepickerFilter]="filterDatesHasta"
-                (dateChange)="selectedDateFormat(fechaHasta, 'hasta')"
-                readonly> 
-            <mat-datepicker-toggle 
-                [ngClass]="!fechaDesde ? 'toggle-picker-disabled' : 'toggle-picker-enabled'"  matIconSuffix [for]="dataPickerHasta">
-            </mat-datepicker-toggle>
-            <mat-datepicker id="dataPickerHasta" #dataPickerHasta></mat-datepicker>
-        </mat-form-field>
     </div>
   </div>
 
-    <table class="table table-striped table-sm" id="tablaListaConductores">
-      <thead class="table-dark">
-        <tr>
-          <th>Tipo</th>
-          <th>Descripción/asunto</th>
-          <th>Fecha de alta</th>
-          <th>Registrado por</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody class="table-dark">
-        <tr *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial| paginate: { itemsPerPage: 5, currentPage: p }">
+  <table class="table table-striped table-sm" id="tablaListaConductores">
+    <thead class="table-dark">
+      <tr>
+        <th>Tipo</th>
+        <th>Descripción/asunto</th>
+        <th>Fecha de alta</th>
+        <th>Registrado por</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="table-dark">
+      <tr *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial| paginate: { itemsPerPage: 5, currentPage: p }">
+        <td>
+          <small>
+            <button 
+              [ngClass]="getClassByTipoHistorial(historial)" 
+              class="btn btn-primary btonGuardar btn-sm" >
+              <fa-icon  
+              [icon]="getIconByTipoHistorial(historial)" class="lupaIcon">
+              </fa-icon>
+          </button>{{historial.descripcionTipo}}
+          </small>
+        </td>
+        <td>
+          <small>
+            {{historial.dsHistorial}}
+          </small>
+        </td>
           <td>
             <small>
-              <button [ngClass]="getClassByTipoHistorial(historial)" class="btn btn-primary btonGuardar" ><fa-icon  [icon]="getIconByTipoHistorial(historial)" class="lupaIcon"></fa-icon></button>{{historial.descripcionTipo}}
+              <span class="date">{{ historial.fechaAlta | date:'dd/MM/yyyy HH:mm:ss' }}</span>
             </small>
           </td>
           <td>
-            <small>
-              {{historial.dsHistorial}}
-            </small>
+            {{ historial.userLogin.usu || 'Usuario no disponible' }}
           </td>
-            <td>
-              <small>
-                <span class="date">{{ historial.fechaAlta | date:'dd/MM/yyyy HH:mm:ss' }}</span>
-              </small>
-            </td>
-            <td>
-              {{ historial.userLogin.usu || 'Usuario no disponible' }}
-            </td>
-
-
-            <td class="d-flex gap-3">
-              <button title="Ver historial de actividades" (click)="verDetalleshistorial(historial.id, true)" class="btn btn-primary botonesAccion" data-bs-dismiss="modal">
-                <span class="button-icon"><fa-icon class="deleteIcon" [icon]="detailsIcon"></fa-icon></span>
+          <td class="d-flex gap-3">
+            <button 
+              title="Ver historial de actividades" 
+              (click)="verDetalleshistorial(historial.id, true)" 
+              class="btn btn-primary botonesAccion btn-sm" 
+              data-bs-dismiss="modal">
+              <span class="button-icon "><fa-icon class="deleteIcon" [icon]="detailsIcon"></fa-icon></span>
+            </button>
+            <button 
+              title="Editar historial de actividades" 
+              (click)="verDetalleshistorial(historial.id, false)" 
+              class="btn btn-warning botonesAccion btn-sm" 
+              data-bs-dismiss="modal">
+              <span class="button-icon"><fa-icon class="deleteIcon" [icon]="editIcon"></fa-icon></span>
+            </button>
+            <div>
+              <button 
+                type="button" 
+                class="delete-img-btn btn-sm botonesAccion" 
+                (click)="deleteHistorial(historial.id)">
+                  <span><img src="assets/delete.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
               </button>
-              <button title="Editar historial de actividades" (click)="verDetalleshistorial(historial.id, false)" class="btn btn-warning botonesAccion" data-bs-dismiss="modal">
-                <span class="button-icon"><fa-icon class="deleteIcon" [icon]="editIcon"></fa-icon></span>
-              </button>
-              <div class="btn-delete-pdf">
-                <button type="button" class="delete-img-btn" (click)="deleteHistorial(historial.id)">
-                    <span><img src="assets/delete.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
-                </button>
-            </div>
-          </td>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination-container">
+    <pagination-controls  
+    (pageChange)="p = $event" 
+    previousLabel="Anterior" 
+    nextLabel="Siguiente"></pagination-controls>
+  </div>
 
-
-
-        </tr>
-      </tbody>
-    </table>
-    <div class="pagination-container">
-      <pagination-controls  
-      (pageChange)="p = $event" 
-      previousLabel="Anterior" 
-      nextLabel="Siguiente"></pagination-controls>
-    </div>
-
-    <div class="modal-footer d-flex justify-content-start" id="addHsitory">
-      <button id="btonAddHistory" type="button" (click)="addHistory()" class="btn btn-primary addHistory" title="Añadir un historico" data-bs-dismiss="modal">+</button>
-      <label for="btonAddHistory"> {{verSoloRegistroMantenimiento ? 'Registro mantenimiento/reparación' : 'Registro actividad/comentarios'}} </label>
-    </div>
+  <div class="modal-footer d-flex justify-content-start" id="addHsitory">
+    <button id="btonAddHistory" type="button" (click)="addHistory()" class="btn btn-primary addHistory" title="Añadir un historico" data-bs-dismiss="modal">+</button>
+    <label for="btonAddHistory"> {{verSoloRegistroMantenimiento ? 'Registro mantenimiento/reparación' : 'Registro actividad/comentarios'}} </label>
+  </div>

@@ -2,7 +2,7 @@
 .errorValInput .mdc-text-field--outlined .mdc-notched-outline__trailing,
 .errorValInput .mdc-text-field--outlined .mdc-notched-outline__leading {
     animation: blink 0.5s 2 forwards; /* La propiedad "forwards" asegura que el último valor de la animación se mantenga después de la animación */
-    border-width: 2px !important;
+    border-width: 1px !important;
 }
 
 @keyframes blink {
@@ -14,7 +14,7 @@
 .blueBorder .mdc-text-field--outlined .mdc-notched-outline__trailing,
 .blueBorder .mdc-text-field--outlined .mdc-notched-outline__leading {
     border-color: #0077cc !important;
-    border-width: 2px !important; /* Ajusta el grosor del borde aquí */
+    border-width: 1px !important; /* Ajusta el grosor del borde aquí */
 }
 
 .mdc-text-field--outlined .mdc-notched-outline  {

@@ -1,5 +1,7 @@
   import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
   import Swal from 'sweetalert2';
+import { TITLES } from '../../constant/titles.constants';
   declare var bootstrap: any;
 
   @Injectable({
@@ -7,7 +9,7 @@
   })
   export class GlobalUtilsService {
 
-    constructor() { }
+    constructor(private _snackBar: MatSnackBar) { }
 
     getNumeroUnidadFormateado(numeroUnidad: number): string {
       if(numeroUnidad)
@@ -40,6 +42,15 @@
       });
     }
 
+
+          // Método para quitar el efecto visual de error de un campo
+      quitarError(campoId: string): void {
+        const elemento = document.getElementById(campoId);
+        if (elemento) {
+          elemento.classList.remove('input-error');
+        }
+      }
+
     async getMensajeConfirmaModal(title:string, text:string) {
       const result = await Swal.fire({
         title: title,
@@ -64,7 +75,38 @@
     });
   }
 
+  showErrorMessageSnackBar(msj:string) {
+    this._snackBar.open(msj, 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar'],
+          horizontalPosition: 'end',
+          verticalPosition: 'top',
+      });
+    }
 
+    getStringDate(fechaAlta:Date) : string {
+      if (fechaAlta) {
+        const fecha = new Date(fechaAlta);
+        // Extraer el día, mes y año
+        const dia = String(fecha.getDate()).padStart(2, '0'); // Asegura que el día tenga 2 dígitos
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // getMonth() empieza desde 0, así que sumamos 1
+        const año = fecha.getFullYear();
+        // Formatear la fecha como dd/mm/yyyy
+        return `${dia}/${mes}/${año}`;
+      }
+      return '';  
+  }
 
+  buildCustomsToolTipBS() {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+      return new bootstrap.Tooltip(tooltipTriggerEl, {
+        delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
+      });
+    });
+  }
 
+  removeClassFromAllElements(className: string): void {
+
+  }
 }

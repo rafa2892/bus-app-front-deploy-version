@@ -8,7 +8,7 @@
 }
   
 .small-icon {
-  font-size: 10px; /* Ajusta este valor según lo necesites */
+  font-size: 14px; /* Ajusta este valor según lo necesites */
 }
 
 .custom-snackbar {
@@ -38,14 +38,8 @@
   }
 }
 
-.positionDivSelectOrdenarPor {
-  /* position: absolute;
-  top: 0;
-  right: 0;
-  margin-right: 10px; */
-  margin-top: -1.5em;
-  margin-left: auto; 
-  margin-right: 7em;
+.filtros-container {
+  margin-bottom: -2em;
 }
 
 .sizeSelectOrdenar {
@@ -89,6 +83,31 @@
   border-color: #0056b3; /* Borde más oscuro en estado activo */
   transform: scale(1.2); /* Mantiene el efecto de aumento del tamaño en estado activo */
   padding: 10px 30px; /* Aumenta el ancho del área azul en el estado activo */
+}
+
+.reduced-font-btn {
+  font-size: 15px;
+}
+
+.btn-styles {
+  min-width: 13em;
+}
+
+.add-new-driver-btn {
+  margin-right: 7em;
+  margin-bottom: -6em;
+}
+
+.default-img-icon-size#img {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease; /* Suaviza la transición */
+}
+
+.default-img-icon-size {
+  width: 17px;
+  height: 17px;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease; /* Suaviza la transición */
 }
   
   

@@ -1,51 +1,107 @@
-<div id="registrarRutaContainer" class="col-md-6 offset-md-3">
-    <div id="formRegistrarRutaContainer" class="formPosition ">
+        <div class="d-flex">
+            <span 
+                class="button-icon ms-auto icono"  
+                data-bs-toggle="tooltip" 
+                data-bs-placement="bottom"
+                data-bs-original-title="Registros mantenimiento">
+                <fa-icon *ngIf="historial.id && historial.idTipo == 2 || !historial.id && isMantenimiento" class="repairIcon" [icon]="repairIcon" [size]="'4x'"></fa-icon>
+                <fa-icon *ngIf="historial.id && historial.idTipo === 3 || !historial.id && !isMantenimiento" class="commentIcon" [icon]="commentIcon" [size]="'4x'"></fa-icon>
+            </span>
+        </div>    
+        <div>
+            <h5 style="color: wheat; font-style: italic;">
+                <span *ngIf="historial.id"> {{historial.id && !soloConsulta ? 'EDITAR : ' : 'CONSULTA : '}} </span>
+                <span> {{!historial.id && !soloConsulta ? 'REGISTRAR HISTORIAL ' : ''}} </span>
+                <span *ngIf="historial.id"> Historial Num. {{historial.id}}</span>
+            </h5>
+            <h3>
+                <span class="custom-color-prefijo-unidad-no-bold">{{getNumeroUnidadFormateado()}}</span>
+                <span class="blue-standar-font">{{'  ' + getCompleteCarDetailName(historial.carro)}}</span>
+            </h3>
+        </div>
+        <div id="registrarRutaContainer" class="offset-md-3">
+            <div id="formRegistrarRutaContainer" class="formPosition ">
 
 
-    <form (ngSubmit)="onSubmit()" id="formularioRegistrarHistorial">
-    <div id="seleccionDeruta" >
-        <label id="labelNuevaRuta" for="rutas">Registrar Historial</label>
-        <div id="rutas" class="normal-size-input" >
-            <div id="mat-form-destino" class="normal-size-input">
+        <form (ngSubmit)="onSubmit()" id="formularioRegistrarHistorial">
+            <div id="seleccionDeruta" >
+                <div id="rutas" class="normal-size-input" >
+                    <div id="mat-form-destino" class="normal-size-input">
+                        <div class="d-flex align-items-center gap-5">
+                            <div id="mat-form-destino" class="normal-size-input">
+                                <label for="rutaDestino" class="label-input">Tipo:</label>
+                                <select [disabled]="true" class="form-select form-select-lg mb-3 defaultSizeInput input-custom-style" aria-label=".form-select-lg example"
+                                name="tipoActividad" [(ngModel)]="historial.idTipo">
+                                    <option *ngIf="!verSoloRegistroMantenimiento" [value]="0" disabled class="first-option">Selecciona un tipo</option>
+                                    <option *ngFor="let key of claves" [value]="key">{{ datos[key] }}</option>
+                                </select>
+                            </div>
+                            <div *ngIf="historial.id" class="mb-3">
+                                <label for="comment-textarea" class="form-label">Fecha de alta</label>
+                                <input 
+                                class="form-control defaultSizeInput input-custom-style"
+                                name="dsHistorial" 
+                                id="comment-textarea" 
+                                rows="3" 
+                                disabled="true"
+                                [value]="darFormatoFecha(historial.fechaAlta)"/>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="d-flex align-items-center gap-5">
+                        <div class="mb-3">
+                        <label for="descr-input" class="form-label">Descripcíon/Asunto</label>
+                            <div class="d-flex">
+                                <input 
+                                [disabled]="soloConsulta" 
+                                class="form-control defaultSizeInput input-custom-style"
+                                name="dsHistorial"
+                                id="descr-input"
+                                rows="3"
+                                [ngClass]="{ 'input-error': camposFaltantes.includes('descr-input') }"
+                                (keydown)="quitarErrorStyle('descr-input')"
+                                placeholder="Describe la información" 
+                                [(ngModel)]="historial.dsHistorial"/> 
+                                <span class="error-icon">
+                                    &#8226;
+                                </span>
+                            </div>
+                        </div>
+                        <div 
+                            *ngIf="historial.id" 
+                            class="mb-3" style="margin-left: 7.7em;">
+                            <label for="exampleFormControlTextarea1" class="form-label">Dado de alta por</label>
+                            <input 
+                            class="form-control defaultSizeInput input-custom-style"
+                            name="dsHistorial" id="exampleFormControlTextarea1" 
+                            rows="3" 
+                            disabled="true"
+                            [value]="historial.userLogin.usu"/>
+                        </div>
+                    </div>
 
-                <div id="mat-form-destino" class="normal-size-input">
-                    <label for="rutaDestino" class="label-input">Tipo:</label>
-                    <!-- [disabled]="verSoloRegistroMantenimiento || soloConsulta || isMantenimiento" -->
-                    <select [disabled]="true" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                    name="tipoActividad" [(ngModel)]="historial.idTipo">
-                        <option *ngIf="!verSoloRegistroMantenimiento" [value]="0" disabled class="first-option">Selecciona un tipo</option>
-                        <option *ngFor="let key of claves" [value]="key">{{ datos[key] }}</option>
-                    </select>
-                </div>
-
-                    
+                    <div class="mb-3">
+                        <label 
+                            for="exampleFormControlTextarea1" 
+                            class="form-label">Comentarios/Observación
+                        </label>
+                        <textarea 
+                            [disabled]="soloConsulta" 
+                            class="form-control input-custom-style textarea-custom-style text-area-default-size"
+                            name="comentario" 
+                            id="exampleFormControlTextarea1"
+                            rows="3" 
+                            placeholder="Describe la información" 
+                            [(ngModel)]="historial.comentarios">
+                        </textarea>
+                    </div>
+                </div> 
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Descripcíon/Asunto</label>
-                <input [disabled]="soloConsulta" class="form-control" name="dsHistorial" id="exampleFormControlTextarea1" rows="3" placeholder="Describe la información" [(ngModel)]="historial.dsHistorial"/>
+            <div class="d-flex align-items-start gap-5 mt-5">
+                <button class="btn btn-primary btonGuardar btn-styles btn-volver" (click)="volver()">Volver</button>
+                <button [disabled]="soloConsulta" class="btn btn-success btonGuardar btn-styles">Guardar</button>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">Comentarios/Observación</label>
-                <textarea [disabled]="soloConsulta" class="form-control" name="comentario" id="exampleFormControlTextarea1" rows="3" placeholder="Describe la información" [(ngModel)]="historial.comentarios"></textarea>
-            </div>
-
-            <!-- <div  class="mb-3">
-                <label for="formFileSm" class="form-label">Imagenes <span style="color: red;">(NO IMPLEMENTADO)</span></label>
-                <input disabled="true" class="form-control form-control-sm" id="formFileSm" type="file" multiple (change)="onFileSelected($event)">
-                <small class="form-text text-muted" *ngIf="selectedFiles.length >= 1"> {{selectedFiles.length}} archivo(s) seleccionado(s)</small>
-                <div *ngFor="let selectedFile of selectedFiles; let i = index" class="form-check">
-                    <input disabled="true" class="form-check-input" type="checkbox" [checked]="true">
-                    <label class="form-check-label" [for]="'file-' + i">
-                        {{selectedFile.name}}
-                    </label>
-                    <input disabled="true" class="form-check-input" type="checkbox" [checked]="true" [id]="'file-' + i">
-                </div>
-            </div> -->
-        </div> 
-    </div>
-        <button class="btn btn-primary btonGuardar" (click)="volver()">Volver</button>
-        <button [disabled]="soloConsulta" class="btn btn-success btonGuardar">Guardar</button>
-    </form>
+        </form>
     </div>
 </div>

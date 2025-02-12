@@ -10,6 +10,8 @@ import { jwtDecode } from "jwt-decode";
 })
 export class AuthService {
 
+  isAuthenByServer = false;
+
   private apiUrl = 'http://localhost:8080/api/v1';  // URL de tu backend
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -20,6 +22,10 @@ export class AuthService {
 
   refreshToken(refreshToken: string | null): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/refresh`, refreshToken);
+  }
+
+  isAuthenticatedByServer(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/isAuthenticated`);
   }
 
   logout(): void {
@@ -38,8 +44,17 @@ export class AuthService {
     return localStorage.getItem('refreshToken');
   }
 
+  setAuthenticated(b:boolean) : void {
+    this.isAuthenByServer  = b;
+  }
+
+  getAuthenticated() : boolean {
+    return this.isAuthenByServer;
+  }
+
   isAuthenticated(): boolean {
     return !!this.getToken(); // Devuelve verdadero si hay un token
+
   }
 
   isTokenValid(token: string): boolean {

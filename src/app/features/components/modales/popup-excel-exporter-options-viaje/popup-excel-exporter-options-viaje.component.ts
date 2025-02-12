@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ExcelService } from '../../../../core/services/excel-service.service';
 import { TITLES } from '../../../../constant/titles.constants';
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 
 @Component({
   selector: 'app-popup-excel-exporter-options-viaje',
@@ -25,7 +26,8 @@ export class PopupExcelExporterOptionsViajeComponent {
 
   constructor(
     private datePipe: DatePipe,
-    private excelService:ExcelService) {}
+    private excelService:ExcelService,
+    private globalService:GlobalUtilsService) {}
 
   filterDatesHasta = (date: Date | null): boolean => {
     if(this.fechaDesde) {
@@ -69,18 +71,26 @@ export class PopupExcelExporterOptionsViajeComponent {
   descargarExcel() {
     if(this.tipoExport) {
 
+      let mensajeError = '';
+
       if(this.tipoExport=== TITLES.EXCEL_EXPORT_VIAJES_TYPE_BETWEEN_DATES) {
         if(this.fechaDesde && this.fechaHasta) {
           this.excelService.downloadExcel('viajesPorFechas', this.fechaDesde, this.fechaHasta);
+        }else {
+          mensajeError = 'Debes ingresar fechas para exportar el excel'
+          this.globalService.showErrorMessageSnackBar(mensajeError);
         }
       }
       
-      if(this.tipoExport=== TITLES.EXCEL_EXPORT_VIAJES_TYPE_SPECIFIC_DAY) {
+      if(this.tipoExport === TITLES.EXCEL_EXPORT_VIAJES_TYPE_SPECIFIC_DAY) {
         if(this.fechaDesde) {
           this.excelService.downloadExcel('viajesDiaEspecifico', this.fechaDesde);
         }
+        else {
+          mensajeError = 'Selecciona una fecha'
+          this.globalService.showErrorMessageSnackBar(mensajeError);
+        }
       }
-
     }
   }
 

@@ -86,6 +86,11 @@ export const TITLES = {
     EXCEL_EXPORT_VIAJES_TYPE_SPECIFIC_DAY : 'dia-especifico',
     EXCEL_EXPORT_VIAJES_TYPE_TODAY : 'hoy',
     EXCEL_EXPORT_VIAJES_TYPE_YESTERDAY : 'ayer',
+
+
+    //Lista historial
+    ERROR_NOT_REGISTERS_FOUND: 'No se han encontrado registros para las fechas introducidas',
+    ERROR_NOT_DATES_SUBMIT: 'Para filtrar por fecha(s), tiene que al menos introducir una fecha o ambas.',
    
 
 

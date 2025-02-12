@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faCar, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCar, faComment, faEdit, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
 import { TITLES } from '../../../../constant/titles.constants';
 import { Carro } from '../../../../core/models/carro';
@@ -61,12 +61,18 @@ declare var bootstrap: any;
     cambiosFormularioFiles: boolean = false;
 
     isDisabledTitleFlag : boolean = true
+    isEditMode : boolean = true;
 
     //LITERALES
     OBSERVACION_TITULO = TITLES.COMMENTS_LABEL_TITLE;
     RAZON_TITULO = TITLES.NAME_COMPANY_PERSON_TITLE;
     MSJ_BTON_NEXT_STEP = TITLES.TITLE_DISABLED_BTON_NEXT_STEP;
     TOOLTIP_MSJ_GUARDADO_BASICO = TITLES.SAVE_BASIC_INFO_CAR_TOOLTIP
+
+    //Static Icon
+     editIcon = faEdit;
+     commentIcon = faComment;
+     faPlus = faPlusCircle;
 
     steps: number[] = [1, 2, 3, 4, 5]; // Los pasos disponibles
 
@@ -98,6 +104,13 @@ declare var bootstrap: any;
           this.obtenerCarros();
       });
       this.obtenerListaTipoVehiculos();
+
+      
+    }
+
+    disableForm() {
+      this.carroForm.disable();
+      // this.carroForm.get('carro')?.valid,
     }
 
     ngAfterViewInit(): void {
@@ -179,14 +192,6 @@ declare var bootstrap: any;
         input.classList.add('form-control');
         input.classList.add('textarea-custom-style');
       });
-
- 
-      // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-      // tooltipTriggerList.map(function (tooltipTriggerEl) {
-      //   return new bootstrap.Tooltip(tooltipTriggerEl), {
-      //     delay: { "show": 3000, "hide": 3000 } // Retraso en milisegundos
-      //   } // ERROR ARGUMENTS; IS GOOD TO LEARN ABOUT PASS THROUGH A OBJECT AND BUILD IT IN THE ARGUMENTS BOX
-      // });
   }
 
     async onSubmit(){
@@ -208,8 +213,20 @@ declare var bootstrap: any;
         this.setFiles();
         this.setFormulario();
         this.checkPDFexist(this.carro);
+        this.checkIfEditionMode();
       });
     }
+
+    checkIfEditionMode() {
+        // Recuperar el valor de `esEdicion` y asegurarse de que es booleano
+      this.route.queryParams.subscribe(params => {
+      this.isEditMode = params['esEdicion'] === 'true';
+      });
+      if(!this.isEditMode) {
+        this.disableForm();
+      }
+    }
+  
 
     setFiles() {
       // Agregar las imágenes del carro a la lista de archivos seleccionados
@@ -242,6 +259,7 @@ declare var bootstrap: any;
             poliza: this.carro.poliza,
           }
         });
+
         // Agregar las imagenes al form
         this.carro.imagenesBd.forEach(imagen => {
           const imagenFormGroup = this.fb.group({
@@ -352,8 +370,8 @@ declare var bootstrap: any;
               existe = await this.carroServicio.verificarExistenciaPorNumeroUnidad(numeroUnidad).toPromise();
             }
         if (existe) {
-          this.camposFaltantes.push('numero-unidad');
-          mensajeError = 'El número de unidad ya se  encuentra registrado a otra unidad'
+          this.camposFaltantes.push('carro-numero-unidad');
+          mensajeError = 'El número de unidad ya se encuentra registrado a otra unidad'
         }
       }
 
@@ -501,10 +519,8 @@ declare var bootstrap: any;
     }
 
     removeImage(imagen: Imagen) {
-
       //Activamos bandera de cambio
       this.cambiosFormularioFiles = true;
-
       this.carro.imagenesBd = this.carro.imagenesBd.filter(img => {
         // Comparar por imagenUrl cuando no tiene id (Imagen no persistida)
         if (!imagen.id && img.imagenUrl === imagen.imagenUrl) {
@@ -535,7 +551,6 @@ declare var bootstrap: any;
 
       //Activamos bandera de cambio
       this.cambiosFormularioFiles = true;
-
       const file = event.target.files[0];
 
       if (file) {
@@ -548,7 +563,6 @@ declare var bootstrap: any;
     
           // Eliminar el prefijo 'application/pdf;base64,' del Base64
           const base64Data = base64File.split(',')[1];  // Obtiene solo la parte base64 sin el prefijo
-          console.log(base64Data);
     
           // Asignar el archivo Base64 al formulario
           this.carroForm.patchValue({
@@ -569,24 +583,17 @@ declare var bootstrap: any;
           this.step = (this.step - 1);
     }
 
-    nextStep() {
-        if(this.step === 1)
+    async nextStep() {
+
+    const isValidCarroForm = await this.validandoDatos();
+      if(this.step === 1 && isValidCarroForm){
           this.step = 2;
-        else if (this.step === 2 && this.carroForm.get('carro.bateria')?.valid) {
+      }else if (this.step === 2) {
           this.step = 3;
-      } else if (this.step === 3 && this.carroForm.get('carro.tituloPropiedad')?.valid) {
+      } else if (this.step === 3) {
           this.step = 4;
-      } else if (this.step === 4 && this.carroForm.get('carro.poliza')?.valid) {
-          this.step = 5; // Paso 5: Imágenes
-      } else if (this.step === 5 && this.carroForm.get('carro.imagenes')?.valid) {
-      } else {
-        // Si el paso actual no es válido, mostrar un mensaje de error
-        this._snackBar.open('Por favor complete todos los campos del paso actual.', '', {
-          duration: 2000,
-          panelClass: ['error-snackbar'],
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-        });
+      } else if (this.step === 4) {
+          this.step = 5; 
       }
     }
 
@@ -609,7 +616,6 @@ declare var bootstrap: any;
         if(diffDays > 60) {this.diasVencimientoStyle = 'green'}
         if(diffDays > 30 && diffDays < 60){this.diasVencimientoStyle = 'yellow-warn'}
         if(diffDays < 30) {this.diasVencimientoStyle = 'danger-warn'}
-
         this.carroForm.get('carro.poliza.diasPorVencer')?.setValue(diffDays);
       }else{
           this.carroForm.get('carro.poliza.diasPorVencer')?.setValue('')
@@ -712,7 +718,6 @@ declare var bootstrap: any;
       }
 
   async resetFormulario(carro:Carro) {
-
     const title = TITLES.RESTORE_MSJ_CONFIRM_TITLE_MODAL;
     const text = TITLES.RESTORE_MSJ_CONFIRM_MODAL;
     const confirma = await this.carroServicio.msjConfirmaModal(title, text);
@@ -727,7 +732,6 @@ declare var bootstrap: any;
 
   quitarError(campoId: string) {
     const elemento = document.getElementById(campoId);
-
     if(elemento && campoId === 'carro-anyo') {
       const elemento = document.getElementById(campoId);
       const anyoActual = new Date().getFullYear();
@@ -739,12 +743,5 @@ declare var bootstrap: any;
     }else if(elemento) {
         elemento.classList.remove('input-error');
     }
-
-    
-
-
-
   }
-
-  
 }

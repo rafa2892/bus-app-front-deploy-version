@@ -5,6 +5,7 @@ import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
 import { ExcelService } from '../../../../core/services/excel-service.service';
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 
 @Component({
   selector: 'app-lista-conductores',
@@ -42,7 +43,8 @@ export class ListaConductoresComponent {
       private conductorService: ConductorService, 
       private router: Router, 
       private route: ActivatedRoute,
-      private excelService: ExcelService) {
+      private excelService: ExcelService,
+      private globalService :GlobalUtilsService ) {
     }
 
     ngOnInit(): void {
@@ -174,8 +176,9 @@ export class ListaConductoresComponent {
   }
   
   //CRUD
-  eliminar(id:number) {
-    if (confirm('¿Estás seguro de eliminar este conductor?')) {
+  async eliminar(id:number) {
+    const eliminar = await  this.mensajeConfirmarEliminar()
+    if (eliminar) {
       this.conductorService.eliminar(id).subscribe({
         next: () => {
           this.obtenerConductores();
@@ -184,6 +187,20 @@ export class ListaConductoresComponent {
       });
     }
   }
+
+
+  async mensajeConfirmarEliminar() :Promise<boolean> {
+    const title = 'Confirma eliminar conductor'
+    const text = '¿Estás seguro de eliminar este conductor?. Todos sus datos serán borrados permanentemente.'
+    const isConfirmed = await this.globalService.getMensajeConfirmaModal(title,text);
+
+    if (!isConfirmed.isConfirmed) {
+      return false;
+    }else {
+      return true;
+    }
+
+  } 
 
   editar(conductor:Conductor) {
     this.router.navigate(['/registrar-conductor', conductor.id]);

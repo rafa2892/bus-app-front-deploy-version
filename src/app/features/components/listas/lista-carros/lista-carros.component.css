@@ -82,15 +82,42 @@ td button {
   }
 
   .titulo-btn-container {
-    margin-bottom: 2em;
+    margin-bottom: 3em;
+    margin-top: 2em;
   }
 
   .default-img-icon-size#img {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease; /* Suaviza la transición */
   }
 
+  .num-uni-container {
+    margin-left: 15em;
+  }
+
+  .number-input-custom-font {
+    width: 5em;
+    max-height:3em;
+  }
+
+  .input-custom-style  {
+    font-size: 13px !important;
+  }
+
+  .normalSizeInput {
+    max-width: 12em;
+  }
+
+  .btn-styles {
+    min-width: 11em;
+    margin-top: -1em;
+  }
+  
+  .separador {
+    margin-left: 10em;
+    margin-right: -9em;
+  }
   
   
 

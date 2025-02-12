@@ -70,16 +70,8 @@ body {
   .filtrosContenedor {
     margin-top: -4%;
     margin-bottom: -3%;
-    margin-left: 5%;
+    margin-left: 1%;
     }     
-
-    .modal-custom-size {
-      /* max-width: 800px;        
-      width: 80%;           
-      max-height: 400px;     
-      overflow-y: auto;  */
-      font-size: smaller;
-    }
 
     .defaultInputHeightModal {
       height: 25px;
@@ -127,10 +119,21 @@ body {
     font-size: 14px; /* Cambia el tamaño según tu necesidad */
   }
 
+  /*----- COLOR Resalte numero de unidad*/
   .custom-color-prefijo-unidad {
     color: rgb(255, 136, 0);
     font-weight: bold;
   }
+  .custom-color-prefijo-unidad-no-bold {
+    color: rgb(255, 136, 0);
+    font-weight: lighter;
+  }
+   /*----- FIN COLOR Resalte numero de unidad*/
+
+   .blue-standar-font {
+     color: #55a2d1;
+   }
+
 
   .deleted-market-style {
     color: rgb(255, 17, 0) !important;
@@ -163,6 +166,8 @@ body {
     caret-color: transparent;
     border-color:rgba(255, 255, 255, 0.4);
   }
+
+  /*---- START STANDARD PARA LOS TEXTAREAS--- DEFAULT TEXT AREA SIZE*/
   
   .textarea-custom-style, .textarea-custom-style:focus {
     background-color: rgb(44, 43, 43);  /* Fondo gris oscuro */
@@ -171,9 +176,19 @@ body {
     
   }
 
-  .niputaidea {
-    background-color: blue;
+  .textarea-custom-style:disabled{
+    background-color: rgb(44, 43, 43) !important;  /* Fondo gris oscuro */
+    color: #fff !important;  /* Texto blanco */
+    border-color: grey ;  /* Borde azul */
   }
+
+/*---- FIN ---TAMAÑO STANDARD PARA LOS TEXTAREAS---DEFAULT TEXT AREA SIZE*/
+
+  /*---- TAMAÑO STANDARD PARA LOS TEXTAREAS--- DEFAULT TEXT AREA SIZE*/
+  .text-area-default-size {
+    max-width: 300px;
+  }
+    /*---- FIN STANDARD PARA LOS TEXTAREAS--- DEFAULT TEXT AREA SIZE*/
 
   .w-15 {
     width: 15% !important;
@@ -305,4 +320,107 @@ body {
   .btn-download:active {
     transform: scale(0.95); /* Pequeña reducción al hacer click */
   }
+
+  .botonesAccion {
+    background-color: transparent !important;
+    border: none;
+    box-shadow: none;
+  }
+
+  /* -----Estilos genericos botoneras lista acciones -------*/
+  .botonesAccion fa-icon {
+    color: #55a2d1 !important;
+  }
+  .botonesAccion:hover fa-icon {
+    color: #3b81a8 !important; /* Un tono más oscuro para efecto hover */
+  }
+
+  .botonesAccion {
+    transition: all 0.3s ease; /* Transición suave para el tamaño y fondo */
+  }
+  
+  .botonesAccion:hover {
+    transform: scale(1.25); /* Hace que el botón se agrande un poco */
+    background-color: rgba(85, 162, 209, 0.2); /* Fondo translúcido y suave que combina */
+    box-shadow: 0 4px 8px rgba(85, 162, 209, 0.4); /* Añadir sombra sutil */
+  }
+  
+  .botonesAccion fa-icon {
+    color: #55a2d1 !important; /* Color del ícono */
+    transition: color 0.3s ease; /* Transición suave para el color */
+  }
+  
+  .botonesAccion:hover fa-icon {
+    color: white !important; /* El ícono se pone blanco solo cuando el botón tiene hover */
+  }
+
+  .botonesAccion:hover span#numUnidad{
+    color: white !important; /* El ícono se pone blanco solo cuando el botón tiene hover */
+  }
+
+  
+/* -----FIN Estilos genericos botoneras lista acciones -------*/
+
+
+/* -----START- STYLES BLINKER INPUT ERROR -------*/
+
+
+@keyframes parpadeo {
+  0% {
+    border-color: red;
+  }
+  50% {
+    border-color: white;
+  }
+  100% {
+    border-color: red;
+  }
+}
+
+.input-error-blink {
+  animation: parpadeo 0.3s infinite;
+}
+
+.input-error {
+  border: 1px solid red; 
+  box-shadow: 0 0 5px red; 
+}
+
+/* -----END- STYLES BLINKER INPUT ERROR -------*/
+
+
+/* -----START STANDARD BUTTON menu, submit etc -------*/
+
+.btn-styles {
+  /* background-color: #778899; */
+  background-color: #60a4fd;
+  border-color: #60a4fd;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+.btn-styles:hover {
+  transform: scale(1.1); /* Aumenta el tamaño un 10% */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+}
+/* ----- END STANDARD BUTTON menu, submit etc -------*/
+
+
+/* ---- START Required fields ----*/
+.error-icon {
+  color: red;
+  font-size: 20px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* ----END Required fields----*/
+
+.modal-sinc-cuu .modal-content {
+
+  border: none !important;
+  display: flow;
+
+
+}
 

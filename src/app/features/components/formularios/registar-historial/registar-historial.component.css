@@ -9,13 +9,33 @@
   }
   
   .myClass option {
-    
     width: 1000px !important;
     overflow: auto !important;
     background-color: red !important;
     margin-bottom: 50%;
+}
+  /* Ajustes personalizados para el textarea */
+  .small-textarea {
+    font-size: 12px; /* Tamaño de fuente más pequeño */
+    padding: 5px; /* Espaciado interno reducido */
+    width: 100%; /* Puedes ajustar el ancho si es necesario */
+    height: auto; /* Ajusta el tamaño dinámicamente dependiendo del contenido */
+    resize: none; /* Desactiva la opción de cambiar el tamaño con el mouse */
+  }
 
+  .btn-volver {
+    margin-right: 5em;
+  }
 
+  .icono {
+    margin-right: 10em;
+    
+  }
 
-} 
+  .icono .repairIcon {
+    color: rgb(210, 152, 45);
+  }
 
+  .icono .commentIcon {
+    color: #4A90E2; /* Azul vibrante y elegante */
+}

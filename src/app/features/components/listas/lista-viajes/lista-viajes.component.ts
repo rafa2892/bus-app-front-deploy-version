@@ -14,6 +14,7 @@ import { TITLES } from '../../../../constant/titles.constants';
 import { ExcelService } from '../../../../core/services/excel-service.service';
 import { EmailService } from '../../../../core/services/email-service.service';
 import { CarroService } from '../../../../core/services/carro.service';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -29,6 +30,7 @@ export class ListaViajesComponent {
     editIcon = fontAwesomeIcons.editIcon;
     deleteIcon = fontAwesomeIcons.deleteIcon;
     eyeIcon = fontAwesomeIcons.eyeIcon;
+    plusIcon = faCirclePlus;
 
     fechaDesde : Date | null;
     fechaHasta : Date | null;
@@ -109,6 +111,11 @@ export class ListaViajesComponent {
         });
       }
     }
+
+    ngAfterViewInit(): void {
+      this.globalUtilsService.buildCustomsToolTipBS();
+    }
+
 
  
 
@@ -276,12 +283,16 @@ export class ListaViajesComponent {
     // Monitorear cambios en el estado del interruptor
     switchHandler() {
       // Si filtros cargados va a bbdd nuevamente
-      if(this.carro ||  this.conductor ||  this.fechaDesdeStr || this.fechaHastaStr) {
-            this.loading = true;
+
+      const isAnyParameterToFilterBy = this.carro ||  this.conductor ||  this.fechaDesdeStr || this.fechaHastaStr; 
+      const isSwitchFilterOn = this.isSwitchFiltersOn;
+
+      if(isAnyParameterToFilterBy) {
+          this.loading = true;
       }
-        if(!this.isSwitchFiltersOn) {
-          this.obtenerListaViaje(); 
-        }else {
+        if(!isSwitchFilterOn || !isAnyParameterToFilterBy && isSwitchFilterOn) {
+          this.obtenerListaViaje();
+        }else if(isAnyParameterToFilterBy && isSwitchFilterOn){
           this.getViajesFiltrados();
         }
     }
@@ -339,6 +350,10 @@ export class ListaViajesComponent {
       if(this.tipoExport === this.TIPO_EXPORT_TODAY || this.tipoExport === this.TIPO_EXPORT_YESTERDAY) {
           this.downloadExcel();
       }
+    }
+    
+    registrarNuevoCarro() {
+      this.router.navigate(['/registrar-viaje']);
     }
     
     

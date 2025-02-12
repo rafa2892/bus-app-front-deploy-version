@@ -23,6 +23,7 @@ declare var bootstrap: any;
 export class ListaCarrosComponent {
 
   carros: Carro[];
+  carrosFiltrados: Carro[]
   editIcon = faEdit;
   deleteIcon = faTrash;
   historyIcon = faHistory;
@@ -35,8 +36,15 @@ export class ListaCarrosComponent {
   changeDetecterFlag : boolean;
   carroId:number;
   modalManager : any;
+  verSoloMantenimiento:boolean;
+
+  numeroUnidad: string = '';
+  modelo : string = '';
+  anyo : string ='';
+  marca : string = '';
   
-  @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; // Acceso al componente hijo
+  // Acceso al componente al modal hijo que se abre por js
+  @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; 
   @ViewChild(CardBusDetailComponent) cardBus: CardBusDetailComponent;
  
  
@@ -59,11 +67,12 @@ export class ListaCarrosComponent {
 
     this.route.params.subscribe(params => {
       const id = +params['id'];  
-    
       if (id && navigationState && navigationState.redireccion) {
         // Resetea el estado de navegación
-        window.history.replaceState({}, '', window.location.href); 
-        // this.openHistorialModal(this.carro); // Abre el modal después de asignar el carro
+        window.history.replaceState({}, '', window.location.href);
+        
+        /* Recuperamos desde el registrar-historial si creamos un registro de mantenimeinto */
+        this.verSoloMantenimiento = navigationState.verSoloRegistroMantenimiento ?? false;
         this.obtenerCarroPorId(id, true);
       }
     });
@@ -92,16 +101,18 @@ export class ListaCarrosComponent {
     });
   }
 
-
-
   openHistorialModal(carro: Carro) {
+
     const modalRef = this.modalService.open(PopupHistorialVehiculosComponent, { 
-      windowClass: 'modal-custom-size', 
+      windowClass: 'modal-sinc-cuu', 
       size: 'lg'
     });
 
     modalRef.componentInstance.isModalProgramatico = true;
     modalRef.componentInstance.carro = this.carro;
+
+    const verSoloRegMant = this.verSoloMantenimiento;
+    modalRef.componentInstance.verSoloRegistroMantenimiento = verSoloRegMant;
 
     if(modalRef)
       this.modalManager = modalRef;
@@ -119,12 +130,14 @@ export class ListaCarrosComponent {
   private obtenerCarros() {
     this.carroServicio.obtenerListaCarro().subscribe(carros => {
       this.carros = carros;
+      this.carrosFiltrados = carros;
       setTimeout(() => this.buildCustomsToolTipBS(), 100); // Espera a que el DOM se actualice
     });
   }
 
   actualizarCarro(id: number) {
-    this.router.navigate(['actualizar-vehiculo', id])
+    const esEdicion = true; // O el valor que desees (true o false)
+    this.router.navigate(['actualizar-vehiculo', id], { queryParams: { esEdicion } });
   }
 
   detallesVehiculo(carroSelected: Carro) {
@@ -172,14 +185,17 @@ export class ListaCarrosComponent {
   
 
   verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
-
+    
+    this.verSoloMantenimiento = verSoloRegistroMantenimiento;
     this.carroSeleccionadoDetalles = carroSelected;
     this.changeDetecterFlag = !this.changeDetecterFlag;
+
+
     this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles, verSoloRegistroMantenimiento);
 
     //Indica si muestra todos los tipos de historiales o solo de mantenimiento
-    if(this.modalManager.componentInstance)
-      {this.modalManager.componentInstance.verSoloRegistroMantenimiento = verSoloRegistroMantenimiento;}
+    // if(this.modalManager.componentInstance)
+    //   {this.modalManager.componentInstance.verSoloRegistroMantenimiento = verSoloRegistroMantenimiento;}
   }
 
   insertarRegistro(id: number) {
@@ -231,5 +247,41 @@ export class ListaCarrosComponent {
   getNumeroUnidadFormateado(numUnidad:number) { 
     return this.globalUtilService.getNumeroUnidadFormateado(numUnidad);
   }
+
+  onBlurNumeroUnidad(idElemnto:string) {
+    this.numeroUnidad = '';
+    this.carrosFiltrados = this.carros;
+    this.globalUtilService.quitarError(idElemnto)
+  }
+
+  onBlurAnyo(idElemnto:string) {
+    this.globalUtilService.quitarError(idElemnto)
+  }
+
+  onInputChangeNumeroUnidad() {
+    this.carrosFiltrados = this.carros.filter(carro => carro.numeroUnidad.toString() == this.numeroUnidad);
+    if(this.numeroUnidad.trim() === '') {
+      this.carrosFiltrados = this.carros;
+    }
+  }
+
+  onInputChangeBrandFilter() {
+    this.carrosFiltrados = this.carros;
+    const marca = this.marca.trim().toLowerCase();
+    const año = this.anyo.trim().toLowerCase();
+    const modelo = this.modelo.trim().toLowerCase();
+
+    this.carrosFiltrados = this.carros.filter(carro => {
+        const marcaCoincide = marca === '' || carro.marca.toString().toLowerCase().includes(marca);
+        const añoCoincide = año === '' || carro.anyo.toString().toLowerCase().includes(año);
+        const modeloCoincide = modelo === '' || carro.modelo.toString().toLowerCase().includes(modelo);
+        return marcaCoincide && añoCoincide && modeloCoincide;
+    });
+  }
+
+  registerCarForm() {
+    this.router.navigate(['/registrar-carro']);
+  }
+
 
 }

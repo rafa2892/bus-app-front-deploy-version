@@ -1,128 +1,218 @@
-<div class="d-flex titulo-btn-container">
-  <h2>Lista Vehiculos</h2>
-  <div class="ms-auto mb-5">
-    <button type="button" class="btn btn-excel" data-bs-toggle="dropdown" (click)="descargarExcel()">
-      <span>
-        <img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size"> Exportar excel
-      </span>
-    </button>
-  </div>
-</div>
-
-<div class="listaVehiculoContainer">
-  <table class="table table-striped table-sm">
-    <thead class="table-dark">
-    <tr>
-      <th class="text-center">Num.Unidad</th>
-      <th class="text-center">Modelo</th>
-      <th class="text-center">Tipo Vehiculo</th>
-      <th class="text-center">Año</th>
-      <th class="text-center" style="font-size: 12px;">Consumo Medio</th>
-      <th class="text-center">Acciones</th>
-    </tr>
-    </thead>
-    <tbody class="table-dark">
-    <tr *ngFor="let carro of carros | paginate: {itemsPerPage: 10, currentPage: p}">
-      <td class="text-center">
+    <div class="d-flex titulo-btn-container">
+      
+      <div class="addNewCarBton">
         <button 
-              type="button" 
-              (click)="detallesVehiculo(carro)" 
-              class="btn btn-sm botonesAccion"
+        type="button" 
+        data-bs-dismiss="modal" 
+        data-bs-toggle="tooltip" 
+        data-bs-placement="bottom"
+        data-bs-original-title="Registra un nuevo servicio"
+        id="botonDetails"
+        (click)="registerCarForm()"
+        class="btn btn-primary btn-styles">
+        <span class="button-icon">Registrar carro
+          <fa-icon class="eyeIcon" style="margin-left: 1em;"  [icon]="faPlus"></fa-icon>
+        </span> 
+      </button>
+    </div>
+
+
+      <div class="filtrosContenedor" id="filtrosContenedor">
+        <div class="d-flex gap-3">
+
+
+          <div class="d-flex gap-5 separador">
+            <div class="g-3 align-items-center" id="busquedaId">
+              <div class="">
+                <label for="marca" class="col-form-label">Marca</label>
+              </div>
+              <div class="">
+                <input type="text" id="marca" class="form-control input-custom-style normalSizeInput" aria-describedby="passwordHelpInline" 
+                [(ngModel)]="marca" (input)="onInputChangeBrandFilter()"  >
+              </div>
+            </div>
+            <div class="g-3 align-items-center">
+              <div class="">
+                <label for="modelo" class="col-form-label">Modelo</label>
+              </div>
+              <div class="o">
+                <input type="text" id="modelo" class="form-control input-custom-style normalSizeInput" aria-describedby="passwordHelpInline" 
+                [(ngModel)]="modelo" (input)="onInputChangeBrandFilter()">
+              </div>
+            </div>
+            <div class="g-3 align-items-center">
+              <div class="">
+                <label for="modelo" class="col-form-label">Año</label>
+              </div>
+              <div class="">
+                <input 
+                type="text" 
+                id="anyo" 
+                class="form-control input-custom-style number-input-custom-font" 
+                aria-describedby="passwordHelpInline"
+                 maxlength="4" 
+                [(ngModel)]="anyo" 
+                appOnlyNumber 
+                (blur)="onBlurAnyo('anyo')"
+                (input)="onInputChangeBrandFilter()">
+              </div>
+            </div>
+          </div>
+
+
+
+
+            <div class="num-uni-container" id="busquedaId">
+                <label for="numeroUnidad" class="col-form-label">Numero Unidad</label>
+              <div class="d-flex align-items-center">
+                <span style="color: beige; margin-right: 0.5em; font-weight: bold;"> UN-</span>
+                <input  
+                type="text" 
+                id="numeroUnidad" 
+                class="form-control input-custom-style number-input-custom-font" 
+                aria-describedby="passwordHelpInline"
+                maxlength="3"
+                [(ngModel)]="numeroUnidad"
+                 (blur)="onBlurNumeroUnidad('numeroUnidad')" 
+                 (input)="onInputChangeNumeroUnidad()" 
+                 appOnlyNumber>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+
+        <div class="ms-auto mb-5">
+          <button type="button" class="btn btn-excel" data-bs-toggle="dropdown" (click)="descargarExcel()">
+            <span>
+              <img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size"> Exportar excel
+            </span>
+          </button>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="listaVehiculoContainer">
+      <table class="table table-striped table-sm">
+        <thead class="table-dark">
+        <tr>
+          <th class="text-center">Num.Unidad</th>
+          <th class="text-center">Modelo</th>
+          <th class="text-center">Tipo Vehiculo</th>
+          <th class="text-center">Año</th>
+          <th class="text-center" style="font-size: 12px;">Consumo Medio</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+        </thead>
+        <tbody class="table-dark">
+        <tr *ngFor="let carro of carrosFiltrados | paginate: {itemsPerPage: 10, currentPage: p}">
+          <td class="text-center">
+            <button 
+                  type="button" 
+                  (click)="detallesVehiculo(carro)" 
+                  class="btn btn-sm botonesAccion"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="bottom"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#card-bus-detail">
+                <span 
+                  id="numUnidad" 
+                  class="font-color-num-unidad"  
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="bottom"
+                  data-bs-original-title="Ver detalles unidad">
+                    {{getNumeroUnidadFormateado(carro.numeroUnidad)}}
+              </span>
+            </button>
+          </td>
+          <td class="text-center">{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
+          <td class="text-center">{{carro.tipoVehiculo}}</td>
+          <td class="text-center">{{carro.anyo}}</td>
+          <td class="text-center">{{carro.consumo}}</td>
+          <td>
+            <button 
+            (click)="verHistorial(carro,true)" 
+            class="btn btn-primary botonesAccion btn-sm" 
+            data-bs-toggle="modal"
+            data-bs-target="#verHistorialPopUp">
+              <span 
+              class="button-icon"  
               data-bs-toggle="tooltip" 
               data-bs-placement="bottom"
+              data-bs-original-title="Registros mantenimiento">
+                <fa-icon class="eyeIcon" [icon]="repairIcon"></fa-icon>
+              </span>
+            </button>
+            <button 
+            (click)="verHistorial(carro,false)" 
+            class="btn btn-info botonesAccion btn-sm" 
+            data-bs-toggle="modal" 
+            data-bs-target="#verHistorialPopUp">
+              <span 
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom"
+              data-bs-original-title="Historial"
+              class="button-icon">
+                <fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon>
+              </span>
+            </button>
+            <button 
+              (click)="detallesVehiculo(carro)" 
+              class="btn btn-primary botonesAccion btn-sm" 
               data-bs-toggle="modal" 
               data-bs-target="#card-bus-detail">
-            <span 
-              id="numUnidad" 
-              class="font-color-num-unidad"  
-              data-bs-toggle="tooltip" 
-              data-bs-placement="bottom"
-              data-bs-original-title="Ver detalles unidad">
-                {{getNumeroUnidadFormateado(carro.numeroUnidad)}}
-          </span>
-        </button>
-      </td>
-      <td class="text-center">{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
-      <td class="text-center">{{carro.tipoVehiculo}}</td>
-      <td class="text-center">{{carro.anyo}}</td>
-      <td class="text-center">{{carro.consumo}}</td>
-      <td>
-        <button 
-        (click)="verHistorial(carro,true)" 
-        class="btn btn-primary botonesAccion btn-sm" 
-        data-bs-toggle="modal"
-        data-bs-target="#verHistorialPopUp">
-          <span 
-          class="button-icon"  
-          data-bs-toggle="tooltip" 
-          data-bs-placement="bottom"
-          data-bs-original-title="Registros mantenimiento">
-            <fa-icon class="eyeIcon" [icon]="repairIcon"></fa-icon>
-          </span>
-        </button>
-        <button 
-        (click)="verHistorial(carro,false)" 
-        class="btn btn-info botonesAccion btn-sm" 
-        data-bs-toggle="modal" 
-        data-bs-target="#verHistorialPopUp">
-          <span 
-          data-bs-toggle="tooltip" 
-          data-bs-placement="bottom"
-          data-bs-original-title="Historial"
-          class="button-icon">
-            <fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon>
-          </span>
-        </button>
-        <button 
-          (click)="detallesVehiculo(carro)" 
-          class="btn btn-primary botonesAccion btn-sm" 
-          data-bs-toggle="modal" 
-          data-bs-target="#card-bus-detail">
-            <span 
-            class="button-icon"
-            data-bs-toggle="tooltip" 
-            data-bs-placement="bottom"
-            data-bs-original-title="Detalles">
-              <fa-icon class="eyeIcon" [icon]="eyeIcon">
-              </fa-icon>
-            </span>
-        </button>
-        <button 
-        (click)="actualizarCarro(carro.id)" 
-        class="btn btn-warning botonesAccion btn-sm">
-          <span class="button-icon"
-            data-bs-toggle="tooltip" 
-            data-bs-placement="bottom"
-            data-bs-original-title="Editar vehiculo">
-            <fa-icon class="editIcon" [icon]="editIcon">
-            </fa-icon></span>
-        </button>
-        <button
-          (click)="eliminarCarro(carro.id)" 
-          class="btn btn-danger botonesAccion btn-sm">
-          <span 
-            class="button-icon"
-            data-bs-toggle="tooltip" 
-            data-bs-placement="bottom"
-            data-bs-original-title="Editar vehiculo">
-              <span>
-                <img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size">
+                <span 
+                class="button-icon"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="bottom"
+                data-bs-original-title="Detalles">
+                  <fa-icon class="eyeIcon" [icon]="eyeIcon">
+                  </fa-icon>
+                </span>
+            </button>
+            <button 
+            (click)="actualizarCarro(carro.id)" 
+            class="btn btn-warning botonesAccion btn-sm">
+              <span class="button-icon"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="bottom"
+                data-bs-original-title="Editar vehiculo">
+                <fa-icon class="editIcon" [icon]="editIcon">
+                </fa-icon></span>
+            </button>
+            <button
+              (click)="eliminarCarro(carro.id)" 
+              class="btn btn-danger botonesAccion btn-sm">
+              <span 
+                class="button-icon"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="bottom"
+                data-bs-original-title="Editar vehiculo">
+                  <span>
+                    <img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size">
+                  </span>
               </span>
-          </span>
-        </button> 
-      </td>  
-    </tr>
-    </tbody>
-</table>
-  <div class="pagination-container">
-    <pagination-controls 
-    (pageChange)="p = $event"
-    previousLabel="Anterior" 
-    nextLabel="Siguiente"></pagination-controls>
-  </div>
-</div>
-<app-popup-historial-vehiculos [changeDetecterFlag]="changeDetecterFlag" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos>
-<app-card-bus-detail [numeroViajes]="numeroViajes" [numeroHistories]="numeroHistorial" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-card-bus-detail>
+            </button> 
+          </td>  
+        </tr>
+        </tbody>
+    </table>
+      <div class="pagination-container">
+        <pagination-controls 
+        (pageChange)="p = $event"
+        previousLabel="Anterior" 
+        nextLabel="Siguiente"></pagination-controls>
+      </div>
+    </div>
+    <app-popup-historial-vehiculos [changeDetecterFlag]="changeDetecterFlag" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos>
+    <app-card-bus-detail [numeroViajes]="numeroViajes" [numeroHistories]="numeroHistorial" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"></app-card-bus-detail>
 
 
 

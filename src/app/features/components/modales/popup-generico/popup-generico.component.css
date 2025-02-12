@@ -1,2 +1,8 @@
 
+.modal-custom-size {
+    font-size: smaller;
+    width: 1000px;  
+    max-width: 1500px !important;
+  }
 
+  

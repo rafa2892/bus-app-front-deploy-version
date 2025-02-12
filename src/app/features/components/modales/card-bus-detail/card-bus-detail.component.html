@@ -26,6 +26,7 @@
           <mat-card-content class="contenidoCard">
               <div id="corouselDetallesVehiculo" class="carousel slide centrarImg">
                 <div class="carousel-inner inner-container">
+                  <div class="d-flex align-items-center mb-2 gap-5"> 
                   <div class="d-flex mb-5">
                     <img *ngIf="noImage()" [src]="imagenNotFound" alt="Imagen no disponible" />
                     <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index"  [class.active]="i === index">
@@ -36,6 +37,19 @@
                       </div>
                     </ng-container>
                   </div>
+                  <div class="btn-consulta-carro">
+                    <a id="indicadoresImagenes" 
+                      type="button" 
+                      class="btn-download"
+                      data-bs-toggle="tooltip" 
+                      data-bs-placement="bottom"
+                      data-bs-original-title="Consulta datos vehiculo"
+                      data-bs-dismiss="modal"
+                      (click)="irFormularioCarroConsulta(carroSeleccionadoDetalles.id)">
+                      <fa-icon class="eyeIcon" [icon]="eyeIcon"  [size]="'2x'"></fa-icon>
+                    </a>
+                  </div>
+                </div>
                 </div>
                 <div class="carousel-indicators" style="display: block;left: 38px;">
                   <ng-container *ngFor="let imagen of getImagesLength(); let i = index">

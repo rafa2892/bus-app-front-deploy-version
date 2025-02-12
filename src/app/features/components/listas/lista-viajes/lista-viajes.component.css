@@ -66,7 +66,7 @@
   /* display: inline-flex; */
   align-items: center;
   justify-content: start;
-  margin-left: 20px; /* Margen izquierdo para separar */
+  margin-left: 22em; /* Margen izquierdo para separar */
 
   border-radius: 10px; /* Bordes redondeados */
   padding: 10px; /* Espaciado interno alrededor de los botones */
@@ -95,6 +95,7 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
 
 
 

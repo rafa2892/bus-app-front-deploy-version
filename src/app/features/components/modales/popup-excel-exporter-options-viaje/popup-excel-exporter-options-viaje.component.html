@@ -42,6 +42,13 @@
             </mat-datepicker-toggle>
             <mat-datepicker id="dataPickerHasta" #dataPickerHasta></mat-datepicker>
         </mat-form-field>
-        <button (click)="descargarExcel()">Descargar Excel</button>
+        <div>
+            <button 
+                class="btn btn-primary btn-download"
+                (click)="descargarExcel()" 
+                type="button"><i class="bi bi-box-arrow-down"></i>
+            </button>
+        </div>
+        <!-- <button >Descargar Excel</button> -->
     </div>
 </app-popup-generico>

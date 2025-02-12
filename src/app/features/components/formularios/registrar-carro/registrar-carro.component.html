@@ -1,13 +1,46 @@
-    
-    <div class="step-navigation">
+<div class="d-flex justify-content-between align-items-center w-100">
+    <!-- Contenedor de pasos -->
+    <div class="step-navigation d-flex justify-content-center flex-grow-1">
         <button *ngFor="let stepNumber of steps; let i = index"
-        [ngClass]="{'active': step === i + 1}" 
-        (click)="goToStep(i + 1)">
+            [ngClass]="{'active': step === i + 1}" 
+            (click)="goToStep(i + 1)">
             <span><img [src]="getIconByStep(i)" id="img" alt="no img" class="larger-icon"></span>
         </button>
     </div>
 
-    <div class="d-flex justify-content-end">
+    <!-- Botón de reset a la derecha -->
+    <div>
+        <button 
+            class="btn btn-reset ms-auto" 
+            [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
+            (click)="resetFormulario(this.carro)"
+            title="Reestablecer el formulario">
+            <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
+        </button>
+    </div>
+</div>
+
+<!--    
+        <div class="d-flex">
+            <div class="step-navigation">
+                <button *ngFor="let stepNumber of steps; let i = index"
+                [ngClass]="{'active': step === i + 1}" 
+                (click)="goToStep(i + 1)">
+                    <span><img [src]="getIconByStep(i)" id="img" alt="no img" class="larger-icon"></span>
+                </button>
+            </div>
+            <div>
+                <button 
+                class="btn btn-reset" 
+                [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
+                (click)="resetFormulario(this.carro)"
+                title="Reestablecer el formulario">
+                    <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
+                </button>
+            </div>
+        </div>    -->
+
+    <!-- <div class="d-flex justify-content-end">
         <button 
         class="btn btn-reset" 
         [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
@@ -15,7 +48,7 @@
         title="Reestablecer el formulario">
             <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
         </button>
-    </div>
+    </div> -->
 
     <form [formGroup]="carroForm" class="formContainer"(ngSubmit)="onSubmit() ">
         <!-- Paso 1: Carro -->
@@ -45,10 +78,10 @@
                     <div class="row">
                         <div class="col">
                             <div class="d-flex gap-2">
-                                <select 
+                                <select
+                                    id="tipo-vehiculo-select-component" 
                                     class="form-select bg-dark form-select-lg mb-3 input-custom-style select-custom-style" 
                                     aria-label=".form-select-lg example" 
-                                    id="tipo-vehiculo-select-component" 
                                     formControlName="tipoVehiculo"
                                     [ngClass]="{ 'input-error': camposFaltantes.includes('tipo-vehiculo-select-component') }"
                                     (change)="quitarError('tipo-vehiculo-select-component')">
@@ -389,10 +422,22 @@
                 type="button"
                 class="btn btn-primary btn-styles hover-styles"
                 [attr.data-bs-original-title]="carroForm.invalid && this.step === 1 ? MSJ_BTON_NEXT_STEP : ''"
-                [disabled]="carroForm.invalid && this.step === 1"
+                [disabled]=""
                 (click)="nextStep()">Siguiente
             </button>
         </div>
+    </div>
+
+    <div class="icon-container">
+        <span 
+            class="button-icon ms-auto icono"  
+            data-bs-toggle="tooltip" 
+            data-bs-placement="bottom"
+            data-bs-original-title="Registros mantenimiento">
+            <fa-icon style="color:wheat" *ngIf="isEditMode && this.carro.id" class="editIcon" [icon]="editIcon" [size]="'6x'"></fa-icon>
+            <fa-icon *ngIf="!isEditMode && this.carro.id" class="repairIcon" [icon]="commentIcon" [size]="'6x'"></fa-icon>
+            <fa-icon *ngIf="isEditMode && !this.carro.id" class="newIcon" [icon]="faPlus" [size]="'6x'"></fa-icon>
+        </span>
     </div>
 
 

@@ -22,6 +22,10 @@ export class ListaVehiculosSelComponent {
   anyo : string ='';
   marca : string = '';
 
+  //Filtros parametros
+  
+
+
   //Receptores
   @Input() modalModoSeleccionarConductor : boolean;
 
@@ -91,8 +95,7 @@ export class ListaVehiculosSelComponent {
 
   if (this.modelo.trim() === '') {
       return;
-  } 
-  else {
+  }else {
       const modeloBuscado = this.modelo.toLowerCase(); // Convertir a minúsculas para hacer la comparación insensible a mayúsculas y minúsculas
       this.carrosFiltrado = this.carrosFiltrado.filter(carro => 
           carro.modelo.toString().toLowerCase().includes(modeloBuscado)
@@ -102,7 +105,7 @@ export class ListaVehiculosSelComponent {
 
 
   onInputChangeYearFilter() {
-    this.carrosFiltrado = this.carros;
+    this.carros = this.carros;
     if (this.anyo.trim() === '') {
       return;
     } else {
