@@ -95,7 +95,11 @@
 
 .add-new-driver-btn {
   margin-right: 7em;
-  margin-bottom: -6em;
+  margin-bottom: -4em;
+}
+
+.filter-input {
+  margin-left: 10em;
 }
 
 .default-img-icon-size#img {

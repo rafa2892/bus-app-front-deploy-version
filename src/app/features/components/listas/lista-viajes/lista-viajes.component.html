@@ -134,14 +134,17 @@
         </ng-container>
         <ng-template #horasNoEspecificadas>Horas no especificas</ng-template></td>
         <td>
-          <button title="Ver detalles del Vehiculo" (click)="detallesViaje(viaje)" data-bs-toggle="modal" data-bs-target="#confirma-servicio-modal" class="btn btn-primary botonesAccion small-button">
+          <button title="Ver detalles del Vehiculo" (click)="detallesViaje(viaje)" data-bs-toggle="modal" data-bs-target="#confirma-servicio-modal"
+          class="btn btn-primary botonesAccion small-button">
             <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
           </button>
           <button title="Editar Vehiculo" (click)="editar(viaje)" class="btn btn-warning botonesAccion small-button">
             <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
           </button>
           <button title="Eliminar Vehiculo"  (click)="eliminar(viaje)" class="btn btn-danger botonesAccion small-button">
-            <span class="button-icon"><fa-icon class="deleteIcon" [icon]="deleteIcon"></fa-icon></span>
+            <span class="button-icon">
+              <img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size">
+            </span>
           </button>
         </td>
       </tr>

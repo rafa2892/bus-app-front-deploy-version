@@ -1,4 +1,4 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListaCarrosComponent } from './features/components/listas/lista-carros/lista-carros.component';
 import { RegistrarCarroComponent } from './features/components/formularios/registrar-carro/registrar-carro.component';
@@ -14,7 +14,6 @@ import { RegistrosComponent } from './features/components/formularios/registros/
 import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
 import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';
-import { PruebaContenedoresEstilosComponent } from './features/components/componentes-pruebas/prueba-contenedores-estilos/prueba-contenedores-estilos.component';
 
 
 const routes: Routes = [
