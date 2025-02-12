@@ -123,6 +123,20 @@
         <td class="text-center">{{carro.consumo}}</td>
         <td>
           <button 
+            (click)="detallesVehiculo(carro)" 
+            class="btn btn-primary botonesAccion btn-sm" 
+            data-bs-toggle="modal" 
+            data-bs-target="#card-bus-detail">
+              <span 
+              class="button-icon"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom"
+              data-bs-original-title="Detalles">
+                <fa-icon class="eyeIcon" [icon]="eyeIcon">
+                </fa-icon>
+              </span>
+          </button>
+          <button 
           (click)="verHistorial(carro,true)" 
           class="btn btn-primary botonesAccion btn-sm" 
           data-bs-toggle="modal"
@@ -147,20 +161,6 @@
             class="button-icon">
               <fa-icon class="deleteIcon" [icon]="historyIcon"></fa-icon>
             </span>
-          </button>
-          <button 
-            (click)="detallesVehiculo(carro)" 
-            class="btn btn-primary botonesAccion btn-sm" 
-            data-bs-toggle="modal" 
-            data-bs-target="#card-bus-detail">
-              <span 
-              class="button-icon"
-              data-bs-toggle="tooltip" 
-              data-bs-placement="bottom"
-              data-bs-original-title="Detalles">
-                <fa-icon class="eyeIcon" [icon]="eyeIcon">
-                </fa-icon>
-              </span>
           </button>
           <button 
           (click)="actualizarCarro(carro.id)" 
