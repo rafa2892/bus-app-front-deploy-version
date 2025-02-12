@@ -31,7 +31,9 @@ export class LoginComponent {
 
 
     const {usuario, clave} = this.userLogin;
-  
+
+    this.camposFaltantes = []; 
+    
     // Verifica cada campo
     if (!usuario) this.camposFaltantes.push('usuario');
     if (!clave) this.camposFaltantes.push('password');
@@ -47,9 +49,13 @@ export class LoginComponent {
         },
         error: (error) => {
           if (error.status === 401) {
-            alert('Credenciales inválidas. Por favor, intenta de nuevo.');
+            const msj = 'Usuario o contraseña invalida'
+            this.camposFaltantes.push('usuario');
+            this.camposFaltantes.push('password');
+            this.gs.showErrorMessageSnackBar(msj);
           } else {
-            console.error('Error de login', error);
+            const msj = 'Error del servidor al intentar acceso, comunicate con el administrador'
+            this.gs.showErrorMessageSnackBar(msj);
           }
         }
       });
