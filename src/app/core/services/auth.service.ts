@@ -12,14 +12,7 @@ import { environment } from '../../../environments/environment.prod';
 export class AuthService {
 
   isAuthenByServer = false;
-
-  // private apiUrl = 'http://localhost:8080/api/v1';  // URL de tu backend
-
-
   private apiUrl = environment.apiUrl;
-
-
-
 
   constructor(private http: HttpClient, private router: Router) {}
 

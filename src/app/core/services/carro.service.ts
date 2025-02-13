@@ -5,6 +5,7 @@ import { Carro } from '../models/carro';
 import { TipoVehiculo } from '../models/tipo-vehiculo';
 import { Historial } from '../models/historial';
 import Swal from 'sweetalert2';
+import { environment } from '../../../environments/environment.prod';
 
 
 
@@ -15,13 +16,15 @@ export class CarroService {
   
 
   //Obtiene el listado de Carros en el back
-  private baseUrl = "http://localhost:8080/api/v1/carros";
+  private apiUrl = environment.apiUrl;
+  private completeURL =  this.apiUrl.concat('/carros');
 
+ 
    //Obtiene el listado de tipo de vehiculos desde el controlador de Carro
-  private baseUrlTipoVehiculos = this.baseUrl.concat('/tipoVehiculos');
+  private baseUrlTipoVehiculos = this.completeURL.concat('/tipoVehiculos');
 
   //Obtiene el listado de tipos de historial
-  private baseUrlGuardarHistorial = this.baseUrl.concat('/guardarHistorial');
+  private baseUrlGuardarHistorial = this.completeURL.concat('/guardarHistorial');
 
   imagenNotFound  = 'assets/no_image_avaible.jpg';
 
@@ -29,7 +32,7 @@ export class CarroService {
 
   //Este metodo nos funciona para obtener los listados de carro
   obtenerListaCarro():Observable<Carro[]> {
-    return this.httpClient.get<Carro[]>(`${this.baseUrl}`);
+    return this.httpClient.get<Carro[]>(`${this.completeURL}`);
   }
 
   //Este metodo nos funciona para obtener los listados de carro
@@ -39,23 +42,23 @@ export class CarroService {
 
   //Este metodo nos funciona para regitrar un carro
   registrarCarro(carro:Carro) : Observable<Object>{
-    return this.httpClient.post(`${this.baseUrl}`, carro);
+    return this.httpClient.post(`${this.completeURL}`, carro);
   }
 
   actualizarCarro(id:number, carro:Carro) {
-    return this.httpClient.put(`${this.baseUrl}/${id}`,carro);
+    return this.httpClient.put(`${this.completeURL}/${id}`,carro);
   }
 
   eliminarCarro(id:number) : Observable<Object>{
-    return this.httpClient.delete(`${this.baseUrl}/${id}`);
+    return this.httpClient.delete(`${this.completeURL}/${id}`);
   }
 
   obtenerCarroPorId(id: number): Observable<Carro> {
-    return this.httpClient.get<Carro>(`${this.baseUrl}/${id}`);
+    return this.httpClient.get<Carro>(`${this.completeURL}/${id}`);
   }
 
   existeTituloPropiedadPdfFILE(id: number): Promise<boolean | undefined> {
-    return this.httpClient.get<boolean>(`${this.baseUrl}/existePDF/${id}`).toPromise();
+    return this.httpClient.get<boolean>(`${this.completeURL}/existePDF/${id}`).toPromise();
   }
   
 
@@ -74,7 +77,7 @@ export class CarroService {
 
   descargarTituloPropiedad(id: number): void {
     
-    this.httpClient.get(`${this.baseUrl}/descargar/${id}`, { responseType: 'blob', observe: 'response' })
+    this.httpClient.get(`${this.completeURL}/descargar/${id}`, { responseType: 'blob', observe: 'response' })
       .subscribe(response => {
 
         const blob = response.body!;
@@ -95,12 +98,12 @@ export class CarroService {
   }
   
   verificarExistenciaPorNumeroUnidad(numeroUnidad: number): Observable<boolean> {
-    return this.httpClient.get<boolean>(`${this.baseUrl}/existe/${numeroUnidad}`);
+    return this.httpClient.get<boolean>(`${this.completeURL}/existe/${numeroUnidad}`);
   }
 
   verificarNumeroUnidadModoEdicion(numeroUnidad: number, carroId: number): Observable<boolean> {
     // Enviar ambos parámetros como query parameters
-    return this.httpClient.get<boolean>(`${this.baseUrl}/existeEdicion`, {
+    return this.httpClient.get<boolean>(`${this.completeURL}/existeEdicion`, {
       params: { numeroUnidad: numeroUnidad.toString(), carroId: carroId.toString() }
     });
   }

@@ -14,6 +14,7 @@ import { RegistrosComponent } from './features/components/formularios/registros/
 import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
 import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';
+import { ListaHistorialComponent } from './features/components/listas/lista-historial/lista-historial.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,8 @@ const routes: Routes = [
   { path: 'registrar-conductor/:isDesdedetalles/:id', component: RegistrarConductorComponent},
   { path: 'registrar-conductor/:id', component: RegistrarConductorComponent},
   { path: 'lista-viajes/:idConductor', component: ListaViajesComponent},
+  { path: 'lista-viajes/byCarro/:idCarro', component: ListaViajesComponent},
+  { path: 'lista-historial/:idCarro', component: ListaHistorialComponent},
    // Ruta comodín con redirección y corrección de URL
   { path: '**', redirectTo: '/lista-carros', pathMatch: 'full' }
 ];

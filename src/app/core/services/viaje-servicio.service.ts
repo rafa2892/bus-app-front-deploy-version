@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Viaje} from '../models/viaje';
 import {Observable} from "rxjs";
+import { environment } from '../../../environments/environment.prod';
 
 
 @Injectable({
@@ -10,42 +11,43 @@ import {Observable} from "rxjs";
 export class ViajeServicioService {
 
   //Obtiene el listado de Carros en el back
-  private baseUrl = "http://localhost:8080/api/v1/viajes";
+  private apiURL = environment.apiUrl;
+  private completeURL = this.apiURL.concat('/viajes');
 
   constructor(private httpClient : HttpClient) { }
 
   //Este método nos funciona para obtener los listados de carro
   obtenerListaViaje():Observable<Viaje[]> {
-    return this.httpClient.get<Viaje[]>(`${this.baseUrl}`);
+    return this.httpClient.get<Viaje[]>(`${this.completeURL}`);
   }
 
   //Este método nos funciona para regitrar un carro
   registrarViaje(viaje:Viaje) : Observable<Object>{
-    return this.httpClient.post(`${this.baseUrl}`, viaje);
+    return this.httpClient.post(`${this.completeURL}`, viaje);
   }
 
   actualizarViaje(viaje:Viaje) : Observable<Object>{
-    return this.httpClient.put(`${this.baseUrl}/${viaje.id}`, viaje);
+    return this.httpClient.put(`${this.completeURL}/${viaje.id}`, viaje);
   }
 
   obtenerListaViajePorConductor(id: number): Observable<Viaje[]> {
-    return this.httpClient.get<Viaje[]>(`${this.baseUrl}/conductor/${id}`);
+    return this.httpClient.get<Viaje[]>(`${this.completeURL}/conductor/${id}`);
   }
 
   obtenerListaViajePorCarro(id: number): Observable<Viaje[]> {
-    return this.httpClient.get<Viaje[]>(`${this.baseUrl}/byCarro/${id}`);
+    return this.httpClient.get<Viaje[]>(`${this.completeURL}/byCarro/${id}`);
   }
 
   countByCarroId(id: number): Observable<number> {
-    return this.httpClient.get<number>(`${this.baseUrl}/countByCarro/${id}`);
+    return this.httpClient.get<number>(`${this.completeURL}/countByCarro/${id}`);
   }
 
   obtenerViajeById(id: number): Observable<Viaje> {
-    return this.httpClient.get<Viaje>(`${this.baseUrl}/${id}`);
+    return this.httpClient.get<Viaje>(`${this.completeURL}/${id}`);
   }
 
   eliminar(id: number): Observable<Object> {
-    return this.httpClient.delete(`${this.baseUrl}/${id}`);
+    return this.httpClient.delete(`${this.completeURL}/${id}`);
   }
 
   // En el servicio ViajeServicioService
@@ -63,7 +65,7 @@ export class ViajeServicioService {
     if (fechaHasta) params.append('fechaHasta', fechaHasta);
 
     // Construir la URL final
-    const url = `${this.baseUrl}/filtrar?${params.toString()}`;
+    const url = `${this.completeURL}/filtrar?${params.toString()}`;
     return this.httpClient.get<Viaje[]>(url);
 
     // return this.httpClient.get<Viaje[]>(

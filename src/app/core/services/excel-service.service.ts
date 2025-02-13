@@ -1,13 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TITLES } from '../../constant/titles.constants';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExcelService {
 
-  private apiUrl = 'http://localhost:8080/api/v1/excel/download';
+  //Obtiene el listado de Carros en el back
+  private apiURL = environment.apiUrl;
+  private completeURL = this.apiURL.concat('/excel/download');
 
   constructor(private http: HttpClient) {}
 
@@ -58,7 +61,7 @@ export class ExcelService {
         params.fechaInicio = fechaInicio; 
     }
 
-    this.http.get(`${this.apiUrl}/${tipo}`, { 
+    this.http.get(`${this.completeURL}/${tipo}`, { 
       params: params,
       responseType: 'blob', 
       observe: 'response' 
