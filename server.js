@@ -1,16 +1,20 @@
-//Install express server
 const express = require('express');
 const path = require('path');
 
 const app = express();
 
-// Serve only the static files form the dist directory
-app.use(express.static(path.join(__dirname, 'dist', 'gestion-contador-frontend-no-standalone')));
+// Define la ruta a la carpeta 'browser'
+const browserPath = path.join(__dirname, 'dist', 'gestion-contador-frontend-no-standalone', 'browser');
 
-// Handle all routes by sending the index.html file
-app.get('/*', (req, res) =>
-    res.sendFile('index.html', {root: path.join(__dirname, 'dist', 'gestion-contador-frontend-no-standalone')}),
-);
+// Sirve archivos estáticos desde la carpeta 'browser'
+app.use(express.static(browserPath));
 
-// Start the app by listening on the default Heroku port
-app.listen(process.env.PORT || 8080);
+// Fallback: para cualquier ruta que no encuentre un archivo estático, sirve el index.html principal
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: browserPath });
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
