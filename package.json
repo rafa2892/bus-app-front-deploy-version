@@ -3,18 +3,21 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:gestion-contador-frontend-no-standalone": "node dist/gestion-contador-frontend-no-standalone/server/server.mjs"
+    "serve:ssr:gestion-contador-frontend-no-standalone": "node dist/gestion-contador-frontend-no-standalone/server/server.mjs",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.3.12",
     "@angular/cdk": "^17.2.1",
+    "@angular/cli": "^17.1.2",
     "@angular/common": "^17.3.12",
     "@angular/compiler": "^17.3.12",
+    "@angular/compiler-cli": "^17.3.12",
     "@angular/core": "^17.3.12",
     "@angular/forms": "^17.3.12",
     "@angular/google-maps": "^17.3.10",
@@ -33,15 +36,17 @@
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "angular-font-awesome": "^3.1.2",
     "bootstrap": "^5.3.3",
-    "express": "^4.18.2",
+    "express": "^4.21.2",
     "font-awesome": "^4.7.0",
     "jwt-decode": "^4.0.0",
     "ng2-search-filter": "^0.5.1",
     "ngx-bootstrap": "^12.0.0",
     "ngx-pagination": "^6.0.3",
+    "path": "^0.12.7",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.15.10",
     "tslib": "^2.3.0",
+    "typescript": "~5.3.2",
     "zone.js": "~0.14.3"
   },
   "devDependencies": {
@@ -59,5 +64,9 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.3.2"
+  },
+  "engines": {
+    "node": "21.6.1",
+    "npm": "10.2.4"
   }
 }
