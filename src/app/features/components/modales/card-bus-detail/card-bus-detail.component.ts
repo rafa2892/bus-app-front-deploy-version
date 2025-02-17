@@ -15,7 +15,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 })
 export class CardBusDetailComponent {
 
-  @Input() carroSeleccionadoDetalles: Carro;
+  @Input() carroSeleccionadoDetalles: Carro ;
   @Input() numeroViajes: number;
   @Input() numeroHistories: number;
   @Output() modalClosed: EventEmitter<void> = new EventEmitter<void>();
@@ -42,6 +42,7 @@ export class CardBusDetailComponent {
   }
   
   onCloseModal() {
+    this.carroSeleccionadoDetalles = new Carro();
     this.index = 0;
     this.modalClosed.emit();
   }
