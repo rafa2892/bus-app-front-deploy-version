@@ -15,20 +15,9 @@ export class Carro {
   tipoVehiculo:string;
 
   //Car objects attributes
-
-
-  imagenes: Imagen [];
-  imagenesBd: Imagen [];
-  imegenesGuardar : Imagen [];
-  imagenesProcesadas : Imagen [];
-  imagenesDecodificadas?: { url: string, id: number | undefined, imagenUrl: string, imagenDescr: string }[];
-
-
-
-
-
-
-
+  imagenes: Imagen []; // atributo que usa para el guardado de imagenes
+  imagenesBd: Imagen []; // atributo de imagenes guardadas en la base de datos con id
+  imagenesDecodificadas?: { url: string, id: number | undefined, imagenUrl: string, imagenDescr: string }[]; //Representa las imagenes ya codificadas de la BD
 
   registroHistorial : Historial [] = [];
   bateria: Bateria = new Bateria();

@@ -198,13 +198,12 @@ export class ListaCarrosComponent {
   }
 
   async eliminarCarro(id: number) {
-
-  const borrar = await this.confirmaMensaje();
-
-  if(borrar) {
-      this.carroServicio.eliminarCarro(id).subscribe(dato => {
-        this.obtenerCarros();
-      })}
+    const borrar = await this.confirmaMensaje();
+    if(borrar) {
+        this.carroServicio.eliminarCarro(id).subscribe(dato => {
+          this.obtenerCarros();
+        });
+    }
   }
 
   async confirmaMensaje(): Promise<boolean> {

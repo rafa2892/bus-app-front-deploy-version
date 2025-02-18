@@ -57,7 +57,7 @@
                 id="anyo" 
                 class="form-control input-custom-style number-input-custom-font" 
                 aria-describedby="passwordHelpInline"
-                 maxlength="4" 
+                maxlength="4" 
                 [(ngModel)]="anyo" 
                 appOnlyNumber 
                 (blur)="onBlurAnyo('anyo')"
@@ -145,7 +145,9 @@
           (click)="verHistorial(carro,true)" 
           class="btn btn-primary botonesAccion btn-sm" 
           data-bs-toggle="modal"
-          data-bs-target="#verHistorialPopUp">
+          data-bs-target="#verHistorialPopUp"
+          
+          >
             <span 
             class="button-icon"  
             data-bs-toggle="tooltip" 

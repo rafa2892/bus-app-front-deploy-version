@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Carro } from '../../../../core/models/carro';
 import { CarroService } from '../../../../core/services/carro.service';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 import { Router } from '@angular/router';
-import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -21,8 +19,6 @@ export class CardBusDetailComponent {
   @Output() modalClosed: EventEmitter<void> = new EventEmitter<void>();
   
 
-  // Define a map to cache the URLs
-  imageCache: Map<string, string> = new Map<string, string>();
   imagenURL: string;
   imagen:string = '';
   imagenesCodificadasFront : any [] | undefined;
@@ -75,7 +71,7 @@ export class CardBusDetailComponent {
 
 
   mostrarCambioImg() : boolean {
-   const imagenes =  this.carroSeleccionadoDetalles.imagenesDecodificadas;
+  const imagenes =  this.carroSeleccionadoDetalles.imagenesDecodificadas;
 
     if(imagenes && imagenes.length > 1) {
         return true;
@@ -96,15 +92,12 @@ export class CardBusDetailComponent {
   prevImage() {
     if(this.index > 0){
       this.index--;
-    }
-    else {
+    }else {
       const imagenes = this.carroSeleccionadoDetalles.imagenesDecodificadas;
       if(imagenes) {
         this.index = imagenes.length - 1;
       }
     }
-
-
   }
 
   selectImage(index: number): void {

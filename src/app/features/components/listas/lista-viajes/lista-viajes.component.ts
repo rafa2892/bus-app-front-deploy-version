@@ -116,9 +116,6 @@ export class ListaViajesComponent {
       this.globalUtilsService.buildCustomsToolTipBS();
     }
 
-
- 
-
     private obtenerListaViaje(): void {
       this.viajeServicio.obtenerListaViaje().subscribe({
         next: (dato) => {
