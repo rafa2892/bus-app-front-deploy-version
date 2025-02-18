@@ -61,7 +61,7 @@
 
       ngOnChanges(changes: SimpleChanges): void {
         if (this.carroSeleccionadoDetalles?.id !== undefined) {
-          // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+          this.p = 1;
           this.filtrarHistorialPorTipo();
         }
       }
@@ -74,9 +74,11 @@
         // int 2 = mantinence 
         // int 3 = comment 
         /* Muestra la lista de historial de acuerdo a si es por mantenimiento o vista general*/
-        if(this.verSoloRegistroMantenimiento) {
-          this.carroSeleccionadoDetalles.registroHistorial =
-            this.carroSeleccionadoDetalles.registroHistorial.filter(historial => historial.idTipo === 2);
+        if (this.verSoloRegistroMantenimiento) {
+          this.carroSeleccionadoDetalles = {
+            ...this.carroSeleccionadoDetalles, 
+            registroHistorial: this.carroSeleccionadoDetalles.registroHistorial?.filter(h => h.idTipo === 2) || []
+          };
         }
       }
 
