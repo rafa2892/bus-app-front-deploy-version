@@ -12,6 +12,7 @@ import { ExcelService } from '../../../../core/services/excel-service.service';
 import { CardBusDetailComponent } from '../../modales/card-bus-detail/card-bus-detail.component';
 import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
 import { HistorialService } from '../../../../core/services/historial.service';
+import { forkJoin } from 'rxjs';
 declare var bootstrap: any;
 
 @Component({
@@ -140,49 +141,97 @@ export class ListaCarrosComponent {
     this.router.navigate(['actualizar-vehiculo', id], { queryParams: { esEdicion } });
   }
 
+  // detallesVehiculo(carroSelected: Carro) {
+    
+  //     this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
+  //     this.carroSeleccionadoDetalles = c;
+  //     this.carroSeleccionadoDetalles.imagenesDecodificadas = this.carroServicio.getImagenUrl(this.carroSeleccionadoDetalles);
+  //     // this.cardBus.isEnableViajes
+
+  //     this.countViajesByCarroId();
+  //     this.countHistorialByCarroId();
+
+  //     // Esperar a que las funciones asíncronas terminen antes de abrir el modal
+  //     setTimeout(() => {
+  //         let modal = new bootstrap.Modal(document.getElementById('card-bus-detail')!);
+  //         modal.show();
+  //     }, 500); // Ajusta el tiempo si es necesario
+
+  //     });
+  // }
+
   detallesVehiculo(carroSelected: Carro) {
-      this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
+
+    
+    this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
+
       this.carroSeleccionadoDetalles = c;
       this.carroSeleccionadoDetalles.imagenesDecodificadas = this.carroServicio.getImagenUrl(this.carroSeleccionadoDetalles);
-      this.cardBus.isEnableViajes 
-      this.countViajesByCarroId();
-      this.countHistorialByCarroId();
+      
+      // Usamos forkJoin para esperar a que ambas funciones se completen
+      forkJoin([
+        this.viajeService.countByCarroId(this.carroSeleccionadoDetalles.id),
+        this.historialService.countByCarroId(this.carroSeleccionadoDetalles.id)
+      ]).subscribe({
+        next: ([viajesCount, historialCount]) => {
+          // Asignamos los valores de las respuestas
+          this.numeroViajes = viajesCount;
+          this.numeroHistorial = historialCount;
+  
+          // Habilitar las opciones según el número de viajes y historial
+          this.cardBus.isEnableViajes = this.numeroViajes > 0;
+          this.cardBus.isEnableHistories = this.numeroHistorial > 0;
+        },
+        error: (error) => console.log(error),
+        complete: () => {
+          console.log('Conductor cargado');
+  
+          // Ahora que los datos están cargados, abrimos el modal
+          let modal = new bootstrap.Modal(document.getElementById('card-bus-detail')!);
+          modal.show();
+        }
+      });
     });
   }
 
   numeroViajes : number = 0;
-  countViajesByCarroId() {
-      this.viajeService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
-      next: (c) => {
-        this.numeroViajes = c;
-        if(c > 0){
-          this.cardBus.isEnableViajes = true
-        }
-        else{
-          this.cardBus.isEnableViajes = false;
-        }
-      },
-      error: (error) => console.log(error),
-      complete: () => console.log('Conductor cargado')
-    });
-  }
-
   numeroHistorial : number = 0;
-  countHistorialByCarroId() {
-      this.historialService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
-      next: (h) => {
-        this.numeroHistorial = h;
-        if(h > 0) {
-          this.cardBus.isEnableHistories = true
-        }
-        else{
-          this.cardBus.isEnableHistories = false;
-        }
-      },
-      error: (error) => console.log(error),
-      complete: () => console.log('Conductor cargado')
-    });
-  }
+
+  // countViajesByCarroId() {
+  //   this.viajeService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
+  //   next: (c) => {
+  //     this.numeroViajes = c;
+  //     if(c > 0){
+  //       this.cardBus.isEnableViajes = true
+  //     }
+  //     else{
+  //       this.cardBus.isEnableViajes = false;
+  //     }
+  //   },
+  //   error: (error) => console.log(error),
+  //   complete: () => console.log('Conductor cargado')
+  // });
+  // }
+
+ 
+
+
+  // countHistorialByCarroId() {
+
+  //     this.historialService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
+  //     next: (h) => {
+  //       this.numeroHistorial = h;
+  //       if(h > 0) {
+  //         this.cardBus.isEnableHistories = true
+  //       }
+  //       else{
+  //         this.cardBus.isEnableHistories = false;
+  //       }
+  //     },
+  //     error: (error) => console.log(error),
+  //     complete: () => console.log('Conductor cargado')
+  //   });
+  // }
   
 
   verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
