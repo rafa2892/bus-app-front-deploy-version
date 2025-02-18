@@ -1,54 +1,48 @@
-<div class="d-flex justify-content-between align-items-center w-100">
-    <!-- Contenedor de pasos -->
-    <div class="step-navigation d-flex justify-content-center flex-grow-1">
-        <button *ngFor="let stepNumber of steps; let i = index"
-            [ngClass]="{'active': step === i + 1}" 
-            (click)="goToStep(i + 1)">
-            <span><img [src]="getIconByStep(i)" id="img" alt="no img" class="larger-icon"></span>
-        </button>
+    
+    
+    
+<!-- <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center flex-column" style="height: 100vh;">
+    <p class="text-center text-primary" style="font-size: 1.2rem; font-weight: bold;">Cargando vehículo...</p>
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Cargando...</span>
     </div>
+</div> -->
 
-    <!-- Botón de reset a la derecha -->
-    <div>
-        <button 
-            class="btn btn-reset ms-auto" 
-            [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
-            (click)="resetFormulario(this.carro)"
-            title="Reestablecer el formulario">
-            <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
-        </button>
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center flex-column" style="height: 100vh;">
+    <p class="text-center" style="font-size: 1.2rem; font-weight: bold; color: #ffffff;">Cargando vehículo...</p>
+    <div class="spinner-border" role="status" style="width: 3rem; height: 3rem; color: #ffffff;">
+        <span class="visually-hidden">Cargando...</span>
     </div>
 </div>
 
-<!--    
-        <div class="d-flex">
-            <div class="step-navigation">
-                <button *ngFor="let stepNumber of steps; let i = index"
+
+
+
+
+
+<div *ngIf="!isLoading">
+    <div class="d-flex justify-content-between align-items-center w-100">
+        <!-- Contenedor de pasos -->
+        <div class="step-navigation d-flex justify-content-center flex-grow-1">
+            <button *ngFor="let stepNumber of steps; let i = index"
                 [ngClass]="{'active': step === i + 1}" 
                 (click)="goToStep(i + 1)">
-                    <span><img [src]="getIconByStep(i)" id="img" alt="no img" class="larger-icon"></span>
-                </button>
-            </div>
-            <div>
-                <button 
-                class="btn btn-reset" 
+                <span><img [src]="getIconByStep(i)" id="img" alt="no img" class="larger-icon"></span>
+            </button>
+        </div>
+
+        <!-- Botón de reset a la derecha -->
+        <div>
+            <button 
+                class="btn btn-reset ms-auto" 
                 [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
                 (click)="resetFormulario(this.carro)"
                 title="Reestablecer el formulario">
-                    <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
-                </button>
-            </div>
-        </div>    -->
+                <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
+            </button>
+        </div>
+    </div>
 
-    <!-- <div class="d-flex justify-content-end">
-        <button 
-        class="btn btn-reset" 
-        [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
-        (click)="resetFormulario(this.carro)"
-        title="Reestablecer el formulario">
-            <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
-        </button>
-    </div> -->
 
     <form [formGroup]="carroForm" class="formContainer"(ngSubmit)="onSubmit() ">
         <!-- Paso 1: Carro -->
@@ -443,113 +437,7 @@
 
     </form>
 
+</div>
 
 
 
-
-
-        <!-- <form (ngSubmit)="onSubmit()" id="registraCarroForm">
-            <div class="form-group">
-                <div>
-                    <label>Marca : </label>
-                </div>
-                <div class="row">
-                    <div class="col">
-                    <input type = "text" class="form-control" id="modelo" [(ngModel)] = "carro.marca" name="marca" [ngClass]="{ 'input-grueso': !noMarcaError, 'input-error': noMarcaError }" (input)="onInputChange()">
-                    </div>
-                    <div class="col">
-                        <small *ngIf="noMarcaError" class="text-danger">{{mensajeCampoMarcaObligatorio}}</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div>
-                    <label>Modelo : </label>
-                </div>
-                <div class="row">
-                    <div class="col">
-                    <input type = "text" class="form-control" id="modelo" [(ngModel)]="carro.modelo" name="modelo" [ngClass]="{ 'input-grueso': !noModeloError, 'input-error': noModeloError }" (input)="onInputChange()">
-                    </div>
-                    <div class="col">
-                        <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <div>
-                    <label>Tipo de vehiculo : </label>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="tipoDeVehiculo" [(ngModel)]="carro.tipoDeVehiculo">
-                            <option selected disabled>Selecciona un tipo de vehiculo</option>
-                            <option *ngFor="let tipos of listaTipoVehiculos" [ngValue]="tipos.descripcion">{{ tipos.descripcion }}</option>
-                        </select>
-                    </div>
-                    <div class="col">
-                        <small *ngIf="noModeloError" class="text-danger">El campo modelo es obligatorio.</small>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="mb-3">
-                <label for="formFileSm" class="form-label">Imagenes</label>
-                <input class="form-control form-control-sm" id="formFileSm" type="file" multiple (change)="onFileSelected($event)">
-                <small class="form-text text-muted" *ngIf="selectedFiles.length >= 1"> {{selectedFiles.length}} archivo(s) seleccionado(s)</small>
-                <div *ngFor="let selectedFile of selectedFiles; let i = index" class="form-check">
-                    <input class="form-check-input" type="checkbox" [checked]="true">
-                    <label class="form-check-label">
-                        {{selectedFile.name}}
-                    </label>
-                </div>
-            </div>
-
-
-
-            <div class="form-group">
-                <div>
-                    <label>Año YYYY: </label>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input maxlength="4" type = "text" class="form-control anyoInput defaultSizeInput" id="anyo" [(ngModel)] = "carro.anyo" name="anyo" (input)="onInputChange()" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'anyo')" [ngClass]="{ 'input-grueso':!noAnyoError , 'input-error': noAnyoError }">
-                    </div>
-                    <div class="col">
-                        <small *ngIf="nonNumericError" class="text-danger">La fecha debe introducirse en formato "YYYY", en numeros, ejemplo año actual : "{{anyoActual}}"</small>
-                        <small *ngIf="noAnyoError" class="text-danger">{{mensaje}}</small>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Consumo aproximado cada 100 km: </label>
-                    <div class="row">
-                        <div class="col">
-                            <input type = "text" (input)="onInputChange()"  class="form-control defaultSizeInput" id="consumoDefecto" [(ngModel)] = "carro.consumo" name="consumo" appOnlyNumber  (nonNumericCount)="handleNonNumericCount($event, 'consumo')" [ngClass]="{ 'input-grueso':!nonNumericConsumo , 'input-error': nonNumericConsumo }"  >
-                        </div>
-                        <div class="col">
-                            <small *ngIf="nonNumericConsumo" class="text-danger">Solo se aceptan números.</small>
-                        </div>
-                    </div>
-                </div>
-            <div class="form-group">
-                <label>Numero Unidad : </label>
-                    <div class="row">
-                        <div class="col">
-                            <input maxlength="4" type = "text" (input)="onInputChange()" class="form-control defaultSizeInput" id="numeroUni"  [ngClass]="{'input-error': noNumeroUnidad || nonNumericNumUnidad || unidadRepetida, 'input-grueso': !noNumeroUnidad && !nonNumericNumUnidad}"  [(ngModel)] = "carro.numeroUnidad" name="numUnidad" appOnlyNumber (nonNumericCount)="handleNonNumericCount($event, 'numeroUni')">
-                        </div>
-                        <div class="col">
-                            <small *ngIf="nonNumericNumUnidad" class="text-danger">{{mensajeNumeroUnidadFormato}}</small>
-                            <small *ngIf="noNumeroUnidad" class="text-danger">{{mensajeNumeroUnidadCampoObligatorio}}</small>
-                            <small *ngIf="unidadRepetida" class="text-danger">{{mensajeNumeroUnidadRegistrada}}</small>
-                        </div>
-                </div>
-            </div>
-                <div class="text-center">
-                    <button class="btn btn-primary saveButtonRegistrarCarro">Guardar</button>
-                </div>
-            </form> -->
-        <!-- </div> -->

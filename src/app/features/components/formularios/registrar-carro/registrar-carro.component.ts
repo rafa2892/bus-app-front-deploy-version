@@ -70,9 +70,12 @@ declare var bootstrap: any;
     TOOLTIP_MSJ_GUARDADO_BASICO = TITLES.SAVE_BASIC_INFO_CAR_TOOLTIP
 
     //Static Icon
-     editIcon = faEdit;
-     commentIcon = faComment;
-     faPlus = faPlusCircle;
+    editIcon = faEdit;
+    commentIcon = faComment;
+    faPlus = faPlusCircle;
+
+    //Bandera de carga
+    isLoading: boolean = false;
 
     steps: number[] = [1, 2, 3, 4, 5]; // Los pasos disponibles
 
@@ -98,14 +101,17 @@ declare var bootstrap: any;
       this.route.params.subscribe(params => {
           const id = +params['id'];
           this.idSeleccionada = id;
+
           if (id) {
               this.obtenerCarroPorId(id);
           }
+          
           this.obtenerCarros();
       });
       this.obtenerListaTipoVehiculos();
 
       
+
     }
 
     disableForm() {
@@ -208,14 +214,41 @@ declare var bootstrap: any;
     }
 
     obtenerCarroPorId(id: number) {
-      this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
-        this.carro = carro;
-        this.setFiles();
-        this.setFormulario();
-        this.checkPDFexist(this.carro);
-        this.checkIfEditionMode();
+      this.isLoading = true;  // Activar la bandera de carga
+      this.carroServicio.obtenerCarroPorId(id).subscribe({
+        next: (carro) => {
+          this.carro = carro;
+          this.setFiles();
+          this.setFormulario();
+          this.checkPDFexist(this.carro);
+          this.checkIfEditionMode();
+        },
+        error: (error) => {
+          console.error("Error al obtener el carro:", error);
+        },
+        complete: () => {
+            setTimeout(() => {
+              const scrollPosition = document.documentElement.scrollHeight / 2 - window.innerHeight / 2;
+              this.isLoading = false;  // Desactivar la bandera de carga
+              window.scrollTo({
+                top: scrollPosition,  // Mueve el scroll al medio del contenido de la página
+                behavior: 'smooth'    // Desliza suavemente hasta el centro
+              });
+            }, 0);
+        }
       });
     }
+    
+
+    // obtenerCarroPorId(id: number) {
+    //   this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
+    //     this.carro = carro;
+    //     this.setFiles();
+    //     this.setFormulario();
+    //     this.checkPDFexist(this.carro);
+    //     this.checkIfEditionMode();
+    //   });
+    // }
 
     checkIfEditionMode() {
         // Recuperar el valor de `esEdicion` y asegurarse de que es booleano

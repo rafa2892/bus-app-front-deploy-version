@@ -102,9 +102,21 @@ export class ListaCarrosComponent {
   buildCustomsToolTipBS() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-      return new bootstrap.Tooltip(tooltipTriggerEl, {
+      const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
         delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
       });
+      // Guardar el tooltip en una propiedad para poder eliminarlo más tarde
+      tooltipTriggerEl.tooltipInstance = tooltip;
+    });
+  }
+
+  disposeCustomTooltips() {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+      const tooltip = tooltipTriggerEl.tooltipInstance;
+      if (tooltip) {
+        tooltip.dispose();  // Elimina el tooltip
+      }
     });
   }
 
@@ -123,6 +135,7 @@ export class ListaCarrosComponent {
 
   actualizarCarro(id: number) {
     const esEdicion = true; // O el valor que desees (true o false)
+    this.disposeCustomTooltips(); 
     this.router.navigate(['actualizar-vehiculo', id], { queryParams: { esEdicion } });
   }
 
