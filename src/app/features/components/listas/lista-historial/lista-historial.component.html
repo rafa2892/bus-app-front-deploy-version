@@ -1,8 +1,14 @@
 
       <div class="d-flex justify-content-between align-items-center">
+
         <h5 style="font-size: bold; font-style: italic; font-size: 20px;">
-          {{getNumUnidadFormateado(carro.numeroUnidad)}} - {{carro.marca + ' ' + carro.modelo}}
+
+          {{getNumUnidadFormateado(carroSeleccionadoDetalles.numeroUnidad)}} 
+            - {{carroSeleccionadoDetalles.marca + 
+                ' ' + carroSeleccionadoDetalles.modelo}}
+
         </h5>
+        
           <div class="d-flex align-items-center">
             <button 
             class="btn btn-reset" 

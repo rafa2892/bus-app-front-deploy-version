@@ -56,7 +56,8 @@ export class PopupHistorialVehiculosComponent {
       this.mostrarListaHistorial = true;
       this.mostrarRegistrarHistorial = false;
       this.verSoloRegistroMantenimiento = mostrarSoloMantenimeinto;
-      this.obtenerCarroPorId(carro.id);
+      this.carroSeleccionadoDetalles = carro;
+      // this.obtenerCarroPorId(carro.id);
     }
 
     private obtenerCarroPorId(id: number) {

@@ -33,7 +33,7 @@ export class ListaCarrosComponent {
   repairIcon = faScrewdriverWrench
   p: number = 1;
   carroSeleccionadoDetalles: Carro = new Carro;
-  carro: Carro;
+  // carro: Carro;
   changeDetecterFlag : boolean;
   carroId:number;
   modalManager : any;
@@ -108,31 +108,10 @@ export class ListaCarrosComponent {
     });
   }
 
-  openHistorialModal(carro: Carro) {
-
-    const modalRef = this.modalService.open(PopupHistorialVehiculosComponent, { 
-      windowClass: 'modal-sinc-cuu', 
-      size: 'lg'
-    });
-
-    modalRef.componentInstance.isModalProgramatico = true;
-    modalRef.componentInstance.carro = this.carro;
-
-    const verSoloRegMant = this.verSoloMantenimiento;
-    modalRef.componentInstance.verSoloRegistroMantenimiento = verSoloRegMant;
-
-    if(modalRef)
-      this.modalManager = modalRef;
+  openHistorialModal() {
+    this.verHistorial(this.carroSeleccionadoDetalles, this.verSoloMantenimiento);
   }
 
-  private obtenerCarroPorId(id: number, abrirModal: boolean = false) {
-    this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
-      this.carro = c;
-      if (abrirModal) {
-        this.openHistorialModal(this.carro); // Abre el modal después de asignar el carro
-      }
-    });
-  }
 
   private obtenerCarros() {
     this.carroServicio.obtenerListaCarro().subscribe(carros => {
@@ -180,18 +159,44 @@ export class ListaCarrosComponent {
     });
   }
 
-
-  verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
+  private obtenerCarroDetallesPorId(id: number): Promise<Carro> {
+    return new Promise((resolve, reject) => {
+      this.carroServicio.obtenerCarroPorId(id).subscribe({
+        next: (c) => resolve(c),  // Resuelve la promesa con el carro obtenido
+        error: (err) => reject(err),  // Rechaza la promesa si hay error
+      });
+    });
+  }
+  
+  async verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
+    this.isLoading = true;
     
     this.verSoloMantenimiento = verSoloRegistroMantenimiento;
     this.carroSeleccionadoDetalles = carroSelected;
     this.changeDetecterFlag = !this.changeDetecterFlag;
-    this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles, verSoloRegistroMantenimiento);
 
-    //Indica si muestra todos los tipos de historiales o solo de mantenimiento
-    // if(this.modalManager.componentInstance)
-    //   {this.modalManager.componentInstance.verSoloRegistroMantenimiento = verSoloRegistroMantenimiento;}
+    const carroDetalles = await this.obtenerCarroDetallesPorId(this.carroSeleccionadoDetalles.id);
+    this.childComponent.cleanInitMethod(carroDetalles, verSoloRegistroMantenimiento);
+    
+    // setTimeout(() => {}, 2000);
+
+    // // Abrir el modal
+    let modal = new bootstrap.Modal(document.getElementById('verHistorialPopUp')!);
+    modal.show();
+
+    //Remove the loader
+    this.isLoading = false;
   }
+
+  private obtenerCarroPorId(id: number, abrirModal: boolean = false) {
+    this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
+      this.carroSeleccionadoDetalles = c;
+      if (abrirModal) {
+        this.openHistorialModal(); // Abre el modal después de asignar el carro
+      }
+    });
+  }
+
 
   insertarRegistro(id: number) {
     this.router.navigate(['/nuevo-registro', id]);

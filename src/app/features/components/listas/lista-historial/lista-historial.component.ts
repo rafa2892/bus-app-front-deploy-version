@@ -61,7 +61,22 @@
 
       ngOnChanges(changes: SimpleChanges): void {
         if (this.carroSeleccionadoDetalles?.id !== undefined) {
-          this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+          // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
+          this.filtrarHistorialPorTipo();
+        }
+      }
+
+      filtrarHistorialPorTipo() {
+        //Preseleccionar opción por defecto en el select de tipo de historial ****historial.idTipo***
+        //DATA come from BBDD 
+        // int 0 = default value = 0
+        // int 1 = new Service
+        // int 2 = mantinence 
+        // int 3 = comment 
+        /* Muestra la lista de historial de acuerdo a si es por mantenimiento o vista general*/
+        if(this.verSoloRegistroMantenimiento) {
+          this.carroSeleccionadoDetalles.registroHistorial =
+            this.carroSeleccionadoDetalles.registroHistorial.filter(historial => historial.idTipo === 2);
         }
       }
 
@@ -96,24 +111,9 @@
         this.carroServicio.obtenerCarroPorId(id).pipe(
           tap(c => {
             this.carro = c;
-            console.log(this.carro, this.carroSeleccionadoDetalles);
           })
         ).subscribe(() => {
           this.carroSeleccionadoDetalles = { ...this.carro };
-
-        //Preseleccionar opción por defecto en el select de tipo de historial ****historial.idTipo***
-        //DATA come from BBDD 
-        // int 0 = default value = 0
-        // int 1 = new Service
-        // int 2 = mantinence 
-        // int 3 = comment 
-
-        /* Muestra la lista de historial de acuerdo a si es por mantenimiento o vista general*/
-          if (this.verSoloRegistroMantenimiento) {
-                this.carroSeleccionadoDetalles.registroHistorial = this.carro.registroHistorial.filter(
-                historial => historial.idTipo === 2
-            );
-          }
         });
       }
 
@@ -214,11 +214,11 @@
     }
 
 
-    obtenerHistorialBetweenDays() {
+  obtenerHistorialBetweenDays() {
 
-      if(!this.fechaHasta) {
-        this.fechaHasta = this.fechaDesde;
-      }
+    if(!this.fechaHasta) {
+      this.fechaHasta = this.fechaDesde;
+    }
 
     if(this.fechaDesde && this.fechaHasta) {
       const carId = this.carroSeleccionadoDetalles.id;
