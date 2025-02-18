@@ -15,9 +15,21 @@ export class Carro {
   tipoVehiculo:string;
 
   //Car objects attributes
+
+
   imagenes: Imagen [];
   imagenesBd: Imagen [];
   imegenesGuardar : Imagen [];
+  imagenesProcesadas : Imagen [];
+  imagenesDecodificadas?: { url: string, id: number | undefined, imagenUrl: string, imagenDescr: string }[];
+
+
+
+
+
+
+
+
   registroHistorial : Historial [] = [];
   bateria: Bateria = new Bateria();
   poliza: Poliza;

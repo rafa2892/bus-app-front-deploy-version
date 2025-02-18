@@ -141,8 +141,9 @@ export class ListaCarrosComponent {
   }
 
   detallesVehiculo(carroSelected: Carro) {
-    this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
+      this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
       this.carroSeleccionadoDetalles = c;
+      this.carroSeleccionadoDetalles.imagenesDecodificadas = this.carroServicio.getImagenUrl(this.carroSeleccionadoDetalles);
       this.cardBus.isEnableViajes 
       this.countViajesByCarroId();
       this.countHistorialByCarroId();
@@ -189,8 +190,6 @@ export class ListaCarrosComponent {
     this.verSoloMantenimiento = verSoloRegistroMantenimiento;
     this.carroSeleccionadoDetalles = carroSelected;
     this.changeDetecterFlag = !this.changeDetecterFlag;
-
-
     this.childComponent.cleanInitMethod(this.carroSeleccionadoDetalles, verSoloRegistroMantenimiento);
 
     //Indica si muestra todos los tipos de historiales o solo de mantenimiento
@@ -204,9 +203,9 @@ export class ListaCarrosComponent {
 
   async eliminarCarro(id: number) {
 
-   const borrar = await this.confirmaMensaje();
+  const borrar = await this.confirmaMensaje();
 
-   if(borrar) {
+  if(borrar) {
       this.carroServicio.eliminarCarro(id).subscribe(dato => {
         this.obtenerCarros();
       })}

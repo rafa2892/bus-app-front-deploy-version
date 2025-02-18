@@ -59,9 +59,29 @@ export class CardBusDetailComponent {
  ngAfterViewChecked(): void {
   
 }
+
+
+
+  isLoading: boolean = true; // Este es el estado de carga
+
   getImagenUrl(carroSeleccionado: any) {
-      this.imagenesCodificadasFront =
-            this.carroService.getImagenUrl(carroSeleccionado)
+
+
+    this.isLoading = false; // Establecer el estado de carga en verdadero
+    
+    this.imagenesCodificadasFront =
+            this.carroService.getImagenUrl(carroSeleccionado);
+
+
+    this.isLoading = true; // Establecer el estado de carga en verdadero
+
+
+    
+
+
+
+
+
       
       if(this.imagenesCodificadasFront) {
         return this.imagenesCodificadasFront;
@@ -104,10 +124,10 @@ export class CardBusDetailComponent {
 
 
   noImage() {
-    if(this.imagenesCodificadasFront && this.imagenesCodificadasFront.length < 1) {
-        return true;
+    if(this.carroSeleccionadoDetalles.imagenesBd && this.carroSeleccionadoDetalles.imagenesBd.length > 0) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   getImagesLength() : number [] {

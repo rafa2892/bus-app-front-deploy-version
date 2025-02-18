@@ -28,14 +28,19 @@
                 <div class="carousel-inner inner-container">
                   <div class="d-flex align-items-center mb-2 gap-5"> 
                   <div class="d-flex mb-5">
+
+
                     <img *ngIf="noImage()" [src]="imagenNotFound" alt="Imagen no disponible" />
-                    <ng-container *ngFor="let imagen of getImagenUrl(carroSeleccionadoDetalles); let i = index"  [class.active]="i === index">
-                      <div class="carousel-item" [class.active]="i === index"  data-bs-interval="false">
-                        <a data-bs-toggle="modal" data-bs-target="#popup-zoom-img">
-                          <img class="d-block w-100 lupa-cursor" [src]="imagen.url">
-                        </a>
-                      </div>
-                    </ng-container>
+                      <ng-container *ngFor="let imagen of carroSeleccionadoDetalles.imagenesDecodificadas; let i = index"  [class.active]="i === index">
+                        <div class="carousel-item" [class.active]="i === index"  data-bs-interval="false">
+                          <a data-bs-toggle="modal" data-bs-target="#popup-zoom-img">
+                            <img class="d-block w-100 lupa-cursor" [src]="imagen.url">
+                          </a>
+                        </div>
+                      </ng-container>
+
+
+
                   </div>
                   <div class="btn-consulta-carro">
                     <a id="indicadoresImagenes" 

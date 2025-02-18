@@ -108,7 +108,6 @@ export class CarroService {
     });
   }
 
-
   //Metodo utilidad
   getImagenUrl(carro: Carro) {
 
@@ -116,6 +115,8 @@ export class CarroService {
 
       //Declaracion del arreglo (imagenes del front)
         let imagenesDecodificadas: { url: string, id: number | undefined, imagenUrl: string, imagenDescr : string } [] = []; 
+
+        // Establece isLoading en true al inicio
 
         //Se itera sobre las imagenes, con un foreach declarativo para evitar errores
         carro.imagenesBd.forEach((imagen: { id: number | null, imagen: string, imagenDesc :string }) => {
@@ -130,8 +131,6 @@ export class CarroService {
             imagenesDecodificadas.push({ url: imagen.imagen, id: undefined, imagenUrl: imagen.imagen, imagenDescr: imagen.imagenDesc});
           }
         });
-
-
         return imagenesDecodificadas;
     }
     return [];
