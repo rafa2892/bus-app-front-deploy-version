@@ -1,3 +1,10 @@
+    <div *ngIf="isLoading" class="position-fixed top-50 start-50 translate-middle">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+    
+    
     <div class="d-flex titulo-btn-container">
       
       <div class="addNewCarBton">
@@ -124,8 +131,7 @@
         <td>
           <button 
             (click)="detallesVehiculo(carro)" 
-            class="btn btn-primary botonesAccion btn-sm" 
-            >
+            class="btn btn-primary botonesAccion btn-sm">
               <span 
               class="button-icon"
               data-bs-toggle="tooltip" 

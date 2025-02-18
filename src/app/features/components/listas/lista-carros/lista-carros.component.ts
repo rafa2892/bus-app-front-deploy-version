@@ -43,6 +43,12 @@ export class ListaCarrosComponent {
   modelo : string = '';
   anyo : string ='';
   marca : string = '';
+  numeroViajes : number = 0;
+  numeroHistorial : number = 0;
+
+  //indicador de carga
+  isLoading: boolean = false;
+
   
   // Acceso al componente al modal hijo que se abre por js
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; 
@@ -141,32 +147,13 @@ export class ListaCarrosComponent {
     this.router.navigate(['actualizar-vehiculo', id], { queryParams: { esEdicion } });
   }
 
-  // detallesVehiculo(carroSelected: Carro) {
-    
-  //     this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
-  //     this.carroSeleccionadoDetalles = c;
-  //     this.carroSeleccionadoDetalles.imagenesDecodificadas = this.carroServicio.getImagenUrl(this.carroSeleccionadoDetalles);
-  //     // this.cardBus.isEnableViajes
-
-  //     this.countViajesByCarroId();
-  //     this.countHistorialByCarroId();
-
-  //     // Esperar a que las funciones asíncronas terminen antes de abrir el modal
-  //     setTimeout(() => {
-  //         let modal = new bootstrap.Modal(document.getElementById('card-bus-detail')!);
-  //         modal.show();
-  //     }, 500); // Ajusta el tiempo si es necesario
-
-  //     });
-  // }
-
   detallesVehiculo(carroSelected: Carro) {
 
-    
-    this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
+    this.isLoading = true;
 
-      this.carroSeleccionadoDetalles = c;
-      this.carroSeleccionadoDetalles.imagenesDecodificadas = this.carroServicio.getImagenUrl(this.carroSeleccionadoDetalles);
+    this.carroServicio.obtenerCarroPorId(carroSelected.id).subscribe(c => {
+    this.carroSeleccionadoDetalles = c;
+    this.carroSeleccionadoDetalles.imagenesDecodificadas = this.carroServicio.getImagenUrl(this.carroSeleccionadoDetalles);
       
       // Usamos forkJoin para esperar a que ambas funciones se completen
       forkJoin([
@@ -184,9 +171,8 @@ export class ListaCarrosComponent {
         },
         error: (error) => console.log(error),
         complete: () => {
-          console.log('Conductor cargado');
-  
-          // Ahora que los datos están cargados, abrimos el modal
+          this.isLoading = false;
+          // // Ahora que los datos están cargados, abrimos el modal
           let modal = new bootstrap.Modal(document.getElementById('card-bus-detail')!);
           modal.show();
         }
@@ -194,45 +180,6 @@ export class ListaCarrosComponent {
     });
   }
 
-  numeroViajes : number = 0;
-  numeroHistorial : number = 0;
-
-  // countViajesByCarroId() {
-  //   this.viajeService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
-  //   next: (c) => {
-  //     this.numeroViajes = c;
-  //     if(c > 0){
-  //       this.cardBus.isEnableViajes = true
-  //     }
-  //     else{
-  //       this.cardBus.isEnableViajes = false;
-  //     }
-  //   },
-  //   error: (error) => console.log(error),
-  //   complete: () => console.log('Conductor cargado')
-  // });
-  // }
-
- 
-
-
-  // countHistorialByCarroId() {
-
-  //     this.historialService.countByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
-  //     next: (h) => {
-  //       this.numeroHistorial = h;
-  //       if(h > 0) {
-  //         this.cardBus.isEnableHistories = true
-  //       }
-  //       else{
-  //         this.cardBus.isEnableHistories = false;
-  //       }
-  //     },
-  //     error: (error) => console.log(error),
-  //     complete: () => console.log('Conductor cargado')
-  //   });
-  // }
-  
 
   verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
     

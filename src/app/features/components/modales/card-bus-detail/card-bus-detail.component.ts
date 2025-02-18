@@ -61,28 +61,9 @@ export class CardBusDetailComponent {
   
 }
 
-
-
-  isLoading: boolean = true; // Este es el estado de carga
-
   getImagenUrl(carroSeleccionado: any) {
-
-
-    this.isLoading = false; // Establecer el estado de carga en verdadero
-    
     this.imagenesCodificadasFront =
             this.carroService.getImagenUrl(carroSeleccionado);
-
-
-    this.isLoading = true; // Establecer el estado de carga en verdadero
-
-
-    
-
-
-
-
-
       
       if(this.imagenesCodificadasFront) {
         return this.imagenesCodificadasFront;
@@ -90,11 +71,13 @@ export class CardBusDetailComponent {
         this.index = 0;
         return [this.imagenNotFound];
       }
-
   }
 
+
   mostrarCambioImg() : boolean {
-    if(this.imagenesCodificadasFront && this.imagenesCodificadasFront.length > 1) {
+   const imagenes =  this.carroSeleccionadoDetalles.imagenesDecodificadas;
+
+    if(imagenes && imagenes.length > 1) {
         return true;
     }
     return false;
@@ -102,7 +85,8 @@ export class CardBusDetailComponent {
       
 
   nextImage() {
-    if(this.imagenesCodificadasFront && this.index < (this.imagenesCodificadasFront.length - 1 )){
+    const imagenes =  this.carroSeleccionadoDetalles.imagenesDecodificadas;
+    if(imagenes && this.index < (imagenes.length - 1 )){
         this.index++;
     }else {
       this.index = 0;
@@ -114,9 +98,13 @@ export class CardBusDetailComponent {
       this.index--;
     }
     else {
-      if(this.imagenesCodificadasFront) 
-        this.index = this.imagenesCodificadasFront.length - 1;
+      const imagenes = this.carroSeleccionadoDetalles.imagenesDecodificadas;
+      if(imagenes) {
+        this.index = imagenes.length - 1;
+      }
     }
+
+
   }
 
   selectImage(index: number): void {
