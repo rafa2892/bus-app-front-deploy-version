@@ -34,7 +34,7 @@ declare var bootstrap: any;
     selectedFilesWithId: FileWithId[] = [];
 
     carro : Carro =  new Carro();
-    carroLista : Carro [] ;
+    // carroLista : Carro [] ;
     carIcon = faCar;
     plusIcon = faPlusCircle;
     mensaje : string = '';
@@ -107,16 +107,21 @@ declare var bootstrap: any;
       }
 
     ngOnInit(): void {
+
+      this.isLoading = true;
+
       this.route.params.subscribe(params => {
           const id = +params['id'];
           this.idSeleccionada = id;
+
           //Scroll al medio automaticamente
           this.customScroll(id);
-
           if (id) {
               this.obtenerCarroPorId(id);
+          }else {
+              this.isLoading = false;
           }
-          this.obtenerCarros();
+          
       });
       this.obtenerListaTipoVehiculos();
     }
@@ -233,7 +238,7 @@ declare var bootstrap: any;
           console.error("Error al obtener el carro:", error);
         },
         complete: () => {
-          // this.customScroll();
+          this.isLoading = false;
         }
       });
     }
@@ -344,11 +349,11 @@ declare var bootstrap: any;
       return 'Nombre no encontrado';
     }
 
-    obtenerCarros(){
-      this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
-        this.carroLista = dato;
-      });
-    }
+    // obtenerCarros(){
+    //   this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
+    //     this.carroLista = dato;
+    //   });
+    // }
 
     parametrizarCarro() {
       const datosLimpios = JSON.parse(JSON.stringify(this.carroForm.value, (key, value) =>
