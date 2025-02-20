@@ -460,17 +460,14 @@ h2 {
 }
 
 .icon-container {
-  display: flex;
-  justify-content: flex-end; /* Alinea el ícono a la derecha */
-  flex-grow: 1;
+  position: relative;
+  left: 60em;
+  top: 18em;
 }
 
-.icono {
-  position: relative;
-  bottom: 26em;
-  left: -17em;
-  color: #55a2d1;
-}
+.marginBotton {
+  margin-bottom: 9em;
+} 
 
 .step-navigation {
   margin-left: 13em;

@@ -16,6 +16,18 @@
 </div>
 
 
+<div class="icon-container">
+    <span 
+        class="button-icon ms-auto"  
+        data-bs-toggle="tooltip" 
+        data-bs-placement="bottom"
+        data-bs-original-title="Registros mantenimiento">
+        <fa-icon style="color:wheat" *ngIf="isEditMode && this.carro.id" class="editIcon" [icon]="editIcon" [size]="'6x'"></fa-icon>
+        <fa-icon style="color: #55a2d1;" *ngIf="!isEditMode && this.carro.id" class="detailIcon" [icon]="commentIcon" [size]="'6x'"></fa-icon>
+        <fa-icon style="color: #55a2d1;" *ngIf="isEditMode && !this.carro.id" class="newIcon" [icon]="faPlus" [size]="'6x'"></fa-icon>
+    </span>
+</div>
+
 
 
 
@@ -155,11 +167,10 @@
             </div>
         </div>
 
-
         <!-- Paso 2: Batería -->
         <div *ngIf="step === 2" formGroupName="carro">
             <div formGroupName="bateria">
-            <h2>Información de la Batería</h2>
+                <h2>Información de la Batería</h2>
                 <div class="d-flex align-items-start gap-5 separador">
                     <div class="form-group">
                         <label for="marca-bateria">Marca:</label>
@@ -178,265 +189,239 @@
                     <label for="capacidad">Capacidad:</label>
                     <input id="capacidad" appOnlyNumber class="form-control number-input-custom-style" formControlName="capacidad" placeholder="Watts" type="text" />
                 </div> 
-                </div>
             </div>
+        </div>
 
-                <!-- <div>
-                <label for="fechaInstalacion">Fecha de Instalación:</label>
-                <input id="fechaInstalacion" formControlName="fechaInstalacion" placeholder="Ingrese la fecha de instalación" type="date" />
-                <div *ngIf="carroForm.get('bateria.fechaInstalacion')?.invalid && carroForm.get('bateria.fechaInstalacion')?.touched">
-                    <small class="error" *ngIf="carroForm.get('bateria.fechaInstalacion')?.hasError('required')">La fecha de instalación es obligatoria.</small>
-                </div>
-                </div> -->
+        <!-- <div>
+        <label for="fechaInstalacion">Fecha de Instalación:</label>
+        <input id="fechaInstalacion" formControlName="fechaInstalacion" placeholder="Ingrese la fecha de instalación" type="date" />
+        <div *ngIf="carroForm.get('bateria.fechaInstalacion')?.invalid && carroForm.get('bateria.fechaInstalacion')?.touched">
+            <small class="error" *ngIf="carroForm.get('bateria.fechaInstalacion')?.hasError('required')">La fecha de instalación es obligatoria.</small>
+        </div>
+        </div> -->
 
-                <!-- <div>
-                <label for="fechaRetiro">Fecha de Retiro:</label>
-                <input id="fechaRetiro" formControlName="fechaRetiro" placeholder="Ingrese la fecha de retiro" type="date" />
-                <div *ngIf="carroForm.get('bateria.fechaRetiro')?.invalid && carroForm.get('bateria.fechaRetiro')?.touched">
-                    <small class="error" *ngIf="carroForm.get('bateria.fechaRetiro')?.hasError('required')">La fecha de retiro es obligatoria.</small>
-                </div>textarea-custom-style
-                </div> -->
+        <!-- <div>
+        <label for="fechaRetiro">Fecha de Retiro:</label>
+        <input id="fechaRetiro" formControlName="fechaRetiro" placeholder="Ingrese la fecha de retiro" type="date" />
+        <div *ngIf="carroForm.get('bateria.fechaRetiro')?.invalid && carroForm.get('bateria.fechaRetiro')?.touched">
+            <small class="error" *ngIf="carroForm.get('bateria.fechaRetiro')?.hasError('required')">La fecha de retiro es obligatoria.</small>
+        </div>textarea-custom-style
+        </div> -->
 
-            <!-- Paso 3: Título de Propiedad -->
-            <div *ngIf="step === 3" formGroupName="carro" class="mb-4">
-                <div formGroupName="tituloPropiedad">
-                    <h2>Información del Título de Propiedad</h2>
-                    <div class="d-flex align-items-start gap-5 separador">
-                        <div class="form-group">
-                            <label for="nombre">{{RAZON_TITULO}}</label>
-                            <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Nombre/Razón social">
-                        </div>
-                        <div class="form-group text-area-styles">
-                            <label for="obs">{{OBSERVACION_TITULO}}</label>
-                            <textarea class="form-control"  id="obs" rows="3" formControlName="observaciones" placeholder="Comentario/Observaciones"></textarea>
-                        </div>
-                    </div>
-
-
+        <!-- Paso 3: Título de Propiedad -->
+        <div *ngIf="step === 3" formGroupName="carro" class="mb-4">
+            <div formGroupName="tituloPropiedad">
+                <h2>Información del Título de Propiedad</h2>
+                <div class="d-flex align-items-start gap-5 separador">
                     <div class="form-group">
-                        <label for="pdfUploader">Adjuntar titulo PDF</label>
-                        <div class="d-flex align-items-start gap-5"> 
-                            <input id="pdfUploader" 
-                                type="file" 
-                                (change)="onPdfSelected($event)" 
-                                [disabled]="tituloPropiedadPDFSelectedFile"
-                                class="form-control-file file-selector-input"
-                                accept="application/pdf">
-                            <small *ngIf="tituloPropiedadPDFSelectedFile" 
-                                class="form-text" 
-                                style="color: rgb(249, 195, 175); font-weight: bold;"> Tiene un PDF cargado 
-                            </small>
-                        </div>
+                        <label for="nombre">{{RAZON_TITULO}}</label>
+                        <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Nombre/Razón social">
                     </div>
+                    <div class="form-group text-area-styles">
+                        <label for="obs">{{OBSERVACION_TITULO}}</label>
+                        <textarea class="form-control"  id="obs" rows="3" formControlName="observaciones" placeholder="Comentario/Observaciones"></textarea>
+                    </div>
+                </div>
 
-                    <div *ngIf="tituloPropiedadPDFSelectedFile" class="d-flex align-items-center gap-5 mt-1">  
-                        <div  class="form-group pdf-container">
-                            <small> {{ getNamePDFFile() }}</small>
-                            <div class="d-flex align-items-center gap-5">
-                                <img src="assets/okey-icon.png" class="default-img-icon-size">
-                                <button 
-                                    *ngIf="existePDFTitulo && this.carro.id && tituloPropiedadPDFSelectedFile" 
-                                    class="btn btn-primary btn-download"
-                                    (click)="descargarTituloPdf(this.carro.id)" 
-                                    type="button"><i class="bi bi-box-arrow-down"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="btn-delete-pdf">
-                            <button type="button" class="delete-img-btn" (click)="deleteTituloPDF()">
-                                <span><img src="assets/delete.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
+
+                <div class="form-group">
+                    <label for="pdfUploader">Adjuntar titulo PDF</label>
+                    <div class="d-flex align-items-start gap-5"> 
+                        <input id="pdfUploader" 
+                            type="file" 
+                            (change)="onPdfSelected($event)" 
+                            [disabled]="tituloPropiedadPDFSelectedFile"
+                            class="form-control-file file-selector-input"
+                            accept="application/pdf">
+                        <small *ngIf="tituloPropiedadPDFSelectedFile" 
+                            class="form-text" 
+                            style="color: rgb(249, 195, 175); font-weight: bold;"> Tiene un PDF cargado 
+                        </small>
+                    </div>
+                </div>
+
+                <div *ngIf="tituloPropiedadPDFSelectedFile" class="d-flex align-items-center gap-5 mt-1">  
+                    <div  class="form-group pdf-container">
+                        <small> {{ getNamePDFFile() }}</small>
+                        <div class="d-flex align-items-center gap-5">
+                            <img src="assets/okey-icon.png" class="default-img-icon-size">
+                            <button 
+                                *ngIf="existePDFTitulo && this.carro.id && tituloPropiedadPDFSelectedFile" 
+                                class="btn btn-primary btn-download"
+                                (click)="descargarTituloPdf(this.carro.id)" 
+                                type="button"><i class="bi bi-box-arrow-down"></i>
                             </button>
                         </div>
-                    </div>      
-                </div>
+                    </div>
+                    <div class="btn-delete-pdf">
+                        <button type="button" class="delete-img-btn" (click)="deleteTituloPDF()">
+                            <span><img src="assets/delete.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
+                        </button>
+                    </div>
+                </div>      
             </div>
+        </div>
 
-
-
-
-
-
-
-
-                <!-- Paso 4: Póliza -->
-            <div *ngIf="step === 4" formGroupName="carro">
-                <h2>Información de la Póliza</h2>
-                <div formGroupName="poliza">
-                    <div class="d-flex align-items-start gap-5 separador">
-                        <div class="form-group">
-                            <label for="aseguradora">Aseguradora:</label>
-                            <input id="aseguradora" class="form-control" formControlName="aseguradora" placeholder="Ingrese la aseguradora" />
-                        </div>
-                        <div class="form-group margin-left-5em">
-                            <label for="poliza">Póliza Num:</label>
-                            <input id="poliza" formControlName="poliza" style="width: 7em;" placeholder="Num. Póliza" />
-                        </div>
+            <!-- Paso 4: Póliza -->
+        <div *ngIf="step === 4" formGroupName="carro">
+            <h2>Información de la Póliza</h2>
+            <div formGroupName="poliza">
+                <div class="d-flex align-items-start gap-5 separador">
+                    <div class="form-group">
+                        <label for="aseguradora">Aseguradora:</label>
+                        <input id="aseguradora" class="form-control" formControlName="aseguradora" placeholder="Ingrese la aseguradora" />
                     </div>
-                    <div class="form-group mt-3">
-                        <label for="cobertura">Cobertura:</label>
-                        <input id="cobertura" formControlName="cobertura" placeholder="Ingrese la cobertura" />
-                    </div>
-                    <div class="d-flex gap-5 separador">
-                        <div class="form-group">
-                                <div class="form-group">
-                                <label for="fecha-expedicion" class="d-block">Fecha Expedición:</label>
-                                <mat-form-field id="mat-picker-date-component"
-                                class="full-width date-picker">
-                                    <input
-                                        matInput
-                                        [matDatepicker]="pickerExpedicion"
-                                        name="fecha-expedicion"
-                                        id="fecha-expedicion"
-                                        (dateChange)="calculoDiasVencimiento()"
-                                        class="form-control input-custom-style"
-                                        placeholder="Ingrese fecha expedición"
-                                        formControlName="fechaInicio"
-                                        readonly>
-                                    <mat-datepicker-toggle
-                                        matIconSuffix [for]="pickerExpedicion" class='toggle-picker-enabled'>
-                                    </mat-datepicker-toggle>
-                                    <mat-datepicker id="dataPicker" #pickerExpedicion></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                            <div>
-                                <label for="observaciones">Observaciones:</label>
-                                <textarea id="observaciones" formControlName="observaciones" class="mb-4" placeholder="Ingrese las observaciones"></textarea>
-                            </div>
-                        </div>
-                    <div class="d-flex gap-5 separador align-items-start">    
-                        <div class="form-group custom-style">
-                        <label for="fechaExpire" class="d-block">Fecha Vencimiento/Expiración:</label>
-                        <mat-form-field id="mat-picker-date-component"
-                        class="full-width date-picker">
-                            <input
-                                matInput
-                                [matDatepicker]="pickerVenci"
-                                name="fecha-expire"
-                                id="fecha-expire"
-                                class="form-control input-custom-style"
-                                placeholder="Ingrese fecha"
-                                (dateChange)="calculoDiasVencimiento()"
-                                formControlName="fechaExpire"
-                                readonly>
-                            <mat-datepicker-toggle
-                                matIconSuffix [for]="pickerVenci" class='toggle-picker-enabled'>
-                            </mat-datepicker-toggle>
-                            <mat-datepicker id="dataPicker" #pickerVenci></mat-datepicker>
-                        </mat-form-field>
-                        </div>
-                        <div class="form-group dias-por-vencer d-flex gap-3 align-items-center">
-                            <label for="diasPorVencer">Días por Vencer:</label>
-                            <input 
-                            id="diasPorVencer" 
-                            class="number-input-custom-style number-input-custom-font disabled" 
-                            formControlName="diasPorVencer" 
-                            type="text"
-                            [ngClass]="getDiasVencimientoStyle()"/>
-                            <span class="mb-2">
-                                <img *ngIf="diasPorVencer || diasPorVencer === 0" [src]="getIconExpireDateCalculation()" 
-                                id="img_dias" 
-                                alt="NOT FOUND" 
-                                class="default-img-icon-size">
-                            </span>
-                        </div>
+                    <div class="form-group margin-left-5em">
+                        <label for="poliza">Póliza Num:</label>
+                        <input id="poliza" formControlName="poliza" style="width: 7em;" placeholder="Num. Póliza" />
                     </div>
                 </div>
+                <div class="form-group mt-3">
+                    <label for="cobertura">Cobertura:</label>
+                    <input id="cobertura" formControlName="cobertura" placeholder="Ingrese la cobertura" />
+                </div>
+                <div class="d-flex gap-5 separador">
+                    <div class="form-group">
+                            <div class="form-group">
+                            <label for="fecha-expedicion" class="d-block">Fecha Expedición:</label>
+                            <mat-form-field id="mat-picker-date-component"
+                            class="full-width date-picker">
+                                <input
+                                    matInput
+                                    [matDatepicker]="pickerExpedicion"
+                                    name="fecha-expedicion"
+                                    id="fecha-expedicion"
+                                    (dateChange)="calculoDiasVencimiento()"
+                                    class="form-control input-custom-style"
+                                    placeholder="Ingrese fecha expedición"
+                                    formControlName="fechaInicio"
+                                    readonly>
+                                <mat-datepicker-toggle
+                                    matIconSuffix [for]="pickerExpedicion" class='toggle-picker-enabled'>
+                                </mat-datepicker-toggle>
+                                <mat-datepicker id="dataPicker" #pickerExpedicion></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                        <div>
+                            <label for="observaciones">Observaciones:</label>
+                            <textarea id="observaciones" formControlName="observaciones" class="mb-4" placeholder="Ingrese las observaciones"></textarea>
+                        </div>
+                    </div>
+                <div class="d-flex gap-5 separador align-items-start">    
+                    <div class="form-group custom-style">
+                    <label for="fechaExpire" class="d-block">Fecha Vencimiento/Expiración:</label>
+                    <mat-form-field id="mat-picker-date-component"
+                    class="full-width date-picker">
+                        <input
+                            matInput
+                            [matDatepicker]="pickerVenci"
+                            name="fecha-expire"
+                            id="fecha-expire"
+                            class="form-control input-custom-style"
+                            placeholder="Ingrese fecha"
+                            (dateChange)="calculoDiasVencimiento()"
+                            formControlName="fechaExpire"
+                            readonly>
+                        <mat-datepicker-toggle
+                            matIconSuffix [for]="pickerVenci" class='toggle-picker-enabled'>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker id="dataPicker" #pickerVenci></mat-datepicker>
+                    </mat-form-field>
+                    </div>
+                    <div class="form-group dias-por-vencer d-flex gap-3 align-items-center">
+                        <label for="diasPorVencer">Días por Vencer:</label>
+                        <input 
+                        id="diasPorVencer" 
+                        class="number-input-custom-style number-input-custom-font disabled" 
+                        formControlName="diasPorVencer" 
+                        type="text"
+                        [ngClass]="getDiasVencimientoStyle()"/>
+                        <span class="mb-2">
+                            <img *ngIf="diasPorVencer || diasPorVencer === 0" [src]="getIconExpireDateCalculation()" 
+                            id="img_dias" 
+                            alt="NOT FOUND" 
+                            class="default-img-icon-size">
+                        </span>
+                    </div>
+                </div>
             </div>
-
+        </div>
 
         <!-- Paso 5: Imágenes -->
-    <div *ngIf="step === 5" formGroupName="carro" >
-
-        <div formGroupName="imagenesBd" >
-        <h2>Imágenes del Carro</h2>
-
-            <!-- Agregar imagen -->
-            <div class="mb-3 mt-4">
-                <label for="formFileSm" class="form-label mb-3">Cargar Imagenes</label>
-                <div class="d-flex gap-3 align-items-start"> 
-                    <input 
-                        class="form-control file-selector-input" 
-                        id="formFileSm" 
-                        type="file" 
-                        multiple 
-                        [disabled]="selectedFilesWithId && selectedFilesWithId.length >= 4"
-                        (change)="onFileSelected($event)"
-                        accept=".png, .jpeg, .jpg">
-                    <span class="ml-3 msj4ImgMax" *ngIf="selectedFilesWithId && selectedFilesWithId.length >= 4">4 imagenes maximo por vehiculo</span>
-                </div>
-
-                <div class="imagenes-container mt-5">
-                    <div *ngFor="let imagen of getImagenUrl(this.carro)" class="imagen-wrapper">
-                    <div class="d-flex align-items-center gap-3 mb-3">
-                        <button class="delete-img-btn"  (click)="removeImage(imagen)">
-                            <span><img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
-                        </button>
-                        <label class="form-check-label">
-                            {{imagen.imagenDescr}}
-                        </label>
+        <div *ngIf="step === 5" formGroupName="carro" >
+            <div formGroupName="imagenesBd" >
+            <h2>Imágenes del Carro</h2>
+                <!-- Agregar imagen -->
+                <div class="mb-3 mt-4">
+                    <label for="formFileSm" class="form-label mb-3">Cargar Imagenes</label>
+                    <div 
+                        [ngClass]="selectedFilesWithId && selectedFilesWithId.length < 1 ? 'marginBotton' : ''"
+                        class="d-flex gap-3 align-items-start selector"> 
+                        <input 
+                            class="form-control file-selector-input" 
+                            id="formFileSm" 
+                            type="file" 
+                            multiple
+                            [disabled]="selectedFilesWithId && selectedFilesWithId.length >= 4"
+                            (change)="onFileSelected($event)"
+                            accept=".png, .jpeg, .jpg">
+                        <span class="ml-3 msj4ImgMax" *ngIf="selectedFilesWithId && selectedFilesWithId.length >= 4">4 imagenes maximo por vehiculo</span>
                     </div>
-                        <img [src]="imagen.url" alt="Imagen cargada" />
+                    <div class="imagenes-container mt-5">
+                        <div *ngFor="let imagen of getImagenUrl(this.carro)" class="imagen-wrapper">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <button class="delete-img-btn"  (click)="removeImage(imagen)">
+                                <span><img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
+                            </button>
+                            <label class="form-check-label">
+                                {{imagen.imagenDescr}}
+                            </label>
+                        </div>
+                            <img [src]="imagen.url" alt="Imagen cargada" />
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-        
-    <div class="button-container">
-        <div class="left-buttons">  
-            <button 
-            *ngIf="this.step === 5" 
-            type="submit" 
-            class="btn btn-primary btn-styles"  
-            [disabled]="guardarDisabledButton()">Guardar
-            </button>
-            <button 
-                *ngIf="this.step !== 5" 
-                type="button" 
-                class="btn btn-primary btn-styles" 
-                data-bs-toggle="tooltip" 
-                data-bs-placement="bottom"
-                [attr.data-bs-original-title]="TOOLTIP_MSJ_GUARDADO_BASICO"
-                (click)="guardadoBasico()">Guardar y omitir
-            </button>
+        <div class="button-container">
+            <div class="left-buttons">  
+                <button 
+                *ngIf="this.step === 5" 
+                type="submit" 
+                class="btn btn-primary btn-styles"  
+                [disabled]="guardarDisabledButton()">Guardar
+                </button>
+                <button 
+                    *ngIf="this.step !== 5" 
+                    type="button" 
+                    class="btn btn-primary btn-styles" 
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="bottom"
+                    [attr.data-bs-original-title]="TOOLTIP_MSJ_GUARDADO_BASICO"
+                    (click)="guardadoBasico()">Guardar y omitir
+                </button>
+            </div>
+            <div class="right-buttons"> 
+                <button 
+                    *ngIf="!(this.step === 1)" 
+                    type="button"  
+                    class="btn btn-primary btn-styles" 
+                    (click)="backStep()">Atrás
+                </button>
+                <button 
+                    id="nextBton"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="top"
+                    *ngIf="!(this.step === 5)" 
+                    type="button"
+                    class="btn btn-primary btn-styles hover-styles"
+                    [attr.data-bs-original-title]="carroForm.invalid && this.step === 1 ? MSJ_BTON_NEXT_STEP : ''"
+                    (click)="nextStep()">Siguiente
+                </button>
+            </div>
         </div>
-        <div class="right-buttons"> 
-            <button 
-                *ngIf="!(this.step === 1)" 
-                type="button"  
-                class="btn btn-primary btn-styles" 
-                (click)="backStep()">Atrás
-            </button>
-            <button 
-                id="nextBton"
-                data-bs-toggle="tooltip" 
-                data-bs-placement="top"
-                *ngIf="!(this.step === 5)" 
-                type="button"
-                class="btn btn-primary btn-styles hover-styles"
-                [attr.data-bs-original-title]="carroForm.invalid && this.step === 1 ? MSJ_BTON_NEXT_STEP : ''"
-                [disabled]=""
-                (click)="nextStep()">Siguiente
-            </button>
-        </div>
-    </div>
-
-    <div class="icon-container">
-        <span 
-            class="button-icon ms-auto icono"  
-            data-bs-toggle="tooltip" 
-            data-bs-placement="bottom"
-            data-bs-original-title="Registros mantenimiento">
-            <fa-icon style="color:wheat" *ngIf="isEditMode && this.carro.id" class="editIcon" [icon]="editIcon" [size]="'6x'"></fa-icon>
-            <fa-icon *ngIf="!isEditMode && this.carro.id" class="repairIcon" [icon]="commentIcon" [size]="'6x'"></fa-icon>
-            <fa-icon *ngIf="isEditMode && !this.carro.id" class="newIcon" [icon]="faPlus" [size]="'6x'"></fa-icon>
-        </span>
-    </div>
-
-
     </form>
-
 </div>
 
 

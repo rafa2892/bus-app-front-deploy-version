@@ -1,16 +1,15 @@
     
       <!-- <button (click)="enviarCorreo()">Enviar Excel por Correo</button> -->
-       
+      
       <div class="d-flex align-items-center justify-content-start margin">
 
         <button 
           type="button" 
-          data-bs-dismiss="modal" 
           data-bs-toggle="tooltip" 
           data-bs-placement="bottom"
           data-bs-original-title="Registra un nuevo servicio"
           id="botonDetails"
-          (click)="registrarNuevoCarro()"
+          (click)="registrarNuevoServicio()"
           class="btn btn-primary btn-styles">
           <span class="button-icon">Registrar servicio
             <fa-icon class="eyeIcon" style="margin-left: 1em;"  [icon]="plusIcon"></fa-icon>
@@ -133,18 +132,38 @@
         </ng-container>
         <ng-template #horasNoEspecificadas>Horas no especificas</ng-template></td>
         <td>
-          <button title="Ver detalles del Vehiculo" (click)="detallesViaje(viaje)" data-bs-toggle="modal" data-bs-target="#confirma-servicio-modal"
-          class="btn btn-primary botonesAccion small-button">
+
+          <button 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="bottom"
+            data-bs-original-title="Registra un nuevo servicio"
+            (click)="detallesViaje(viaje)" 
+            class="btn btn-primary botonesAccion small-button">
             <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
           </button>
-          <button title="Editar Vehiculo" (click)="editar(viaje)" class="btn btn-warning botonesAccion small-button">
-            <span class="button-icon"><fa-icon class="editIcon" [icon]="editIcon"></fa-icon></span>
-          </button>
-          <button title="Eliminar Vehiculo"  (click)="eliminar(viaje)" class="btn btn-danger botonesAccion small-button">
+          <button 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="bottom"
+            data-bs-original-title="Editar datos del servicio"
+            (click)="editar(viaje)" 
+            class="btn btn-warning botonesAccion small-button">
             <span class="button-icon">
-              <img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size">
+              <fa-icon class="editIcon" [icon]="editIcon"></fa-icon>
             </span>
           </button>
+          <button
+            (click)="eliminar(viaje)" 
+            class="btn btn-danger botonesAccion btn-sm">
+            <span 
+              class="button-icon"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom"
+              data-bs-original-title="Eliminar vehiculo">
+                <span>
+                  <img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size">
+                </span>
+            </span>
+          </button> 
         </td>
       </tr>
       </tbody>

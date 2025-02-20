@@ -42,7 +42,6 @@ import { TITLES } from '../../constant/titles.constants';
       });
     }
 
-
           // Método para quitar el efecto visual de error de un campo
       quitarError(campoId: string): void {
         const elemento = document.getElementById(campoId);
@@ -97,13 +96,39 @@ import { TITLES } from '../../constant/titles.constants';
       return '';  
   }
 
+  // buildCustomsToolTipBS() {
+  //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+  //     return new bootstrap.Tooltip(tooltipTriggerEl, {
+  //       delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
+  //     });
+  //   });
+  // }
+
   buildCustomsToolTipBS() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-      return new bootstrap.Tooltip(tooltipTriggerEl, {
+      const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
         delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
       });
+      // Guardar el tooltip en una propiedad para poder eliminarlo más tarde
+      tooltipTriggerEl.tooltipInstance = tooltip;
     });
+  }
+
+  disposeCustomTooltips() {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+      const tooltip = tooltipTriggerEl.tooltipInstance;
+      if (tooltip) {
+        tooltip.dispose();  // Elimina el tooltip
+      }
+    });
+  }
+
+  abrirModalProgramatico(idModal: string) {
+    let modal = new bootstrap.Modal(document.getElementById('confirma-servicio-modal')!);
+    modal.show();
   }
 
   removeClassFromAllElements(className: string): void {

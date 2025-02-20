@@ -81,11 +81,20 @@ declare var bootstrap: any;
 
     async goToStep(stepNumber: number) {
       const datosValidos = await this.validandoDatos();
-      if(datosValidos) 
-        {this.step = stepNumber;}
+    
+      if (datosValidos) {
+        this.step = stepNumber;
+    
+        // Esperar a que Angular actualice la vista antes de hacer el scroll
+        setTimeout(() => {
+          window.scrollTo({
+            top: window.scrollY + window.innerHeight / 3, // Ajusta según la posición deseada
+            behavior: 'smooth' // Hace que el desplazamiento sea suave
+          });
+        }, 100);
+      }
     }
-
-
+    
     constructor(
       private carroServicio:CarroService,
       private router:Router,
@@ -101,22 +110,19 @@ declare var bootstrap: any;
       this.route.params.subscribe(params => {
           const id = +params['id'];
           this.idSeleccionada = id;
+          //Scroll al medio automaticamente
+          this.customScroll(id);
 
           if (id) {
               this.obtenerCarroPorId(id);
           }
-          
           this.obtenerCarros();
       });
       this.obtenerListaTipoVehiculos();
-
-      
-
     }
 
     disableForm() {
       this.carroForm.disable();
-      // this.carroForm.get('carro')?.valid,
     }
 
     ngAfterViewInit(): void {
@@ -227,16 +233,27 @@ declare var bootstrap: any;
           console.error("Error al obtener el carro:", error);
         },
         complete: () => {
-            setTimeout(() => {
-              const scrollPosition = document.documentElement.scrollHeight / 2 - window.innerHeight / 2;
-              this.isLoading = false;  // Desactivar la bandera de carga
-              window.scrollTo({
-                top: scrollPosition,  // Mueve el scroll al medio del contenido de la página
-                behavior: 'smooth'    // Desliza suavemente hasta el centro
-              });
-            }, 0);
+          // this.customScroll();
         }
       });
+    }
+
+    customScroll(id:number) {
+      setTimeout(() => {
+
+        let scrollPosition = 0;
+
+        if(id){
+          scrollPosition = document.documentElement.scrollHeight / 2 - window.innerHeight / 2;
+        } else {
+          scrollPosition = document.documentElement.scrollHeight / 2 - window.innerHeight / 2 + 100;
+        }
+        this.isLoading = false;  // Desactivar la bandera de carga
+        window.scrollTo({
+          top: scrollPosition,  // Mueve el scroll al medio del contenido de la página
+          behavior: 'smooth'    // Desliza suavemente hasta el centro
+        });
+      }, 0);
     }
     
 
@@ -612,8 +629,10 @@ declare var bootstrap: any;
     }
       
     backStep() {
-      if(this.step > 1) 
+      console.log(this.step, "step")
+      if(this.step > 1)  {
           this.step = (this.step - 1);
+        }
     }
 
     async nextStep() {
@@ -735,20 +754,20 @@ declare var bootstrap: any;
   }
 
   deleteTituloPDF() {
-      // Limpiar la variable que contiene el archivo
-      this.tituloPropiedadPDFSelectedFile = null;
-      this.cambiosFormularioFiles = true;
+    // Limpiar la variable que contiene el archivo
+    this.tituloPropiedadPDFSelectedFile = null;
+    this.cambiosFormularioFiles = true;
 
-      // Restablecer el input de archivo (opcional)
-      const fileInput = document.getElementById('pdfUploader') as HTMLInputElement;
+    // Restablecer el input de archivo (opcional)
+    const fileInput = document.getElementById('pdfUploader') as HTMLInputElement;
 
-      if (fileInput) {
-        fileInput.value = ''; // Borra el archivo seleccionado en el input
-      }
+    if (fileInput) {
+      fileInput.value = ''; // Borra el archivo seleccionado en el input
+    }
 
-      // Si tienes un FormControl para el PDF, también lo reseteas
-      this.carroForm.get('carro.tituloPropiedad.archivoPDF')?.setValue(null);
-      }
+    // Si tienes un FormControl para el PDF, también lo reseteas
+    this.carroForm.get('carro.tituloPropiedad.archivoPDF')?.setValue(null);
+    }
 
   async resetFormulario(carro:Carro) {
     const title = TITLES.RESTORE_MSJ_CONFIRM_TITLE_MODAL;

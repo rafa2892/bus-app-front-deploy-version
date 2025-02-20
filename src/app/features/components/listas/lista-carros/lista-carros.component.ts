@@ -2,11 +2,9 @@ import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { Carro } from "../../../../core/models/carro";
 import { CarroService } from "../../../../core/services/carro.service";
 import { ActivatedRoute, Router } from '@angular/router';
-import { faEdit, faEye, faHistory, faPlus, faTrash, faScrewdriverWrench} from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faEye, faHistory, faPlus, faTrash, faScrewdriverWrench, faCirclePlus} from '@fortawesome/free-solid-svg-icons';
 import { PopupHistorialVehiculosComponent } from '../../modales/popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { AuthService } from '../../../../core/services/auth.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import Swal from 'sweetalert2';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 import { ExcelService } from '../../../../core/services/excel-service.service';
 import { CardBusDetailComponent } from '../../modales/card-bus-detail/card-bus-detail.component';
@@ -29,11 +27,10 @@ export class ListaCarrosComponent {
   deleteIcon = faTrash;
   historyIcon = faHistory;
   eyeIcon = faEye;
-  faPlus = faPlus;
+  faPlus = faCirclePlus;
   repairIcon = faScrewdriverWrench
   p: number = 1;
   carroSeleccionadoDetalles: Carro = new Carro;
-  // carro: Carro;
   changeDetecterFlag : boolean;
   carroId:number;
   modalManager : any;
@@ -56,7 +53,6 @@ export class ListaCarrosComponent {
  
  
   constructor(
-    private modalService: NgbModal, 
     private authService:AuthService, 
     private carroServicio: CarroService, 
     private router: Router, 
@@ -64,8 +60,7 @@ export class ListaCarrosComponent {
     private globalUtilService:GlobalUtilsService,
     private excelService:ExcelService,
     private viajeService:ViajeServicioService,
-    private historialService:HistorialService,
-    private changeDetectorRef:ChangeDetectorRef) {
+    private historialService:HistorialService) {
   }
 
   ngOnInit(): void {
@@ -292,6 +287,7 @@ export class ListaCarrosComponent {
   }
 
   registerCarForm() {
+    this.globalUtilService.disposeCustomTooltips();
     this.router.navigate(['/registrar-carro']);
   }
 

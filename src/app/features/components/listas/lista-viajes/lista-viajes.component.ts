@@ -15,6 +15,8 @@ import { ExcelService } from '../../../../core/services/excel-service.service';
 import { EmailService } from '../../../../core/services/email-service.service';
 import { CarroService } from '../../../../core/services/carro.service';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+declare var bootstrap: any;
+
 
 @Component({
   selector: 'app-lista-viajes',
@@ -139,18 +141,18 @@ export class ListaViajesComponent {
 
     detallesViaje(viaje:Viaje) {
       this.viajeSelDetails = { ...viaje }; // Crea una copia del objeto seleccionado
+        // // Ahora que los datos están cargados, abrimos el modal
+        this.globalUtilsService.abrirModalProgramatico('confirma-servicio-modal')
     }
 
     //CRUD
     editar(viaje:Viaje) {
+      this.globalUtilsService.disposeCustomTooltips();
       this.router.navigate(['/registrar-viaje', viaje.id]);
-      // const baseUrl = window.location.origin; // Obtiene la base de la URL (ej.: http://localhost:4200)
-      // const url = this.router.serializeUrl(this.router.createUrlTree(['/registrar-viaje', viaje.id]));
-      // window.open(baseUrl + url, '_blank'); // Abre en una nueva pestaña
     }
 
     async eliminar(viaje:Viaje){
-      
+      // this.globalUtilsService.disposeCustomTooltips();
       const eliminarConfirmado = await this.eliminarViaje(viaje);
 
       if (eliminarConfirmado) {
@@ -349,9 +351,39 @@ export class ListaViajesComponent {
       }
     }
     
-    registrarNuevoCarro() {
+    registrarNuevoServicio() {
+      this.globalUtilsService.disposeCustomTooltips();
       this.router.navigate(['/registrar-viaje']);
     }
+
+    private tooltipsInitialized = false;
+    ngAfterViewChecked(): void {
+      if (!this.tooltipsInitialized && this.viajes?.length) {
+        this.globalUtilsService.buildCustomsToolTipBS();
+        this.tooltipsInitialized = true;
+      }
+    }
+  
+    // buildCustomsToolTipBS() {
+    //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+    //     const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
+    //       delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
+    //     });
+    //     // Guardar el tooltip en una propiedad para poder eliminarlo más tarde
+    //     tooltipTriggerEl.tooltipInstance = tooltip;
+    //   });
+    // }
+  
+    // disposeCustomTooltips() {
+    //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+    //     const tooltip = tooltipTriggerEl.tooltipInstance;
+    //     if (tooltip) {
+    //       tooltip.dispose();  // Elimina el tooltip
+    //     }
+    //   });
+    // }
     
     
 }

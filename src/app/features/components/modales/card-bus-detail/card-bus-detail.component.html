@@ -27,34 +27,34 @@
               <div id="corouselDetallesVehiculo" class="carousel slide centrarImg">
                 <div class="carousel-inner inner-container">
                   <div class="d-flex align-items-center mb-2 gap-5"> 
-                  <div class="d-flex mb-5">
-
-
-                    <img *ngIf="noImage()" [src]="imagenNotFound" alt="Imagen no disponible" />
-                      <ng-container *ngFor="let imagen of carroSeleccionadoDetalles.imagenesDecodificadas; let i = index"  [class.active]="i === index">
-                        <div class="carousel-item" [class.active]="i === index"  data-bs-interval="false">
-                          <a data-bs-toggle="modal" data-bs-target="#popup-zoom-img">
-                            <img class="d-block w-100 lupa-cursor" [src]="imagen.url">
-                          </a>
+                    <div class="d-flex mb-5">
+                      <div class="imagen-vehiculo">
+                        <div class="addNewCarBton mb-2">
+                          <button 
+                          type="button" 
+                          data-bs-dismiss="modal" 
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="bottom"
+                          data-bs-original-title="Registra un nuevo servicio"
+                          id="botonDetails"
+                          (click)="irFormularioCarroConsulta(carroSeleccionadoDetalles.id)"
+                          class="btn btn-primary btn-styles">
+                          <span class="button-icon">Ver más detalles
+                            <fa-icon class="eyeIcon" style="margin-left: 1em;"  [icon]="eyeIcon"></fa-icon>
+                          </span> 
+                        </button>
+                      </div>
+                        <img *ngIf="noImage()" [src]="imagenNotFound" alt="Imagen no disponible" />
+                          <ng-container *ngFor="let imagen of carroSeleccionadoDetalles.imagenesDecodificadas; let i = index"  [class.active]="i === index">
+                            <div class="carousel-item" [class.active]="i === index"  data-bs-interval="false">
+                              <a data-bs-toggle="modal" data-bs-target="#popup-zoom-img">
+                                <img class="d-block w-100 lupa-cursor" [src]="imagen.url">
+                              </a>
+                            </div>
+                          </ng-container>
                         </div>
-                      </ng-container>
-
-
-
+                      </div>
                   </div>
-                  <div class="btn-consulta-carro">
-                    <a id="indicadoresImagenes" 
-                      type="button" 
-                      class="btn-download"
-                      data-bs-toggle="tooltip" 
-                      data-bs-placement="bottom"
-                      data-bs-original-title="Consulta datos vehiculo"
-                      data-bs-dismiss="modal"
-                      (click)="irFormularioCarroConsulta(carroSeleccionadoDetalles.id)">
-                      <fa-icon class="eyeIcon" [icon]="eyeIcon"  [size]="'2x'"></fa-icon>
-                    </a>
-                  </div>
-                </div>
                 </div>
                 <div class="carousel-indicators" style="display: block;left: 38px;">
                   <ng-container *ngFor="let imagen of getImagesLength(); let i = index">
