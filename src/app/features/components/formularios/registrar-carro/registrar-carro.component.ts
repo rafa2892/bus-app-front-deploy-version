@@ -115,14 +115,13 @@ declare var bootstrap: any;
           this.isLoading = true
           this.obtenerCarroPorId(id)
 
-          // setTimeout(() => {  ;}, 2000);
-
-          // if (id) {
-          //     this.obtenerCarroPorId(id);
-          // }else {
-          //     // this.isLoading = false;
-          // }
-
+          if (id) {
+              this.obtenerCarroPorId(id);
+          }else {
+            // setTimeout(() => {  }, 2000);
+              this.isLoading = false;
+              this.customScroll(id);
+          }
       });
       this.obtenerListaTipoVehiculos();
     }
@@ -249,7 +248,6 @@ declare var bootstrap: any;
 
     customScroll(id:number) {
       setTimeout(() => {
-
         let scrollPosition = 0;
 
         if(id){
