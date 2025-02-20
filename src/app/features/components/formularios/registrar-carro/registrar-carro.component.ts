@@ -251,7 +251,7 @@ declare var bootstrap: any;
         let scrollPosition = 0;
 
         if(id){
-          scrollPosition = document.documentElement.scrollHeight / 2 - window.innerHeight / 2;
+          scrollPosition = document.documentElement.scrollHeight / 2 - window.innerHeight / 2 + 100;
         } else {
           scrollPosition = document.documentElement.scrollHeight / 2 - window.innerHeight / 2 + 100;
         }
