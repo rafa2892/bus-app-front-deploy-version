@@ -108,8 +108,6 @@ declare var bootstrap: any;
 
     ngOnInit(): void {
 
-      this.isLoading = true;
-
       this.route.params.subscribe(params => {
           const id = +params['id'];
           this.idSeleccionada = id;
@@ -121,7 +119,7 @@ declare var bootstrap: any;
           }else {
               this.isLoading = false;
           }
-          
+
       });
       this.obtenerListaTipoVehiculos();
     }
@@ -225,7 +223,8 @@ declare var bootstrap: any;
     }
 
     obtenerCarroPorId(id: number) {
-      this.isLoading = true;  // Activar la bandera de carga
+      this.isLoading = true;
+
       this.carroServicio.obtenerCarroPorId(id).subscribe({
         next: (carro) => {
           this.carro = carro;
