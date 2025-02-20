@@ -1,3 +1,9 @@
+<div *ngIf="isLoading" class="position-fixed top-50 start-50 translate-middle text-center bg-dark p-3 rounded">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Cargando datos...</span>
+  </div>
+  <p class="text-white mt-2">Cargando datos...</p>
+</div>
 
 
 <div class="filtrosContenedor" id="filtrosContenedor">
@@ -118,7 +124,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="pagination-container">
+    <div *ngIf="!isLoading" class="pagination-container">
       <pagination-controls 
       (pageChange)="p = $event"
       previousLabel="Anterior" 

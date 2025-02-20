@@ -67,18 +67,19 @@ export class ListaCarrosComponent {
     // Comprobar si hay un 'state' al que se redirigió
     const navigationState = history.state;
 
+    this.isLoading = true;
     this.route.params.subscribe(params => {
       const id = +params['id'];  
       if (id && navigationState && navigationState.redireccion) {
         // Resetea el estado de navegación
         window.history.replaceState({}, '', window.location.href);
-        
         /* Recuperamos desde el registrar-historial si creamos un registro de mantenimeinto */
         this.verSoloMantenimiento = navigationState.verSoloRegistroMantenimiento ?? false;
         this.obtenerCarroPorId(id, true);
+      }else {
+        this.obtenerCarros();
       }
     });
-    this.obtenerCarros();
   }
 
   ngAfterViewInit(): void {
@@ -119,12 +120,19 @@ export class ListaCarrosComponent {
     this.verHistorial(this.carroSeleccionadoDetalles, this.verSoloMantenimiento);
   }
 
-
   private obtenerCarros() {
-    this.carroServicio.obtenerListaCarro().subscribe(carros => {
-      this.carros = carros;
-      this.carrosFiltrados = carros;
-      setTimeout(() => this.buildCustomsToolTipBS(), 100); // Espera a que el DOM se actualice
+    this.carroServicio.obtenerListaCarro().subscribe({
+      next: (carros) => {
+        this.carros = carros;
+        this.carrosFiltrados = carros;
+        setTimeout(() => this.buildCustomsToolTipBS(), 100);
+      },
+      error: (error) => {
+        console.error('Error al obtener la lista de carros:', error);
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 
@@ -199,6 +207,7 @@ export class ListaCarrosComponent {
   private obtenerCarroPorId(id: number, abrirModal: boolean = false) {
     this.carroServicio.obtenerCarroPorId(id).subscribe(c => {
       this.carroSeleccionadoDetalles = c;
+      this.obtenerCarros();
       if (abrirModal) {
         this.openHistorialModal(); // Abre el modal después de asignar el carro
       }

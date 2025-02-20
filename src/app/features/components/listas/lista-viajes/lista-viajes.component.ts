@@ -25,8 +25,6 @@ declare var bootstrap: any;
 })
 export class ListaViajesComponent {
 
-  
-
     viajes: Viaje[];
     p: number = 1;
     editIcon = fontAwesomeIcons.editIcon;
@@ -53,6 +51,7 @@ export class ListaViajesComponent {
 
     //spinner de carga
     loading = false;
+    filterLoading = false;
 
     tipoExport : string | null = null;
 
@@ -83,20 +82,20 @@ export class ListaViajesComponent {
 
     ngOnInit(): void {
 
-      const idConductorStr = this.activatedRoute.snapshot.paramMap.get('idConductor');
+      this.loading = true;
 
+      const idConductorStr = this.activatedRoute.snapshot.paramMap.get('idConductor');
       const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
+
+      // setTimeout(() => {}, 1000);
+      
       //Convertimos el valor a número
       const idConductor = idConductorStr ? + idConductorStr : null;
 
       // Si se recibe un id de conductor, se filtran los viajes por ese conductor
       if(idConductor) {
         this.obtenerListaViajePorConductor(idConductor);
-      } else {
-        this.obtenerListaViaje();
-      }
-
-      if(idCarroStr) {
+      }else if(idCarroStr) {
         const idCarro = Number(idCarroStr); // Convierte a número
         this.carroService.obtenerCarroPorId(idCarro).subscribe({
           next: (dato) => {
@@ -111,6 +110,8 @@ export class ListaViajesComponent {
             this.mostrarNotificacion('No se pudo cargar la lista de viajes.', 'error-snackbar');
           }
         });
+      }else {
+        this.obtenerListaViaje();
       }
     }
 
@@ -123,12 +124,15 @@ export class ListaViajesComponent {
         next: (dato) => {
           // Si el backend devuelve null, asignamos un array vacío
           this.viajes = dato || [];
-          this.loading = false;
         },
         error: (error) => {
           console.error('Error al obtener la lista de viajes:', error);
           this.viajes = []; // En caso de error, dejamos la lista vacía
           this.mostrarNotificacion('No se pudo cargar la lista de viajes.', 'error-snackbar');
+        },
+        complete: () => {
+          this.loading = false;
+          this.filterLoading = false;
         }
       });
     }
@@ -220,6 +224,7 @@ export class ListaViajesComponent {
     }
 
     applyFilterHandlerFromSon(){
+      this.filterLoading = true;
       this.getViajesFiltrados();
     }
 
@@ -277,8 +282,6 @@ export class ListaViajesComponent {
       });
   }
 
-
-  
     // Monitorear cambios en el estado del interruptor
     switchHandler() {
       // Si filtros cargados va a bbdd nuevamente
@@ -287,13 +290,13 @@ export class ListaViajesComponent {
       const isSwitchFilterOn = this.isSwitchFiltersOn;
 
       if(isAnyParameterToFilterBy) {
-          this.loading = true;
+          this.filterLoading = true;
       }
-        if(!isSwitchFilterOn || !isAnyParameterToFilterBy && isSwitchFilterOn) {
-          this.obtenerListaViaje();
-        }else if(isAnyParameterToFilterBy && isSwitchFilterOn){
-          this.getViajesFiltrados();
-        }
+      if(!isSwitchFilterOn || !isAnyParameterToFilterBy && isSwitchFilterOn) {
+        this.obtenerListaViaje();
+      }else if(isAnyParameterToFilterBy && isSwitchFilterOn){
+        this.getViajesFiltrados();
+      }
     }
 
     resetFilters(): void {
@@ -308,28 +311,51 @@ export class ListaViajesComponent {
       this.obtenerListaViaje();
     }
 
-
     // Método para buscar los viajes filtrados
     getViajesFiltrados() {
-      this.viajeServicio.obtenerViajesFiltrados(this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr).subscribe(
-        (datos) => {
+      this.viajeServicio.obtenerViajesFiltrados(this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr).subscribe({
+        next: (datos) => {
           this.viajes = datos;
           this.modalService.dismissAll();
-          this.loading = false;
           this.isSwitchFiltersOn = true;
-        },(error) => {
+        },
+        error: (error) => {
           console.error('Error al obtener los viajes:', error);
-          if(error.status === 404) {
-            this._snackBar.open('No hay registros con los parametros dados', '', {
-            duration: 5000,
-            panelClass: ['error-snackbar'],
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
+          if (error.status === 404) {
+            this._snackBar.open('No hay registros con los parámetros dados', '', {
+              duration: 5000,
+              panelClass: ['error-snackbar'],
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
             });
           }
+        },
+        complete: () => {
+          this.filterLoading = false;
         }
-      );
+      });
     }
+    
+    // getViajesFiltrados() {
+    //   this.viajeServicio.obtenerViajesFiltrados(this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr).subscribe(
+    //     (datos) => {
+    //       this.viajes = datos;
+    //       this.modalService.dismissAll();
+    //       this.filterLoading = false;
+    //       this.isSwitchFiltersOn = true;
+    //     },(error) => {
+    //       console.error('Error al obtener los viajes:', error);
+    //       if(error.status === 404) {
+    //         this._snackBar.open('No hay registros con los parametros dados', '', {
+    //         duration: 5000,
+    //         panelClass: ['error-snackbar'],
+    //         horizontalPosition: 'end',
+    //         verticalPosition: 'top',
+    //         });
+    //       }
+    //     }
+    //   );
+    // }
 
     downloadExcel() {
       if(this.tipoExport) {

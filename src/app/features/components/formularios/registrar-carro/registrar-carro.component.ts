@@ -264,16 +264,6 @@ declare var bootstrap: any;
     }
     
 
-    // obtenerCarroPorId(id: number) {
-    //   this.carroServicio.obtenerCarroPorId(id).subscribe(carro => {
-    //     this.carro = carro;
-    //     this.setFiles();
-    //     this.setFormulario();
-    //     this.checkPDFexist(this.carro);
-    //     this.checkIfEditionMode();
-    //   });
-    // }
-
     checkIfEditionMode() {
         // Recuperar el valor de `esEdicion` y asegurarse de que es booleano
       this.route.queryParams.subscribe(params => {

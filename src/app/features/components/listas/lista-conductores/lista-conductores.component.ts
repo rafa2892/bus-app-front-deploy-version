@@ -39,6 +39,9 @@ export class ListaConductoresComponent {
     faEdit = faPen;
     faErase = faTrash;
 
+    //indicador de carga
+    isLoading: boolean = false;
+
     constructor(
       private conductorService: ConductorService, 
       private router: Router, 
@@ -48,9 +51,9 @@ export class ListaConductoresComponent {
     }
 
     ngOnInit(): void {
+      this.isLoading = true;
       this.obtenerConductores(() => {
         this.route.queryParams.subscribe((params) => {
-          // this.newConductorId = params['newConductorId'];
           this.newConductorId = Number(params['newConductorId']);
           if (this.newConductorId) {
             this.procesarNuevoConductor(this.newConductorId);
@@ -66,7 +69,8 @@ export class ListaConductoresComponent {
           this.conductoresListafiltrado = [...this.conductoresLista]; // Inicializamos correctamente
         },
         complete: () => {
-          if (callback) callback(); // Llamamos al callback si existe
+          if (callback) callback();
+          this.isLoading = false; // Llamamos al callback si existe
         },
         error: (error) => console.error('Error al obtener conductores:', error),
       });

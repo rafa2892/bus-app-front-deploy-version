@@ -11,11 +11,7 @@
     })
     export class RegistrosComponent {
 
-      constructor(
-                    // private historialService:HistorialService
-                    private readonly regAudService:RegistrosAuditoriaService
-                  
-                  ) {}
+      constructor(private readonly regAudService:RegistrosAuditoriaService){}
 
       editIcon = faEdit;
       deleteIcon = faTrash;
@@ -30,16 +26,28 @@
       maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
       infoIcon = fontAwesomeIcons.infoIcon;
 
+      //indicador de carga
+      isLoading: boolean = false;
+
       ngOnInit(): void {
+        this.isLoading = true;
         this.getHistorialDeActividades();
       }
 
       getHistorialDeActividades() {
-        this.regAudService.getAllActivityAudits().subscribe(r => {
-          this.rigistroActividades = r;
+        this.regAudService.getAllActivityAudits().subscribe({
+          next: (r) => {
+            this.rigistroActividades = r;
+          },
+          error: (error) => {
+            console.error('Error al obtener el historial de actividades:', error);
+          },
+          complete: () => {
+            this.isLoading = false;
+          }
         });
       }
-
+      
       getColorFont(r:RegistroActividad) :string {
         if(r.tipoActividad === 1) /*1 == guardado*/ 
         return 'blue-color-font';
