@@ -35,6 +35,9 @@ export class RegistrarConductorComponent {
   // Campos faltantes en el formulario
   camposFaltantes: string[] = [];
 
+   //indicador de carga
+   isLoading: boolean = false;
+
   //constantes
   KM_REGISTRADOS_LABEL = TITLES.KM_REGISTERED;
   DADO_ALTA_POR_LABEL = TITLES.CREATED_BY_USER;
@@ -61,7 +64,6 @@ export class RegistrarConductorComponent {
   }
 
   ngOnInit(): void {
-
     //Reinicia el valor de la variable, para evitar que se mantenga en true y se muestren
     //los detalles del conductor cuando se está registrando uno nuevo o editando
     this.isDesdeDetalles = false;
@@ -69,6 +71,8 @@ export class RegistrarConductorComponent {
     const id = + this.activatedRoute.snapshot.paramMap.get('id')!;
     const isDesdeDetalles = this.activatedRoute.snapshot.paramMap.get('isDesdedetalles'); 
     this.isDesdeDetalles = isDesdeDetalles === 'true';
+
+    this.isLoading = true;
 
     if(id) {
       this.titulo = TITLES.EDIT_DRIVER;
@@ -89,9 +93,26 @@ export class RegistrarConductorComponent {
         // this.parametrizeConductor(this.nuevoConductor);
       },
       error: (error) => console.log(error),
-      complete: () => console.log('Conductor cargado')
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
+
+private obtenerListaViajePorConductor(idConductor: number) {
+  this.conductorService.viajeCounter(idConductor).subscribe({
+    next: (dato) => {
+      this.numeroViajes = dato === 0 ? TITLES.NO_VIAJES : dato;
+    },
+    error: (error) => {
+      console.error('Error al obtener la cantidad de viajes:', error);
+    },
+    complete: () => {
+      this.isLoading = false;
+    }
+  });
+}
+
 
   darFormatoFecha(conductor: Conductor) {
     if (conductor.fechaAlta) {
@@ -229,17 +250,6 @@ export class RegistrarConductorComponent {
   // Método que solo permite ingresar números en el campo de cédula (DNi)
   handleNonNumericCount(count: number, anyo: string) {
     (count >= 3 && anyo === 'cedula') ?   this.nonNumericError = true :  this.nonNumericError = false;
-  }
-
-  private obtenerListaViajePorConductor(idConductor: number)  {
-    this.conductorService.viajeCounter(idConductor).subscribe(dato =>  {
-      if(dato === 0) {
-        this.numeroViajes = TITLES.NO_VIAJES;
-      }
-      else{
-        this.numeroViajes = dato; 
-      }
-    });
   }
 
   // Método para redirigir a la lista de viajes de un conductor
