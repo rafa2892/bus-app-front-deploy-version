@@ -112,13 +112,16 @@ declare var bootstrap: any;
           const id = +params['id'];
           this.idSeleccionada = id;
 
-          //Scroll al medio automaticamente
-          this.customScroll(id);
-          if (id) {
-              this.obtenerCarroPorId(id);
-          }else {
-              this.isLoading = false;
-          }
+          this.isLoading = true
+          this.obtenerCarroPorId(id)
+
+          // setTimeout(() => {  ;}, 2000);
+
+          // if (id) {
+          //     this.obtenerCarroPorId(id);
+          // }else {
+          //     // this.isLoading = false;
+          // }
 
       });
       this.obtenerListaTipoVehiculos();
@@ -237,6 +240,8 @@ declare var bootstrap: any;
           console.error("Error al obtener el carro:", error);
         },
         complete: () => {
+           //Scroll al medio automaticamente
+          this.customScroll(id);
           this.isLoading = false;
         }
       });
