@@ -119,6 +119,7 @@ export class RegistrarViajeComponent {
       // Obtener el parámetro 'id' de la URL de haber uno
       const id = +this.route.snapshot.paramMap.get('id')!;
       if(id) {
+        this.loading = true;
         this.obtenerViajePorId(id);
       }
   }
@@ -131,7 +132,7 @@ export class RegistrarViajeComponent {
       },
       error: (error) => console.log(error),
       complete: () => console.log('Viaje cargado')
-    });
+    }).add(() => this.loading = false);
   }
 
   poblarFormularioEdicionViaje(viaje:Viaje) {
