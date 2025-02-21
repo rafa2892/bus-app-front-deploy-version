@@ -11,5 +11,6 @@ export class Historial {
     carro:Carro;
     fechaAlta:Date;
     userLogin:UsuarioLogin;
+    byUser:string;
 
 }
