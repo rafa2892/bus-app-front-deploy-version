@@ -15,37 +15,62 @@
 
       editIcon = faEdit;
       deleteIcon = faTrash;
+
       historyIcon = faHistory;
       eyeIcon = faEye;
       p: number = 1;
 
-      // historialDeActividades:Historial [] = [];
       rigistroActividades:RegistroActividad [] = [];
 
       checkIcon = fontAwesomeIcons.checkIcon;
       maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
       infoIcon = fontAwesomeIcons.infoIcon;
 
+
+      itemsPerPage = 25; // Items per page
+      totalItems = 10;  // Total items for pagination
+
       //indicador de carga
       isLoading: boolean = false;
 
       ngOnInit(): void {
         this.isLoading = true;
-        this.getHistorialDeActividades();
+        this.getHistorialActividadesPaginado();
       }
 
-      getHistorialDeActividades() {
-        this.regAudService.getAllActivityAudits().subscribe({
-          next: (r) => {
-            this.rigistroActividades = r;
+      // getHistorialDeActividades() {
+      //   this.regAudService.getAllActivityAudits().subscribe({
+      //     next: (r) => {
+      //       this.rigistroActividades = r;
+      //     },
+      //     error: (error) => {
+      //       console.error('Error al obtener el historial de actividades:', error);
+      //     },
+      //     complete: () => {
+      //       this.isLoading = false;
+      //     }
+      //   });
+      // }
+
+      onPageChange(page: number) {
+        this.isLoading = true;
+        this.p = page;  // Actualiza el valor de la página actual
+        this.getHistorialActividadesPaginado();
+      }
+
+      getHistorialActividadesPaginado() {
+        this.regAudService.obtenerRegistrosAudPaginados(this.p - 1, 20).subscribe({
+          next: (response) => {
+            this.rigistroActividades = response.content;
+            this.totalItems = response.totalElements;
           },
           error: (error) => {
             console.error('Error al obtener el historial de actividades:', error);
           },
           complete: () => {
-            this.isLoading = false;
+            console.log('Historial de actividades obtenido correctamente');
           }
-        });
+        }).add(() => this.isLoading = false);
       }
       
       getColorFont(r:RegistroActividad) :string {
@@ -58,5 +83,6 @@
 
         return '';    
       }
+      
 
 }

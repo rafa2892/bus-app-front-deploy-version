@@ -15,7 +15,6 @@ import { ExcelService } from '../../../../core/services/excel-service.service';
 import { EmailService } from '../../../../core/services/email-service.service';
 import { CarroService } from '../../../../core/services/carro.service';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
-import { NgxPaginationModule } from 'ngx-pagination';
 declare var bootstrap: any;
 
 
@@ -30,7 +29,7 @@ export class ListaViajesComponent {
     p: number = 1;
 
     itemsPerPage = 10;  // Example value, you can adjust as needed
-    totalItems = 100;  // Total items for pagination
+    totalItems = 10;  // Total items for pagination
 
 
     editIcon = fontAwesomeIcons.editIcon;
@@ -134,7 +133,7 @@ export class ListaViajesComponent {
     }
 
     cargarViajes() {
-      this.viajeServicio.obtenerViajesPaginados(this.p - 1, 10).subscribe({
+      this.viajeServicio.obtenerViajesPaginados(this.p - 1, this.itemsPerPage).subscribe({
         next: (response) => {
           this.viajes = response.content;  // Asumimos que el backend devuelve una propiedad 'content'
           this.totalItems = response.totalElements;  // Total de elementos (para la paginación)
@@ -298,7 +297,6 @@ export class ListaViajesComponent {
     // Monitorear cambios en el estado del interruptor
     switchHandler() {
       // Si filtros cargados va a bbdd nuevamente
-
       const isAnyParameterToFilterBy = this.carro ||  this.conductor ||  this.fechaDesdeStr || this.fechaHastaStr; 
       const isSwitchFilterOn = this.isSwitchFiltersOn;
 
@@ -313,6 +311,8 @@ export class ListaViajesComponent {
     }
 
     resetFilters(): void {
+      
+      this.filterLoading = true;
 
       this.fechaDesde = null;
       this.fechaHasta = null;
@@ -326,22 +326,24 @@ export class ListaViajesComponent {
 
     // Método para buscar los viajes filtrados
     getViajesFiltrados() {
-      this.viajeServicio.obtenerViajesFiltradosPaginados(this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr, this.p - 1, 10).subscribe({
-        next: (response) => {
-          this.viajes = response.content;
-          this.totalItems = response.totalElements;
-          this.isSwitchFiltersOn = true;
-        },
-        error: (error) => {
-          console.error('Error al obtener los viajes:', error);
-          if (error.status === 404) {
-            this._snackBar.open('No hay registros con los parámetros dados', '', {
-              duration: 5000,
-              panelClass: ['error-snackbar'],
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            });
-          }
+      this.viajeServicio.obtenerViajesFiltradosPaginados(
+        this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr, this.p - 1, 10)
+        .subscribe({
+          next: (response) => {
+            this.viajes = response.content;
+            this.totalItems = response.totalElements;
+            this.isSwitchFiltersOn = true;
+          },
+          error: (error) => {
+            console.error('Error al obtener los viajes:', error);
+            if (error.status === 404) {
+              this._snackBar.open('No hay registros con los parámetros dados', '', {
+                duration: 5000,
+                panelClass: ['error-snackbar'],
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+              });
+            }
         },
         complete: () => {
           this.modalService.dismissAll();

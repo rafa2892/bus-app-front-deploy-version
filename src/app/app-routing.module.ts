@@ -10,7 +10,7 @@ import { ListaConductoresComponent } from './features/components/listas/lista-co
 import { RegistarHistorialComponent } from './features/components/formularios/registar-historial/registar-historial.component';
 import { LoginComponent } from './features/components/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard'
-import { RegistrosComponent } from './features/components/formularios/registros/registros.component';
+import { RegistrosComponent } from './features/components/listas/registros/registros.component';
 import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
 import { RegistrarConductorComponent } from './features/components/formularios/registrar-conductor/registrar-conductor.component';

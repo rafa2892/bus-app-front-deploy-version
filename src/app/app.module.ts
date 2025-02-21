@@ -33,7 +33,7 @@ import { PopupHistorialVehiculosComponent } from './features/components/modales/
 import { RegistarHistorialComponent } from './features/components/formularios/registar-historial/registar-historial.component';
 import { LoginComponent } from './features/components/login/login.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { RegistrosComponent } from './features/components/formularios/registros/registros.component';
+import { RegistrosComponent } from './features/components/listas/registros/registros.component';
 import { NuevoRegistroComponent } from './features/components/formularios/nuevo-registro/nuevo-registro.component';
 import { RegistrarMantenimientoComponent } from './features/components/formularios/registrar-mantenimiento/registrar-mantenimiento.component';
 import { ModalPruebaComponent } from './features/components/modales/modal-prueba/modal-prueba.component';

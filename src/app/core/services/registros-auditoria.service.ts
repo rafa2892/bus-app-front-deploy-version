@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { Historial } from '../models/historial';
 import { RegistroActividad } from '../models/registro-actividad';
@@ -20,6 +20,15 @@ import { environment } from '../../../environments/environment.prod';
     // Retrieves all activity audit records
     getAllActivityAudits(): Observable<RegistroActividad[]> {
       return this.httpClient.get<RegistroActividad[]>(`${this.completeURL}`);
+    }
+
+    //Este método nos funciona para obtener los listados de carro
+    obtenerRegistrosAudPaginados(page: number, size: number): Observable<any> {
+      const params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString());
+  
+        return this.httpClient.get<any>(`${this.completeURL}/pageable`, { params });
     }
     
 }

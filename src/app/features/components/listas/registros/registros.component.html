@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody class="table-dark">
-        <tr *ngFor="let r of rigistroActividades | paginate: { itemsPerPage: 25, currentPage: p }">
+        <tr *ngFor="let r of rigistroActividades | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems }">
           <td>
             <span class="bold-font" [ngClass]="getColorFont(r)">{{r.comentarios}}</span>
           </td>
@@ -32,7 +32,7 @@
     </table>
     <div class="pagination-container">
       <pagination-controls 
-      (pageChange)="p = $event"
+      (pageChange)="onPageChange($event)"
       previousLabel="Anterior" 
       nextLabel="Siguiente"></pagination-controls>
     </div>
