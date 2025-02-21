@@ -14,7 +14,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { OnlyNumberDirective } from './directives/only-number.directive';
 import { MatButtonModule } from '@angular/material/button';
 import { PopupSeleccionarCarroComponent } from './features/components/modales/popup-seleccionar-carro/popup-seleccionar-carro.component';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { PopupSeleccionarConductorComponent } from './features/components/modales/popup-seleccionar-conductor/popup-seleccionar-conductor.component';
@@ -47,6 +46,7 @@ import { PruebaContenedoresEstilosComponent } from './features/components/compon
 import { PopupMensajeConfirmarViajeComponent } from './features/components/modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
 import { FiltrosAvanzadoViajesComponent } from './features/components/modales/filtros-avanzado-viajes/filtros-avanzado-viajes.component';
 import { PopupExcelExporterOptionsViajeComponent } from './features/components/modales/popup-excel-exporter-options-viaje/popup-excel-exporter-options-viaje.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
@@ -93,7 +93,6 @@ import { PopupExcelExporterOptionsViajeComponent } from './features/components/m
     FormsModule,
     MatSnackBarModule,
     FontAwesomeModule,
-    NgxPaginationModule,
     MatAutocompleteModule,
     MatInputModule,
     MatFormFieldModule,
@@ -103,7 +102,8 @@ import { PopupExcelExporterOptionsViajeComponent } from './features/components/m
     MatButtonModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
 
   ],
   providers: [

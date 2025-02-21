@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Viaje} from '../models/viaje';
 import {Observable} from "rxjs";
 import { environment } from '../../../environments/environment.prod';
@@ -21,6 +21,15 @@ export class ViajeServicioService {
     return this.httpClient.get<Viaje[]>(`${this.completeURL}`);
   }
 
+  //Este método nos funciona para obtener los listados de carro
+  obtenerViajesPaginados(page: number, size: number): Observable<any> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+      return this.httpClient.get<any>(`${this.completeURL}/pageable`, { params });
+  }
+  
   //Este método nos funciona para regitrar un carro
   registrarViaje(viaje:Viaje) : Observable<Object>{
     return this.httpClient.post(`${this.completeURL}`, viaje);
@@ -68,11 +77,34 @@ export class ViajeServicioService {
     const url = `${this.completeURL}/filtrar?${params.toString()}`;
     return this.httpClient.get<Viaje[]>(url);
 
-    // return this.httpClient.get<Viaje[]>(
-    //   `${this.baseUrl}/filtrar?numeroUnidad=${numeroUnidad || ''}` +
-    //   `&conductorId=${conductorId || ''}` +
-    //   `&fechaDesde=${fechaDesde || ''}` +
-    //   `&fechaHasta=${fechaHasta || ''}`
-    // );
   }
+
+// frontend: obtenerViajesFiltradosPaginados
+obtenerViajesFiltradosPaginados(
+  numeroUnidad: number | null | undefined,
+  conductorId: number | null | undefined,
+  fechaDesde: string | null,
+  fechaHasta: string | null,
+  page: number,
+  size: number
+): Observable<any> {
+  const params = new HttpParams()
+    .set('numeroUnidad', numeroUnidad?.toString() || '')
+    .set('conductorId', conductorId?.toString() || '')
+    .set('fechaDesde', fechaDesde || '')
+    .set('fechaHasta', fechaHasta || '')
+    .set('page', page.toString())
+    .set('size', size.toString());
+
+  return this.httpClient.get<any>(`${this.completeURL}/filtrar-paginado`, { params });
+}
+
+  
+  
+
+
+  
+
+
+
 }
