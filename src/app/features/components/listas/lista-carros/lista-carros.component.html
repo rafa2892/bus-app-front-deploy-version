@@ -104,7 +104,7 @@
       </tr>
       </thead>
       <tbody class="table-dark">
-      <tr *ngFor="let carro of carrosFiltrados | paginate: {itemsPerPage: 10, currentPage: p}">
+      <tr *ngFor="let carro of carrosFiltrados | paginate: {itemsPerPage: 10, currentPage: p, id:'carros'}">
         <td class="text-center">
           <button 
                 type="button" 
@@ -192,6 +192,7 @@
   </table>
     <div class="pagination-container">
       <pagination-controls 
+      id="carros"  
       (pageChange)="p = $event"
       previousLabel="Anterior" 
       nextLabel="Siguiente"></pagination-controls>

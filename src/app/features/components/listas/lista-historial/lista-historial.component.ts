@@ -31,7 +31,7 @@
       @Input() detectedChangesPopUpFlag : boolean;
 
 
-      p: number = 1;
+      h: number = 1;
       checkIcon = fontAwesomeIcons.checkIcon;
       maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
       infoIcon = fontAwesomeIcons.infoIcon;
@@ -61,7 +61,7 @@
 
       ngOnChanges(changes: SimpleChanges): void {
         if (this.carroSeleccionadoDetalles?.id !== undefined) {
-          this.p = 1;
+          this.h = 1;
           this.filtrarHistorialPorTipo();
         }
       }
