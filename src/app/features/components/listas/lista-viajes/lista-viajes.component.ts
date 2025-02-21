@@ -127,6 +127,7 @@ export class ListaViajesComponent {
     }
 
     onPageChange(page: number) {
+      this.filterLoading = true;
       this.p = page;  // Actualiza el valor de la página actual
       console.log('Página actual:', this.p);
       this.cargarViajes();  // Recarga los viajes con la nueva página
