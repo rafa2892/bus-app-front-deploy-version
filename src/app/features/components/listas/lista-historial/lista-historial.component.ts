@@ -162,11 +162,29 @@
       this.modalService.dismissAll();
     }
 
+    
+    async mensajeConfirmarEliminar() :Promise<boolean> {
+      const title = 'Confirma eliminar historial'
+      const text = '¿Estás seguro de que quieres eliminar este historial?. Será borrado <strong>PERMANENTEMENTE.</strong>'
+      const isConfirmed = await this.globalService.getMensajeConfirmaModal(title,text);
+  
+      if (!isConfirmed.isConfirmed) {
+        return false;
+      }else {
+        return true;
+      }
+    } 
+
+
     async deleteHistorial(id: number) {
-      if (!confirm('¿Estás seguro de que quieres eliminar este historial?')) {
+
+      const confirmDelete = await this.mensajeConfirmarEliminar();
+      this.isLoading = true;
+      
+      if (!confirmDelete) {
         return;
       }
-
+     
       try {
         await firstValueFrom(this.historialService.deleteHistorial(id));
         alert('Historial eliminado correctamente');
@@ -174,8 +192,10 @@
       } catch (error) {
         console.error('Error al eliminar el historial:', error);
         alert('Ocurrió un error al eliminar el historial');
+      } finally {
+        this.isLoading = false; // Se ejecuta sin importar si hubo error o no
       }
-    }
+    }      
 
     filterDatesHasta = (date: Date | null): boolean => {
       if(this.fechaDesde) {
@@ -241,8 +261,7 @@
             console.error('Error al obtener el historial:', error);
           }
         });
-      }
-      else {
+      }else {
         this.globalService.showErrorMessageSnackBar(TITLES.ERROR_NOT_DATES_SUBMIT)
       }
     }
@@ -309,5 +328,4 @@
       this.h = page; // Actualiza el valor de la página actual
       this.obtenerHistorialPorCarroPaginado();
     }
-    
 }

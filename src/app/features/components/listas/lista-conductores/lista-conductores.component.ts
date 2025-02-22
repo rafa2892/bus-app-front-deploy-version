@@ -192,7 +192,6 @@ export class ListaConductoresComponent {
     }
   }
 
-
   async mensajeConfirmarEliminar() :Promise<boolean> {
     const title = 'Confirma eliminar conductor'
     const text = '¿Estás seguro de eliminar este conductor?. Todos sus datos serán borrados permanentemente.'
@@ -203,13 +202,11 @@ export class ListaConductoresComponent {
     }else {
       return true;
     }
-
   } 
 
   editar(conductor:Conductor) {
     this.router.navigate(['/registrar-conductor', conductor.id]);
   }
-
 
   //NO IMPLEMENTADO
 
@@ -219,21 +216,16 @@ export class ListaConductoresComponent {
   onInputChangeDniFilter() {
   }
 
-
   clearFilters(){
   }
 
   onBlurNombre() {
   }
 
-
   descargarExcel() {
     this.excelService.downloadExcel("conductores");
   }
 
-
-
-  
   // ordenarLista() {
   //   switch (this.ordenSeleccionado) {
   //     case 'nombreAsc':

@@ -42,13 +42,13 @@ import { TITLES } from '../../constant/titles.constants';
       });
     }
 
-          // Método para quitar el efecto visual de error de un campo
-      quitarError(campoId: string): void {
-        const elemento = document.getElementById(campoId);
-        if (elemento) {
-          elemento.classList.remove('input-error');
-        }
+    // Método para quitar el efecto visual de error de un campo
+    quitarError(campoId: string): void {
+      const elemento = document.getElementById(campoId);
+      if (elemento) {
+        elemento.classList.remove('input-error');
       }
+    }
 
     async getMensajeConfirmaModal(title:string, text:string) {
       const result = await Swal.fire({
@@ -60,7 +60,6 @@ import { TITLES } from '../../constant/titles.constants';
         confirmButtonText: 'Confirmar',
         reverseButtons: true,
       });
-
       return result;
     }
 
@@ -95,15 +94,6 @@ import { TITLES } from '../../constant/titles.constants';
       }
       return '';  
   }
-
-  // buildCustomsToolTipBS() {
-  //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-  //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-  //     return new bootstrap.Tooltip(tooltipTriggerEl, {
-  //       delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
-  //     });
-  //   });
-  // }
 
   buildCustomsToolTipBS() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
