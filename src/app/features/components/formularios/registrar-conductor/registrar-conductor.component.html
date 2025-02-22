@@ -137,18 +137,23 @@
                         </div>
 
 
-
-                        <label for="numero-viajes" class="label-input">{{NUM_VIAJES_LABEL}}</label>
-                        <div id="numero-viajes-content" class="d-flex align-items-center">
-                            <input type="text"
-                            disabled="true"
-                            [(ngModel)]="numeroViajes" 
-                            name="numero-viajes-conductor"
-                            id="numero-viajes-conductor-input"
-                            class="form-control defaultSizeInput input-custom-style input-custom-size w-15">
-                            <button type="button" id="verViajesbtn" class="btn btn-link p-0 buton-ordenar ver-viajes-boton" (click)="irListaViajes(nuevoConductor.id)">
-                                <fa-icon [icon]="eyeicon" class="fa-2x"></fa-icon>
-                            </button>
+                        <div *ngIf="this.numeroViajes > 0">
+                            <label for="numero-viajes" class="label-input">{{NUM_VIAJES_LABEL}}</label>
+                            <div id="numero-viajes-content" class="d-flex align-items-center">
+                                <input type="text"
+                                    disabled="true"
+                                    [(ngModel)]="numeroViajes" 
+                                    name="numero-viajes-conductor"
+                                    id="numero-viajes-conductor-input"
+                                    class="form-control defaultSizeInput input-custom-style input-custom-size w-15">
+                                <button
+                                    id="verViajesbtn"  
+                                    type="button" 
+                                    class="btn btn-link p-0 buton-ordenar ver-viajes-boton" 
+                                    (click)="irListaViajes(nuevoConductor.id)">
+                                    <fa-icon [icon]="eyeicon" class="fa-2x"></fa-icon>
+                                </button>
+                            </div>
                         </div>
 
 

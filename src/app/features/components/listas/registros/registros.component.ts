@@ -18,7 +18,7 @@
 
       historyIcon = faHistory;
       eyeIcon = faEye;
-      p: number = 1;
+    
 
       rigistroActividades:RegistroActividad [] = [];
 
@@ -26,9 +26,10 @@
       maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
       infoIcon = fontAwesomeIcons.infoIcon;
 
-
-      itemsPerPage = 25; // Items per page
-      totalItems = 10;  // Total items for pagination
+      // Pagination variables
+      p: number = 1;
+      itemsPerPage = 20; 
+      totalItems = 10; 
 
       //indicador de carga
       isLoading: boolean = false;
@@ -59,7 +60,7 @@
       }
 
       getHistorialActividadesPaginado() {
-        this.regAudService.obtenerRegistrosAudPaginados(this.p - 1, 20).subscribe({
+        this.regAudService.obtenerRegistrosAudPaginados(this.p - 1, this.itemsPerPage).subscribe({
           next: (response) => {
             this.rigistroActividades = response.content;
             this.totalItems = response.totalElements;
@@ -68,9 +69,10 @@
             console.error('Error al obtener el historial de actividades:', error);
           },
           complete: () => {
-            console.log('Historial de actividades obtenido correctamente');
           }
-        }).add(() => this.isLoading = false);
+        }).add(() => {
+          this.isLoading = false
+        });
       }
       
       getColorFont(r:RegistroActividad) :string {

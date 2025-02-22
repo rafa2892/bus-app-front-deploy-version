@@ -30,8 +30,14 @@
       @Input() verSoloRegistroMantenimiento : boolean;
       @Input() detectedChangesPopUpFlag : boolean;
 
-
+      //Pagination variables
       h: number = 1;
+      itemsPerPage = 10; //default value
+      totalItems = 10;  
+
+      //indicador de carga
+      isLoading: boolean = false;
+
       checkIcon = fontAwesomeIcons.checkIcon;
       maintenanceIcon = fontAwesomeIcons.maintenanceIcon;
       infoIcon = fontAwesomeIcons.infoIcon;
@@ -66,6 +72,16 @@
         }
       }
 
+
+      ngOnInit(): void {
+        const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
+
+        if(idCarroStr) {
+          const idCarro = Number(idCarroStr);
+          this.obtenerCarroPorId(idCarro);
+        }
+      }
+
       filtrarHistorialPorTipo() {
         //Preseleccionar opción por defecto en el select de tipo de historial ****historial.idTipo***
         //DATA come from BBDD 
@@ -79,15 +95,6 @@
             ...this.carroSeleccionadoDetalles, 
             registroHistorial: this.carroSeleccionadoDetalles.registroHistorial?.filter(h => h.idTipo === 2) || []
           };
-        }
-      }
-
-      ngOnInit(): void {
-        const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
-
-        if(idCarroStr) {
-          const idCarro = Number(idCarroStr);
-          this.obtenerCarroPorId(idCarro);
         }
       }
 
@@ -120,7 +127,6 @@
       }
 
     addHistory() { 
-      // this.agregarHistorial.emit();
       this.modalService.dismissAll();
       this.router.navigate(['/registrar-historial/carroId', this.carroSeleccionadoDetalles.id, this.verSoloRegistroMantenimiento ]);
     }
@@ -148,13 +154,12 @@
       else if(history.idTipo == 3)
         return this.infoIcon
 
-    return this.infoIcon;
+      return this.infoIcon;
     }
 
     verDetalleshistorial(id:number, soloConsulta: boolean) {
       this.router.navigate(['/registrar-historial/historialId', id, false], { queryParams: { soloConsulta } });
       this.modalService.dismissAll();
-      // this.cerrarModalProgramatico.emit();
     }
 
     async deleteHistorial(id: number) {
@@ -215,9 +220,7 @@
       return this.globalService.getNumeroUnidadFormateado(numUni);
     }
 
-
-  obtenerHistorialBetweenDays() {
-
+    obtenerHistorialBetweenDays() {
     if(!this.fechaHasta) {
       this.fechaHasta = this.fechaDesde;
     }
@@ -251,6 +254,32 @@
       this.fechaHasta = null;
     }
 
+    obtenerHistorialPorCarroPaginado() {
+      this.isLoading = true; // Indicador de carga
+
+      if (!this.carroSeleccionadoDetalles?.id) {
+        console.warn('No hay un carro seleccionado para obtener el historial.');
+        return;
+      }
+      this.historialService.getHistoriesByCarroIdPageable(
+        //Funtion parameters id, page, size
+        this.carroSeleccionadoDetalles.id,
+        this.h - 1,
+        this.itemsPerPage
+      ).subscribe({
+        next: (response) => {
+          this.carroSeleccionadoDetalles.registroHistorial = response.content;
+          this.totalItems = response.totalElements;
+        },
+        error: (error) => {
+          console.error('Error al obtener el historial por carro:', error);
+        },
+        complete: () => {
+          console.log('Proceso de carga de historial finalizado.');
+        }
+      }).add(() => this.isLoading = false);
+    }
+    
     obtenerHistorialPorCarro() {
       if (!this.carroSeleccionadoDetalles?.id) {
         console.warn('No hay un carro seleccionado para obtener el historial.');
@@ -274,6 +303,11 @@
         return this.toolTipMsjFiltros;
       }
       return this.toolTipMsjFiltros;
+    }
+
+    onPageChange(page: number) {
+      this.h = page; // Actualiza el valor de la página actual
+      this.obtenerHistorialPorCarroPaginado();
     }
     
 }

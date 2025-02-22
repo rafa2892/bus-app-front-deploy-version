@@ -1,5 +1,5 @@
   import { Injectable } from '@angular/core';
-  import {HttpClient} from "@angular/common/http";
+  import {HttpClient, HttpParams} from "@angular/common/http";
   import {Observable} from "rxjs";
   import { Historial } from '../models/historial';
 import { environment } from '../../../environments/environment.prod';
@@ -52,6 +52,16 @@ import { environment } from '../../../environments/environment.prod';
     getHistoriesByCarroId(id:number): Observable<Historial[]> {
       return this.httpClient.get<Historial[]>(`${this.completeURL}/byCarro/${id}`);
     }
+
+    //Este método nos funciona para obtener los listados de carro
+    getHistoriesByCarroIdPageable(id:number, page: number, size: number): Observable<any> {
+      const params = new HttpParams()
+        .set('page', page.toString())
+        .set('size', size.toString());
+  
+        return this.httpClient.get<any>(`${this.completeURL}/byCarroPageable`, { params });
+    }
+      
     
     
 }

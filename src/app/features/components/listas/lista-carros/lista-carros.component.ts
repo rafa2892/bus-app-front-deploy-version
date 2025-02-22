@@ -29,7 +29,7 @@ export class ListaCarrosComponent {
   eyeIcon = faEye;
   faPlus = faCirclePlus;
   repairIcon = faScrewdriverWrench
-  p: number = 1;
+
   carroSeleccionadoDetalles: Carro = new Carro;
   changeDetecterFlag : boolean;
   carroId:number;
@@ -45,6 +45,10 @@ export class ListaCarrosComponent {
 
   //indicador de carga
   isLoading: boolean = false;
+
+  // Pagination variables
+  p: number = 1;
+  itemsPerPage = 10;
 
   
   // Acceso al componente al modal hijo que se abre por js
@@ -214,7 +218,6 @@ export class ListaCarrosComponent {
     });
   }
 
-
   insertarRegistro(id: number) {
     this.router.navigate(['/nuevo-registro', id]);
   }
@@ -298,6 +301,11 @@ export class ListaCarrosComponent {
   registerCarForm() {
     this.globalUtilService.disposeCustomTooltips();
     this.router.navigate(['/registrar-carro']);
+  }
+
+  onPageChange(page: number) {
+    this.p = page;  // Actualiza el valor de la página actual
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
 

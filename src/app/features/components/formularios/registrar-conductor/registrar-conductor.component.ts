@@ -30,7 +30,7 @@ export class RegistrarConductorComponent {
   titulo : string = TITLES.ADD_DRIVER;
 
   // Parametros de la vista detalles del conductor
-  numeroViajes: any;
+  numeroViajes: number;
 
   // Campos faltantes en el formulario
   camposFaltantes: string[] = [];
@@ -101,9 +101,10 @@ export class RegistrarConductorComponent {
   }
 
 private obtenerListaViajePorConductor(idConductor: number) {
+
   this.conductorService.viajeCounter(idConductor).subscribe({
     next: (dato) => {
-      this.numeroViajes = dato === 0 ? TITLES.NO_VIAJES : dato;
+      this.numeroViajes = dato;
     },
     error: (error) => {
       console.error('Error al obtener la cantidad de viajes:', error);
@@ -255,8 +256,9 @@ private obtenerListaViajePorConductor(idConductor: number) {
 
   // Método para redirigir a la lista de viajes de un conductor
   irListaViajes(id:number){
+
     this.obtenerListaViajePorConductor(id);
-    if(this.numeroViajes === 0 || this.numeroViajes === TITLES.NO_VIAJES) { 
+    if(this.numeroViajes === 0) { 
       const nombreCompleto = this.nuevoConductor.nombre.concat(' ').concat(this.nuevoConductor.apellido);
       this._snackBar.open(TITLES.NO_VIAJES_REGISTERED(nombreCompleto), 'Cerrar', {
         duration: 3000,
@@ -265,11 +267,10 @@ private obtenerListaViajePorConductor(idConductor: number) {
         verticalPosition: 'top',
       });
       return;
-    }
-    else{
-    const baseUrl = window.location.origin; // Obtiene la base de la URL (ej.: http://localhost:4200)
-    const url = this.router.serializeUrl(this.router.createUrlTree(['/registrar-viaje', id]));
-    window.open(baseUrl + url, '_blank'); // Abre en una nueva pestaña
+    }else{
+      const baseUrl = window.location.origin;
+      const url = this.router.serializeUrl(this.router.createUrlTree(['/lista-viajes', id]));
+      window.open(baseUrl + url, '_blank'); // Abre en una nueva pestaña
     }
   }
 

@@ -1,4 +1,5 @@
-import { Component, ViewChild } from '@angular/core'
+import { Component} from '@angular/core'
+import { forkJoin } from 'rxjs';
 import {Viaje} from "../../../../core/models/viaje";
 import {ViajeServicioService} from "../../../../core/services/viaje-servicio.service";
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +16,7 @@ import { ExcelService } from '../../../../core/services/excel-service.service';
 import { EmailService } from '../../../../core/services/email-service.service';
 import { CarroService } from '../../../../core/services/carro.service';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { ConductorService } from '../../../../core/services/conductor.service';
 declare var bootstrap: any;
 
 
@@ -76,6 +78,7 @@ export class ListaViajesComponent {
     constructor(
       private viajeServicio:ViajeServicioService,
       private router:Router,
+      private conductorService:ConductorService,
       private activatedRoute: ActivatedRoute,
       private _snackBar: MatSnackBar,
       private globalUtilsService : GlobalUtilsService,
@@ -99,7 +102,7 @@ export class ListaViajesComponent {
 
       // Si se recibe un id de conductor, se filtran los viajes por ese conductor
       if(idConductor) {
-        this.obtenerListaViajePorConductor(idConductor);
+        this.obtenerConductorPorId(idConductor);
       }else if(idCarroStr) {
         const idCarro = Number(idCarroStr); // Convierte a número
         this.carroService.obtenerCarroPorId(idCarro).subscribe({
@@ -150,12 +153,31 @@ export class ListaViajesComponent {
       });
     }
 
-    private obtenerListaViajePorConductor(idConductor: number) {
-      this.viajeServicio.obtenerListaViajePorConductor(idConductor).subscribe(dato =>  {
-        this.viajes = dato;
-      });
-    }
+  
 
+    private obtenerConductorPorId(idConductor: number) {
+      this.loading = true;
+    
+      // Ejecutamos ambas peticiones en paralelo con forkJoin
+      forkJoin({
+        conductor: this.conductorService.obtenerConductorPorId(idConductor),
+        // viajes: this.viajeServicio.obtenerListaViajePorConductor(idConductor)
+      }).subscribe({
+        next: (result) => {
+          this.conductor = result.conductor;
+          this.getViajesFiltrados();
+          // this.viajes = result.viajes;
+        },
+        error: (error) => {
+          console.error('Error al obtener los datos:', error);
+        },
+        complete: () => {
+          console.log('Datos obtenidos correctamente.');
+        }
+      }).add(() => this.loading = false);
+    }
+    
+    
     detallesViaje(viaje:Viaje) {
       this.viajeSelDetails = { ...viaje }; // Crea una copia del objeto seleccionado
         // // Ahora que los datos están cargados, abrimos el modal
@@ -320,6 +342,7 @@ export class ListaViajesComponent {
       this.conductor = null;
       this.fechaDesdeStr = null;
       this.fechaHastaStr = null;
+      this.isSwitchFiltersOn = false
 
       this.cargarViajes();
     }
