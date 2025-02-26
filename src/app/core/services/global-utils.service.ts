@@ -120,8 +120,18 @@ import { TITLES } from '../../constant/titles.constants';
     let modal = new bootstrap.Modal(document.getElementById('confirma-servicio-modal')!);
     modal.show();
   }
-
-  removeClassFromAllElements(className: string): void {
-
+    removeClassFromAllElements(className: string): void {
   }
+
+  getSuccessfulMsj(msj:string) {
+  this._snackBar.open(msj, '', {
+    duration: 2500,
+    panelClass: ['success-snackbar'],
+    horizontalPosition: 'end',
+    verticalPosition: 'top',
+  });
+}
+
+  
+
 }

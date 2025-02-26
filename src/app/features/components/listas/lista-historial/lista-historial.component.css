@@ -8,7 +8,6 @@ h5 {
     color:#55a2d1;
 }
 
-
   /*************  Clases estilos calendario picker back-ground negro
 
     */
@@ -103,12 +102,32 @@ h5 {
     }
 
     .modal-sinc-cuu .modal-content {
-
         height: 0em;
         background-color: red !important;
-    
-    
     }
+
+    
+    /* START FADE-OUT STYLE WHEN NEW ENTITY IS SAVED */
+    .resaltado {
+        border: 2px solid #28a745;  /* Borde verde */
+        animation: fadeOutBorder 1.5s ease-out forwards;  /* Animación para desvanecer solo el borde */
+    }
+
+    /* Animación de desvanecimiento solo del borde */
+    @keyframes fadeOutBorder {
+        0% {
+            border-color: #28a745;  /* Color inicial del borde */
+        }
+        50% {
+            border-color: #28a745;  /* Mantiene el borde visible en la mitad */
+        }
+        100% {
+            border-color: transparent;  /* El borde desaparece completamente */
+        }
+    }
+
+     /* END FADE-OUT STYLE WHEN NEW ENTITY IS SAVED */
+
     
     
     

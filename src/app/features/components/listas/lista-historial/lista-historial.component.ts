@@ -22,13 +22,13 @@
     })
     export class ListaHistorialComponent {
 
-
       @Input() carroSeleccionadoDetalles: Carro = new Carro();
       @Input() historialActualizado: boolean;
       @Output() agregarHistorial = new EventEmitter<void>();
       @Output() cerrarModalProgramatico = new EventEmitter<any>();
       @Input() verSoloRegistroMantenimiento : boolean;
       @Input() detectedChangesPopUpFlag : boolean;
+      @Input() newHistorialID : number;
 
       //Pagination variables
       h: number = 1;
@@ -64,22 +64,35 @@
         private datePipe: DatePipe,
         private globalService:GlobalUtilsService) {}
 
-
-      ngOnChanges(changes: SimpleChanges): void {
-        if (this.carroSeleccionadoDetalles?.id !== undefined) {
-          this.h = 1;
-          this.filtrarHistorialPorTipo();
-        }
-      }
-
-
       ngOnInit(): void {
         const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
-
         if(idCarroStr) {
           const idCarro = Number(idCarroStr);
           this.obtenerCarroPorId(idCarro);
         }
+      }
+
+      async ngOnChanges(changes: SimpleChanges): Promise<void> {
+        if (this.carroSeleccionadoDetalles?.id !== undefined) {
+          this.h = 1;
+          await this.obternerHistorialByCarroIdPageable(this.carroSeleccionadoDetalles);
+          this.filtrarHistorialPorTipo();
+        }
+      }
+
+      obternerHistorialByCarroIdPageable(carro: Carro) {
+        this.historialService.getHistoriesByCarroIdPageable(carro.id, 0, 10).subscribe({
+          next: historial => {
+            this.carroSeleccionadoDetalles = { ...carro, registroHistorial: historial.content };
+            this.totalItems = historial.totalElements;
+          },
+          error: err => {
+            console.error('Error al obtener el historial:', err);
+          },
+          complete: () => {
+            console.log('Consulta de historial completada');
+          }
+        });
       }
 
       filtrarHistorialPorTipo() {
@@ -162,7 +175,6 @@
       this.modalService.dismissAll();
     }
 
-    
     async mensajeConfirmarEliminar() :Promise<boolean> {
       const title = 'Confirma eliminar historial'
       const text = '¿Estás seguro de que quieres eliminar este historial?. Será borrado <strong>PERMANENTEMENTE.</strong>'
@@ -175,16 +187,14 @@
       }
     } 
 
-
     async deleteHistorial(id: number) {
-
       const confirmDelete = await this.mensajeConfirmarEliminar();
       this.isLoading = true;
       
       if (!confirmDelete) {
         return;
       }
-     
+    
       try {
         await firstValueFrom(this.historialService.deleteHistorial(id));
         alert('Historial eliminado correctamente');

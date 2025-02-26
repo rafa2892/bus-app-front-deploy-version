@@ -21,8 +21,8 @@ import { environment } from '../../../environments/environment.prod';
       return this.httpClient.get<Historial>(`${this.completeURL}/${id}`);
     }
 
-    registrarHistorial(historial:Historial) : Observable<Object> {
-      return this.httpClient.post(`${this.completeURL}`, historial);
+    registrarHistorial(historial: Historial): Observable<Historial> {
+      return this.httpClient.post<Historial>(`${this.completeURL}`, historial);
     }
 
     actualizarHistorial(historial:Historial) : Observable<Object> {
@@ -59,7 +59,7 @@ import { environment } from '../../../environments/environment.prod';
         .set('page', page.toString())
         .set('size', size.toString());
   
-        return this.httpClient.get<any>(`${this.completeURL}/byCarroPageable`, { params });
+        return this.httpClient.get<any>(`${this.completeURL}/byCarroPageable/${id}`, { params });
     }
       
     

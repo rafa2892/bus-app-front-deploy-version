@@ -26,8 +26,6 @@
 
       <div class="filtrosContenedor" id="filtrosContenedor">
         <div class="d-flex gap-3">
-
-
           <div class="d-flex gap-5 separador">
             <div class="g-3 align-items-center" id="busquedaId">
               <div class="">
@@ -142,7 +140,7 @@
               </span>
           </button>
           <button 
-          (click)="verHistorial(carro,true)" 
+          (click)="verHistorial(carro,true,0)" 
           class="btn btn-primary botonesAccion btn-sm">
             <span 
             class="button-icon"  
@@ -153,7 +151,7 @@
             </span>
           </button>
           <button 
-          (click)="verHistorial(carro,false)" 
+          (click)="verHistorial(carro,false,0)" 
           class="btn btn-info botonesAccion btn-sm">
             <span 
             data-bs-toggle="tooltip" 

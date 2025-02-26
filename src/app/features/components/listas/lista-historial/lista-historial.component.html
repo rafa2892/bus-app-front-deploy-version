@@ -77,13 +77,13 @@
       </tr>
     </thead>
     <tbody class="table-dark">
-      <tr *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial 
-      | paginate: {itemsPerPage: itemsPerPage, currentPage: h, id: 'historial'}">
+      <tr [ngClass]="{'resaltado': newHistorialID !== 0 && historial.id === newHistorialID }"  *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial 
+      | paginate: {totalItems:totalItems, itemsPerPage: itemsPerPage, currentPage: h, id: 'historial'}">
         <td>
           <small>
             <button 
               [ngClass]="getClassByTipoHistorial(historial)" 
-              class="btn btn-primary btonGuardar btn-sm" >
+              class="btn btn-primary btonGuardar btn-sm">
               <fa-icon  
               [icon]="getIconByTipoHistorial(historial)" class="lupaIcon">
               </fa-icon>

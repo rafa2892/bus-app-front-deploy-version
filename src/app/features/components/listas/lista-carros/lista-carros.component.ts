@@ -1,16 +1,16 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
-import { Carro } from "../../../../core/models/carro";
-import { CarroService } from "../../../../core/services/carro.service";
+import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faEdit, faEye, faHistory, faPlus, faTrash, faScrewdriverWrench, faCirclePlus} from '@fortawesome/free-solid-svg-icons';
-import { PopupHistorialVehiculosComponent } from '../../modales/popup-historial-vehiculos/popup-historial-vehiculos.component';
-import { AuthService } from '../../../../core/services/auth.service';
-import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
-import { ExcelService } from '../../../../core/services/excel-service.service';
-import { CardBusDetailComponent } from '../../modales/card-bus-detail/card-bus-detail.component';
-import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
-import { HistorialService } from '../../../../core/services/historial.service';
+import { faCirclePlus, faEdit, faEye, faHistory, faScrewdriverWrench, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { forkJoin } from 'rxjs';
+import { Carro } from "../../../../core/models/carro";
+import { AuthService } from '../../../../core/services/auth.service';
+import { CarroService } from "../../../../core/services/carro.service";
+import { ExcelService } from '../../../../core/services/excel-service.service';
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+import { HistorialService } from '../../../../core/services/historial.service';
+import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
+import { CardBusDetailComponent } from '../../modales/card-bus-detail/card-bus-detail.component';
+import { PopupHistorialVehiculosComponent } from '../../modales/popup-historial-vehiculos/popup-historial-vehiculos.component';
 declare var bootstrap: any;
 
 @Component({
@@ -50,6 +50,12 @@ export class ListaCarrosComponent {
   p: number = 1;
   itemsPerPage = 10;
 
+  //
+  newHistorialSavedId :number = 0;
+
+  //tooltip init control
+  private tooltipsInitialized = false;
+
   
   // Acceso al componente al modal hijo que se abre por js
   @ViewChild(PopupHistorialVehiculosComponent) childComponent!: PopupHistorialVehiculosComponent; 
@@ -79,6 +85,13 @@ export class ListaCarrosComponent {
         window.history.replaceState({}, '', window.location.href);
         /* Recuperamos desde el registrar-historial si creamos un registro de mantenimeinto */
         this.verSoloMantenimiento = navigationState.verSoloRegistroMantenimiento ?? false;
+
+        //Si hay una id, se ha guardado un historial nuevo
+        const nuevoHistorialId = navigationState.nuevoHistorialId ?? null; // Recuperar el ID
+        if(nuevoHistorialId){
+          this.newHistorialSavedId = nuevoHistorialId;
+          this.globalUtilService.getSuccessfulMsj("Historial guardado con éxito.")
+        }
         this.obtenerCarroPorId(id, true);
       }else {
         this.obtenerCarros();
@@ -90,8 +103,6 @@ export class ListaCarrosComponent {
     this.buildCustomsToolTipBS();
   }
 
-  private tooltipsInitialized = false;
-  
   ngAfterViewChecked(): void {
     if (!this.tooltipsInitialized && this.carros?.length) {
       this.buildCustomsToolTipBS();
@@ -121,7 +132,7 @@ export class ListaCarrosComponent {
   }
 
   openHistorialModal() {
-    this.verHistorial(this.carroSeleccionadoDetalles, this.verSoloMantenimiento);
+    this.verHistorial(this.carroSeleccionadoDetalles, this.verSoloMantenimiento, this.newHistorialSavedId);
   }
 
   private obtenerCarros() {
@@ -188,21 +199,21 @@ export class ListaCarrosComponent {
     });
   }
   
-  async verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean) {
+  async verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean, nuevoHistialId:number) {
+
     this.isLoading = true;
-    
     this.verSoloMantenimiento = verSoloRegistroMantenimiento;
     this.carroSeleccionadoDetalles = carroSelected;
     this.changeDetecterFlag = !this.changeDetecterFlag;
-
-    const carroDetalles = await this.obtenerCarroDetallesPorId(this.carroSeleccionadoDetalles.id);
-    this.childComponent.cleanInitMethod(carroDetalles, verSoloRegistroMantenimiento);
+    this.childComponent.cleanInitMethod(carroSelected, verSoloRegistroMantenimiento, nuevoHistialId);
     
     // setTimeout(() => {}, 2000);
 
     // // Abrir el modal
     let modal = new bootstrap.Modal(document.getElementById('verHistorialPopUp')!);
     modal.show();
+
+    
 
     //Remove the loader
     this.isLoading = false;

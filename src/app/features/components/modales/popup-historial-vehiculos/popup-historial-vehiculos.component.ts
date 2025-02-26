@@ -26,6 +26,10 @@ export class PopupHistorialVehiculosComponent {
     isModalProgramatico : boolean = false;
     carro:Carro;
 
+
+    //new historial id 
+    newHistorialID: number = 0;
+
     @Input() carroSeleccionadoDetalles: Carro;
     @Input() verSoloRegistroMantenimiento = false;
     @Input() changeDetecterFlag : boolean;
@@ -52,12 +56,12 @@ export class PopupHistorialVehiculosComponent {
       // this.obtenerCarroPorId(this.carroSeleccionadoDetalles.id);
     }
 
-    cleanInitMethod(carro:Carro, mostrarSoloMantenimeinto:boolean) {
+    cleanInitMethod(carro:Carro, mostrarSoloMantenimeinto:boolean, nuevoHistorialId:number) {
       this.mostrarListaHistorial = true;
       this.mostrarRegistrarHistorial = false;
       this.verSoloRegistroMantenimiento = mostrarSoloMantenimeinto;
       this.carroSeleccionadoDetalles = carro;
-      // this.obtenerCarroPorId(carro.id);
+      this.newHistorialID = nuevoHistorialId;
     }
 
     private obtenerCarroPorId(id: number) {
@@ -69,7 +73,6 @@ export class PopupHistorialVehiculosComponent {
     cerrarModal() {
       this.modalService.dismissAll()// cierra el modal que esté mostrandose
     }
-
 }
 
 
