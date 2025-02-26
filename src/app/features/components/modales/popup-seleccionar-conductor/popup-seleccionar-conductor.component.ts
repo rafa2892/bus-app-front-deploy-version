@@ -28,6 +28,7 @@ export class PopupSeleccionarConductorComponent {
   //Receptores
   @Input() modalModoSeleccionarConductor : boolean;
 
+  
   //Transmisores
   @Output() selectConductorHandlerFromSon = new EventEmitter<any>();
 

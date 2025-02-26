@@ -86,4 +86,8 @@
         caret-color: transparent;
         border-color:whit;
     }
+
+    .conductor-input  {
+        min-width: 18em;
+    }
     

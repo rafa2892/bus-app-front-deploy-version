@@ -6,7 +6,7 @@
 </div>
 
 <div class="filtrosContenedor" id="filtrosContenedor">
-  <div class="d-flex justify-content-end">
+  <div *ngIf="!isModalMode" class="d-flex justify-content-end">
     <button type="button" class="btn btn-excel" data-bs-toggle="dropdown" (click)="descargarExcel()">
       <span><img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size">Exportar excel</span>
     </button>
@@ -66,7 +66,7 @@
         </tr>
       </thead>
       <tbody class="table-dark">
-        <tr *ngFor="let conductor of conductoresListafiltrado | paginate: { itemsPerPage: 5, currentPage: p }" [ngClass]="{'nuevo-conductor': conductor.id === newConductorId}">
+        <tr *ngFor="let conductor of conductoresListafiltrado | paginate: { itemsPerPage: 5, currentPage: p,  id:'conductores-index'}" [ngClass]="{'nuevo-conductor': conductor.id === newConductorId}">
           <td><small>{{conductor.nombre.toUpperCase()}}</small></td>
           <td>{{conductor.apellido.toUpperCase()}}</td>
           <td>{{conductor.dni.toUpperCase()}}</td>
@@ -123,9 +123,11 @@
     </table>
     <div *ngIf="!isLoading" class="pagination-container">
       <pagination-controls 
-      (pageChange)="p = $event"
-      previousLabel="Anterior" 
-      nextLabel="Siguiente"></pagination-controls>
+        id="conductores-index"
+        (pageChange)="p = $event"
+        previousLabel="Anterior" 
+        nextLabel="Siguiente">
+    </pagination-controls>
     </div>
 
 

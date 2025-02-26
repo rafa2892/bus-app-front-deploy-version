@@ -74,27 +74,61 @@ export class FiltrosAvanzadoViajesComponent {
     }
   }
 
-//APPLIES THE FILTER TO THE TABLE (VIAJES)
-  aplicarFiltros() {
-    //if date fechaHasta is empty, then is iqual to the fechaDesde
-    if(!this.fechaHasta)
-      this.fechaHasta = this.fechaDesde;
-
-    //Emits event applies filters
-    this.applyFiltersHandler.emit({
-              fechaDesde: this.fechaDesde,
-              fechaHasta: this.fechaHasta,
-              conductor: this.conductor,
-              carro: this.carro,
-              viajesFiltrados: this.viajesFiltrados // Incluimos los viajes filtrados para mayor flexibilidad
-            });
+  validarDatosFiltros() {
+    if(!this.fechaDesde && !this.conductor && !this.carro) {
+      const msj = `
+      Por favor, introduce al menos un parámetro para filtrar los viajes.`;
+      this.globalUtilsService.showErrorMessageSnackBar(msj);
+      return;
+    }else {this.aplicarFiltros();}
   }
 
+  // APPLIES THE FILTER TO THE TABLE (VIAJES)
+  async aplicarFiltros() {
+
+    // If fechaHasta is empty, set it equal to fechaDesde
+    if (this.fechaDesde && !this.fechaHasta ) {
+      // Prepare the modal message
+      const title = 'Atención';
+      const text =`Has seleccionado una sola fecha. 
+                    Se buscarán los servicios correspondientes solo para el día <strong>${this.fechaDesdeStr}</strong>.`;
+
+      // Show confirmation modal
+      const result = await this.globalUtilsService.getMensajeConfirmaModal(title, text);
+
+      if (result.isConfirmed) {
+        // Emit the filter event if confirmed
+        this.fechaHasta = this.fechaDesde;
+        this.fechaHastaStr = this.fechaDesdeStr;
+        this.emitFilterEvent();
+      } else {
+        // Exit if not confirmed
+        return;
+      }
+    } else {
+      // Emit the filter event if fechaHasta is already provided
+      this.emitFilterEvent();
+    }
+  }
+
+
+  emitFilterEvent() {
+    //Emits event applies filters
+      this.applyFiltersHandler.emit({
+        fechaDesde: this.fechaDesde,
+        fechaHasta: this.fechaHasta,
+        conductor: this.conductor,
+        carro: this.carro,
+        viajesFiltrados: this.viajesFiltrados // Incluimos los viajes filtrados para mayor flexibilidad
+      });
+    }
+  
   closeModal() {
     this.modalService.dismissAll();
   }
 
   public selectedDateFormat(fecha: Date | null, fechaTipo: string) {
+
     if (fecha) {
       // Si la fecha está definida, la formateamos
       let fechaStr = this.datePipe.transform(fecha, 'dd/MM/yyyy');

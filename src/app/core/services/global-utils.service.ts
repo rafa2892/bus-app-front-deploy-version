@@ -95,16 +95,30 @@ import { TITLES } from '../../constant/titles.constants';
       return '';  
   }
 
+  // buildCustomsToolTipBS() {
+  //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+  //     const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
+  //       delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
+  //     });
+  //     // Guardar el tooltip en una propiedad para poder eliminarlo más tarde
+  //     tooltipTriggerEl.tooltipInstance = tooltip;
+  //   });
+  // }
+
   buildCustomsToolTipBS() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    
     tooltipTriggerList.map(function (tooltipTriggerEl: any) {
       const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
+        trigger: 'hover',  // Esto asegura que solo se active por hover
         delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
       });
       // Guardar el tooltip en una propiedad para poder eliminarlo más tarde
       tooltipTriggerEl.tooltipInstance = tooltip;
     });
   }
+  
 
   disposeCustomTooltips() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

@@ -1,22 +1,22 @@
-import { Component} from '@angular/core'
-import { forkJoin } from 'rxjs';
-import {Viaje} from "../../../../core/models/viaje";
-import {ViajeServicioService} from "../../../../core/services/viaje-servicio.service";
-import { ActivatedRoute, Router } from '@angular/router';
-import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
-import Swal from 'sweetalert2';
+import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FiltrosAvanzadoViajesComponent } from '../../modales/filtros-avanzado-viajes/filtros-avanzado-viajes.component';
-import { Conductor } from '../../../../core/models/conductor';
-import { Carro } from '../../../../core/models/carro';
-import { TITLES } from '../../../../constant/titles.constants';
-import { ExcelService } from '../../../../core/services/excel-service.service';
-import { EmailService } from '../../../../core/services/email-service.service';
-import { CarroService } from '../../../../core/services/carro.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin } from 'rxjs';
+import Swal from 'sweetalert2';
+import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
+import { TITLES } from '../../../../constant/titles.constants';
+import { Carro } from '../../../../core/models/carro';
+import { Conductor } from '../../../../core/models/conductor';
+import { Viaje } from "../../../../core/models/viaje";
+import { CarroService } from '../../../../core/services/carro.service';
 import { ConductorService } from '../../../../core/services/conductor.service';
+import { EmailService } from '../../../../core/services/email-service.service';
+import { ExcelService } from '../../../../core/services/excel-service.service';
+import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+import { ViajeServicioService } from "../../../../core/services/viaje-servicio.service";
+import { FiltrosAvanzadoViajesComponent } from '../../modales/filtros-avanzado-viajes/filtros-avanzado-viajes.component';
 declare var bootstrap: any;
 
 
@@ -59,8 +59,10 @@ export class ListaViajesComponent {
     //spinner de carga
     loading = false;
     filterLoading = false;
-
     tipoExport : string | null = null;
+
+    //flag is initialized the tooltip styles 
+    private tooltipsInitialized = false;
 
     //Literals
     FILTROS_TITULO_INPUT = TITLES.FILTROS_TITULO_INPUT;
@@ -128,6 +130,13 @@ export class ListaViajesComponent {
       this.globalUtilsService.buildCustomsToolTipBS();
     }
 
+    ngAfterViewChecked(): void {
+      if (!this.tooltipsInitialized && this.viajes?.length) {
+        this.globalUtilsService.buildCustomsToolTipBS();
+        this.tooltipsInitialized = true;
+      }
+    }
+
     onPageChange(page: number) {
       this.filterLoading = true;
       this.p = page;  // Actualiza el valor de la página actual
@@ -147,13 +156,17 @@ export class ListaViajesComponent {
         complete: () => {
           console.log('Carga de viajes completada.', this.totalItems);
           this.loading = false;
+          this.resetToolTips();
         }
       }).add(() => {
         this.filterLoading = false;
       });
     }
 
-  
+    private resetToolTips(){
+      this.globalUtilsService.disposeCustomTooltips();
+      this.tooltipsInitialized=false;
+    }
 
     private obtenerConductorPorId(idConductor: number) {
       this.loading = true;
@@ -176,7 +189,6 @@ export class ListaViajesComponent {
         }
       }).add(() => this.loading = false);
     }
-    
     
     detallesViaje(viaje:Viaje) {
       this.viajeSelDetails = { ...viaje }; 
@@ -294,12 +306,13 @@ export class ListaViajesComponent {
 
     eventModalHandler(modalRef:any) {
 
-     // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
       modalRef.componentInstance.applyFiltersHandler.subscribe((viajesFiltrados: Viaje []) => {
         
+      // Dates displayed in the date-picker
       this.fechaDesde = modalRef.componentInstance.fechaDesde;
       this.fechaHasta = modalRef.componentInstance.fechaHasta;
 
+      // String dates that will be sent to the back-end
       this.fechaDesdeStr = modalRef.componentInstance.fechaDesdeStr;
       this.fechaHastaStr = modalRef.componentInstance.fechaHastaStr;
 
@@ -318,13 +331,14 @@ export class ListaViajesComponent {
 
     // Monitorear cambios en el estado del interruptor
     switchHandler() {
-      // Si filtros cargados va a bbdd nuevamente
+      // // Si filtros cargados va a bbdd nuevamente
       const isAnyParameterToFilterBy = this.carro ||  this.conductor ||  this.fechaDesdeStr || this.fechaHastaStr; 
       const isSwitchFilterOn = this.isSwitchFiltersOn;
 
       if(isAnyParameterToFilterBy) {
           this.filterLoading = true;
       }
+      
       if(!isSwitchFilterOn || !isAnyParameterToFilterBy && isSwitchFilterOn) {
         this.cargarViajes();
       }else if(isAnyParameterToFilterBy && isSwitchFilterOn){
@@ -335,7 +349,6 @@ export class ListaViajesComponent {
     resetFilters(): void {
       
       this.filterLoading = true;
-
       this.fechaDesde = null;
       this.fechaHasta = null;
       this.carro = null;
@@ -360,7 +373,7 @@ export class ListaViajesComponent {
           error: (error) => {
             console.error('Error al obtener los viajes:', error);
             if (error.status === 404) {
-              this._snackBar.open('No hay registros con los parámetros dados', '', {
+              this._snackBar.open('No se encontraron registros con los parámetros seleccionados.', '', {
                 duration: 5000,
                 panelClass: ['error-snackbar'],
                 horizontalPosition: 'end',
@@ -370,6 +383,7 @@ export class ListaViajesComponent {
         },
         complete: () => {
           this.modalService.dismissAll();
+          this.resetToolTips();
         }
       }).add(() => {
         this.filterLoading = false;
@@ -400,15 +414,6 @@ export class ListaViajesComponent {
       this.globalUtilsService.disposeCustomTooltips();
       this.router.navigate(['/registrar-viaje']);
     }
-
-    private tooltipsInitialized = false;
-    ngAfterViewChecked(): void {
-      if (!this.tooltipsInitialized && this.viajes?.length) {
-        this.globalUtilsService.buildCustomsToolTipBS();
-        this.tooltipsInitialized = true;
-      }
-    }
-
 
         // private obtenerListaViaje(): void {
     //   this.viajeServicio.obtenerListaViaje().subscribe({

@@ -37,29 +37,29 @@
                 <span><img src="../../../../../assets/filter-icon.png" alt="Intercambiar" class="default-img-icon-size"></span>
               </button>
               <div class="block-buttons">
-              <div class="form-check form-switch switch-button">
-                <input 
-                id="flexSwitchCheckDefault"
-                [(ngModel)]="isSwitchFiltersOn" 
-                (change)="switchHandler()" 
-                class="form-check-input" 
-                type="checkbox" role="switch"
+                <div class="form-check form-switch switch-button">
+                  <input 
+                    id="flexSwitchCheckDefault"
+                    [(ngModel)]="isSwitchFiltersOn" 
+                    (change)="switchHandler()" 
+                    class="form-check-input" 
+                    type="checkbox" role="switch"
+                    data-bs-toggle="tooltip" 
+                    data-bs-placement="bottom"
+                    [attr.data-bs-original-title]="isSwitchFiltersOn ? DESACTIVAR_FILTRO_TITULO : ACTIVAR_FILTRO_TITULO">
+                  <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                </div>
+                <button 
+                type="button" 
+                [title]="RESETEAR_FILTRO_TITULO" 
+                (click)="resetFilters()" 
                 data-bs-toggle="tooltip" 
                 data-bs-placement="bottom"
-                [title]="isSwitchFiltersOn ? DESACTIVAR_FILTRO_TITULO : ACTIVAR_FILTRO_TITULO">
-                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-              </div>
-              <button 
-              type="button" 
-              [title]="RESETEAR_FILTRO_TITULO" 
-              (click)="resetFilters()" 
-              data-bs-toggle="tooltip" 
-              data-bs-placement="bottom"
-              class="btn btn-primary btn-reset-filter">
-                <span class="button-icon bold-description-filters"> 
-                  <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
-                </span>
-              </button>
+                class="btn btn-primary btn-reset-filter">
+                  <span class="button-icon bold-description-filters"> 
+                    <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
+                  </span>
+                </button>
             </div>
         </div>
 

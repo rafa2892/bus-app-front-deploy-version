@@ -82,10 +82,7 @@ export class RegistrarConductorComponent {
     if(this.isDesdeDetalles) {
       this.titulo = TITLES.VIEW_CONDUCTOR;
       this.obtenerListaViajePorConductor(id);
-    }
-
-    else {this.isLoading = false;}
-
+    }else {this.isLoading = false;}
   }
 
   obtenerConductorPorId(id: number) {

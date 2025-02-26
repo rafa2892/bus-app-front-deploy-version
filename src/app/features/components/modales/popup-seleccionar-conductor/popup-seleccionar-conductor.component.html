@@ -3,6 +3,7 @@
     [tituloPopUp]="tituloPopUp"
     [idModal]="idModal">
       <app-lista-conductores
+      [isModalMode]="true"
       (seleccionarConductor)="seleccionar($event)"
       [modalModoSeleccionarConductor]="modalModoSeleccionarConductor">
       </app-lista-conductores>

@@ -4,7 +4,6 @@
                     <h5 class="modal-title">{{FILTROS_TITULOS}}</h5>
                     <button type="button" class="btn-close btn-close-white" (click)="closeModal()" aria-label="Close"></button>
                 </div>
-
                 <!-- Fecha de desde filtros -->
                 <div class="modal-body">
                     <div class="d-flex align-items-center justify-content-start separator dates-container">
@@ -27,7 +26,6 @@
                             </mat-datepicker-toggle>
                             <mat-datepicker id="dataPickerDesde" #dataPickerDesde></mat-datepicker>
                         </mat-form-field>
-
                         <!-- Fecha de hasta filtros -->
                         <mat-form-field id="mat-picker-date-component"
                         class="full-width date-picker"
@@ -52,23 +50,23 @@
                     <div class="align-items-center justify-content-start">
                         <div id="conductor-seleccionado" class="d-flex separator">
                             <input type="text" matInput
-                            name="nombre-conductor"
-                            id="nombre-conductor"
-                            [placeholder]="CONDUCTOR_PLACEHOLDER_INPUT" 
-                            style="text-transform: uppercase"
-                            class="form-control defaultSizeInput  size-filters-selected-input"
-                            appOnlyLetters
-                            disabled="true"
-                            [value]="getConductor()">
+                                name="nombre-conductor"
+                                id="nombre-conductor"
+                                [placeholder]="CONDUCTOR_PLACEHOLDER_INPUT" 
+                                style="text-transform: uppercase"
+                                class="form-control defaultSizeInput  size-filters-selected-input conductor-input"
+                                appOnlyLetters
+                                disabled="true"
+                                [value]="getConductor()">
                             <div class="selection-modal-opener">
                                 <a class="btn botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
-                                    <span><img src="../../../../../assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
+                                    <span><img src="assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
                                 </a>    
                             </div>
                             <div class="reset-filter-button-container">
                                 <button type="button" [title]="RESETEAR_FILTRO_TITULO" (click)="resetFilters()" class="btn btn-primary btn-reset-filter">
                                     <span class="button-icon bold-description-filters"> 
-                                        <img src="../../../../../assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
+                                        <img src="assets/reset-filter-icon.png" alt="Intercambiar" class="default-img-icon-size">
                                     </span>
                                 </button>
                             </div>
@@ -86,7 +84,7 @@
                             [value]="getCarro()">
                             <div class="selection-modal-opener">     
                                 <a class="btn botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
-                                    <span><img src="../../../../../assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
+                                    <span><img src="assets/search.png" alt="search-ico" class="default-img-icon-size"></span>
                                 </a>    
                             </div>
                         </div>
@@ -94,16 +92,18 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="closeModal()">{{CANCELAR}}</button>
-                    <button type="button" (click)="aplicarFiltros()" class="btn btn-primary">{{APLICAR_FILTROS}}</button>
+                    <button type="button" (click)="validarDatosFiltros()" class="btn btn-primary">{{APLICAR_FILTROS}}</button>
                 </div>
             </div>
         </div>
 
         <!-- MODALS-POP-UP -->
+        
         <app-popup-seleccionar-carro 
             (selectVehiculoHandlerFromSon)="selectedVehiculoHandler($event)">
         </app-popup-seleccionar-carro>
-        <app-popup-seleccionar-conductor 
+
+        <app-popup-seleccionar-conductor
             (selectConductorHandlerFromSon)="selectedConductorHandler($event)" 
             [modalModoSeleccionarConductor]="true">
         </app-popup-seleccionar-conductor>

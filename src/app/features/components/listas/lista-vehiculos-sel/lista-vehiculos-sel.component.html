@@ -6,7 +6,7 @@
           </div>
           <div class="col-auto">
             <input  type="text" id="numeroUnidad" class="form-control defaultInputHeightModal" aria-describedby="passwordHelpInline"
-             [(ngModel)]="numeroUnidad" (blur)="onBlurNumeroUnidad()" (input)="onInputChangeNumeroUnidad()" appOnlyNumber>
+              [(ngModel)]="numeroUnidad" (blur)="onBlurNumeroUnidad()" (input)="onInputChangeNumeroUnidad()" appOnlyNumber>
           </div>
       </div>
         <div class="col g-3 align-items-center" id="busquedaId">
@@ -47,7 +47,7 @@
         </tr>
       </thead>
       <tbody class="table-dark">
-        <tr *ngFor="let carro of carrosFiltrado | paginate: { itemsPerPage: 5, currentPage: p }">
+        <tr *ngFor="let carro of carrosFiltrado | paginate: { itemsPerPage: 5, currentPage: p,  id:'carro-sel-index' }">
           <td>{{carro.numeroUnidad}}</td>
           <td>{{carro.marca}}</td>
           <td>{{carro.modelo}}</td>
@@ -66,7 +66,9 @@
     </table>
     <div class="pagination-container">
       <pagination-controls 
-      (pageChange)="p = $event"
-      previousLabel="Anterior" 
-      nextLabel="Siguiente"></pagination-controls>
+        id="carro-sel-index"
+        (pageChange)="p = $event"
+        previousLabel="Anterior" 
+        nextLabel="Siguiente">
+      </pagination-controls>
     </div>

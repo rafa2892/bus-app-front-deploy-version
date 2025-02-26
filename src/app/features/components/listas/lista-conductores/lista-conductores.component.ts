@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Output,Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faCheck, faCirclePlus, faPen, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faCirclePlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
@@ -16,6 +16,9 @@ export class ListaConductoresComponent {
 
     @Output() seleccionarConductor  = new EventEmitter<any>();
     @Input() modalModoSeleccionarConductor : boolean;
+
+    // Determines whether the component is in modal mode 
+    @Input() isModalMode: boolean;
 
     // ID del conductor recién agregado
     newConductorId: number;

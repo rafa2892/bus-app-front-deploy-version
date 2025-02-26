@@ -190,10 +190,11 @@
   </table>
     <div class="pagination-container">
       <pagination-controls 
-      id="carros"  
-      (pageChange)="onPageChange($event)"
-      previousLabel="Anterior" 
-      nextLabel="Siguiente"></pagination-controls>
+        id="carros"  
+        (pageChange)="onPageChange($event)"
+        previousLabel="Anterior" 
+        nextLabel="Siguiente">
+    </pagination-controls>
     </div>
   </div>
   <app-popup-historial-vehiculos [changeDetecterFlag]="changeDetecterFlag" [carroSeleccionadoDetalles]="carroSeleccionadoDetalles"> </app-popup-historial-vehiculos>
