@@ -12,3 +12,9 @@
     margin-top: 5em;
 }
 
+/* ::ng-deep pagination-controls .ngx-pagination .current,
+::ng-deep pagination-controls .ngx-pagination a {
+  color: white !important;
+} */
+
+

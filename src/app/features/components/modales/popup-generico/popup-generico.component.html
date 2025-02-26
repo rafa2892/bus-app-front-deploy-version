@@ -7,12 +7,12 @@
     <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="{{modalLabel}}">{{tituloPopUp}}</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" (click)="reset()" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-white" (click)="cerrarModal()" (click)="reset()" aria-label="Close"></button>
         </div>
         <div class="modal-body">
               <ng-content></ng-content>
           <div [className]="isModalProgramatico ? 'modal-footer justify-content-between' : 'modal-footer' ">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">{{getButtonMsj()}}</button>
+            <button type="button" class="btn btn-danger" (click)="cerrarModal()">{{getButtonMsj()}}</button>
             <button *ngIf="isModalConfirmacion" type="button" data-bs-dismiss="modal" class="btn btn-success" (click)="onAceptar()">{{CONFIRMAR_MODAL}}</button>
           </div>
         </div>

@@ -12,5 +12,5 @@ export class Historial {
     fechaAlta:Date;
     userLogin:UsuarioLogin;
     byUser:string;
-
+    viajeId:number;
 }

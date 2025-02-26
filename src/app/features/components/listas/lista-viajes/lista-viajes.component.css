@@ -96,12 +96,14 @@
   100% { transform: rotate(360deg); }
 }
 
-
 .default-img-icon-size#img {
   width: 21px;
   height: 21px;
   transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease; /* Suaviza la transición */
 }
+
+
+
 
 
 

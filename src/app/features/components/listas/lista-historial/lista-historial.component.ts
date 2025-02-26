@@ -7,10 +7,12 @@
     import { ActivatedRoute, Router } from '@angular/router';
     import { HistorialService } from '../../../../core/services/historial.service';
     import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-    import { firstValueFrom } from 'rxjs';
+    import { firstValueFrom, lastValueFrom } from 'rxjs';
     import { DatePipe } from '@angular/common';
     import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
     import { TITLES } from '../../../../constant/titles.constants';
+    import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
+    import { Viaje } from '../../../../core/models/viaje';
     declare var bootstrap: any;
 
 
@@ -54,6 +56,9 @@
       isAppliedFilters : boolean = false;
       toolTipMsjFiltros :string = 'Selecciona una fecha o ambas fechas para aplicar filtro por fechas';
 
+      viajeSelDetails : Viaje;
+      
+
       @Input() changeDetecterFlag : boolean;
       constructor(
         private readonly carroServicio:CarroService, 
@@ -62,7 +67,8 @@
         private modalService: NgbModal,
         private activatedRoute: ActivatedRoute,
         private datePipe: DatePipe,
-        private globalService:GlobalUtilsService) {}
+        private globalService:GlobalUtilsService,
+        private viajeServicio:ViajeServicioService) {}
 
       ngOnInit(): void {
         const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
@@ -343,4 +349,21 @@
       this.h = page; // Actualiza el valor de la página actual
       this.obtenerHistorialPorCarroPaginado();
     }
+
+    // verDetallesServicio(historial:Historial) {
+    // }
+
+    async verDetallesServicio(viajeId: number): Promise<void> {
+      this.isLoading = true;
+      try {
+          this.viajeSelDetails = await lastValueFrom(this.viajeServicio.obtenerViajeById(viajeId));
+          this.globalService.abrirModalProgramatico('confirma-servicio-modal');
+          
+      } catch (error) {
+          console.error('Error al obtener el viaje:', error);
+      } finally {
+          this.isLoading = false;
+      }
+  }
+
 }

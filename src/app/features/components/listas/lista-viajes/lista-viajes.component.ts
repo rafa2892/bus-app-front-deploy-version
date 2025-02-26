@@ -179,9 +179,9 @@ export class ListaViajesComponent {
     
     
     detallesViaje(viaje:Viaje) {
-      this.viajeSelDetails = { ...viaje }; // Crea una copia del objeto seleccionado
-        // // Ahora que los datos están cargados, abrimos el modal
-        this.globalUtilsService.abrirModalProgramatico('confirma-servicio-modal')
+      this.viajeSelDetails = { ...viaje }; 
+        //Ahora que los datos están cargados, abrimos el modal
+        this.globalUtilsService.abrirModalProgramatico('confirma-servicio-modal');
     }
 
     //CRUD

@@ -15,14 +15,14 @@
   <div class="d-flex align-items-center justify-content-start filtros-container">
     <div class="add-new-driver-btn">
       <button 
+        id="botonDetails"
+        class="btn btn-primary btn-styles reduced-font-btn"
         type="button" 
         data-bs-dismiss="modal" 
         data-bs-toggle="tooltip" 
         data-bs-placement="bottom"
         (click)="irRegistrarConductor()"
-        data-bs-original-title="Registra un nuevo servicio"
-        id="botonDetails"
-        class="btn btn-primary btn-styles reduced-font-btn">
+        data-bs-original-title="Registra un nuevo servicio">
         <span class="button-icon">Registrar conductor
           <fa-icon class="eyeIcon" style="margin-left: 1em;"  [icon]="faPlus"></fa-icon>
         </span> 

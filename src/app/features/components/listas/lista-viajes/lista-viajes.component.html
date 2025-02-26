@@ -11,19 +11,17 @@
       <div *ngIf="!loading" class="panel-superior">
         <div class="d-flex align-items-center justify-content-start margin">
           <button 
+            id="botonDetails"
+            class="btn btn-primary btn-styles"
             type="button" 
             data-bs-toggle="tooltip" 
             data-bs-placement="bottom"
             data-bs-original-title="Registra un nuevo servicio"
-            id="botonDetails"
-            (click)="registrarNuevoServicio()"
-            class="btn btn-primary btn-styles">
+            (click)="registrarNuevoServicio()">
             <span class="button-icon">Registrar servicio
-              <fa-icon class="eyeIcon" style="margin-left: 1em;"  [icon]="plusIcon"></fa-icon>
+              <fa-icon class="eyeIcon" style="margin-left: 1em;" [icon]="plusIcon"></fa-icon>
             </span> 
           </button>
-
-
           <div class="d-flex filters-container-border filters-container">
             <!--Spinner de carga-->
               <div *ngIf="filterLoading" class="overlay">
@@ -142,7 +140,6 @@
           </ng-container>
           <ng-template #horasNoEspecificadas>Horas no especificas</ng-template></td>
           <td>
-
             <button 
               data-bs-toggle="tooltip" 
               data-bs-placement="bottom"

@@ -32,9 +32,9 @@ export class PopupMensajeConfirmarViajeComponent {
   ngOnInit(): void {
 
     if(this.viaje && 
-       this.viaje.id &&
-       this.isModalConfirmacion) {
-          this.tituloPopUp = TITLES.EDITING_SERVICE;
+        this.viaje.id &&
+          this.isModalConfirmacion) {
+            this.tituloPopUp = TITLES.EDITING_SERVICE;
     }
   }
 

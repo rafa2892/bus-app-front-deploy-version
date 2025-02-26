@@ -128,11 +128,11 @@ body {
     color: rgb(255, 136, 0);
     font-weight: lighter;
   }
-   /*----- FIN COLOR Resalte numero de unidad*/
 
-   .blue-standar-font {
-     color: #55a2d1;
-   }
+  /*----- FIN COLOR Resalte numero de unidad*/
+  .blue-standar-font {
+    color: #55a2d1;
+  }
 
 
   .deleted-market-style {
@@ -420,7 +420,9 @@ body {
 
   border: none !important;
   display: flow;
-
-
 }
 
+.ngx-pagination .current,
+.ngx-pagination a {
+  color: white !important;
+}

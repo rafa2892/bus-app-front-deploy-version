@@ -6,22 +6,22 @@
   </div>
 
     
-    <div class="d-flex titulo-btn-container">
-      <div class="addNewCarBton">
-        <button 
-        type="button" 
-        data-bs-dismiss="modal" 
-        data-bs-toggle="tooltip" 
-        data-bs-placement="bottom"
-        data-bs-original-title="Registra nuevo vehiculo"
-        id="botonDetails"
-        (click)="registerCarForm()"
-        class="btn btn-primary btn-styles">
-        <span class="button-icon">Registrar carro
-          <fa-icon class="eyeIcon" style="margin-left: 1em;" [icon]="faPlus"></fa-icon>
-        </span> 
-      </button>
-    </div>
+      <div class="d-flex titulo-btn-container">
+        <div class="addNewCarBton">
+          <button 
+          id="botonDetails"
+          class="btn btn-primary btn-styles"
+          type="button" 
+          data-bs-dismiss="modal" 
+          data-bs-toggle="tooltip" 
+          data-bs-placement="bottom"
+          data-bs-original-title="Registra nuevo vehiculo"
+          (click)="registerCarForm()">
+          <span class="button-icon">Registrar carro
+            <fa-icon class="eyeIcon" style="margin-left: 1em;" [icon]="faPlus"></fa-icon>
+          </span> 
+        </button>
+      </div>
 
 
       <div class="filtrosContenedor" id="filtrosContenedor">

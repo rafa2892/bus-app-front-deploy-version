@@ -26,7 +26,6 @@ export class ViajeServicioService {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-
       return this.httpClient.get<any>(`${this.completeURL}/pageable`, { params });
   }
   

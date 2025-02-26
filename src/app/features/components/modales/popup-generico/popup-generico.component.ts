@@ -1,8 +1,8 @@
-import { Component, Input, Output,EventEmitter  } from '@angular/core';
-import { Ruta } from '../../../../core/models/ruta';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TITLES } from '../../../../constant/titles.constants';
 import { Viaje } from '../../../../core/models/viaje';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-popup-generico',
@@ -64,5 +64,23 @@ export class PopupGenericoComponent {
       return 'modal-lg';
     }
   }
+
+  cerrarModal(): void {
+    let modalElement = document.getElementById(this.idModal!);
+  
+    if (modalElement) {
+      // Obtener la instancia del modal
+      let modalInstance = bootstrap.Modal.getInstance(modalElement);
+  
+      if (modalInstance) {
+        modalInstance.hide();  // Cierra el modal
+      } else {
+        console.error('No se pudo obtener la instancia del modal.');
+      }
+    } else {
+      console.error('No se encontró el modal con el ID especificado.');
+    }
+  }
+  
 
 }
