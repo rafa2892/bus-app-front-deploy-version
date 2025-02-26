@@ -90,10 +90,10 @@ export class ListaConductoresComponent {
       const dni = this.dni.trim().toLowerCase();
 
       this.conductoresListafiltrado = this.conductoresLista.filter(c => {
-      const marcaCoincide = nombre === '' || c.nombre.toString().toLowerCase().includes(nombre);
-      const añoCoincide = apellido === '' || c.apellido.toString().toLowerCase().includes(apellido);
-      const cedula = dni === '' || c.dni.toString().toLowerCase().includes(dni);
-      return marcaCoincide && añoCoincide && cedula;
+        const marcaCoincide = nombre === '' || c.nombre.toString().toLowerCase().includes(nombre);
+        const añoCoincide = apellido === '' || c.apellido.toString().toLowerCase().includes(apellido);
+        const cedula = dni === '' || c.dni.toString().toLowerCase().includes(dni);
+        return marcaCoincide && añoCoincide && cedula;
       });
     }  
 
