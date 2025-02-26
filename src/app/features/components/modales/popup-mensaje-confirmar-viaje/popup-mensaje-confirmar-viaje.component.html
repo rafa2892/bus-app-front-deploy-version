@@ -3,7 +3,7 @@
     [tituloPopUp]="tituloPopUp"
     [idModal]="idModal"
     [isModalProgramatico]="isModalProgramatico"
-    (confirmarAccion)="manejarConfirmacion($event)"
+    (confirmarAccion)="manejarConfirmacion()"
     [isModalConfirmacion]="isModalConfirmacion">
     <div *ngIf="viaje ? true : getViajeSeleccionado()">
         <label class="label-input d-block">Compañia Servicio  :

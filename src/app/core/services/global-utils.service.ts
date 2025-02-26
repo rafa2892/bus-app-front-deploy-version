@@ -75,7 +75,7 @@ import { TITLES } from '../../constant/titles.constants';
 
   showErrorMessageSnackBar(msj:string) {
     this._snackBar.open(msj, 'Cerrar', {
-          duration: 5000,
+          duration: 4000,
           panelClass: ['error-snackbar'],
           horizontalPosition: 'end',
           verticalPosition: 'top',

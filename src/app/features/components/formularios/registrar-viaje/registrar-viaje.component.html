@@ -183,7 +183,7 @@
             type="button" 
             (click)="validar()">{{ viaje.id ? EDITAR : GUARDAR}}
         </button>
-        <app-popup-mensaje-confirmar-viaje (confirmarAccion)="manejarConfirmacion($event)"></app-popup-mensaje-confirmar-viaje>
+        <app-popup-mensaje-confirmar-viaje (confirmarAccion)="manejarConfirmacion()"></app-popup-mensaje-confirmar-viaje>
         <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
         <app-popup-seleccionar-conductor [modalModoSeleccionarConductor]="modalModoSeleccionarConductor"></app-popup-seleccionar-conductor>
         <app-popup-seleccionar-ruta></app-popup-seleccionar-ruta>

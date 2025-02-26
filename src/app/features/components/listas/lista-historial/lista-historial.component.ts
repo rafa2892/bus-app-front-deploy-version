@@ -80,18 +80,22 @@
         }
       }
 
-      obternerHistorialByCarroIdPageable(carro: Carro) {
-        this.historialService.getHistoriesByCarroIdPageable(carro.id, 0, 10).subscribe({
-          next: historial => {
-            this.carroSeleccionadoDetalles = { ...carro, registroHistorial: historial.content };
-            this.totalItems = historial.totalElements;
-          },
-          error: err => {
-            console.error('Error al obtener el historial:', err);
-          },
-          complete: () => {
-            console.log('Consulta de historial completada');
-          }
+      obternerHistorialByCarroIdPageable(carro: Carro): Promise<void> {
+        return new Promise((resolve, reject) => {
+          this.historialService.getHistoriesByCarroIdPageable(carro.id, 0, 10).subscribe({
+            next: historial => {
+              this.carroSeleccionadoDetalles = { ...carro, registroHistorial: historial.content };
+              this.totalItems = historial.totalElements;
+            },
+            error: err => {
+              console.error('Error al obtener el historial:', err);
+              reject(err);  // Si hay un error, rechaza la promesa
+            },
+            complete: () => {
+              console.log('Consulta de historial completada');
+              resolve();  // Resuelve la promesa cuando la consulta se completa
+            }
+          });
         });
       }
 
@@ -104,6 +108,7 @@
         // int 3 = comment 
         /* Muestra la lista de historial de acuerdo a si es por mantenimiento o vista general*/
         if (this.verSoloRegistroMantenimiento) {
+          console.log(this.carroSeleccionadoDetalles);
           this.carroSeleccionadoDetalles = {
             ...this.carroSeleccionadoDetalles, 
             registroHistorial: this.carroSeleccionadoDetalles.registroHistorial?.filter(h => h.idTipo === 2) || []

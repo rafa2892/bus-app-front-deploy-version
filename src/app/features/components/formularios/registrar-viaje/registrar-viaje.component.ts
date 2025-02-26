@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, NgZone, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -17,6 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PopupMensajeConfirmarViajeComponent } from '../../modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
 import Swal from 'sweetalert2';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-registrar-viaje',
@@ -99,6 +100,10 @@ export class RegistrarViajeComponent {
     NUEVA_RUTA = TITLES.NEW_ROUTE;
     MENSAJE_DATA_FOUND = TITLES.DATA_FOUND;
     MENSAJE_NO_DATA_FOUND = TITLES.DATA_NO_FOUND;
+
+
+     @ViewChild(PopupMensajeConfirmarViajeComponent) confirmaViajeChild!: PopupMensajeConfirmarViajeComponent; 
+    
 
     constructor(
       private modalService: NgbModal,
@@ -415,84 +420,53 @@ export class RegistrarViajeComponent {
       const esValido = await this.validarDatos();
 
       if(esValido){
-        
           //Carga datos nuevo viaje
           this.poblarFormularioCrearViaje();
-
-          // Abre el modal creando una instancia nueva
-          const modalRef = this.modalService.open(PopupMensajeConfirmarViajeComponent);
-          modalRef.componentInstance.isModalProgramatico = true;
-          modalRef.componentInstance.viaje = this.viaje;
-
-          if(this.viaje.id) {
-            modalRef.componentInstance.isEdicionModeEnabled = true;
-          }
-
-          // Aquí te suscribes al evento 'confirmar' del componente hijo (PopupMensajeConfirmarViajeComponent)
-          modalRef.componentInstance.confirmarAccion.subscribe((confirmado: boolean) => {
-            this.manejarConfirmacion(confirmado); // Manejas el evento en el componente padre
-          });
-      }else if(this.errorVali) {
-              this._snackBar.open('Por favor, rellene los campos requeridos marcados en rojo, son requeridos.', 'Cerrar', {
-              duration: 3000, // Duración del Snackbar en milisegundos
-              panelClass: ['custom-snackbar'],
-              horizontalPosition: 'end', // Options: 'start', 'center', 'end'
-              verticalPosition: 'top', // Options: 'top', 'bottom'
-          });
+              let modal = new bootstrap.Modal(document.getElementById('confirma-servicio-modal')!);
+              this.confirmaViajeChild.viaje = this.viaje;
+              modal.show();
+        }else if(this.errorVali) {
+          const msj = 'Por favor, rellene los campos requeridos marcados en rojo, son requeridos.';
+          this.globalUtilsService.showErrorMessageSnackBar(msj);
       }
     }
 
     // Método para manejar la confirmación del usuario
-    manejarConfirmacion(confirmado: boolean) {
+    manejarConfirmacion() {
       this.guardarViaje();
     }
 
     guardarViaje(){
-      
       if(!this.viaje.id) {
-        this.viajeServicio.registrarViaje(this.viaje).subscribe(
-            dato => {
-                  this._snackBar.open('Viaje Registrado con éxito.', '', {
-                    duration: 2000,
-                    panelClass: ['success-snackbar'],
-                    horizontalPosition: 'end',
-                    verticalPosition: 'top',
-                })
-                  this.irListaViaje();
-            },
-            error => {
-              // Si ocurre un error
-              console.log(error);
-              this._snackBar.open(TITLES.ERROR_SERVIDOR_BACK, '', {
-                duration: 5000,
-                panelClass: ['error-snackbar'],
-                horizontalPosition: 'end',
-                verticalPosition: 'top',
-              });
-            }
-        );}else{
-        this.viajeServicio.actualizarViaje(this.viaje).subscribe(
-          dato => {
-                this._snackBar.open('Viaje Registrado con éxito.', '', {
-                  duration: 2000,
-                  panelClass: ['success-snackbar'],
-                  horizontalPosition: 'end',
-                  verticalPosition: 'top',
-              })
-                this.irListaViaje();
-          },error => {
-            // Si ocurre un error
+        // Si no tiene id, es un nuevo viaje
+        this.viajeServicio.registrarViaje(this.viaje).subscribe({
+          next: (dato) => {},
+          error: (error) => {
             console.log(error);
-            this._snackBar.open(TITLES.ERROR_SERVIDOR_BACK, '', {
-              duration: 5000,
-              panelClass: ['error-snackbar'],
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            });
+            this.globalUtilsService.showErrorMessageSnackBar(TITLES.ERROR_SERVIDOR_BACK);
+          },
+          complete: () => {
+            const msj = 'Nuevo servicio guardado con éxito.';
+            this.globalUtilsService.getSuccessfulMsj(msj);
+            this.irListaViaje();
           }
-        );
+        });
+      } else {
+        this.viajeServicio.actualizarViaje(this.viaje).subscribe({
+          next: (dato) => {},
+          error: (error) => {
+            console.log(error);
+            this.globalUtilsService.showErrorMessageSnackBar(TITLES.ERROR_SERVIDOR_BACK);
+          },
+          complete: () => {
+            const msj = 'Viaje actualizado con éxito.';
+            this.globalUtilsService.getSuccessfulMsj(msj);
+            this.irListaViaje();
+          }
+        });
       }
     }
+    
     private cargarListasFiltrosCarro() {
         if(this.selectedVehiculo == undefined || this.selectedVehiculo === '') {
           this.vehiculosAutoCompleteFilters = this.carros;

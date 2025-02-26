@@ -77,8 +77,9 @@
       </tr>
     </thead>
     <tbody class="table-dark">
-      <tr [ngClass]="{'resaltado': newHistorialID !== 0 && historial.id === newHistorialID }"  *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial 
-      | paginate: {totalItems:totalItems, itemsPerPage: itemsPerPage, currentPage: h, id: 'historial'}">
+      <tr
+      *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial | paginate: {totalItems:totalItems, itemsPerPage: itemsPerPage, currentPage: h, id: 'historial'}" 
+      [ngClass]="{'resaltado': newHistorialID !== 0 && historial.id === newHistorialID }">
         <td>
           <small>
             <button 

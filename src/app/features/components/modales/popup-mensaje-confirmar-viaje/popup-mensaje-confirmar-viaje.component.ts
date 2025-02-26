@@ -39,7 +39,6 @@ export class PopupMensajeConfirmarViajeComponent {
   }
 
   ngOnChanges() {
-
     // Forzar la detección de cambios cuando las propiedades de entrada cambien
     this.cdr.detectChanges(); 
 
@@ -50,7 +49,7 @@ export class PopupMensajeConfirmarViajeComponent {
     }
   }
 
-  manejarConfirmacion(confirmado: boolean) {
+  manejarConfirmacion() {
     this.confirmarAccion.emit(true);
   }
 

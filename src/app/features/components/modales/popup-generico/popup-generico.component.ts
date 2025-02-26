@@ -47,7 +47,6 @@ export class PopupGenericoComponent {
 
   onAceptar() {
     this.confirmarAccion.emit(true);
-    this.modalService.dismissAll();
   }
 
   getButtonMsj() {

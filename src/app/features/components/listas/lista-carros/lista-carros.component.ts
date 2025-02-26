@@ -202,9 +202,12 @@ export class ListaCarrosComponent {
   async verHistorial(carroSelected: Carro, verSoloRegistroMantenimiento:boolean, nuevoHistialId:number) {
 
     this.isLoading = true;
+
     this.verSoloMantenimiento = verSoloRegistroMantenimiento;
     this.carroSeleccionadoDetalles = carroSelected;
     this.changeDetecterFlag = !this.changeDetecterFlag;
+
+
     this.childComponent.cleanInitMethod(carroSelected, verSoloRegistroMantenimiento, nuevoHistialId);
     
     // setTimeout(() => {}, 2000);

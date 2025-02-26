@@ -13,7 +13,7 @@
               <ng-content></ng-content>
           <div [className]="isModalProgramatico ? 'modal-footer justify-content-between' : 'modal-footer' ">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="reset()">{{getButtonMsj()}}</button>
-            <button *ngIf="isModalConfirmacion" type="button" class="btn btn-success" (click)="onAceptar()">{{CONFIRMAR_MODAL}}</button>
+            <button *ngIf="isModalConfirmacion" type="button" data-bs-dismiss="modal" class="btn btn-success" (click)="onAceptar()">{{CONFIRMAR_MODAL}}</button>
           </div>
         </div>
       </div>
