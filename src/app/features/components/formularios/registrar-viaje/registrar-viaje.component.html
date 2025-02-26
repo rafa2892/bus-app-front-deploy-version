@@ -3,19 +3,23 @@
         <label class="label-input">{{EMPRESA_NOMBRE_SERVICIO}}</label>
         <div>
             <input 
-            autocomplete="off"
-            type="text" 
-            class="form-control empresa-servicio-input input-custom-style" 
-            id="nombre-empresa-servicio" 
-            [(ngModel)]="nombreEmpresaServicio" 
-            name="nombre-empresa-servicio" 
-            disabled="false"
-            [placeholder]="COMPANY_NAME_PLACEHOLDER"
-            (ngModelChange)="quitarErrorEstilos('nombre-empresa-servicio')">
+                autocomplete="off"
+                type="text" 
+                class="form-control empresa-servicio-input input-custom-style" 
+                id="nombre-empresa-servicio" 
+                [(ngModel)]="nombreEmpresaServicio" 
+                name="nombre-empresa-servicio" 
+                disabled="false"
+                [placeholder]="COMPANY_NAME_PLACEHOLDER"
+                (ngModelChange)="quitarErrorEstilos('nombre-empresa-servicio')">
+                <span class="error-icon">
+                    &#8226;
+                </span>
         </div>  
         <div class="row contenedorSeleccionRuta g-5">  
             <div id="div-desde" class="col-auto contenedor-rutas">
                 <label for="rutaDesde" class="label-input">{{DESDE_LABEL}}</label>
+                <div class="d-flex">
                     <textarea
                         class="form-control caja-rutas textarea-custom-style"
                         id="direccion-desde"
@@ -26,6 +30,10 @@
                         (keydown)="onTypeDown()" 
                         (ngModelChange)="quitarErrorEstilos('direccion-desde')">
                     </textarea>
+                    <span class="error-icon">
+                        &#8226;
+                    </span>
+                </div>
             </div>
             <!-- Botón intercambiador -->
             <div class="col-auto btn-intercambiador" style="display: flex; justify-content: center; align-items: center;">
@@ -41,23 +49,25 @@
             <div id="div-hacia" class="col-auto contenedor-rutas">
                 <div id="rutaDestino">
                     <label for="rutaDestino" class="label-input">{{HACIA_LABEL}}</label>
-                    <textarea
-                    autocomplete="off"
-                    [ngClass]="direccionSalida ? 'textarea-custom-style' : 'textarea-custom-style-disabled'"
-                    class="form-control caja-rutas"
-                    id="direccion-destino"
-                    type="text"
-                    placeholder="Ingresa una dirección de destino"
-                    [(ngModel)]="direccionDestino"
-                    name="direccion-destino"
-                    rows="2"
-                    (keydown)="onTypeDown()"
-                    [disabled]="!direccionSalida"
-                    (ngModelChange)="quitarErrorEstilos('direccion-destino')">
-                </textarea>
-                    <!-- <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#selectRoutePopUp"> 
-                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-                    </a> -->
+                    <div class="d-flex">
+                        <textarea
+                            autocomplete="off"
+                            [ngClass]="direccionSalida ? 'textarea-custom-style' : 'textarea-custom-style-disabled'"
+                            class="form-control caja-rutas"
+                            id="direccion-destino"
+                            type="text"
+                            placeholder="Ingresa una dirección de destino"
+                            [(ngModel)]="direccionDestino"
+                            name="direccion-destino"
+                            rows="2"
+                            (keydown)="onTypeDown()"
+                            [disabled]="!direccionSalida"
+                            (ngModelChange)="quitarErrorEstilos('direccion-destino')">
+                        </textarea>
+                        <span class="error-icon">
+                            &#8226;
+                        </span>
+                    </div>
                 </div>   
             </div>  
         </div>
@@ -115,22 +125,22 @@
         <div class="row mt-4">
             <div id="seleccionaConductor" class="col-lg-5  border-custom-color">
                 <label for="seleccionaConductor" class="label-input d-block">{{SELECCIONA_CONDUCTOR_LABEL}}</label>
-                <div>
+                <div class="d-flex">
                     <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
                     'blueBorder': !(formSubmitted && conductorError)}" >
                         <input 
-                        autocomplete="off"
-                        type="text" 
-                        matInput
-                        id="inputSeleccionaConductor"
-                        placeholder="Ingresa nombre del conductor" 
-                        [(ngModel)]="selectedConductor" 
-                        [matAutocomplete]="autoConductor" 
-                        name="seleccionaConductor" 
-                        (input)="filtrarAutocompletarConductor(selectedConductor)"
-                        (blur)="onInputBlur()"
-                        (focus)="onFocusEventConductor()"
-                        class="estilosTamanioInputs">
+                            autocomplete="off"
+                            type="text" 
+                            matInput
+                            id="inputSeleccionaConductor"
+                            placeholder="Ingresa nombre del conductor" 
+                            [(ngModel)]="selectedConductor" 
+                            [matAutocomplete]="autoConductor" 
+                            name="seleccionaConductor" 
+                            (input)="filtrarAutocompletarConductor(selectedConductor)"
+                            (blur)="onInputBlur()"
+                            (focus)="onFocusEventConductor()"
+                            class="estilosTamanioInputs">
                         <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
                         <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
                             <span class="font-size-mid bold-font">
@@ -142,40 +152,48 @@
                     <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
                         <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
                     </a>
+                    <span class="error-icon">
+                        &#8226;
+                    </span>
                 </div>
             </div>
             <div id="seleccionaVehiculo" class="col-lg-5 seleccionaVehiculoPosition border-custom-color">
                 <label for="seleccionaVehiculo" class="label-input d-block">{{SELECCIONA_VEHICULO}}</label>
-                <mat-form-field appearance="outline" class="custom-mat-field-vehiculo"  id="autoCompleteCarro" 
-                [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
-                    <input
-                    autocomplete="off"
-                    type="text" 
-                    matInput
-                    id="inputSeleccionaVehiculo"
-                    placeholder="Selecciona el vehiculo" 
-                    [(ngModel)]="selectedVehiculo" 
-                    [matAutocomplete]="autoVehiculo" 
-                    name="seleccionavehiculo" 
-                    displayVehiculo
-                    (blur)="onInputBlur()"
-                    (focus)="onFocusEventVehiculo()"
-                    (input) ="filtrarAutocompletarCarro(selectedVehiculo)" 
-                    class="estilosTamanioInputs">
-                    <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
-                    <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
-                        <strong><span class="custom-color-prefijo-unidad">{{getNumeroUnidadFormateado(carro.numeroUnidad)}} </span></strong>
-                        <span class="font-size-sm bold-font">
-                            {{ ' ' + carro.marca + ' ' }}
-                            {{  carro.modelo  | uppercase }}
-                        </span>
-                        <span class="italic-font year-style font-size-sm bold-font">{{  carro.anyo }}</span>
-                    </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-                <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar" type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
-                    <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-                </a>
+                <div class="d-flex">
+                    <mat-form-field appearance="outline" class="custom-mat-field-vehiculo"  id="autoCompleteCarro" 
+                    [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
+                        <input
+                            autocomplete="off"
+                            type="text" 
+                            matInput
+                            id="inputSeleccionaVehiculo"
+                            placeholder="Selecciona el vehiculo" 
+                            [(ngModel)]="selectedVehiculo" 
+                            [matAutocomplete]="autoVehiculo" 
+                            name="seleccionavehiculo" 
+                            displayVehiculo
+                            (blur)="onInputBlur()"
+                            (focus)="onFocusEventVehiculo()"
+                            (input) ="filtrarAutocompletarCarro(selectedVehiculo)" 
+                            class="estilosTamanioInputs">
+                        <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
+                        <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
+                            <strong><span class="custom-color-prefijo-unidad">{{getNumeroUnidadFormateado(carro.numeroUnidad)}} </span></strong>
+                            <span class="font-size-sm bold-font">
+                                {{ ' ' + carro.marca + ' ' }}
+                                {{  carro.modelo  | uppercase }}
+                            </span>
+                            <span class="italic-font year-style font-size-sm bold-font">{{  carro.anyo }}</span>
+                        </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar" type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
+                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                    </a>
+                    <span class="error-icon">
+                        &#8226;
+                    </span>
+                </div>
             </div>
         </div>
         <button 
