@@ -93,86 +93,83 @@
         </div>
       </div>
     </div> 
-
     <div *ngIf="!loading" class="tabla-contenedor-vehiculos">
       <table id="listaViajes" class="table table-striped">
         <thead class="table-dark">
-        <tr>
-          <th>Unidad</th>
-          <th>Vehiculo</th>
-          <th>T.Vehiculo</th>
-          <th>Ruta</th>
-          <th>Conductor</th>
-          <th>Fecha</th>
-          <th>Km</th>
-          <th>Duración Aprox</th>
-          <th>Acciones</th>
-        </tr>
+          <tr>
+            <th>Unidad</th>
+            <th>Vehiculo</th>
+            <th>T.Vehiculo</th>
+            <th>Ruta</th>
+            <th>Conductor</th>
+            <th>Fecha</th>
+            <th>Km</th>
+            <th>Duración Aprox</th>
+            <th>Acciones</th>
+          </tr>
         </thead>
         <tbody class="table-dark">
-
-        <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems, id:'indice-viaje' }">
-          
-          <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
-          <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
-          <td>{{ viaje.carro.tipoVehiculo }}</td>
-          <td>
-            <div>{{ viaje.ruta.ciudadOrigen + ', ' + viaje.ruta.estadoOrigen }}</div>
-            <hr class="separador" style="margin: 5px 0; border: none; border-top: 2px solid #ffffff !important;">
-            <div>{{ viaje.ruta.ciudadDestino + ', ' + viaje.ruta.estadoDestino }}</div>
-          </td>
-          <td [ngClass]="viaje.conductor ? 'actived-market-style': 'deleted-market-style'">
-            {{ (viaje.conductor ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : viaje.deletedDriver) | uppercase }}
-          </td>
-          <td>
-            <span class="date">{{ viaje.fecha | date:'dd/MM/yyyy' }}</span>
-            <span class="time separated">{{ viaje.fecha | date:'HH:mm' }}</span>
-          </td>
-          <td>
-          <ng-container *ngIf="viaje.ruta.distanciaKm !== null && viaje.ruta.distanciaKm !== undefined; else noKilometraje">
-            {{ viaje.ruta.distanciaKm }}
-          </ng-container>
-          <ng-template #noKilometraje>N/E</ng-template>
-          </td>
-          <td>   
-          <ng-container *ngIf="viaje.ruta.tiempoEstimado !== null && viaje.ruta.tiempoEstimado !== undefined; else horasNoEspecificadas">
-          {{  viaje.ruta.tiempoEstimado }} <span>Horas</span>
-          </ng-container>
-          <ng-template #horasNoEspecificadas>Horas no especificas</ng-template></td>
-          <td>
-            <button 
-              data-bs-toggle="tooltip" 
-              data-bs-placement="bottom"
-              data-bs-original-title="Registra un nuevo servicio"
-              (click)="detallesViaje(viaje)" 
-              class="btn btn-primary botonesAccion small-button">
-              <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
-            </button>
-            <button 
-              data-bs-toggle="tooltip" 
-              data-bs-placement="bottom"
-              data-bs-original-title="Editar datos del servicio"
-              (click)="editar(viaje)" 
-              class="btn btn-warning botonesAccion small-button">
-              <span class="button-icon">
-                <fa-icon class="editIcon" [icon]="editIcon"></fa-icon>
-              </span>
-            </button>
-            <button
-              (click)="eliminar(viaje)" 
-              class="btn btn-danger botonesAccion btn-sm">
-              <span 
-                class="button-icon"
+          <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems, id:'indice-viaje' }">
+            <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
+            <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
+            <td>{{ viaje.carro.tipoVehiculo }}</td>
+            <td>
+              <div>{{ viaje.ruta.ciudadOrigen + ', ' + viaje.ruta.estadoOrigen }}</div>
+              <hr class="separador" style="margin: 5px 0; border: none; border-top: 2px solid #ffffff !important;">
+              <div>{{ viaje.ruta.ciudadDestino + ', ' + viaje.ruta.estadoDestino }}</div>
+            </td>
+            <td [ngClass]="viaje.conductor ? 'actived-market-style': 'deleted-market-style'">
+              {{ (viaje.conductor ? viaje.conductor.nombre  + " " +  viaje.conductor.apellido   : viaje.deletedDriver) | uppercase }}
+            </td>
+            <td>
+              <span class="date">{{ viaje.fecha | date:'dd/MM/yyyy' }}</span>
+              <span class="time separated">{{ viaje.fecha | date:'HH:mm' }}</span>
+            </td>
+            <td>
+            <ng-container *ngIf="viaje.ruta.distanciaKm !== null && viaje.ruta.distanciaKm !== undefined; else noKilometraje">
+              {{ viaje.ruta.distanciaKm }}
+            </ng-container>
+            <ng-template #noKilometraje>N/E</ng-template>
+            </td>
+            <td>   
+            <ng-container *ngIf="viaje.ruta.tiempoEstimado !== null && viaje.ruta.tiempoEstimado !== undefined; else horasNoEspecificadas">
+            {{  viaje.ruta.tiempoEstimado }} <span>Horas</span>
+            </ng-container>
+            <ng-template #horasNoEspecificadas>Horas no especificas</ng-template></td>
+            <td>
+              <button 
                 data-bs-toggle="tooltip" 
                 data-bs-placement="bottom"
-                data-bs-original-title="Eliminar vehiculo">
-                  <span>
-                    <img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size">
-                  </span>
-              </span>
-            </button> 
-          </td>
-        </tr>
+                data-bs-original-title="Registra un nuevo servicio"
+                (click)="detallesViaje(viaje)" 
+                class="btn btn-primary botonesAccion small-button">
+                <span class="button-icon"><fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon></span>
+              </button>
+              <button 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="bottom"
+                data-bs-original-title="Editar datos del servicio"
+                (click)="editar(viaje)" 
+                class="btn btn-warning botonesAccion small-button">
+                <span class="button-icon">
+                  <fa-icon class="editIcon" [icon]="editIcon"></fa-icon>
+                </span>
+              </button>
+              <button
+                (click)="eliminar(viaje)" 
+                class="btn btn-danger botonesAccion btn-sm">
+                <span 
+                  class="button-icon"
+                  data-bs-toggle="tooltip" 
+                  data-bs-placement="bottom"
+                  data-bs-original-title="Eliminar vehiculo">
+                    <span>
+                      <img src="assets/delete.png" id="img" alt="Intercambiar" class="default-img-icon-size">
+                    </span>
+                </span>
+              </button> 
+            </td>
+          </tr>
         </tbody>
       </table>
       <div class="pagination-container">
