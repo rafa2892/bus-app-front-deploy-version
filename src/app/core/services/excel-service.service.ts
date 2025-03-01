@@ -47,64 +47,60 @@ export class ExcelService {
   
   downloadExcel(tipo:string, fechaInicio?: Date, fechaFin?: Date ) {
 
-    // fechaInicio = new Date();
-    // fechaFin = new Date();
+      const params: any = {};
 
-  const params: any = {};
-
-    if (fechaInicio && fechaFin) {
-      params.fechaInicio = fechaInicio;
-      params.fechaFin = fechaFin;
-    }
-
-    if(tipo === 'viajesDiaEspecifico' && fechaInicio && !fechaFin) {
-        params.fechaInicio = fechaInicio; 
-    }
-
-    this.http.get(`${this.completeURL}/${tipo}`, { 
-      params: params,
-      responseType: 'blob', 
-      observe: 'response' 
-    }).subscribe({
-
-
-    next: (response) => {
-      if (response.status !== 200) {
-        console.error('Error en la respuesta del servidor:', response);
-        alert('Error al generar el archivo. Intente nuevamente.');
-        return;
+      if (fechaInicio && fechaFin) {
+        params.fechaInicio = fechaInicio;
+        params.fechaFin = fechaFin;
       }
 
-      // Verificamos si la respuesta es realmente un Excel válido
-      if (!response.body || response.body.size === 0) {
-        console.error('El archivo generado está vacío.');
-        alert('El archivo está vacío. Verifique los parámetros.');
-        return;
+      if(tipo === 'viajesDiaEspecifico' && fechaInicio && !fechaFin) {
+          params.fechaInicio = fechaInicio; 
       }
 
-      const contentDisposition = response.headers.get('Content-Disposition');
-      let filename = 'datos.xlsx'; // Nombre por defecto
+      this.http.get(`${this.completeURL}/${tipo}`, { 
+        params: params,
+        responseType: 'blob', 
+        observe: 'response' 
+      }).subscribe({
 
-      if (contentDisposition) {
-        const match = contentDisposition.match(/filename="(.+)"/);
-        if (match && match.length > 1) {
-          filename = match[1]; // Extraemos el nombre del archivo
+      next: (response) => {
+        if (response.status !== 200) {
+          console.error('Error en la respuesta del servidor:', response);
+          alert('Error al generar el archivo. Intente nuevamente.');
+          return;
         }
-      }
 
-      const objectUrl = URL.createObjectURL(response.body);
-      const a = document.createElement('a');
-      a.href = objectUrl;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(objectUrl);
-    },
-    error: (error) => {
-      console.error('Error en la descarga del archivo:', error);
-      alert('No se pudo generar el archivo. Verifique su conexión o intente más tarde.');
-    }
-});
-  }
+        // Verificamos si la respuesta es realmente un Excel válido
+        if (!response.body || response.body.size === 0) {
+          console.error('El archivo generado está vacío.');
+          alert('El archivo está vacío. Verifique los parámetros.');
+          return;
+        }
+
+        const contentDisposition = response.headers.get('Content-Disposition');
+        let filename = 'datos.xlsx'; // Nombre por defecto
+
+        if (contentDisposition) {
+          const match = contentDisposition.match(/filename="(.+)"/);
+          if (match && match.length > 1) {
+            filename = match[1]; // Extraemos el nombre del archivo
+          }
+        }
+
+        const objectUrl = URL.createObjectURL(response.body);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+      },
+      error: (error) => {
+        console.error('Error en la descarga del archivo:', error);
+        alert('No se pudo generar el archivo. Verifique su conexión o intente más tarde.');
+      }
+    });
+  } 
 
 
   // downloadExcel(tipo:String, fechaInicio?: Date, fechaFin?: Date ) {

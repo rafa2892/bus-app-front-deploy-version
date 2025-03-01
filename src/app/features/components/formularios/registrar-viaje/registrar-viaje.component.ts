@@ -1,9 +1,12 @@
-import { ChangeDetectorRef, Component, NgZone, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, NgZone, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
+import { TITLES } from '../../../../constant/titles.constants';
 import { Carro } from '../../../../core/models/carro';
 import { Conductor } from '../../../../core/models/conductor';
 import { Ruta } from '../../../../core/models/ruta';
@@ -11,12 +14,9 @@ import { TipoVehiculo } from '../../../../core/models/tipo-vehiculo';
 import { Viaje } from '../../../../core/models/viaje';
 import { CarroService } from '../../../../core/services/carro.service';
 import { ConductorService } from '../../../../core/services/conductor.service';
-import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
-import { TITLES } from '../../../../constant/titles.constants';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PopupMensajeConfirmarViajeComponent } from '../../modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
-import Swal from 'sweetalert2';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
+import { ViajeServicioService } from '../../../../core/services/viaje-servicio.service';
+import { PopupMensajeConfirmarViajeComponent } from '../../modales/popup-mensaje-confirmar-viaje/popup-mensaje-confirmar-viaje.component';
 declare var bootstrap: any;
 
 @Component({

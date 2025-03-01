@@ -14,3 +14,14 @@
 .danger-color-font {
     color:rgb(254, 103, 15);
 }
+
+.btn-reset {
+    margin-bottom: 1em;
+}
+
+.contenedor-tabla-auditoria {
+  max-width: 70%; /* Ajusta el ancho total de la tabla */
+  margin: auto; /* Centra la tabla */
+}
+
+

@@ -23,12 +23,22 @@ import { environment } from '../../../environments/environment.prod';
     }
 
     //Este método nos funciona para obtener los listados de carro
-    obtenerRegistrosAudPaginados(page: number, size: number): Observable<any> {
+    obtenerRegistrosAudPageable(page: number, size: number): Observable<any> {
       const params = new HttpParams()
         .set('page', page.toString())
         .set('size', size.toString());
   
         return this.httpClient.get<any>(`${this.completeURL}/pageable`, { params });
     }
-    
-}
+
+    obtenerAuditBetweenDaysPageable(page:number, size: number, fechaInicio?: Date | null, fechaFin?: Date | null): Observable<any> {
+      
+        const params: any = {};
+        if (fechaInicio) params.fechaInicio = fechaInicio;
+        if (fechaFin) params.fechaFin = fechaFin;
+        if (page) params.page = page;
+        if (size) params.size = size;
+      
+        return this.httpClient.get<Historial[]>(`${this.completeURL}/betweenDates`, { params });
+      }
+    }

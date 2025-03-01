@@ -63,15 +63,15 @@ import { TITLES } from '../../constant/titles.constants';
       return result;
     }
 
-  // Método para inicializar tooltips
-  initTooltips(): void {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-      return new bootstrap.Tooltip(tooltipTriggerEl, {
-        delay: { "show": 500, "hide": 500 } // Retraso en milisegundos
+    // Método para inicializar tooltips
+    initTooltips(): void {
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+        return new bootstrap.Tooltip(tooltipTriggerEl, {
+          delay: { "show": 500, "hide": 500 } // Retraso en milisegundos
+        });
       });
-    });
-  }
+    }
 
   showErrorMessageSnackBar(msj:string) {
     this._snackBar.open(msj, 'Cerrar', {
@@ -82,17 +82,17 @@ import { TITLES } from '../../constant/titles.constants';
       });
     }
 
-    getStringDate(fechaAlta:Date) : string {
-      if (fechaAlta) {
-        const fecha = new Date(fechaAlta);
-        // Extraer el día, mes y año
-        const dia = String(fecha.getDate()).padStart(2, '0'); // Asegura que el día tenga 2 dígitos
-        const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // getMonth() empieza desde 0, así que sumamos 1
-        const año = fecha.getFullYear();
-        // Formatear la fecha como dd/mm/yyyy
-        return `${dia}/${mes}/${año}`;
-      }
-      return '';  
+  getStringDate(fechaAlta:Date) : string {
+    if (fechaAlta) {
+      const fecha = new Date(fechaAlta);
+      // Extraer el día, mes y año
+      const dia = String(fecha.getDate()).padStart(2, '0'); // Asegura que el día tenga 2 dígitos
+      const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // getMonth() empieza desde 0, así que sumamos 1
+      const año = fecha.getFullYear();
+      // Formatear la fecha como dd/mm/yyyy
+      return `${dia}/${mes}/${año}`;
+    }
+    return '';  
   }
 
   // buildCustomsToolTipBS() {
@@ -119,7 +119,6 @@ import { TITLES } from '../../constant/titles.constants';
     });
   }
   
-
   disposeCustomTooltips() {
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl: any) {
@@ -135,8 +134,7 @@ import { TITLES } from '../../constant/titles.constants';
     modal.show();
   }
 
-  removeClassFromAllElements(className: string): void {
-  }
+  removeClassFromAllElements(className: string): void {}
   
   getSuccessfulMsj(msj:string) {
     this._snackBar.open(msj, '', {
@@ -146,7 +144,4 @@ import { TITLES } from '../../constant/titles.constants';
       verticalPosition: 'top',
     });
   }
-
-  
-
 }

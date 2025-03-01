@@ -66,7 +66,7 @@ h5 {
         min-width: 100px !important;
     }
 
-    .fechas-container{
+    .fechas-container {
         margin-bottom: -1em;
     }
 
@@ -93,7 +93,7 @@ h5 {
     .default-img-icon-size {
         width: 25px; 
         height: 25px;
-        }
+    }
 
     /* DATE PICKER STYLES --- WHEN IN MODAL NEEDS TO EDIT DEFAULT z-index*/
     ::ng-deep .mat-datepicker-content,

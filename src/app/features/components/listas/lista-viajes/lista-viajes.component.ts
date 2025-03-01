@@ -28,8 +28,8 @@ declare var bootstrap: any;
 export class ListaViajesComponent {
 
     viajes: Viaje[];
+    
     p: number = 1;
-
     itemsPerPage = 10;  // Example value, you can adjust as needed
     totalItems = 10;  // Total items for pagination
 
