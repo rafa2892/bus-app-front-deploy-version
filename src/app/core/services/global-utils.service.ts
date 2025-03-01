@@ -136,7 +136,7 @@ import { TITLES } from '../../constant/titles.constants';
 
   removeClassFromAllElements(className: string): void {}
   
-  getSuccessfulMsj(msj:string) {
+  getSuccessfullMsj(msj:string) {
     this._snackBar.open(msj, '', {
       duration: 2500,
       panelClass: ['success-snackbar'],

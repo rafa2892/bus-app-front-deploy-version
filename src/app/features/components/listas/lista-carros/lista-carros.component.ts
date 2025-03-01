@@ -90,7 +90,7 @@ export class ListaCarrosComponent {
         const nuevoHistorialId = navigationState.nuevoHistorialId ?? null; // Recuperar el ID
         if(nuevoHistorialId){
           this.newHistorialSavedId = nuevoHistorialId;
-          this.globalUtilService.getSuccessfulMsj("Historial guardado con éxito.")
+          this.globalUtilService.getSuccessfullMsj("Historial guardado con éxito.")
         }
         this.obtenerCarroPorId(id, true);
       }else {

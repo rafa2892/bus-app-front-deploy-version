@@ -49,6 +49,9 @@
       //indicador de carga
       isLoading: boolean = false;
 
+      //flag not register found
+      notRegisterFound = false;
+
       ngOnInit(): void {
         this.getHistorialActividadesPaginado();
       }
@@ -59,16 +62,20 @@
 
       onPageChange(page: number) {
         this.p = page;  // Actualiza el valor de la página actual
-        // this.getHistorialActividadesPaginado();
-        this.getHistorialActividadesPaginadoBetweenDates();
+
+        if(this.isAppliedFilters) {
+          this.getHistorialActividadesPaginadoBetweenDates();
+        }else {
+          this.getHistorialActividadesPaginado();
+        }
       }
 
-      async validatesDates() {
+      async applyFilterHandler() {
         if(this.fechaDesde && !this.fechaHasta) {
           const stringDate = this.globalUtilsService.getStringDate(this.fechaDesde);
           const title = 'Atención';
-          const text =`Has seleccionado una sola fecha. 
-                      Se buscarán los registros de actividades correspondientes solo para el día <strong>${stringDate}</strong>.`;
+          const text = `Has seleccionado una sola fecha. 
+                        Se buscarán los registros de actividades correspondientes solo para el día <strong>${stringDate}</strong>.`;
 
           const isConfirmed = await this.globalUtilsService.getMensajeConfirmaModal(title,text);
 
@@ -84,15 +91,25 @@
       getHistorialActividadesPaginadoBetweenDates() {
          // Activating loading state while fetching data
         this.isLoading = true;
+        this.notRegisterFound = false;
 
         this.regAudService.obtenerAuditBetweenDaysPageable(this.p - 1, this.itemsPerPage, this.fechaDesde, this.fechaHasta).subscribe({
           next: (response) => {
             if(response && response.content.length > 0) {
               this.registroActividades = response.content;
               this.totalItems = response.totalElements;
-              this.isAppliedFilters = true;
+
+              // Snack bar appears only when filters are applied
+              if(!this.isAppliedFilters) {
+                this.globalUtilsService.getSuccessfullMsj(`Se han cargado ${response.totalElements} registros con éxito.`);
+              }
+
+              setTimeout(() => {
+                this.isAppliedFilters = true;  
+              }, 50);
             }else {
               this.globalUtilsService.showErrorMessageSnackBar(TITLES.ERROR_NOT_REGISTERS_FOUND);
+              this.notRegisterFound = true;
             }
           },
           error: (error) => {
@@ -114,8 +131,7 @@
             this.registroActividades = response.content;
             this.totalItems = response.totalElements;
           },
-          error: (error) => {console.error('Error al obtener el historial de actividades:', error);
-          },
+          error: (error) => {console.error('Error al obtener el historial de actividades:', error);},
           complete: () => {this.isAppliedFilters = false}
         }).add(() => {
           // Data loading completed, disabling loading state
@@ -135,16 +151,24 @@
       }
 
       resetFilterByDate() {
+
         if(this.isAppliedFilters) {
+          this.p = 1;
           this.fechaDesde = null;
           this.fechaHasta = null;
           this.getHistorialActividadesPaginado();
+        }
+
+        if(!this.isAppliedFilters) {
+            this.p = 1;
+            this.getHistorialActividadesPaginado();
         }
       }
 
       selectedDateHandler(fecha: Date | null, fechaTipo: string) {
         setTimeout(() => {
-        this.globalUtilsService.buildCustomsToolTipBS();
+          this.globalUtilsService.buildCustomsToolTipBS();
+          this.isAppliedFilters = false;
         }, 100); //
       }
 

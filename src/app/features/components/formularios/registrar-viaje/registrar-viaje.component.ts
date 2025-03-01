@@ -447,7 +447,7 @@ export class RegistrarViajeComponent {
           },
           complete: () => {
             const msj = 'Nuevo servicio guardado con éxito.';
-            this.globalUtilsService.getSuccessfulMsj(msj);
+            this.globalUtilsService.getSuccessfullMsj(msj);
             this.irListaViaje();
           }
         });
@@ -460,7 +460,7 @@ export class RegistrarViajeComponent {
           },
           complete: () => {
             const msj = 'Viaje actualizado con éxito.';
-            this.globalUtilsService.getSuccessfulMsj(msj);
+            this.globalUtilsService.getSuccessfullMsj(msj);
             this.irListaViaje();
           }
         });

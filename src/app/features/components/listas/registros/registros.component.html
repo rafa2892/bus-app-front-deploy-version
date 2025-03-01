@@ -4,6 +4,7 @@
     </div>
     <p class="text-white mt-2">Cargando registro de actividades...</p>
   </div>
+  
 
   <div class="d-flex justify-content-end align-items-center">
     <button 
@@ -23,6 +24,8 @@
             <input
                 matInput 
                 [matDatepicker]="dataPickerDesde" 
+                [ngClass]="isAppliedFilters ? 'filtered-dates-styles' : ''"
+                [ngClass]="notRegisterFound ? 'not-register-found-styles' : ''"
                 name="fecha-desde" 
                 id="fecha-desde"
                 placeholder="Desde"
@@ -37,15 +40,19 @@
                 </mat-datepicker-toggle>
                 <mat-datepicker id="dataPickerDesde" #dataPickerDesde></mat-datepicker>
         </mat-form-field>
-        <mat-form-field  id="mat-picker-date-component"
+        <mat-form-field  
+        id="mat-picker-date-component"
         class="full-width date-picker"
         [ngClass]="!fechaDesde ? 'picker-custom-disabled' : ''">                   
             <input
                 matInput 
                 [matDatepicker]="dataPickerHasta" 
+                [ngClass]="isAppliedFilters ? 'filtered-dates-styles' : ''"
+                [ngClass]="notRegisterFound ? 'not-register-found-styles' : ''"
                 name="fecha-hasta" 
                 id="fecha-hasta"
                 placeholder="Hasta"
+                (dateChange)="selectedDateHandler(fechaHasta, 'hasta')"
                 [disabled]="!fechaDesde"
                 [(ngModel)]="fechaHasta"
                 [matDatepickerFilter]="filterDatesHasta"
@@ -60,7 +67,7 @@
             type="button" 
             class="btn btn-primary btn-filter btn-sm"
             data-bs-toggle="tooltip" 
-            (click)="validatesDates()"
+            (click)="applyFilterHandler()"
             data-bs-placement="top"
             [attr.data-bs-original-title]="getToolTipMsj()">
           <span>
@@ -94,7 +101,7 @@
           </td>
             <td>
               <small>
-                <span class="date">{{ r.fecha | date:'dd/MM/yyyy HH:mm:ss'}}</span>
+                <span [ngClass]="isAppliedFilters ? 'filtered-dates-styles' : ''" class="date">{{ r.fecha | date:'dd/MM/yyyy HH:mm:ss'}}</span>
               </small>
             </td>
             <td>
