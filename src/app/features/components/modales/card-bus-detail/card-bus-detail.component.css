@@ -92,16 +92,23 @@
 
   .green-text {
     color: green;
+    font-weight: bold; /* Resalta el texto */
   }
 
   .orange-text {
     color: orangered;
+    font-weight: bold; /* Resalta el texto */
   }
 
   .blue-text {
     font-weight: bold; /* Resalta el texto */
     font-size: 14px; /* Tamaño adecuado */
     color: #55a2d1;
+  }
+
+  /* Borde gris claro (más oscuro que el blanco) */
+  .list-group-item {
+    border-bottom: 1px solid #a9a9a9 !important;  /* Gris más oscuro */
   }
 
 

@@ -82,12 +82,12 @@
               </div>
               <div class="d-flex gap-5">
                   <ul class="list-group width-custom">
-                    <li class="list-group-item">Marca: <span class="blue-text">{{ carroSeleccionadoDetalles.marca }}</span></li>
-                    <li class="list-group-item" aria-disabled="true">Modelo: <span class="blue-text">{{ carroSeleccionadoDetalles.modelo }}</span></li>
-                    <li class="list-group-item">Año: <span class="blue-text">{{ carroSeleccionadoDetalles.anyo }}</span></li>
+                    <li class="list-group-item bg-dark text-white" >Marca: <span class="blue-text">{{ carroSeleccionadoDetalles.marca }}</span></li>
+                    <li class="list-group-item bg-dark text-white" aria-disabled="true">Modelo: <span class="blue-text">{{ carroSeleccionadoDetalles.modelo }}</span></li>
+                    <li class="list-group-item bg-dark text-white">Año: <span class="blue-text">{{ carroSeleccionadoDetalles.anyo }}</span></li>
                   </ul>
                   <ul class="list-group width-custom">
-                    <li class="list-group-item">
+                    <li class="list-group-item bg-dark text-white">
                       Historial:
                       <span [ngClass]="numeroHistories > 0 ? 'green-text' : 'orange-text'" >{{ numeroHistories }}</span>
                         <button 
@@ -103,7 +103,7 @@
                           <fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon>
                         </button>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item bg-dark text-white">
                       Viajes registrados: 
                       <span [ngClass]="numeroViajes > 0 ? 'green-text' : 'orange-text'" >{{ numeroViajes }}</span>
                         <button *ngIf="isEnableViajes"
@@ -118,7 +118,7 @@
                           <fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon>
                         </button>
                     </li>
-                    <li class="list-group-item">
+                    <li class="list-group-item bg-dark text-white">
                       Fecha de alta:
                       <span [ngClass]="this.carroSeleccionadoDetalles.fechaAlta ? 'green-text' : 'orange-text'" >{{ getRegisterDate() }}</span>
                     </li>
