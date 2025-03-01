@@ -41,13 +41,16 @@ import { environment } from '../../../environments/environment.prod';
       return this.httpClient.get<number>(`${this.completeURL}/countByCarro/${id}`);
     }
 
-    obtenerHistorialBetweenDays(id:number, fechaInicio?: Date | null, fechaFin?: Date | null): Observable<Historial[]> {
+    obtenerHistorialBetweenDaysPageable(id:number, page:number, size: number, fechaInicio?: Date | null, fechaFin?: Date | null): Observable<any> {
       const params: any = {};
       if (fechaInicio) params.fechaInicio = fechaInicio;
       if (fechaFin) params.fechaFin = fechaFin;
+      if (page) params.page = page;
+      if (size) params.size = size;
     
       return this.httpClient.get<Historial[]>(`${this.completeURL}/betweenDates/${id}`, { params });
     }
+    
 
     getHistoriesByCarroId(id:number): Observable<Historial[]> {
       return this.httpClient.get<Historial[]>(`${this.completeURL}/byCarro/${id}`);

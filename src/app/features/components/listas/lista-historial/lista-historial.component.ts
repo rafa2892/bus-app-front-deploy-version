@@ -28,12 +28,12 @@
       @Input() historialActualizado: boolean;
       @Output() agregarHistorial = new EventEmitter<void>();
       @Output() cerrarModalProgramatico = new EventEmitter<any>();
-      @Input() verSoloRegistroMantenimiento : boolean;
+      @Input() verSoloRegistroMantenimiento : boolean = false;
       @Input() detectedChangesPopUpFlag : boolean;
       @Input() newHistorialID : number;
 
       //Pagination variables
-      h: number = 1;
+      p: number = 1;
       itemsPerPage = 10; //default value
       totalItems = 10;  
 
@@ -55,8 +55,21 @@
 
       isAppliedFilters : boolean = false;
       toolTipMsjFiltros :string = 'Selecciona una fecha o ambas fechas para aplicar filtro por fechas';
-
       viajeSelDetails : Viaje;
+
+      //flag not register found
+      notRegisterFound = false;
+
+      //flag is modal mode
+      isNotModalMode!: boolean;
+
+      //TITLES LITERALS
+      RESET_FILTER = TITLES.RESET_FILTER_TITLE_BUTTON;
+      CHECK_DETAILS_HISTORIAL = TITLES.CHECK_DETAILS_HISTORIAL;
+      CHECK_SERVICE_DETAIL_HISTORIAL = TITLES.CHECK_SERVICE_DETAIL_HISTORIAL;
+      EDIT_HISTORIAL = TITLES.EDIT_HISTORIAL;
+      DELETE_HISTORIAL = TITLES.DELETE_HISTORIAL;
+      ADD_HISTORIAL = TITLES.ADD_DRIVER;
       
 
       @Input() changeDetecterFlag : boolean;
@@ -66,12 +79,17 @@
         private historialService:HistorialService,
         private modalService: NgbModal,
         private activatedRoute: ActivatedRoute,
-        private datePipe: DatePipe,
         private globalService:GlobalUtilsService,
         private viajeServicio:ViajeServicioService) {}
 
       ngOnInit(): void {
         const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
+
+        // Retrieve flag (isModalMode)
+        const isNotModalModeStr = this.activatedRoute.snapshot.queryParams['isNotModalMode'];
+        const isNotModalMode = isNotModalModeStr === 'true'; 
+        this.isNotModalMode = isNotModalMode;
+
         if(idCarroStr) {
           const idCarro = Number(idCarroStr);
           this.obtenerCarroPorId(idCarro);
@@ -79,11 +97,21 @@
       }
 
       async ngOnChanges(changes: SimpleChanges): Promise<void> {
+        //Applies tooltip styles
+        this.applyToolTipStyles();
+
         if (this.carroSeleccionadoDetalles?.id !== undefined) {
-          this.h = 1;
+          this.p = 1;
           await this.obternerHistorialByCarroIdPageable(this.carroSeleccionadoDetalles);
           this.filtrarHistorialPorTipo();
         }
+      }
+
+      applyToolTipStyles() {
+      // Delay to allow styles to be applied with transition effect
+      setTimeout(() => {
+        this.globalService.buildCustomsToolTipBS();
+      }, 50);
       }
 
       obternerHistorialByCarroIdPageable(carro: Carro): Promise<void> {
@@ -122,22 +150,16 @@
         }
       }
 
-      buildCustomsToolTipBS() {
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-          return new bootstrap.Tooltip(tooltipTriggerEl, {
-            delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
-          });
-        });
-      }
-
       private obtenerHistorialById(id: number) {
         this.historialService.getHistorialPorId(id).subscribe(c => {
         });
       }
 
       ngAfterViewInit(): void {
-        this.buildCustomsToolTipBS();
+        setTimeout(() => {
+          this.globalService.buildCustomsToolTipBS();
+          this.isAppliedFilters = false;
+        }, 100); //
       }
         
       private obtenerCarroPorId(id: number) {
@@ -152,7 +174,12 @@
 
     addHistory() { 
       this.modalService.dismissAll();
-      this.router.navigate(['/registrar-historial/carroId', this.carroSeleccionadoDetalles.id, this.verSoloRegistroMantenimiento ]);
+      this.globalService.disposeCustomTooltips();
+      this.router.navigate(['/registrar-historial/carroId', this.carroSeleccionadoDetalles.id, this.verSoloRegistroMantenimiento], {
+        queryParams: { 
+          isNotModalMode: this.isNotModalMode
+        } 
+      });
     }
 
     getClassByTipoHistorial(history:Historial) : string {
@@ -182,7 +209,13 @@
     }
 
     verDetalleshistorial(id:number, soloConsulta: boolean) {
-      this.router.navigate(['/registrar-historial/historialId', id, false], { queryParams: { soloConsulta } });
+      this.router.navigate(['/registrar-historial/historialId', id, false], { 
+        queryParams: { 
+          soloConsulta, 
+          isNotModalMode : this.isNotModalMode
+        } 
+      });
+      this.globalService.disposeCustomTooltips();
       this.modalService.dismissAll();
     }
 
@@ -203,7 +236,8 @@
       this.isLoading = true;
       
       if (!confirmDelete) {
-        return;
+          this.isLoading = false;
+          return;
       }
     
       try {
@@ -237,19 +271,11 @@
       return date ? date <= today : false;
     }
 
-    public selectedDateFormat(fecha: Date | null, fechaTipo: string) {
-      if (fecha) {
-        // Si la fecha está definida, la formateamos
-        let fechaStr = this.datePipe.transform(fecha, 'dd/MM/yyyy');
-        fechaStr = fechaStr || '';
-        // Según el tipo de fecha (Desde o Hasta), asignamos el valor
-        if (fechaTipo === 'desde') {
-            this.fechaDesdeStr = fechaStr;
-            this.fechaHastaMayorDesde(fecha);
-        } else if (fechaTipo === 'hasta') {
-            this.fechaHastaStr = fechaStr;
-        }
-      }
+    selectedDateHandler(fecha: Date | null, fechaTipo: string) {
+      setTimeout(() => {
+        this.globalService.buildCustomsToolTipBS();
+        this.isAppliedFilters = false;
+      }, 100); //
     }
 
     fechaHastaMayorDesde(fecha:Date) {
@@ -262,36 +288,74 @@
     }
 
     obtenerHistorialBetweenDays() {
-    if(!this.fechaHasta) {
-      this.fechaHasta = this.fechaDesde;
-    }
+      this.isAppliedFilters = false; 
+      this.globalService.disposeCustomTooltips(); 
+
+      if(!this.fechaHasta) {
+        this.fechaHasta = this.fechaDesde;
+      }
 
     if(this.fechaDesde && this.fechaHasta) {
+      this.isLoading = true;
       const carId = this.carroSeleccionadoDetalles.id;
-      this.historialService.obtenerHistorialBetweenDays(carId, this.fechaDesde, this.fechaHasta)
+      this.historialService.obtenerHistorialBetweenDaysPageable(carId, this.p - 1, this.itemsPerPage, this.fechaDesde, this.fechaHasta)
         .subscribe({
-          next: (historiales) => {
-            if(historiales.length > 0){
-              this.isAppliedFilters = true;
-              this.carroSeleccionadoDetalles.registroHistorial = historiales;
+          next: (response) => {
+            if(response && response.content.length > 0) {
+              this.carroSeleccionadoDetalles.registroHistorial = response.content;
+                // Snack bar appears only when filters are applied
+              if(!this.isAppliedFilters) {
+                this.globalService.getSuccessfullMsj(`Se han cargado ${response.totalElements} registros con éxito.`);
+              }
+              // Delay to allow styles to be applied with transition effect
+              setTimeout(() => {
+                this.isAppliedFilters = true; 
+                this.notRegisterFound = false; 
+                this.globalService.buildCustomsToolTipBS();
+              }, 50);
             }else {
               this.globalService.showErrorMessageSnackBar(TITLES.ERROR_NOT_REGISTERS_FOUND);
+              this.applyToolTipStyles();
+              //flag not register found
+              this.notRegisterFound = true;
             }
           },
           error: (error) => {
             console.error('Error al obtener el historial:', error);
           }
-        });
-      }else {
-        this.globalService.showErrorMessageSnackBar(TITLES.ERROR_NOT_DATES_SUBMIT)
+        }).add(() => this.isLoading = false);;
       }
     }
 
+    async applyFilterHandler() {
+
+      if(this.fechaDesde && !this.fechaHasta) {
+        const stringDate = this.globalService.getStringDate(this.fechaDesde);
+        const title = 'Atención';
+        const text = `Has seleccionado una sola fecha. 
+                      Se buscarán los registros de historial correspondientes solo para el día <strong>${stringDate}</strong>.`;
+
+        const isConfirmed = await this.globalService.getMensajeConfirmaModal(title,text);
+
+        if (!isConfirmed.isConfirmed) {
+          return;
+        }else {
+            this.fechaHasta = this.fechaDesde;
+        }
+      }
+      this.obtenerHistorialBetweenDays();
+    }
+
     resetFilterByDate() {
-      this.obtenerHistorialPorCarro();
-      this.isAppliedFilters = false;
+
+      if(this.isAppliedFilters) {
+          this.obtenerHistorialPorCarroPaginado();
+          this.isAppliedFilters = false;
+      }
+
       this.fechaDesde = null;
       this.fechaHasta = null;
+
     }
 
     obtenerHistorialPorCarroPaginado() {
@@ -301,15 +365,17 @@
         console.warn('No hay un carro seleccionado para obtener el historial.');
         return;
       }
+
       this.historialService.getHistoriesByCarroIdPageable(
         //Funtion parameters id, page, size
         this.carroSeleccionadoDetalles.id,
-        this.h - 1,
+        this.p - 1,
         this.itemsPerPage
       ).subscribe({
         next: (response) => {
           this.carroSeleccionadoDetalles.registroHistorial = response.content;
           this.totalItems = response.totalElements;
+          this.applyToolTipStyles();
         },
         error: (error) => {
           console.error('Error al obtener el historial por carro:', error);
@@ -320,23 +386,6 @@
       }).add(() => this.isLoading = false);
     }
     
-    obtenerHistorialPorCarro() {
-      if (!this.carroSeleccionadoDetalles?.id) {
-        console.warn('No hay un carro seleccionado para obtener el historial.');
-        return;
-      }
-    
-      this.historialService.getHistoriesByCarroId(this.carroSeleccionadoDetalles.id).subscribe({
-        next: (h) => {
-          this.carroSeleccionadoDetalles.registroHistorial = h;
-          console.log('Historial cargado:', h);
-        },
-        error: (error) => {
-          console.error('Error al obtener el historial por carro:', error);
-        }
-      });
-    }
-
     getToolTipMsj(): string {
       if(this.fechaDesde){
         this.toolTipMsjFiltros = 'Aplicar filtro para la(s) fecha(s) dada(s)'
@@ -346,19 +395,15 @@
     }
 
     onPageChange(page: number) {
-      this.h = page; // Actualiza el valor de la página actual
+      this.p = page; 
       this.obtenerHistorialPorCarroPaginado();
     }
-
-    // verDetallesServicio(historial:Historial) {
-    // }
 
     async verDetallesServicio(viajeId: number): Promise<void> {
       this.isLoading = true;
       try {
           this.viajeSelDetails = await lastValueFrom(this.viajeServicio.obtenerViajeById(viajeId));
           this.globalService.abrirModalProgramatico('confirma-servicio-modal');
-          
       } catch (error) {
           console.error('Error al obtener el viaje:', error);
       } finally {

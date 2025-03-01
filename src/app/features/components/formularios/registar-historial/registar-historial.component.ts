@@ -6,6 +6,7 @@ import { Carro } from '../../../../core/models/carro';
 import { HistorialService } from '../../../../core/services/historial.service';
 import { GlobalUtilsService } from '../../../../core/services/global-utils.service';
 import { faComment, faScrewdriverWrench } from '@fortawesome/free-solid-svg-icons';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-registar-historial',
@@ -36,6 +37,8 @@ export class RegistarHistorialComponent {
   //new registered historial
   nuevoHistorial:Historial;
 
+  isNotModalMode : boolean;
+
 
   @Input() verSoloRegistroMantenimiento : boolean;
   @Input() carroSeleccionadoDetalles: Carro = new Carro(); 
@@ -54,6 +57,17 @@ export class RegistarHistorialComponent {
     this.id = + this.activatedRoute.snapshot.paramMap.get('id')!;
     this.tipo = this.activatedRoute.snapshot.paramMap.get('tipo');  // 'carro' o 'historial'
     const isMantenimiento  = this.activatedRoute.snapshot.paramMap.get('isMantenimiento');  // 'carro' o 'historial'
+    const isNotModalModeStr = this.activatedRoute.snapshot.paramMap.get('isNotModalMode');
+
+    // Recibir parámetro 'isNotModalMode' de los queryParams
+    this.activatedRoute.queryParams.subscribe(params => {
+      const isNotModalModeStr = params['isNotModalMode'];
+      if (isNotModalModeStr) {
+        this.isNotModalMode = isNotModalModeStr === 'true';
+      } else {
+        this.isNotModalMode = false; // Valor por defecto si no existe el parámetro
+      }
+    });
 
     if(isMantenimiento) {this.isMantenimiento = isMantenimiento === 'true';}
 
@@ -105,6 +119,8 @@ export class RegistarHistorialComponent {
 //Emite el evento de volver cerra el popup de registro de historial
   volver(nuevoHistorialId?: number) {
     // Si existe un 'id', realiza la navegación hacia '/carros' con un estado
+
+ if(!this.isNotModalMode) {
     if (this.id && this.tipo === 'historialId') {
       this.router.navigate(['/carros', this.historial.carro.id], {
         state: { redireccion: true }  // Puedes incluir cualquier dato que quieras
@@ -117,6 +133,13 @@ export class RegistarHistorialComponent {
             nuevoHistorialId : nuevoHistorialId
            }  // Puedes incluir cualquier dato que quieras
         });
+      }
+    }else {
+      this.router.navigate(['lista-historial', this.historial.carro.id], {
+        queryParams: { 
+          isNotModalMode: this.isNotModalMode
+        } 
+      });
     }
   }
   

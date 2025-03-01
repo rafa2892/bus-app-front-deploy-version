@@ -39,6 +39,6 @@ import { environment } from '../../../environments/environment.prod';
         if (page) params.page = page;
         if (size) params.size = size;
       
-        return this.httpClient.get<Historial[]>(`${this.completeURL}/betweenDates`, { params });
+        return this.httpClient.get<RegistroActividad[]>(`${this.completeURL}/betweenDates`, { params });
       }
     }

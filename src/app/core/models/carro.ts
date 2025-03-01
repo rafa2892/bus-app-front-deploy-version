@@ -23,4 +23,6 @@ export class Carro {
   bateria: Bateria = new Bateria();
   poliza: Poliza;
   tituloPropiedad:TituloPropiedad;
+  fechaAlta:Date;
+  
 }

@@ -50,12 +50,19 @@ export class CardBusDetailComponent {
  
 
   ngAfterViewInit(): void {
-    this.globalService.buildCustomsToolTipBS();
+    this.applyToolTipStyles();
  }
 
  ngAfterViewChecked(): void {
   
-}
+} 
+
+applyToolTipStyles() {
+  // Delay to allow styles to be applied with transition effect
+  setTimeout(() => {
+    this.globalService.buildCustomsToolTipBS();
+  }, 50);
+  }
 
   getImagenUrl(carroSeleccionado: any) {
     this.imagenesCodificadasFront =
@@ -128,13 +135,24 @@ export class CardBusDetailComponent {
   }
 
   verHistorialByCarro(id:number) {
-    this.router.navigate(['lista-historial/', id]);
+    this.router.navigate(['lista-historial/', id], { 
+      queryParams: { 
+        isNotModalMode: true
+      } 
+    });
   }
       
-  
   irFormularioCarroConsulta(id:number) {
     const esEdicion = false; // O el valor que desees (true o false)
     this.router.navigate(['actualizar-vehiculo', id], { queryParams: { esEdicion } });
+  }
+
+  getRegisterDate() {
+    if(this.carroSeleccionadoDetalles.fechaAlta) {
+      return this.globalService.getStringDate(this.carroSeleccionadoDetalles.fechaAlta);
+    }else {
+      return 'Sin datos';
+    }
   }
 
 }

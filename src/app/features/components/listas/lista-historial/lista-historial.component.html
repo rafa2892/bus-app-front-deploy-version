@@ -1,16 +1,30 @@
 
+<div *ngIf="isLoading" class="position-fixed top-50 start-50 translate-middle text-center bg-dark p-3 rounded">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Cargando registros...</span>
+  </div>
+  <p class="text-white mt-2">Cargando registro de historiales...</p>
+</div>
+
+  
   <div class="d-flex justify-content-between align-items-center">
     <h5 style="font-size: bold; font-style: italic; font-size: 20px;">
       {{getNumUnidadFormateado(carroSeleccionadoDetalles.numeroUnidad)}} 
         - {{carroSeleccionadoDetalles.marca + 
             ' ' + carroSeleccionadoDetalles.modelo}}
     </h5>
-    <div class="d-flex align-items-center">
+    <div 
+      class="d-flex align-items-center" 
+      [ngClass]="isNotModalMode ? 'mrc' : ''">
       <button 
       class="btn btn-reset" 
       (click)="resetFilterByDate()"
-      title="Reestablecer fechas del filtro">
-      <span><img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size"></span>
+      [attr.data-bs-original-title]="RESET_FILTER"
+      data-bs-toggle="tooltip" 
+      data-bs-placement="top">
+      <span>
+        <img src="assets/restore-icon.png" id="img" alt="Intercambiar" class="default-img-icon-size">
+      </span>
       </button>
       <div class="d-flex gap-3">
         <div class="fechas-container">  
@@ -18,13 +32,15 @@
               <input
                   matInput 
                   [matDatepicker]="dataPickerDesde" 
+                  [ngClass]="isAppliedFilters ? 'filtered-dates-styles' : ''"
+                  [ngClass]="notRegisterFound ? 'not-register-found-styles' : ''"
                   name="fecha-desde" 
                   id="fecha-desde"
                   placeholder="Desde"
                   [disabled]="false"
                   [(ngModel)]="fechaDesde"
                   [matDatepickerFilter]="filterDatesDesde"
-                  (dateChange)="selectedDateFormat(fechaDesde, 'desde')"
+                  (dateChange)="selectedDateHandler(fechaDesde, 'desde')"
                   readonly> 
                   <mat-datepicker-toggle 
                       class="toggle-picker-enabled" 
@@ -38,26 +54,29 @@
               <input
                   matInput 
                   [matDatepicker]="dataPickerHasta" 
+                  [ngClass]="isAppliedFilters ? 'filtered-dates-styles' : ''"
+                  [ngClass]="notRegisterFound ? 'not-register-found-styles' : ''"
                   name="fecha-hasta" 
                   id="fecha-hasta"
                   placeholder="Hasta"
                   [disabled]="!fechaDesde"
                   [(ngModel)]="fechaHasta"
                   [matDatepickerFilter]="filterDatesHasta"
-                  (dateChange)="selectedDateFormat(fechaHasta, 'hasta')"
                   readonly> 
               <mat-datepicker-toggle 
                   [ngClass]="!fechaDesde ? 'toggle-picker-disabled' : 'toggle-picker-enabled'"  matIconSuffix [for]="dataPickerHasta">
               </mat-datepicker-toggle>
               <mat-datepicker id="dataPickerHasta" #dataPickerHasta></mat-datepicker>
           </mat-form-field>
-            <button 
-            type="button" 
-            (click)="obtenerHistorialBetweenDays()" 
-            class="btn btn-primary btn-filter btn-sm"
-            data-bs-toggle="tooltip" 
-            data-bs-placement="top"
-            [attr.data-bs-original-title]="getToolTipMsj()">
+            <button
+              *ngIf="fechaDesde"
+              id="filter-button" 
+              type="button" 
+              (click)="applyFilterHandler()" 
+              class="btn btn-primary btn-filter btn-sm"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="top"
+              [attr.data-bs-original-title]="getToolTipMsj()">
                 <span><img src="assets/filter-icon.png" id="img-icon" alt="Intercambiar"  class="default-img-icon-size"></span>
                 <span *ngIf="isAppliedFilters"><img src="assets/okey-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size"></span>
                 <span *ngIf="!isAppliedFilters"><img src="assets/close-icon.png" id="close-icon-img" alt="Intercambiar"  class="default-img-icon-size"></span>
@@ -78,7 +97,7 @@
     </thead>
     <tbody class="table-dark">
       <tr
-      *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial | paginate: {totalItems:totalItems, itemsPerPage: itemsPerPage, currentPage: h, id: 'historial'}" 
+      *ngFor="let historial of carroSeleccionadoDetalles.registroHistorial | paginate: {totalItems:totalItems, itemsPerPage: itemsPerPage, currentPage: p, id: 'historial'}" 
       [ngClass]="{'resaltado': newHistorialID !== 0 && historial.id === newHistorialID }">
         <td>
           <small>
@@ -98,7 +117,7 @@
         </td>
           <td>
             <small>
-              <span class="date">{{ historial.fechaAlta | date:'dd/MM/yyyy HH:mm:ss' }}</span>
+              <span [ngClass]="isAppliedFilters ? 'filtered-dates-styles' : ''" class="date">{{ historial.fechaAlta | date:'dd/MM/yyyy HH:mm:ss' }}</span>
             </small>
           </td>
           <td>
@@ -107,23 +126,28 @@
           <td class="d-flex gap-3">
             <button 
               *ngIf="historial.idTipo !== 1" 
-              title="Ver historial de actividades" 
               (click)="verDetalleshistorial(historial.id, true)" 
-              class="btn btn-primary botonesAccion btn-sm" 
+              class="btn btn-primary botonesAccion btn-sm"
+              [attr.data-bs-original-title]="CHECK_DETAILS_HISTORIAL"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="top" 
               data-bs-dismiss="modal">
               <span class="button-icon "><fa-icon class="deleteIcon" [icon]="detailsIcon"></fa-icon></span>
             </button>
             <button
               *ngIf="historial.idTipo === 1" 
-              title="Detalles del viaje" 
+              [attr.data-bs-original-title]="CHECK_SERVICE_DETAIL_HISTORIAL"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="top" 
               class="btn btn-primary botonesAccion btn-sm" 
-              (click)="verDetallesServicio(historial.viajeId)" 
-              >
+              (click)="verDetallesServicio(historial.viajeId)">
               <span class="button-icon "><fa-icon class="deleteIcon" [icon]="detailsIcon"></fa-icon></span>
           </button>
             <button 
               *ngIf="historial.idTipo !== 1"
-              title="Editar historial de actividades" 
+              [attr.data-bs-original-title]="EDIT_HISTORIAL"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="top"
               (click)="verDetalleshistorial(historial.id, false)" 
               class="btn btn-warning botonesAccion btn-sm" 
               data-bs-dismiss="modal">
@@ -132,6 +156,9 @@
             <div>
               <button 
                 *ngIf="historial.idTipo !== 1"
+                [attr.data-bs-original-title]="DELETE_HISTORIAL"
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
                 type="button" 
                 class="delete-img-btn btn-sm botonesAccion" 
                 (click)="deleteHistorial(historial.id)">
@@ -150,7 +177,16 @@
     nextLabel="Siguiente"></pagination-controls>
   </div>
   <div class="modal-footer d-flex justify-content-start" id="addHsitory">
-    <button id="btonAddHistory" type="button" (click)="addHistory()" class="btn btn-primary addHistory" title="Añadir un historico" data-bs-dismiss="modal">+</button>
+    <button 
+      id="btonAddHistory" 
+      type="button" 
+      (click)="addHistory()" 
+      class="btn btn-primary addHistory" 
+      data-bs-toggle="tooltip" 
+      data-bs-placement="top"
+      [attr.data-bs-original-title]="ADD_HISTORIAL" 
+      data-bs-dismiss="modal">+
+    </button>
     <label for="btonAddHistory"> {{verSoloRegistroMantenimiento ? 'Registro mantenimiento/reparación' : 'Registro actividad/comentarios'}} </label>
   </div>
   

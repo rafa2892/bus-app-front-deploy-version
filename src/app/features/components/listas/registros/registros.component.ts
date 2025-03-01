@@ -104,9 +104,11 @@
                 this.globalUtilsService.getSuccessfullMsj(`Se han cargado ${response.totalElements} registros con éxito.`);
               }
 
+             // Delay to allow styles to be applied with transition effect
               setTimeout(() => {
                 this.isAppliedFilters = true;  
               }, 50);
+
             }else {
               this.globalUtilsService.showErrorMessageSnackBar(TITLES.ERROR_NOT_REGISTERS_FOUND);
               this.notRegisterFound = true;

@@ -128,6 +128,29 @@ h5 {
 
      /* END FADE-OUT STYLE WHEN NEW ENTITY IS SAVED */
 
+
+    .filtered-dates-styles {
+        color: green;
+        transition: color 1s ease-in-out; /* Esto hará que el color se cambie paulatinamente */
+    }
+
+    /* Estilo para los inputs de fecha */
+    .date-picker .filtered-dates-styles#fecha-desde,
+    .date-picker .filtered-dates-styles#fecha-hasta {
+    color: green !important;
+    caret-color: transparent !important;
+    }
+
+    /* Estilo para los inputs de fecha */
+    .date-picker .not-register-found-styles#fecha-desde,
+    .date-picker .not-register-found-styles#fecha-hasta {
+    color: orangered !important;
+    caret-color: transparent !important;
+    }
+
+    .mrc {
+        margin-right: 7em;
+    }
     
     
     

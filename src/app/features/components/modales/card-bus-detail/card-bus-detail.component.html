@@ -1,7 +1,4 @@
 
-
-
-
 <div class="modal fade" id="card-bus-detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" (hidden.bs.modal)="onCloseModal()">
   <div class="modal-dialog modal-custom-size modal-lg">
     <div class="modal-content">
@@ -85,49 +82,52 @@
               </div>
               <div class="d-flex gap-5">
                   <ul class="list-group width-custom">
-                    <li class="list-group-item" aria-disabled="true">Modelo: {{ carroSeleccionadoDetalles.modelo }}</li>
-                    <li class="list-group-item">Marca: {{ carroSeleccionadoDetalles.marca }}</li>
-                    <li class="list-group-item">Año: {{ carroSeleccionadoDetalles.anyo }}</li>
+                    <li class="list-group-item">Marca: <span class="blue-text">{{ carroSeleccionadoDetalles.marca }}</span></li>
+                    <li class="list-group-item" aria-disabled="true">Modelo: <span class="blue-text">{{ carroSeleccionadoDetalles.modelo }}</span></li>
+                    <li class="list-group-item">Año: <span class="blue-text">{{ carroSeleccionadoDetalles.anyo }}</span></li>
                   </ul>
                   <ul class="list-group width-custom">
                     <li class="list-group-item">
-                      Historial: {{ numeroHistories }}
-                      <button 
-                        *ngIf="isEnableHistories"
-                        id="ver-registro-historial" 
-                        type="button"
-                        (click)="verHistorialByCarro(carroSeleccionadoDetalles.id)"
-                        data-bs-dismiss="modal"
-                        class="btn btn-primary btn-download">
-                        <fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon>
-                      </button>
+                      Historial:
+                      <span [ngClass]="numeroHistories > 0 ? 'green-text' : 'orange-text'" >{{ numeroHistories }}</span>
+                        <button 
+                          *ngIf="isEnableHistories"
+                          id="ver-registro-historial" 
+                          type="button"
+                          (click)="verHistorialByCarro(carroSeleccionadoDetalles.id)"
+                          data-bs-dismiss="modal"
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="right"
+                          data-bs-original-title="Ver historial"
+                          class="btn btn-primary btn-download">
+                          <fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon>
+                        </button>
                     </li>
                     <li class="list-group-item">
-                      Viajes registrados: {{  numeroViajes }}
-                      <button *ngIf="isEnableViajes"
-                        id="ver-viajes-registrados" 
-                        type="button"
-                        (click)="verViajesByCarro(carroSeleccionadoDetalles.id)"
-                        data-bs-dismiss="modal"
-                        class="btn btn-primary btn-download">
-                        <fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon>
-                    </button>
+                      Viajes registrados: 
+                      <span [ngClass]="numeroViajes > 0 ? 'green-text' : 'orange-text'" >{{ numeroViajes }}</span>
+                        <button *ngIf="isEnableViajes"
+                          id="ver-viajes-registrados" 
+                          type="button"
+                          (click)="verViajesByCarro(carroSeleccionadoDetalles.id)"
+                          data-bs-dismiss="modal"
+                          data-bs-toggle="tooltip" 
+                          data-bs-placement="right"
+                          data-bs-original-title="Ver viajes registrados"
+                          class="btn btn-primary btn-download">
+                          <fa-icon class="eyeIcon" [icon]="eyeIcon"></fa-icon>
+                        </button>
+                    </li>
+                    <li class="list-group-item">
+                      Fecha de alta:
+                      <span [ngClass]="this.carroSeleccionadoDetalles.fechaAlta ? 'green-text' : 'orange-text'" >{{ getRegisterDate() }}</span>
                     </li>
                   </ul>
               </div>
           </mat-card-content>
-
-
-
-
           <mat-card-actions>
           </mat-card-actions>
         </mat-card>
-
-
-
-
-
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>

@@ -91,6 +91,11 @@ export const TITLES = {
     //Lista historial
     ERROR_NOT_REGISTERS_FOUND: 'No se han encontrado registros para las fechas introducidas',
     ERROR_NOT_DATES_SUBMIT: 'Para filtrar por fecha(s), tiene que al menos introducir una fecha o ambas.',
+    CHECK_DETAILS_HISTORIAL : 'Ver detalles',
+    CHECK_SERVICE_DETAIL_HISTORIAL : 'Ver detalles del servicio',
+    EDIT_HISTORIAL : 'Editar historial',
+    DELETE_HISTORIAL : 'Editar historial',
+    ADD_HISTORIAL : 'Añadir historial'
    
 
 
