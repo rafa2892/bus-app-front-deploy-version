@@ -109,7 +109,8 @@
           </tr>
         </thead>
         <tbody class="table-dark">
-          <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems, id:'indice-viaje' }">
+          <tr *ngFor="let viaje of viajes | paginate: { itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems, id:'indice-viaje' }"
+              [ngClass]="{'resaltado': newCarId !== 0 && viaje.id === newCarId }">
             <td class="custom-color-prefijo-unidad bold">{{ getNumeroUnidadFormateado(viaje.carro.numeroUnidad) }}</td>
             <td>{{ viaje.carro.marca + ' ' +  viaje.carro.modelo }}</td>
             <td>{{ viaje.carro.tipoVehiculo }}</td>

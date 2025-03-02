@@ -501,11 +501,12 @@ button.btn-filter.btn, button.btn-reset-filter.btn{
 
 /* ************ TAMAÑO CUSTOM DATE-PICKER */
 
-    /* START FADE-OUT STYLE WHEN NEW ENTITY IS SAVED */
-    .resaltado {
-      border: 2px solid #28a745;  /* Borde verde */
-      animation: fadeOutBorder 1.5s ease-out forwards;  /* Animación para desvanecer solo el borde */
-  }
+
+/* START FADE-OUT STYLE WHEN NEW ENTITY IS SAVED */
+  .resaltado {
+    border: 2px solid #28a745;  /* Borde verde */
+    animation: fadeOutBorder 1.5s ease-out forwards;  /* Animación para desvanecer solo el borde */
+}
 
   /* Animación de desvanecimiento solo del borde */
   @keyframes fadeOutBorder {

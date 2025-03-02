@@ -61,6 +61,9 @@ export class ListaViajesComponent {
     filterLoading = false;
     tipoExport : string | null = null;
 
+    //new saved car id variable
+    newCarId:number;
+
     //flag is initialized the tooltip styles 
     private tooltipsInitialized = false;
 
@@ -94,8 +97,14 @@ export class ListaViajesComponent {
 
       this.loading = true;
 
+      //when idConductor param : Services by Conductor
       const idConductorStr = this.activatedRoute.snapshot.paramMap.get('idConductor');
+
+      // when idCarro : Services by Carro
       const idCarroStr = this.activatedRoute.snapshot.paramMap.get('idCarro');
+
+     // Mark new car as saved if one was successfully saved
+      const newViajeId = this.activatedRoute.snapshot.queryParams['newViajeId'];
 
       // setTimeout(() => {}, 1000);
       
@@ -120,8 +129,11 @@ export class ListaViajesComponent {
             this.mostrarNotificacion('No se pudo cargar la lista de viajes.', 'error-snackbar');
           }
         });
+      }else if(newViajeId) {
+        this.newCarId = Number(newViajeId);
+        this.globalUtilsService.cleanUrlNewEntityStyle("newViajeId");
+        this.cargarViajes(); // Convierte a número
       }else {
-        // this.obtenerListaViaje();
         this.cargarViajes();
       }
     }
@@ -170,16 +182,13 @@ export class ListaViajesComponent {
 
     private obtenerConductorPorId(idConductor: number) {
       this.loading = true;
-    
       // Ejecutamos ambas peticiones en paralelo con forkJoin
       forkJoin({
         conductor: this.conductorService.obtenerConductorPorId(idConductor),
-        // viajes: this.viajeServicio.obtenerListaViajePorConductor(idConductor)
       }).subscribe({
         next: (result) => {
           this.conductor = result.conductor;
           this.getViajesFiltrados();
-          // this.viajes = result.viajes;
         },
         error: (error) => {
           console.error('Error al obtener los datos:', error);

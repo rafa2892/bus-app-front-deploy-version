@@ -30,12 +30,12 @@ export class ViajeServicioService {
   }
   
   //Este método nos funciona para regitrar un carro
-  registrarViaje(viaje:Viaje) : Observable<Object>{
-    return this.httpClient.post(`${this.completeURL}`, viaje);
+  registrarViaje(viaje:Viaje) : Observable<Viaje>{
+    return this.httpClient.post<Viaje>(`${this.completeURL}`, viaje);
   }
 
-  actualizarViaje(viaje:Viaje) : Observable<Object>{
-    return this.httpClient.put(`${this.completeURL}/${viaje.id}`, viaje);
+  actualizarViaje(viaje:Viaje) : Observable<Viaje>{
+    return this.httpClient.put<Viaje>(`${this.completeURL}/${viaje.id}`, viaje);
   }
 
   obtenerListaViajePorConductor(id: number): Observable<Viaje[]> {

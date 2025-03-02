@@ -106,10 +106,10 @@ export class RegistrarViajeComponent {
     
 
     constructor(
-      private modalService: NgbModal,
       private viajeServicio:ViajeServicioService,
-      private router:Router, private carroServicio:CarroService,
-      private _snackBar: MatSnackBar,public dialog: MatDialog,
+      private router:Router, 
+      private carroServicio:CarroService,
+      public dialog: MatDialog,
       private conductorService:ConductorService,
       private ngZone: NgZone,
       private readonly route: ActivatedRoute,
@@ -440,7 +440,9 @@ export class RegistrarViajeComponent {
       if(!this.viaje.id) {
         // Si no tiene id, es un nuevo viaje
         this.viajeServicio.registrarViaje(this.viaje).subscribe({
-          next: (dato) => {},
+          next: (dato) => {
+            this.viaje = dato;
+          },
           error: (error) => {
             console.log(error);
             this.globalUtilsService.showErrorMessageSnackBar(TITLES.ERROR_SERVIDOR_BACK);
@@ -448,20 +450,21 @@ export class RegistrarViajeComponent {
           complete: () => {
             const msj = 'Nuevo servicio guardado con éxito.';
             this.globalUtilsService.getSuccessfullMsj(msj);
-            this.irListaViaje();
+            this.irListaViaje(this.viaje.id);
           }
         });
       } else {
         this.viajeServicio.actualizarViaje(this.viaje).subscribe({
-          next: (dato) => {},
+          next: (dato) => {
+            this.viaje = dato;
+          },
           error: (error) => {
-            console.log(error);
             this.globalUtilsService.showErrorMessageSnackBar(TITLES.ERROR_SERVIDOR_BACK);
           },
           complete: () => {
             const msj = 'Viaje actualizado con éxito.';
             this.globalUtilsService.getSuccessfullMsj(msj);
-            this.irListaViaje();
+            this.irListaViaje(this.viaje.id);
           }
         });
       }
@@ -480,8 +483,10 @@ export class RegistrarViajeComponent {
       });
     }
 
-    irListaViaje() {
-      this.router.navigate(['/lista-viajes']);
+    irListaViaje(newViajeId?:number) {
+      this.router.navigate(['/lista-viajes'], {
+          queryParams: { newViajeId: newViajeId } 
+      });
     }
 
     mostrarCarroSelect(carro:Carro)  {
