@@ -88,12 +88,29 @@
         // Retrieve flag (isModalMode)
         const isNotModalModeStr = this.activatedRoute.snapshot.queryParams['isNotModalMode'];
         const isNotModalMode = isNotModalModeStr === 'true'; 
-        this.isNotModalMode = isNotModalMode;
+    
+        // When saving a new historial in non-modal mode, apply styles to the new record.
+        if(isNotModalMode) {
+          this.isnotModalModeHandler(isNotModalMode);
+        }
 
         if(idCarroStr) {
           const idCarro = Number(idCarroStr);
           this.obtenerCarroPorId(idCarro);
         }
+      }
+
+      isnotModalModeHandler(isNotModalMode:boolean) {
+        this.isNotModalMode = isNotModalMode;
+        const newHistorialID = this.activatedRoute.snapshot.queryParams['newHistorialID'];
+        this.newHistorialID = Number(newHistorialID);
+
+       // Remove the parameter from the URL
+        this.router.navigate([], {
+          queryParams: { newHistorialID: null }, // Set to null to remove it
+          queryParamsHandling: 'merge', // Keep other existing query parameters
+          replaceUrl: true // Replace the URL without adding a new history entry
+        });
       }
 
       async ngOnChanges(changes: SimpleChanges): Promise<void> {
@@ -142,11 +159,11 @@
         // int 3 = comment 
         /* Muestra la lista de historial de acuerdo a si es por mantenimiento o vista general*/
         if (this.verSoloRegistroMantenimiento) {
-          console.log(this.carroSeleccionadoDetalles);
           this.carroSeleccionadoDetalles = {
             ...this.carroSeleccionadoDetalles, 
             registroHistorial: this.carroSeleccionadoDetalles.registroHistorial?.filter(h => h.idTipo === 2) || []
           };
+          this.totalItems = this.carroSeleccionadoDetalles.registroHistorial.length;
         }
       }
 

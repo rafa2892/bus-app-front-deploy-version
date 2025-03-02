@@ -41,12 +41,12 @@ export class CarroService {
   }
 
   //Este metodo nos funciona para regitrar un carro
-  registrarCarro(carro:Carro) : Observable<Object>{
-    return this.httpClient.post(`${this.completeURL}`, carro);
+  registrarCarro(carro:Carro) : Observable<Carro>{
+    return this.httpClient.post<Carro>(`${this.completeURL}`, carro);
   }
 
-  actualizarCarro(id:number, carro:Carro) {
-    return this.httpClient.put(`${this.completeURL}/${id}`,carro);
+  actualizarCarro(id:number, carro:Carro) : Observable<Carro>{
+    return this.httpClient.put<Carro>(`${this.completeURL}/${id}`,carro);
   }
 
   eliminarCarro(id:number) : Observable<Object>{

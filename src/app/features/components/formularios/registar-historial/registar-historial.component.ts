@@ -57,8 +57,8 @@ export class RegistarHistorialComponent {
     this.id = + this.activatedRoute.snapshot.paramMap.get('id')!;
     this.tipo = this.activatedRoute.snapshot.paramMap.get('tipo');  // 'carro' o 'historial'
     const isMantenimiento  = this.activatedRoute.snapshot.paramMap.get('isMantenimiento');  // 'carro' o 'historial'
-    const isNotModalModeStr = this.activatedRoute.snapshot.paramMap.get('isNotModalMode');
 
+    
     // Recibir parámetro 'isNotModalMode' de los queryParams
     this.activatedRoute.queryParams.subscribe(params => {
       const isNotModalModeStr = params['isNotModalMode'];
@@ -117,7 +117,7 @@ export class RegistarHistorialComponent {
   }
 
 //Emite el evento de volver cerra el popup de registro de historial
-  volver(nuevoHistorialId?: number) {
+  volver(newHistorialId?: number) {
     // Si existe un 'id', realiza la navegación hacia '/carros' con un estado
 
  if(!this.isNotModalMode) {
@@ -130,14 +130,15 @@ export class RegistarHistorialComponent {
           state: { 
             redireccion: true,
             verSoloRegistroMantenimiento: this.isMantenimiento,
-            nuevoHistorialId : nuevoHistorialId
+            nuevoHistorialId : newHistorialId
            }  // Puedes incluir cualquier dato que quieras
         });
       }
     }else {
       this.router.navigate(['lista-historial', this.historial.carro.id], {
         queryParams: { 
-          isNotModalMode: this.isNotModalMode
+          isNotModalMode: this.isNotModalMode,
+          newHistorialID : newHistorialId
         } 
       });
     }

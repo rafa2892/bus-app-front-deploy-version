@@ -355,36 +355,29 @@ declare var bootstrap: any;
     }
 
     async guardarCarro(formValido:boolean) {
-        if(formValido) {
-            this.convertirImagenesABase64().then(() => {
-              this.convertirMayus();
-              this.carro.imagenes = this.imagenesGuardar;
-            if(this.carro.id != null && this.carro.id != undefined && this.carro.id > 0) {
-              this.carroServicio.actualizarCarro(this.carro.id, this.carro).subscribe(dato => {
-              this._snackBar.open('Carro registrado con éxito.', '', {
-                duration: 2000,
-                panelClass: ['success-snackbar'],
-                horizontalPosition: 'end',
-                verticalPosition: 'top',
-              });
-              this.irListaCarro();
-            }, error => console.log(error));
-          }else {
-              this.carroServicio.registrarCarro(this.carro).subscribe(dato => {
-              this._snackBar.open('Carro registrado con éxito.', '', {
-                duration: 2000,
-                panelClass: ['success-snackbar'],
-                horizontalPosition: 'end',
-                verticalPosition: 'top',
-              });
-              this.irListaCarro();
-            }, error => console.log(error));
-          }
-        }).catch(error => {
-          console.error('Error al convertir imágenes a base64:', error);
-        });
-      }
+      if(formValido) {
+          this.convertirImagenesABase64().then(() => {
+            this.convertirMayus();
+            this.carro.imagenes = this.imagenesGuardar;
+          if(this.carro.id != null && this.carro.id != undefined && this.carro.id > 0) {
+            this.carroServicio.actualizarCarro(this.carro.id, this.carro).subscribe(c => {
+            const id= c.id;
+            this.gb.getSuccessfullMsj('Vehiculo editado con éxito.');
+            this.irListaCarro(id);
+          }, error => this.gb.showErrorMessageSnackBar(error));
+        }else {
+            this.carroServicio.registrarCarro(this.carro).subscribe(c => {
+            const id = c.id;  
+            this.gb.getSuccessfullMsj('Vehiculo registrado con éxito.');
+            this.irListaCarro(id);
+          }, error => this.gb.showErrorMessageSnackBar(error));
+        }
+      }).catch(error => {
+        this.gb.showErrorMessageSnackBar('Error al convertir imágenes a base64:');
+        console.error('Error al convertir imágenes a base64:', error);
+      });
     }
+  }
 
     async validandoDatos():  Promise<boolean> {
 
@@ -518,8 +511,10 @@ declare var bootstrap: any;
       }
     }
 
-    irListaCarro() {
-    this.router.navigate(['/lista-carros']);
+    irListaCarro(id?:number) {
+      this.router.navigate(['/lista-carros'], {
+        queryParams: { newCarId: id } 
+      });
     }
 
     onFileSelected(event: any) {

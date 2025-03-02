@@ -51,7 +51,8 @@ export class ListaCarrosComponent {
   itemsPerPage = 10;
 
   //
-  newHistorialSavedId :number = 0;
+  newHistorialId :number = 0;
+  newCarId : number = 0;
 
   //tooltip init control
   private tooltipsInitialized = false;
@@ -89,7 +90,7 @@ export class ListaCarrosComponent {
         //Si hay una id, se ha guardado un historial nuevo
         const nuevoHistorialId = navigationState.nuevoHistorialId ?? null; // Recuperar el ID
         if(nuevoHistorialId){
-          this.newHistorialSavedId = nuevoHistorialId;
+          this.newHistorialId = nuevoHistorialId;
           this.globalUtilService.getSuccessfullMsj("Historial guardado con éxito.")
         }
         this.obtenerCarroPorId(id, true);
@@ -97,6 +98,14 @@ export class ListaCarrosComponent {
         this.obtenerCarros();
       }
     });
+
+    const newCarId = this.route.snapshot.queryParams['newCarId'];
+    // Check if there is a new entity saved to add styles
+    if(newCarId) {
+      const idCarro = Number(newCarId);
+      this.newCarId = idCarro;
+      this.globalUtilService.cleanUrlNewEntityStyle('newCarId');
+    }
   }
 
   ngAfterViewInit(): void {
@@ -132,7 +141,7 @@ export class ListaCarrosComponent {
   }
 
   openHistorialModal() {
-    this.verHistorial(this.carroSeleccionadoDetalles, this.verSoloMantenimiento, this.newHistorialSavedId);
+    this.verHistorial(this.carroSeleccionadoDetalles, this.verSoloMantenimiento, this.newHistorialId);
   }
 
   private obtenerCarros() {
@@ -232,16 +241,23 @@ export class ListaCarrosComponent {
     });
   }
 
-  insertarRegistro(id: number) {
-    this.router.navigate(['/nuevo-registro', id]);
-  }
-
   async eliminarCarro(id: number) {
     const borrar = await this.confirmaMensaje();
     if(borrar) {
-        this.carroServicio.eliminarCarro(id).subscribe(dato => {
-          this.obtenerCarros();
-        });
+        this.isLoading = true; //Triggers loading mode
+        this.carroServicio.eliminarCarro(id).subscribe({
+          next: () => {
+            this.obtenerCarros();
+          },
+          error: (err) => {
+            console.error('Error deleting car:', err);
+            this.globalUtilService.showErrorMessageSnackBar('Hubo un error al intentar borrar, contacte con el administrador');
+          },
+          complete: () => {
+            console.log('Car deletion request completed.');
+            this.globalUtilService.getSuccessfullMsj("Vehiculo borrado satisfactoriamente")
+          }
+        }).add(() => this.isLoading = false);
     }
   }
 

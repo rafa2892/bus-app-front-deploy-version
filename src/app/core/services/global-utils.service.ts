@@ -1,7 +1,7 @@
   import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+  import { MatSnackBar } from '@angular/material/snack-bar';
+  import { Router } from '@angular/router';
   import Swal from 'sweetalert2';
-import { TITLES } from '../../constant/titles.constants';
   declare var bootstrap: any;
 
   @Injectable({
@@ -9,7 +9,9 @@ import { TITLES } from '../../constant/titles.constants';
   })
   export class GlobalUtilsService {
 
-    constructor(private _snackBar: MatSnackBar) { }
+    constructor(
+      private _snackBar: MatSnackBar,
+      private router: Router, ) { }
 
     getNumeroUnidadFormateado(numeroUnidad: number): string {
       if(numeroUnidad)
@@ -144,4 +146,18 @@ import { TITLES } from '../../constant/titles.constants';
       verticalPosition: 'top',
     });
   }
+
+  cleanUrlNewEntityStyle(param:string) {
+    // Remove the parameter from the URL
+    const queryParams = { [param]: null }; // Usar el valor del argumento como clave
+
+    this.router.navigate([], {
+      queryParams: queryParams, // Set to null to remove it
+      queryParamsHandling: 'merge', // Keep other existing query parameters
+      replaceUrl: true // Replace the URL without adding a new history entry
+    });
+}
+
+
+
 }
