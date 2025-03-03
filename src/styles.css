@@ -67,26 +67,20 @@ body {
   
   }
 
-  .filtrosContenedor {
-    margin-top: -4%;
-    margin-bottom: -3%;
-    margin-left: 1%;
-    }     
-
-    .defaultInputHeightModal {
-      height: 25px;
-    }
-    
-    .tablaListaPopup
-    {
-      margin-top: 5%;
-    }
-
-    .input-grueso {
-      border-width: 1px; /* Ancho del borde */
-      border-style: solid; /* Estilo del borde */
-      border-color: #007bff; /* Azul bonito */
+  .defaultInputHeightModal {
+    height: 25px;
   }
+  
+  .tablaListaPopup
+  {
+    margin-top: 5%;
+  }
+
+  .input-grueso {
+    border-width: 1px; /* Ancho del borde */
+    border-style: solid; /* Estilo del borde */
+    border-color: #007bff; /* Azul bonito */
+}
 
   #contenedorImagen {
     padding-left: 50px;
@@ -265,6 +259,34 @@ body {
 
 /* Ajustar la imagen dentro del botón */
 .btn-excel img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+/* ----- FIN Boton exportar excel, estilos  globales -----------S*/
+
+
+
+/* ----- Boton exportar excel, estilos  globales*/  
+
+.btn-ordenar {
+  background-color: #398fff;
+  border-color: #398fff;;
+  color: white;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-ordenar:hover {
+  background-color: #60a4fd;
+  border-color: #60a4fd;
+  transform: scale(1.05); /* Efecto de agrandado */
+  box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
+}
+
+/* Ajustar la imagen dentro del botón */
+.btn-ordenar img {
   width: 20px;
   height: 20px;
   margin-right: 5px;

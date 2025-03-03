@@ -375,7 +375,7 @@ export class ListaViajesComponent {
     // Método para buscar los viajes filtrados
     getViajesFiltrados() {
       this.viajeServicio.obtenerViajesFiltradosPaginados(
-        this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr, this.p - 1, 10)
+        this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr, this.p - 1, this.itemsPerPage)
         .subscribe({
           next: (response) => {
             this.viajes = response.content;

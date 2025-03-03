@@ -15,9 +15,41 @@ export class ConductorService {
 
   constructor(private httpClient : HttpClient) {}
 
-  obtenerListaConductores():Observable<Conductor[]> {
-    return this.httpClient.get<Conductor[]>(`${this.completeURL}`);
+  obtenerListaConductores(page?: number, size?: number):Observable<any> {
+
+    const params: any = {};
+    if (page) params.page = page;
+    if (size) params.size = size;
+
+    return this.httpClient.get<Conductor[]>(`${this.completeURL}`, {params});
+
   }
+
+  obtenerListaConductoresPageable(page?: number, size?: number, orderBy?:string):Observable<any> {
+
+    const params: any = {};
+    if (page) params.page = page;
+    if (size) params.size = size;
+    if (orderBy) params.orderBy = orderBy;
+    return this.httpClient.get<Conductor[]>(`${this.completeURL}`, {params});
+    
+  }
+
+    // Método para obtener la lista de conductores con filtros
+    filtrarListaConductoresPageable(page?: number, size?: number, nombre?: string, apellido?: string, dni?: string, orderBy?:string): Observable<any> {
+
+      const params: any = {};
+  
+      if (page) params.page = page;
+      if (size) params.size = size;
+      if (nombre) params.nombre = nombre;
+      if (apellido) params.apellido = apellido;
+      if (dni) params.dni = dni;
+      if (orderBy) params.orderBy = orderBy;
+
+      return this.httpClient.get<Conductor[]>(`${this.completeURL}/filter-pageable`, { params });
+    }
+  
 
   obtenerConductorPorId(id: number): Observable<Conductor> {
     return this.httpClient.get<Conductor>(`${this.completeURL}/${id}`);

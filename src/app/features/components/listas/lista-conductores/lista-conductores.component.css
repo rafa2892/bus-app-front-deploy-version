@@ -114,5 +114,34 @@
   transition: transform 0.2s ease-in-out, box-shadow 0.3s ease, border 0.3s ease; /* Suaviza la transición */
 }
 
+.custom-position {
+  margin-left: 2em;
+}
+
+.mt {
+  margin-top: -0.4em;
+  margin-bottom: -0.3em;
+}
+
+.default-img-icon-size {
+  width: 42px; 
+  height: 42px;
+}
+
+.btn-excel-position{
+  margin-top: -3em;
+  margin-bottom: 2em;
+}
+
+.highlight-blue-text {
+  color: #60a4fd;
+  font-weight: bold;
+  font-style: italic;
+}
+
+
+
+
+
   
   

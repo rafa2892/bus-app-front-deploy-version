@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck, faCirclePlus, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { BehaviorSubject } from 'rxjs';
 import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
+import { TITLES } from '../../../../constant/titles.constants';
 import { Conductor } from '../../../../core/models/conductor';
 import { ConductorService } from '../../../../core/services/conductor.service';
 import { ExcelService } from '../../../../core/services/excel-service.service';
@@ -30,6 +32,8 @@ export class ListaConductoresComponent {
 
     // Paginación por defecto
     p: number = 1;
+    itemsPerPage = 10;  // Example value, you can adjust as needed
+    totalItems = 10;  // Total items for pagination
 
     //Variable para el orden seleccionado
     ordenSeleccionado: string = 'nombreAsc'; 
@@ -45,6 +49,22 @@ export class ListaConductoresComponent {
     //indicador de carga
     isLoading: boolean = false;
 
+    //Flag user is tipying
+    private typingTimeout: any = null;
+
+    //TITLES LITERALS
+    RESET_FILTER = TITLES.RESET_FILTER_TITLE_BUTTON;
+    VIEW_CONDUCTOR = TITLES.VIEW_CONDUCTOR;
+    EDIT_DRIVER = TITLES.EDIT_DRIVER;
+    DELETE_DRIVER = TITLES.DELETE_DRIVER;
+
+
+    //OrderBy variable
+    orderBy = TITLES.DEFAULT_ORDER_BY// default order
+
+    // Observable que emitirá los cambios en los filtros
+    private searchSubject = new BehaviorSubject<{ nombre: string, apellido: string, dni: string }>({ nombre: '', apellido: '', dni: '' });
+
     constructor(
       private conductorService: ConductorService, 
       private router: Router, 
@@ -54,7 +74,6 @@ export class ListaConductoresComponent {
     }
 
     ngOnInit(): void {
-      this.isLoading = true;
       this.obtenerConductores(() => {
         this.route.queryParams.subscribe((params) => {
           this.newConductorId = Number(params['newConductorId']);
@@ -65,10 +84,18 @@ export class ListaConductoresComponent {
       });
     }
 
+    ngAfterViewInit(): void {
+      setTimeout(() => {
+        this.globalService.buildCustomsToolTipBS();
+      },50);
+    }
+
     obtenerConductores(callback?: () => void) {
-      this.conductorService.obtenerListaConductores().subscribe({
-        next: (dato) => {
-          this.conductoresLista = dato;
+      this.isLoading = true;
+      this.conductorService.obtenerListaConductoresPageable(this.p - 1, this.itemsPerPage, this.orderBy).subscribe({
+        next: (response) => {
+          this.conductoresLista = response.content;
+          this.totalItems = response.totalElements;
           this.conductoresListafiltrado = [...this.conductoresLista]; // Inicializamos correctamente
         },
         complete: () => {
@@ -81,6 +108,7 @@ export class ListaConductoresComponent {
     
     verDetalles(id:number) {
       this.router.navigate(['/registrar-conductor/true', id]);
+      this.globalService.disposeCustomTooltips();
     }
 
     seleccionar(conductor:Conductor) {
@@ -131,11 +159,11 @@ export class ListaConductoresComponent {
       this.newConductorId = id;
       this.resetearEstilos();
       
-    } else {
+    }else {
       console.error(`Conductor con ID ${id} no encontrado en la lista.`);
       // En caso de no encontrar el conductor, usa la lista sin modificaciones
       this.conductoresListafiltrado = [...sortedConductores];
-    }
+      }
     }
 
   resetearEstilos() {
@@ -208,6 +236,7 @@ export class ListaConductoresComponent {
 
   editar(conductor:Conductor) {
     this.router.navigate(['/registrar-conductor', conductor.id]);
+    this.globalService.disposeCustomTooltips();
   }
 
   //NO IMPLEMENTADO
@@ -228,24 +257,76 @@ export class ListaConductoresComponent {
     this.excelService.downloadExcel("conductores");
   }
 
-  // ordenarLista() {
-  //   switch (this.ordenSeleccionado) {
-  //     case 'nombreAsc':
-  //       this.conductoresListafiltrado.sort((a, b) => a.nombre.localeCompare(b.nombre));
-  //       break;
-  //     case 'nombreDesc':
-  //       this.conductoresListafiltrado.sort((a, b) => b.nombre.localeCompare(a.nombre));
-  //       break;
-  //     case 'fechaAltaAsc':
-  //       this.conductoresListafiltrado.sort((a, b) => new Date(a.fechaAlta).getTime() - new Date(b.fechaAlta).getTime());
-  //       break;
-  //     case 'fechaAltaDesc':
-  //       this.conductoresListafiltrado.sort((a, b) => new Date(b.fechaAlta).getTime() - new Date(a.fechaAlta).getTime());
-  //       break;
-  //   }
+  onPageChange(page: number) {
+    this.p = page;  // Actualiza el valor de la página actual
+    this.obtenerConductores();
+  }
 
-  // // Reinicia la paginación a la primera página
-  //   this.p = 1;
-  //   }
+  getFormattedDate(fecha:Date) : string {
+    return this.globalService.getStringDate(fecha);
+  }
 
+  onInputChange(): void {
+    // Si ya hay un timeout en curso, lo cancelamos para reiniciar el contador de tiempo
+    if (this.typingTimeout) {
+      clearTimeout(this.typingTimeout);
+    }
+
+    // Establecemos un nuevo timeout para ejecutar el código después de 500ms de inactividad
+    this.typingTimeout = setTimeout(() => {
+      this.filtrarListaConductoresPageable()
+    }, 500); // Espera 500 ms de inactividad antes de ejecutar la llamada
+  }
+
+  filtrarListaConductoresPageable() {
+    this.searchSubject.next({ nombre: this.nombre, apellido: this.apellido, dni: this.dni });
+    this.isLoading = true;  // Mostrar el loading solo después de la espera
+    this.conductorService.filtrarListaConductoresPageable(
+      this.p - 1, // Paginación funciona desde 0
+      this.itemsPerPage,
+      this.nombre,
+      this.apellido,
+      this.dni,
+      this.orderBy
+    ).subscribe({
+      next: response => {
+        this.isLoading = false;  // Detener el loading después de recibir la respuesta
+        this.conductoresListafiltrado = response.content;
+        this.totalItems = response.totalElements;
+      },
+      error: (err) => {
+        this.isLoading = false; // Detener el loading en caso de error
+        console.error('Error en la suscripción:', err);
+      },
+      complete: () => {
+        this.isLoading = false; // Detener el loading al completar la suscripción
+        console.log('La búsqueda ha finalizado');
+      }
+    });
+  }
+
+  getTitleOrderBy() : string | undefined {
+    return TITLES.SORTER_BY.get(this.orderBy);
+  }
+
+  sortBy(sortType:string) {
+
+    this.orderBy = sortType;
+    if(this.nombre || this.apellido || this.dni) {
+      this.filtrarListaConductoresPageable();
+    }else {
+      this.obtenerConductores();
+    }
+
+    
+  }
+
+  resetFilterByDate() {
+
+    this.nombre = '';
+    this.apellido = '';
+    this.dni = '';
+    this.obtenerConductores();
+
+  }
 }

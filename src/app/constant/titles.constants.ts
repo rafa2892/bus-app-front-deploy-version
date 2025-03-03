@@ -6,9 +6,10 @@ export const TITLES = {
     NO_VIAJES_REGISTERED: (name:string) => 'EL conductor ' + name + ' no tiene viajes registrados',
     NO_VIAJES: '0',
     ERROR_REQUIRED_FIELDS: 'Por favor, complete todos los campos requeridos',
-    ADD_DRIVER: 'Registrar Conductor',
-    EDIT_DRIVER: 'Editar Conductor',
-    VIEW_CONDUCTOR: 'Detalles del Conductor',
+    ADD_DRIVER: 'Registrar conductor',
+    EDIT_DRIVER: 'Editar conductor',
+    DELETE_DRIVER: 'Eliminar conductor',
+    VIEW_CONDUCTOR: 'Detalles del conductor',
     NO_DATA: 'Sin datos',
     KM_REGISTERED: 'Kilómetros registrados',
     KM : 'Km.',
@@ -19,6 +20,17 @@ export const TITLES = {
     DATE_OF_BIRTH: 'Fecha de nacimiento (DD/MM/YYYY)',
     NAMES : 'Nombres',
     LAST_NAMES : 'Apellidos',
+    
+    //LISTA CONDUCTORES
+    DEFAULT_ORDER_BY : 'apellido-asc',
+    SORTER_BY : new Map<string, string>([
+      ['nombre-asc', 'Nombre (A → Z)'],
+      ['nombre-desc', 'Nombre (Z → A)'],
+      ['apellido-asc', 'Apellido (A → Z)'],
+      ['apellido-desc', 'Apellido (Z → A)'],
+      ['fechaAlta-desc', 'Fecha alta (Recientes)'],
+      ['fechaAlta-asc', 'Fecha alta (Antiguos)'],
+    ]),
 
 
     //GENERALES
@@ -96,7 +108,7 @@ export const TITLES = {
     EDIT_HISTORIAL : 'Editar historial',
     DELETE_HISTORIAL : 'Editar historial',
     ADD_HISTORIAL : 'Añadir historial'
-   
+  
 
 
     
