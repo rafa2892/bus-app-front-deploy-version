@@ -12,6 +12,21 @@
     margin-top: 5em;
 }
 
+.bus-img {
+    width: 8%;
+    background-color: white !important;
+    border-radius: 50%;
+    margin-left: 2em;
+    margin-top: 2em;
+}
+
+.trasp {
+background-color: transparent !important;
+}
+
+
+
+
 /* ::ng-deep pagination-controls .ngx-pagination .current,
 ::ng-deep pagination-controls .ngx-pagination a {
   color: white !important;

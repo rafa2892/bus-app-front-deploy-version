@@ -732,7 +732,7 @@ declare var bootstrap: any;
 
   getIconByStep(step:number)  {
     if(step === 0)
-      return 'assets/bus-icon.png'
+      return 'assets/bus-icon-main.png'
     if(step === 1) 
       return 'assets/battery-icon.png'
     if(step === 2) 

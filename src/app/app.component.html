@@ -12,7 +12,7 @@
       <a routerLink="lista-conductores" routerLinkActive="active" class="nav-link" target="_self">Plantilla</a>
     </li>
     <li class="nav-item">
-      <a routerLink="lista-mantenimiento" routerLinkActive="active" class="nav-link">Auditoria</a>
+      <a routerLink="lista-registros" routerLinkActive="active" class="nav-link">Auditoria</a>
     </li>
     <li class="nav-item">
       <a (click)="logout()" class="nav-link" target="_self">
@@ -22,7 +22,7 @@
   </ul>
   </nav>
 </div>
-    <img id="imagenCabecera" src="./../assets/bus_company-removebg-preview.png" class="bus-img" alt="Mi Imagen" />
+    <img id="imagenCabecera" [src]="imagenCabecera" [ngClass]="setBackGroundColorByImage(imagenCabecera)" class="bus-img" alt="Mi Imagen" />
 <div class="container" [ngClass]="{'not-logged-in': !authServiceAux.isAuthenticated()}" id="contenedorPrincipal">
   <router-outlet></router-outlet>
 </div>

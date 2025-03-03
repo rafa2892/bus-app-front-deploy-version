@@ -139,10 +139,9 @@ export class ListaConductoresComponent {
     }
 
   resetearEstilos() {
-    // Aplica la clase 'nuevo-conductor' para el conductor recién creado
     setTimeout(() => {
-      this.newConductorId = 0; // Esto elimina la clase 'nuevo-conductor' después de la animación
-    }, 4000); // 3 segundos de duración
+      this.globalService.cleanUrlNewEntityStyle('newConductorId');
+    }, 1500); // 3 segundos de duración
   }
 
   ordenarLista() {

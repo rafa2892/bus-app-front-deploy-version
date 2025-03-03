@@ -251,9 +251,12 @@ export class ListaViajesComponent {
 
       const texto = `
       <div class="prueba" style="margin-bottom: -1px;"><strong>Servicio num:</strong> ${viaje.id}</div><br>
-      <div style="margin-bottom: -1px;"><strong>Salida:</strong> ${viaje.ruta.ciudadOrigen}</div><br>
-      <div style="margin-bottom: -1px;"><strong>Destino:</strong> ${viaje.ruta.ciudadDestino}</div><br>
-      <div style="margin-bottom: -1px;"><strong>Vehículo Num Unidad:</strong> ${viaje.carro.numeroUnidad}</div><br>
+      <div><strong>Salida:</strong> ${viaje.ruta.estadoOrigen}, ${viaje.ruta.ciudadOrigen}</div><br>
+      <div><strong>Destino:</strong> ${viaje.ruta.estadoDestino}, ${viaje.ruta.ciudadDestino}</div><br>
+
+      <div style="margin-bottom: -1px;"><strong>Vehículo Num Unidad:</strong> 
+          ${this.globalUtilsService.getNumeroUnidadFormateado(viaje.carro.numeroUnidad)}</div><br>
+          
       <div style="margin-bottom: -1px;"><strong>Conductor:</strong> ${nombreConductorAux}</div>
     `;
 

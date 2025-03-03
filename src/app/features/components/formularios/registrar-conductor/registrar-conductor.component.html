@@ -26,6 +26,7 @@
                     <label for="nombreConductor" class="label-input">{{NOMBRES_LABEL}}</label>
                     <div id="nombreConductor" class="d-flex">
                         <input type="text" matInput
+                        oninput="this.value = this.value.toUpperCase()"
                         [(ngModel)]="nuevoConductor.nombre"
                         [disabled]="isDesdeDetalles" 
                         name="nombre-conductor"
