@@ -9,6 +9,9 @@
   })
   export class GlobalUtilsService {
 
+    // Tooltip init flag
+    isToolTipActive : boolean = false;
+
     constructor(
       private _snackBar: MatSnackBar,
       private router: Router, ) { }
@@ -97,20 +100,10 @@
     return '';  
   }
 
-  // buildCustomsToolTipBS() {
-  //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-  //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-  //     const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
-  //       delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
-  //     });
-  //     // Guardar el tooltip en una propiedad para poder eliminarlo más tarde
-  //     tooltipTriggerEl.tooltipInstance = tooltip;
-  //   });
-  // }
 
   buildCustomsToolTipBS() {
+    this.isToolTipActive = true;
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    
     tooltipTriggerList.map(function (tooltipTriggerEl: any) {
       const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
         trigger: 'hover',  // Esto asegura que solo se active por hover
@@ -120,16 +113,35 @@
       tooltipTriggerEl.tooltipInstance = tooltip;
     });
   }
-  
+
   disposeCustomTooltips() {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-      const tooltip = tooltipTriggerEl.tooltipInstance;
-      if (tooltip) {
-        tooltip.dispose();  // Elimina el tooltip
-      }
-    });
+
+  if(this.isToolTipActive) {
+      const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      if(tooltipTriggerList) {
+      tooltipTriggerList.forEach((tooltipTriggerEl: any) => {
+        if (tooltipTriggerEl && tooltipTriggerEl.tooltipInstance) {
+          const tooltip = tooltipTriggerEl.tooltipInstance;
+          tooltip.dispose();  // Elimina el tooltip
+        }
+      });
+    }
+    this.isToolTipActive = false;
   }
+}
+  
+  // disposeCustomTooltips() {
+  //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
+  //     const tooltip = tooltipTriggerEl.tooltipInstance;
+
+  //     if (tooltip) {
+  //       tooltip.dispose();  // Elimina el tooltip
+  //     }
+
+
+  //   });
+  // }
 
   abrirModalProgramatico(idModal: string) {
     let modal = new bootstrap.Modal(document.getElementById(idModal!));

@@ -27,9 +27,7 @@ declare var bootstrap: any;
     export class RegistrarCarroComponent  implements OnInit {
 
     carroForm: FormGroup;
-    step: number =  1;
-
-    
+    step: number =  4;
 
     selectedFilesWithId: FileWithId[] = [];
 
@@ -142,8 +140,6 @@ declare var bootstrap: any;
     inicializateCarroForm(fb: FormBuilder) {
       this.carroForm = this.fb.group({
         carro: this.fb.group({
-
-          
           id:[null],
           marca: [null, Validators.required],
           modelo: [null, Validators.required],

@@ -9,6 +9,21 @@ body {
   background-color: #32383f;
 }
 
+* {
+  caret-color: transparent; /* Oculta el cursor globalmente */
+}
+
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="search"], 
+input[type="url"], 
+input[type="tel"], 
+input[type="number"], 
+textarea {
+  caret-color: white; /* Muestra el cursor solo en inputs de texto y textareas */
+}
+
 .defaultSizeInput {
     width: auto;
     margin-bottom: 5%;
@@ -536,4 +551,11 @@ button.btn-filter.btn, button.btn-reset-filter.btn{
   }
 
    /* END FADE-OUT STYLE WHEN NEW ENTITY IS SAVED */
+   
+  
+  .trasp-caret {
+    caret-color: transparent !important;
+   }
+  
+
 

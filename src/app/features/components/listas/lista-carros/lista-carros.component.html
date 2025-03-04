@@ -5,10 +5,18 @@
       <p class="text-white mt-2">Cargando plantilla de conductores/empleados...</p>
     </div>
 
-    
-      <div class="d-flex titulo-btn-container">
-        <div class="addNewCarBton">
-          <button 
+    <div *ngIf="!isModalMode" class="d-flex justify-content-end  re-position">  
+      <button type="button" class="btn btn-excel" data-bs-toggle="dropdown" (click)="descargarExcel()">
+        <span>
+          <img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size"> Exportar excel
+        </span>
+      </button>
+    </div>
+
+    <div class="d-flex gap-5 align-items-center contenedor">
+
+      <div *ngIf="!isModalMode" class="addNewCarBton">
+        <button 
           id="botonDetails"
           class="btn btn-primary btn-styles"
           type="button" 
@@ -23,51 +31,105 @@
         </button>
       </div>
 
-
-      <div class="filtrosContenedor" id="filtrosContenedor">
-        <div class="d-flex gap-3">
-          <div class="d-flex gap-5 separador">
-            <div class="g-3 align-items-center" id="busquedaId">
-              <div class="">
-                <label for="marca" class="col-form-label">Marca</label>
-              </div>
-              <div class="">
-                <input type="text" id="marca" class="form-control input-custom-style normalSizeInput" aria-describedby="passwordHelpInline" 
-                [(ngModel)]="marca" (input)="onInputChangeBrandFilter()"  >
-              </div>
-            </div>
-            <div class="g-3 align-items-center">
-              <div class="">
-                <label for="modelo" class="col-form-label">Modelo</label>
-              </div>
-              <div class="o">
-                <input type="text" id="modelo" class="form-control input-custom-style normalSizeInput" aria-describedby="passwordHelpInline" 
-                [(ngModel)]="modelo" (input)="onInputChangeBrandFilter()">
-              </div>
-            </div>
-            <div class="g-3 align-items-center">
-              <div class="">
-                <label for="modelo" class="col-form-label">Año</label>
-              </div>
-              <div class="">
-                <input 
-                  type="text" 
-                  id="anyo" 
-                  class="form-control input-custom-style number-input-custom-font" 
-                  aria-describedby="passwordHelpInline"
-                  maxlength="4" 
-                  [(ngModel)]="anyo" 
-                  appOnlyNumber 
-                  (blur)="onBlurAnyo('anyo')"
-                  (input)="onInputChangeBrandFilter()">
-              </div>
-            </div>
+      <div class="filtros-inputs d-flex gap-5 ms-auto mr">
+        <div class="selector-order-by mb-2">
+          <div>
+            <label for="marca" class="col-form-label">Ordenar por</label>
           </div>
-          <div class="num-uni-container" id="busquedaId">
-              <label for="numeroUnidad" class="col-form-label">Numero Unidad</label>
-            <div class="d-flex align-items-center">
-              <span style="color: beige; margin-right: 0.5em; font-weight: bold;"> UN-</span>
-              <input  
+        <div class="btn-group">
+          <button 
+            type="button" 
+            class="btn btn-ordenar"
+            (click)="defaultOrderBy()" 
+            data-bs-toggle="tooltip" 
+            data-bs-toggle="dropdown"
+            data-bs-placement="bottom">
+            <span>
+              <img src="assets/order-by-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size">
+            </span>
+            <span style="font-size: 12px;">
+              {{getTitleOrderBy()}}
+            </span>
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-ordenar dropdown-toggle dropdown-toggle-split" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
+            data-bs-original-title="Ordenar por"
+            data-bs-placement="bottom">
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" (click)="setSortBy('numeroUnidad-asc')">Num Unidad (menor a mayor)</a></li>
+            <li><a class="dropdown-item" (click)="setSortBy('numeroUnidad-desc')">Num Unidad (mayor a menor)</a></li>
+
+            <li><a class="dropdown-item" (click)="setSortBy('marca-asc')">Ordenar por marca (A → Z)</a></li>
+            <li><a class="dropdown-item" (click)="setSortBy('marca-desc')">Ordenar por marca (Z → A)</a></li>
+            
+            <li><a class="dropdown-item" (click)="setSortBy('modelo-asc')">Ordenar por modelo (A → Z)</a></li>
+            <li><a class="dropdown-item" (click)="setSortBy('modelo-desc')">Ordenar por modelo (Z → A)</a></li>
+
+            <li><a class="dropdown-item" (click)="setSortBy('anyo-desc')">Año más nuevos</a></li>
+            <li><a class="dropdown-item" (click)="setSortBy('anyo-asc')">Año más viejos</a></li>
+
+            <li><a class="dropdown-item" (click)="setSortBy('fechaAlta-asc')">Fecha alta (más viejo)</a></li>
+            <li><a class="dropdown-item" (click)="setSortBy('fechaAlta-desc')">Fecha alta (más recientes)</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item">Salir</a></li>
+          </ul>
+        </div>
+      </div>
+        <div class="g-3 align-items-center" id="busquedaId">
+          <div class="">
+            <label for="marca" class="col-form-label">Marca</label>
+          </div>
+          <div class="">
+            <input 
+              id="marca" 
+              type="text" 
+              class="form-control input-custom-style normalSizeInput" 
+              aria-describedby="passwordHelpInline" 
+              (input)="onInputChange()"
+              [(ngModel)]="marca">
+          </div>
+        </div>
+        <div class="g-3 align-items-center">
+          <div class="">
+            <label for="modelo" class="col-form-label">Modelo</label>
+          </div>
+          <div class="o">
+            <input 
+              id="modelo" 
+              type="text"  
+              class="form-control input-custom-style normalSizeInput" 
+              aria-describedby="passwordHelpInline" 
+              [(ngModel)]="modelo"
+              (input)="onInputChange()">
+          </div>
+        </div>
+        <div class="g-3 align-items-center">
+          <div class="">
+            <label for="modelo" class="col-form-label">Año</label>
+          </div>
+          <div class="">
+            <input 
+              id="anyo" 
+              type="text" 
+              class="form-control input-custom-style number-input-custom-font" 
+              aria-describedby="passwordHelpInline"
+              maxlength="4" 
+              [(ngModel)]="anyo" 
+              appOnlyNumber 
+              (blur)="onBlurAnyo('anyo')"
+              (input)="onInputChange()">
+          </div>
+        </div>
+        <div class="" id="busquedaId">
+            <label for="numeroUnidad" class="col-form-label">Numero Unidad</label>
+          <div class="d-flex align-items-center">
+            <span style="color: beige; margin-right: 0.5em; font-weight: bold;"> UN-</span>
+            <input  
               type="text" 
               id="numeroUnidad" 
               class="form-control input-custom-style number-input-custom-font" 
@@ -75,48 +137,52 @@
               maxlength="3"
               [(ngModel)]="numeroUnidad"
               (blur)="onBlurNumeroUnidad('numeroUnidad')" 
-              (input)="onInputChangeNumeroUnidad()" 
+              (input)="onInputChange()"
               appOnlyNumber>
-            </div>
+              <button 
+              class="btn btn-reset custom-position ml" 
+              (click)="resetFilters()"
+              data-bs-toggle="tooltip" 
+              data-bs-placement="top"
+              [attr.data-bs-original-title]="RESET_FILTER">
+                <span>
+                  <img id="img"src="assets/restore-icon.png" alt="Intercambiar" class="default-img-icon-size">
+                </span>
+            </button>
           </div>
         </div>
       </div>
-      <div class="ms-auto mb-5">
-        <button type="button" class="btn btn-excel" data-bs-toggle="dropdown" (click)="descargarExcel()">
-          <span>
-            <img src="assets/excel-icon.png" id="img" alt="Intercambiar"  class="default-img-icon-size"> Exportar excel
-          </span>
-        </button>
-      </div>
-  </div>
+    </div>
+
   <div class="listaVehiculoContainer">
     <table class="table table-striped table-sm">
       <thead class="table-dark">
       <tr>
         <th class="text-center">Num.Unidad</th>
+        <th class="text-center">Marca</th>
         <th class="text-center">Modelo</th>
         <th class="text-center">Tipo Vehiculo</th>
         <th class="text-center">Año</th>
         <th class="text-center" style="font-size: 12px;">Consumo Medio</th>
-        <th class="text-center">Acciones</th>
+        <th class="text-center">Fecha alta</th>
+        <th class="text-center">{{isModalMode ? 'Seleccionar' : 'Acciones' }}</th>
       </tr>
       </thead>
       <tbody class="table-dark">
       <tr 
-        *ngFor="let carro of carrosFiltrados | paginate: {itemsPerPage: itemsPerPage, currentPage: p, id:'carros'}"
-        [ngClass]="{'resaltado': newCarId !== 0 && carro.id === newCarId }">
+        *ngFor="let carro of carrosFiltrados | paginate: {itemsPerPage: itemsPerPage, currentPage: p, totalItems: totalItems, id:'carros'}"
+        [ngClass]="{ 'resaltado': newCarId !== 0 && carro.id === newCarId }">
         <td class="text-center">
           <button 
                 type="button" 
                 (click)="detallesVehiculo(carro)" 
                 class="btn btn-sm botonesAccion"
                 data-bs-toggle="tooltip" 
-                data-bs-placement="bottom"
-                data-bs-toggle="modal" 
-                data-bs-target="#card-bus-detail">
+                data-bs-placement="bottom">
               <span 
                 id="numUnidad" 
                 class="font-color-num-unidad"  
+                [ngClass]="orderBy.includes('numeroUnidad') ? 'highlight-blue-text' : '' "
                 data-bs-toggle="tooltip" 
                 data-bs-placement="bottom"
                 data-bs-original-title="Ver detalles unidad">
@@ -124,11 +190,33 @@
             </span>
           </button>
         </td>
-        <td class="text-center">{{carro.marca + ' ' + carro.modelo | uppercase}}</td>
+        <td class="text-center">
+          <span [ngClass]="orderBy.includes('marca') ? 'highlight-blue-text' : '' ">{{carro.marca | uppercase}}</span> 
+        </td>
+        <td class="text-center">
+          <span [ngClass]="orderBy.includes('modelo') ? 'highlight-blue-text' : '' ">{{carro.modelo | uppercase}}</span>
+        </td>
         <td class="text-center">{{carro.tipoVehiculo}}</td>
-        <td class="text-center">{{carro.anyo}}</td>
+        <td class="text-center"><span [ngClass]="orderBy.includes('anyo') ? 'highlight-blue-text' : '' "  >{{carro.anyo}}</span></td>
         <td class="text-center">{{carro.consumo}}</td>
-        <td>
+        <td class="text-center"><span  [ngClass]="orderBy.includes('fechaAlta') ? 'highlight-blue-text' : '' ">{{getStringDate(carro.fechaAlta)}}</span></td>
+
+        <td *ngIf="isModalMode">
+            <button 
+              type="button"
+              title="Seleccionar" 
+              id="botonSelect" 
+              data-bs-dismiss="modal" 
+              data-bs-toggle="tooltip" 
+              data-bs-placement="bottom"
+              data-bs-original-title="Seleccionar"
+              (click)="seleccionar(carro)" 
+              class="btn btn-success small-button botonesAccion btn-sm">
+              <fa-icon class="selectIcon" [icon]="selectIcon"></fa-icon>
+            </button>
+        </td>
+
+        <td *ngIf="!isModalMode">
           <button 
             (click)="detallesVehiculo(carro)" 
             class="btn btn-primary botonesAccion btn-sm">

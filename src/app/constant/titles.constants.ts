@@ -22,8 +22,8 @@ export const TITLES = {
     LAST_NAMES : 'Apellidos',
     
     //LISTA CONDUCTORES
-    DEFAULT_ORDER_BY : 'apellido-asc',
-    SORTER_BY : new Map<string, string>([
+    DRIVER_DEFAULT_ORDER_BY : 'fechaAlta-desc',
+    SORTER_BY_DRIVERS : new Map<string, string>([
       ['nombre-asc', 'Nombre (A → Z)'],
       ['nombre-desc', 'Nombre (Z → A)'],
       ['apellido-asc', 'Apellido (A → Z)'],
@@ -31,6 +31,31 @@ export const TITLES = {
       ['fechaAlta-desc', 'Fecha alta (Recientes)'],
       ['fechaAlta-asc', 'Fecha alta (Antiguos)'],
     ]),
+
+    NEW_DRIVER_SUCCESSFUL_SAVED_MSJ : "Conductor registrado con éxito",
+
+    //lISTA CARROS
+    CAR_DEFAULT_ORDER_BY_DATE : 'fechaAlta-desc',
+    SORTER_BY_CARS : new Map<string, string>([
+
+      ['numeroUnidad-asc', 'Num uni. Menor a mayor'],
+      ['numeroUnidad-desc', 'Num uni.  Mayor a menor'],
+
+      ['marca-asc', 'Marca (A → Z)'],
+      ['marca-desc', 'Marca (Z → A)'],
+
+      ['modelo-asc', 'Modelo (A → Z)'],
+      ['modelo-desc', 'Modelo (Z → A)'],
+
+      ['anyo-asc', 'Año (Más recientes)'],
+      ['anyo-desc', 'Año (Más nuevos)'],
+
+      ['fechaAlta-asc', 'Fecha alta (Antiguos)'],
+      ['fechaAlta-desc', 'Fecha alta (Recientes)'],
+    ]),
+
+    NEW_CAR_SUCCESSFUL_SAVED_MSJ : "Vehículo guardado con éxito.",
+    
 
 
     //GENERALES
@@ -99,7 +124,6 @@ export const TITLES = {
     EXCEL_EXPORT_VIAJES_TYPE_TODAY : 'hoy',
     EXCEL_EXPORT_VIAJES_TYPE_YESTERDAY : 'ayer',
 
-
     //Lista historial
     ERROR_NOT_REGISTERS_FOUND: 'No se han encontrado registros para las fechas introducidas',
     ERROR_NOT_DATES_SUBMIT: 'Para filtrar por fecha(s), tiene que al menos introducir una fecha o ambas.',
@@ -108,9 +132,4 @@ export const TITLES = {
     EDIT_HISTORIAL : 'Editar historial',
     DELETE_HISTORIAL : 'Editar historial',
     ADD_HISTORIAL : 'Añadir historial'
-  
-
-
-    
-
   };

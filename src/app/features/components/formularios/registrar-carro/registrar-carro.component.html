@@ -51,6 +51,7 @@
                     <label for="carro-numero-unidad">Núm Unidad:</label>
                     <div class="d-flex gap-2">
                         <input 
+                            type="text"
                             id="carro-numero-unidad" 
                             appOnlyNumber
                             maxlength="3"
@@ -96,6 +97,7 @@
                     <label class="label-input" for="carro-marca">Marca:</label>
                     <div class="d-flex gap-2">
                         <input
+                            type="text"
                             id="carro-marca"
                             formControlName="marca"
                             placeholder="Ingrese marca"
@@ -112,10 +114,10 @@
                     <div class="d-flex gap-2">
                         <input 
                             id="carro-anyo"
+                            type="text"
                             appOnlyNumber
                             formControlName="anyo"
                             placeholder="Año"
-                            type="text"
                             class="number-input-custom-style year-input"
                             [ngClass]="{'input-error': camposFaltantes.includes('carro-anyo')}"
                             maxlength="4"
@@ -159,7 +161,7 @@
                 <h2>Información de la Batería</h2>
                 <div class="d-flex align-items-start gap-5 separador">
                     <div class="form-group">
-                        <label for="marca-bateria">Marca:</label>
+                        <label for="marca-bateria">Marca Batería:</label>
                         <input type="text" class="form-control" id="marca-bateria"  formControlName="marca" aria-describedby="emailHelp" placeholder="Ingrese Marca" >
                     </div>
                     <div class="form-group text-area-position">
@@ -168,12 +170,12 @@
                     </div>
                 </div>
                 <div>
-                    <label for="modelo">Modelo:</label>
-                    <input id="modelo" formControlName="modelo" placeholder="Modelo" />
+                    <label for="modelo">Modelo Batería:</label>
+                    <input id="modelo"  type="text" formControlName="modelo" placeholder="Modelo" />
                 </div>
                 <div>
                     <label for="capacidad">Capacidad:</label>
-                    <input id="capacidad" appOnlyNumber class="form-control number-input-custom-style" formControlName="capacidad" placeholder="Watts" type="text" />
+                    <input id="capacidad"  type="text" appOnlyNumber class="form-control number-input-custom-style" formControlName="capacidad" placeholder="Watts" type="text" />
                 </div> 
             </div>
         </div>
@@ -255,16 +257,16 @@
                 <div class="d-flex align-items-start gap-5 separador">
                     <div class="form-group">
                         <label for="aseguradora">Aseguradora:</label>
-                        <input id="aseguradora" class="form-control" formControlName="aseguradora" placeholder="Ingrese la aseguradora" />
+                        <input id="aseguradora" type="text" class="form-control" formControlName="aseguradora" placeholder="Ingrese la aseguradora" />
                     </div>
                     <div class="form-group margin-left-5em">
                         <label for="poliza">Póliza Num:</label>
-                        <input id="poliza" formControlName="poliza" style="width: 7em;" placeholder="Num. Póliza" />
+                        <input id="poliza" type="text" formControlName="poliza" style="width: 7em;" placeholder="Num. Póliza" />
                     </div>
                 </div>
                 <div class="form-group mt-3">
                     <label for="cobertura">Cobertura:</label>
-                    <input id="cobertura" formControlName="cobertura" placeholder="Ingrese la cobertura" />
+                    <input id="cobertura" type="text" formControlName="cobertura" placeholder="Ingrese la cobertura" />
                 </div>
                 <div class="d-flex gap-5 separador">
                     <div class="form-group">

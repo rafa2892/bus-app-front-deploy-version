@@ -1,10 +1,8 @@
 import { Component, NgZone, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { TITLES } from '../../../../constant/titles.constants';
 import { Carro } from '../../../../core/models/carro';
@@ -117,10 +115,6 @@ export class RegistrarViajeComponent {
 
 
     ngOnInit(): void {
-
-      this.obtenerListaCarro();
-      this.obtenerListaConductores();
-      
       // Obtener el parámetro 'id' de la URL de haber uno
       const id = +this.route.snapshot.paramMap.get('id')!;
       if(id) {
@@ -258,22 +252,6 @@ export class RegistrarViajeComponent {
       });
     }
 
-    private obtenerListaConductores () {
-      this.conductorService.obtenerListaConductores().subscribe(dato => {
-        this.conductoresOrdenados = [...dato].sort((a, b) => {
-          if (a.nombre.toLowerCase() < b.nombre.toLowerCase()) {
-            return -1;
-          }
-          if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) {
-            return 1;
-          }
-          return 0;
-        });
-        this.conductores = this.conductoresOrdenados;
-        this.conductoresAutoCompleteFilters = this.conductoresOrdenados;
-      });
-    }
-
     resetearEstilosAlseleccionar(idElemento:string) {
       let element = document.getElementById(idElemento);
         if (element != null) {
@@ -295,59 +273,41 @@ export class RegistrarViajeComponent {
       return this.globalUtilsService.getNumeroUnidadFormateado(numeroUnidad);
     }
 
-    private isConductor(object: any): boolean {
-      return object && typeof object === 'object' &&
-        'nombre' in object && typeof object.nombre === 'string' &&
-        'apellido' in object && typeof object.apellido === 'string' &&
-        'id' in object && typeof object.id === 'number';
-    }
-
-    private isVehiculo(object: any): boolean {
-      return object && typeof object === 'object' &&
-        'id' in object && typeof object.id === 'number' &&
-        'modelo' in object && typeof object.modelo === 'string' &&
-        'anyo' in object && typeof object.anyo === 'number' &&
-        'consumo' in object && typeof object.consumo === 'number' &&
-        'numeroUnidad' in object && typeof object.numeroUnidad === 'number' &&
-        'marca' in object && typeof object.marca === 'string' &&
-        'modelo' in object && typeof object.modelo === 'string';
-    }
-
     async validarDatos(): Promise<boolean> {
 
       this.formSubmitted = true;
       this.errorVali = false;
 
       // Validar conductor
-      if (!this.isConductor(this.selectedConductor) || this.selectedConductor === '') {
-        this.selectedConductor = '';
-        this.conductorError = true;
-        this.errorVali = true;
-        const autoCompleteConductor = document.getElementById('autoCompleteConductor');
-        if (autoCompleteConductor) {
-          autoCompleteConductor.classList.remove('errorValInput');
-          setTimeout(() => {
-            autoCompleteConductor.classList.add('errorValInput');
-          });
+      if(!this.selectedConductor) {
+          this.selectedConductor = '';
+          this.conductorError = true;
+          this.errorVali = true;
+          const autoCompleteConductor = document.getElementById('autoCompleteConductor');
+          if (autoCompleteConductor) {
+            autoCompleteConductor.classList.remove('errorValInput');
+            setTimeout(() => {
+              autoCompleteConductor.classList.add('errorValInput');
+            });
+          }
         }
-      }
-
       // Validar vehículo
-      if (!this.isVehiculo(this.selectedVehiculo) || this.selectedVehiculo === '') {
-        this.selectedVehiculo = '';
-        this.vehiculoError = true;
-        this.errorVali = true;
-        const autoCompleteCarro = document.getElementById('autoCompleteCarro');
-        if (autoCompleteCarro) {
-          autoCompleteCarro.classList.remove('errorValInput');
-          setTimeout(() => {
-            autoCompleteCarro.classList.add('errorValInput');
-          });
+      if (!this.selectedVehiculo) {
+          this.selectedVehiculo = '';
+          this.vehiculoError = true;
+          this.errorVali = true;
+          const autoCompleteCarro = document.getElementById('autoCompleteCarro');
+          if (autoCompleteCarro) {
+            autoCompleteCarro.classList.remove('errorValInput');
+            setTimeout(() => {
+              autoCompleteCarro.classList.add('errorValInput');
+            });
+          }
         }
-      }
 
       // Validar dirección de salida
-      if (this.direccionSalida === '') {
+      if (!this.direccionSalida) {
+        this.errorVali = true;
         const elemento = document.getElementById('direccion-desde');
         if (elemento) {
           elemento.classList.add('input-error-blink');
@@ -355,7 +315,8 @@ export class RegistrarViajeComponent {
       }
 
       // Validar dirección de destino
-      if (this.direccionDestino === '') {
+      if (!this.direccionDestino) {
+        this.errorVali = true;
         const elemento = document.getElementById('direccion-destino');
         if (elemento) {
           elemento.classList.add('input-error-blink');
@@ -363,7 +324,8 @@ export class RegistrarViajeComponent {
       }
 
       // Validar nombre de la empresa
-      if (this.nombreEmpresaServicio === '') {
+      if (!this.nombreEmpresaServicio) {
+        this.errorVali = true;
         const elemento = document.getElementById('nombre-empresa-servicio');
         if (elemento) {
           elemento.classList.add('input-error-blink');
@@ -476,12 +438,6 @@ export class RegistrarViajeComponent {
           }
     }
 
-    private obtenerListaCarro () {
-      this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
-      this.carros = dato;
-      this.cargarListasFiltrosCarro();
-      });
-    }
 
     irListaViaje(newViajeId?:number) {
       this.router.navigate(['/lista-viajes'], {
@@ -496,6 +452,7 @@ export class RegistrarViajeComponent {
     mostrarConductorSelect(conductor:Conductor){
       return conductor.id === 0 ? conductor.nombre : conductor.nombre + ' ' + conductor.apellido;
     }
+
     seleccionarCarro(carroSeleccionado:Carro) {
       this.selectedVehiculo = carroSeleccionado;
     }
@@ -525,11 +482,9 @@ export class RegistrarViajeComponent {
   }
 
   filtrarAutocompletarCarro(carro:Carro) {
-    if(  this.selectedVehiculo === undefined
-      || this.selectedVehiculo === null
-      || this.selectedVehiculo === '') {
+    if(this.selectedVehiculo) {
           this.vehiculosAutoCompleteFilters = this.carros;
-      } else {
+    }else {
       const filtro = this.selectedVehiculo.toLowerCase();
       this.vehiculosAutoCompleteFilters = this.carros.filter(c => {
       const modelo_completo = (c.marca + ' ' + c.modelo).toLowerCase();
@@ -554,10 +509,6 @@ export class RegistrarViajeComponent {
   }
 
   onInputBlur() {
-    if(!this.isConductor(this.selectedConductor))
-        this.selectedConductor = '';
-    else
-      return;
   }
 
   onFocusEventConductor() {
@@ -567,7 +518,6 @@ export class RegistrarViajeComponent {
   onFocusEventVehiculo() {
     this.vehiculoError = false;
   }
-
 
   onOptionSelectedConductor(event: MatAutocompleteSelectedEvent) {
     let element = document.getElementById('autoCompleteConductor');
@@ -734,162 +684,10 @@ export class RegistrarViajeComponent {
 
     // Establecer el valor en el campo de entrada
     event.target.value = this.duracion;
-}
+  }
 
+  openSelectionModal(modalId:string) {
+    this.globalUtilsService.abrirModalProgramatico(modalId);
+  }
 
-
-
-// onOptionSelectedDestino(event: MatAutocompleteSelectedEvent) {
-//   let element = document.getElementById('autoCompleteRutaDestino');
-//   if (element != null) {
-//     element.classList.remove('errorValInput');
-//   }
-// }
-
-
-
-// displayRutaDesde(rutaDesde: any): string {
-//   return rutaDesde ? `${rutaDesde.origen}` : '';
-// }
-
-// displayRutaHasta(rutaDestino: any): string {
-//   return rutaDestino ? `${rutaDestino.destino}` : '';
-// }
-
-// if(!this.isRuta(this.origen) || (this.origen === '')){
-      //   this.origen = ''  ;
-      //   this.destino = '';
-      //   this.rutaErrorOrigen = true;
-      //   this.errorVali = true;
-
-      //   const autoCompleteRutaOrigen = document.getElementById('autoCompleteRutaOrigen');
-      //   if(autoCompleteRutaOrigen) {
-      //     autoCompleteRutaOrigen.classList.remove('errorValInput');
-      //     setTimeout(() => {
-      //       autoCompleteRutaOrigen.classList.add('errorValInput');
-      //     });
-      //   }
-      // }
-
-      // if(!this.isRuta(this.destino) || (this.destino === '')){
-      //   this.origen = ''  ;
-      //   this.destino = '';
-      //   this.rutaErrorDestino = true;
-      //   this.errorVali = true;
-      //   const autoCompleteRutaDestino = document.getElementById('autoCompleteRutaDestino');
-      //   if(autoCompleteRutaDestino) {
-      //     autoCompleteRutaDestino.classList.remove('errorValInput');
-      //     setTimeout(() => {
-      //       autoCompleteRutaDestino.classList.add('errorValInput');
-      //     });
-      //   }
-      // }
-
-      // else if(!this.errorVali) {
-      //   this.getRuta();
-      //   return true;
-      // }
-
-
-
-  // onInputBlurOrigen() {
-  //   if(!this.origenSelected)
-  //     this.origen = '';
-  // }
-
-  // onFocusEventOrigen() {
-  //   this.rutaErrorOrigen = false;
-  // }
-
-  // onFocusEventODestino() {
-  //   this.rutaErrorDestino = false;
-  // }
-
-  // getDestinosSegunOrigen(): Ruta[]{
-  //   return this.rutasLista.filter(ruta => ruta.origen?.toLowerCase() ===  this.origen.origen?.toLowerCase());
-  // }
-
-
-  // onOptionSelectedOrigen(event: MatAutocompleteSelectedEvent) {
-  //   this.destino = '';
-  //   this.origenSelected = true;
-  //   this.rutasListaDestino = this.getDestinosSegunOrigen();
-
-  // }
-
-  // seleccionarRuta(ruta:Ruta) {
-  //   this.rutaErrorDestino = false;
-  //   this.rutaErrorOrigen = false
-  //   this.ruta = ruta;
-  //   this.destino = ruta;
-  //   this.origen = ruta;
-  // }
-
-    // filtrarAutocompletarRutaOrigen() {
-  //   this.origenSelected = false;
-  //   this.destino = '';
-  //   let  rutasOrigenNoRepetidas =  this.eliminarOrigenesRepetidos(this.rutasLista);
-  //       if(  this.origen === undefined
-  //         || this.origen === null
-  //         || this.origen === '') {
-  //             this.rutaListaOrigen = rutasOrigenNoRepetidas;
-  //         } else {
-  //           const filtro = this.origen.toLowerCase();
-  //           this.rutaListaOrigen = rutasOrigenNoRepetidas.filter(ruta => {
-  //           const origen_ruta = ruta.origen.toLowerCase();
-  //           return origen_ruta.includes(filtro);
-  //       });
-  //     }
-  //   }
-
-  // obtenerListaRutas() {
-  //   this.rutaServicio.obtenerListaRutas().subscribe(dato =>  {
-  //   this.rutasLista = dato;
-  //   // Filtrar y eliminar rutas con origen repetido
-  //   this.rutaListaOrigen = this.eliminarOrigenesRepetidos(this.rutasLista);
-  //   });
-  // }
-
-  // eliminarOrigenesRepetidos(rutas: Ruta[]): Ruta[] {
-  //   // Crear un mapa para almacenar el primer origen encontrado de cada ruta
-  //   const mapaOrigenes = new Map<string, Ruta>();
-
-  //   // Filtrar y guardar las rutas únicas por origen en el mapa
-  //   rutas.forEach(ruta => {
-  //     if (!mapaOrigenes.has(ruta.origen)) {
-  //       mapaOrigenes.set(ruta.origen, ruta);
-  //     }
-  //   });
-
-  //   // Convertir el mapa de nuevo en un array de rutas
-  //   const rutasUnicas = Array.from(mapaOrigenes.values());
-  //   return rutasUnicas;
-  // }
-
-//   getRuta() {
-//     const foundRuta = this.rutasLista.find(ruta => {
-//     const origenComparator = this.origen.origen.toLowerCase();
-//     const destinoComparator = this.destino.destino.toLowerCase();
-//     const origen = ruta.origen.toLowerCase();
-//     const destino = ruta.destino.toLowerCase();
-//     return origen === origenComparator && destino === destinoComparator;
-// });
-
-// if (foundRuta) {
-//     this.ruta = foundRuta;
-//     this.viaje.ruta = this.ruta;
-// } else {
-//     // Handle the case where the route is not found, for example:
-//     console.error('Route not found.'); // Display an error message
-//     // You might also set this.ruta to null or perform other actions.
-// }
-// }
-
-// private isRuta(object: any): boolean {
-//   return object && typeof object === 'object' &&
-//     'id' in object && typeof object.id === 'number' &&
-//     'origen' in object && typeof object.origen === 'string' &&
-//     'destino' in object && typeof object.destino === 'string' &&
-//     'distancia' in object && typeof object.distancia === 'string';
-// }
 }

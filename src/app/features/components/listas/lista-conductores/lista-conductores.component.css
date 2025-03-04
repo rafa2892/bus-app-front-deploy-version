@@ -19,11 +19,6 @@
 .nuevo-conductor {
   background-color: #d3f8d3; /* Color de fondo suave para el conductor nuevo */
   border: 2px solid #4caf50; /* Borde verde */
-}
-
-.nuevo-conductor {
-  background-color: #d3f8d3; /* Color de fondo suave para el conductor nuevo */
-  border: 2px solid #4caf50; /* Borde verde */
   animation: fadeOut 3s forwards; /* La animación dura 3 segundos y luego se mantiene */
 }
 
@@ -137,6 +132,15 @@
   color: #60a4fd;
   font-weight: bold;
   font-style: italic;
+}
+
+.ml  {
+  margin-left: -5em;
+    margin-right: 4em;
+}
+
+.mw {
+  min-width: 10em;
 }
 
 

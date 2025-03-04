@@ -123,14 +123,16 @@
             </div>   
         </div>
         <div class="row mt-4">
-            <div id="seleccionaConductor" class="col-lg-5  border-custom-color">
+            <div id="seleccionaConductor" class="col-lg-5  border-custom-color  trasp-caret">
                 <label for="seleccionaConductor" class="label-input d-block">{{SELECCIONA_CONDUCTOR_LABEL}}</label>
                 <div class="d-flex">
                     <mat-form-field appearance="outline" class="custom-mat-field"  id="autoCompleteConductor" [ngClass]="{'errorValInput': formSubmitted && conductorError, 
                     'blueBorder': !(formSubmitted && conductorError)}" >
                         <input 
+                            disabled="true"
                             autocomplete="off"
                             type="text" 
+                            style="border-color: red !important;"
                             matInput
                             id="inputSeleccionaConductor"
                             placeholder="Ingresa nombre del conductor" 
@@ -140,7 +142,7 @@
                             (input)="filtrarAutocompletarConductor(selectedConductor)"
                             (blur)="onInputBlur()"
                             (focus)="onFocusEventConductor()"
-                            class="estilosTamanioInputs">
+                            class="estilosTamanioInputs trasp-caret">
                         <mat-autocomplete #autoConductor="matAutocomplete" [displayWith]="displayConductor" panelPlacement="bottom" (optionSelected)="onOptionSelectedConductor($event)">
                         <mat-option *ngFor="let conductor of conductoresAutoCompleteFilters" [value]="conductor">
                             <span class="font-size-mid bold-font">
@@ -149,20 +151,21 @@
                         </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
-                    <a class="btn btn-outline-secondary botonBuscar"  type="button" data-bs-toggle="modal" data-bs-target="#modalConductor"> 
-                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-                    </a>
                     <span class="error-icon">
                         &#8226;
-                    </span>
+                    </span>  
+                    <a class="btn btn-outline-secondary botonBuscar"  type="button" (click)="openSelectionModal('modalConductor')"> 
+                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                    </a>
                 </div>
             </div>
-            <div id="seleccionaVehiculo" class="col-lg-5 seleccionaVehiculoPosition border-custom-color">
+            <div id="seleccionaVehiculo" class="col-lg-5 seleccionaVehiculoPosition border-custom-color trasp-caret">
                 <label for="seleccionaVehiculo" class="label-input d-block">{{SELECCIONA_VEHICULO}}</label>
                 <div class="d-flex">
                     <mat-form-field appearance="outline" class="custom-mat-field-vehiculo"  id="autoCompleteCarro" 
                     [ngClass]="{'errorValInput': formSubmitted && vehiculoError,'blueBorder': !(formSubmitted && vehiculoError)}">
                         <input
+                            disabled="true"
                             autocomplete="off"
                             type="text" 
                             matInput
@@ -174,8 +177,8 @@
                             displayVehiculo
                             (blur)="onInputBlur()"
                             (focus)="onFocusEventVehiculo()"
-                            (input) ="filtrarAutocompletarCarro(selectedVehiculo)" 
-                            class="estilosTamanioInputs">
+                            (input)="filtrarAutocompletarCarro(selectedVehiculo)" 
+                            class="estilosTamanioInputs trasp-caret">
                         <mat-autocomplete #autoVehiculo="matAutocomplete" [displayWith]="displayVehiculo" panelPlacement="bottom" (optionSelected)="onOptionSelectedVehiculo($event)">
                         <mat-option *ngFor="let carro of vehiculosAutoCompleteFilters" [value]="carro">
                             <strong><span class="custom-color-prefijo-unidad">{{getNumeroUnidadFormateado(carro.numeroUnidad)}} </span></strong>
@@ -183,16 +186,16 @@
                                 {{ ' ' + carro.marca + ' ' }}
                                 {{  carro.modelo  | uppercase }}
                             </span>
-                            <span class="italic-font year-style font-size-sm bold-font">{{  carro.anyo }}</span>
+                            <span class="italic-font year-style font-size-sm bold-font">{{ carro.anyo }}</span>
                         </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
-                    <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar" type="button" data-bs-toggle="modal" data-bs-target="#seleccionaVehiculoModal"> 
-                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
-                    </a>
-                    <span class="error-icon">
+                    <span class="error-icon" style="margin-left: 2em;">
                         &#8226;
                     </span>
+                    <a title="Buscar vehiculo" class="btn btn-outline-secondary botonBuscar" type="button" (click)="openSelectionModal('seleccionaVehiculoModal')"> 
+                        <fa-icon class="lupaIcon" [icon]="searchIcon"></fa-icon>
+                    </a>
                 </div>
             </div>
         </div>
@@ -201,9 +204,19 @@
             type="button" 
             (click)="validar()">{{ viaje.id ? EDITAR : GUARDAR}}
         </button>
-        <app-popup-mensaje-confirmar-viaje (confirmarAccion)="manejarConfirmacion()"></app-popup-mensaje-confirmar-viaje>
-        <app-popup-seleccionar-carro></app-popup-seleccionar-carro>
-        <app-popup-seleccionar-conductor [modalModoSeleccionarConductor]="modalModoSeleccionarConductor"></app-popup-seleccionar-conductor>
-        <app-popup-seleccionar-ruta></app-popup-seleccionar-ruta>
+
+
+        <app-popup-mensaje-confirmar-viaje 
+        (confirmarAccion)="manejarConfirmacion()">
+        </app-popup-mensaje-confirmar-viaje>
+
+        <app-popup-seleccionar-carro
+        (selectedCarHandlerFromSon)="seleccionarCarro($event)">
+        </app-popup-seleccionar-carro>
+
+        <app-popup-seleccionar-conductor 
+            [modalModoSeleccionarConductor]="modalModoSeleccionarConductor">
+        </app-popup-seleccionar-conductor>
+
         </form>
     </div>

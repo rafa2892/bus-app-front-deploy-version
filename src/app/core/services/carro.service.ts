@@ -35,8 +35,36 @@ export class CarroService {
     return this.httpClient.get<Carro[]>(`${this.completeURL}`);
   }
 
+  obtenerListaCarroPageable(page?: number, size?: number, orderBy?:string): Observable<any> {
+    const params: any = {};
+
+    if (page) params.page = page;
+    if (size) params.size = size;
+    if (orderBy) params.orderBy = orderBy;
+
+    return this.httpClient.get<Carro[]>(`${this.completeURL}/pageable`, {params});
+  }
+
+  // Método para obtener la lista de conductores con filtros
+    filtrarListaCarroPageable(page?: number, size?: number, marca?: string, modelo?: string, anyo?: string, numeroUnidad?:string, orderBy?:string): Observable<any> {
+
+      const params: any = {};
+  
+      if (page) params.page = page;
+      if (size) params.size = size;
+      if (marca) params.marca = marca;
+      if (modelo) params.modelo = modelo;
+      if (anyo) params.anyo = anyo;
+      if (numeroUnidad) params.numeroUnidad = numeroUnidad;
+      if (orderBy) params.orderBy = orderBy;
+
+      return this.httpClient.get<Carro[]>(`${this.completeURL}/filter-pageable`, { params });
+    }
+    
+
   //Este metodo nos funciona para obtener los listados de carro
   obtenerListaTipoVehiculos():Observable<TipoVehiculo[]> {
+    console.log("ASFSDfsd");
     return this.httpClient.get<TipoVehiculo[]>(`${this.baseUrlTipoVehiculos}`);
   }
 
@@ -61,19 +89,6 @@ export class CarroService {
     return this.httpClient.get<boolean>(`${this.completeURL}/existePDF/${id}`).toPromise();
   }
   
-
-  // existeTituloPropiedadPdfFILE(id: number): Promise<boolean> {
-  //   return new Promise((resolve, reject) => {
-  //     this.httpClient.get<boolean>(`${this.baseUrl}/carros/existePDF/${id}`)
-  //       .subscribe(
-  //         response => resolve(response), // Retorna `true` o `false` según la respuesta del backend
-  //         error => {
-  //           console.error("Error al verificar la existencia del PDF:", error);
-  //           resolve(false); // Retornar `false` en caso de error
-  //         }
-  //       );
-  //   });
-  // }
 
   descargarTituloPropiedad(id: number): void {
     

@@ -124,8 +124,9 @@ input:disabled {
   width: 3em;
 }
 
-.dias-por-vencer {
+.dias-por-vencer #diasPorVencer {
   margin-left: 2em; 
+  min-width: 3.5em;
 }
 
 

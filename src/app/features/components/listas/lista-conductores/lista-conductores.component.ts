@@ -23,7 +23,9 @@ export class ListaConductoresComponent {
     @Input() isModalMode: boolean;
 
     // ID del conductor recién agregado
-    newConductorId: number;
+    newConductorId: number = 0;
+
+
     conductoresLista : Conductor [];
     conductoresListafiltrado : Conductor [];
     nombre : string = '';
@@ -58,9 +60,8 @@ export class ListaConductoresComponent {
     EDIT_DRIVER = TITLES.EDIT_DRIVER;
     DELETE_DRIVER = TITLES.DELETE_DRIVER;
 
-
     //OrderBy variable
-    orderBy = TITLES.DEFAULT_ORDER_BY// default order
+    orderBy = TITLES.DRIVER_DEFAULT_ORDER_BY// default order
 
     // Observable que emitirá los cambios en los filtros
     private searchSubject = new BehaviorSubject<{ nombre: string, apellido: string, dni: string }>({ nombre: '', apellido: '', dni: '' });
@@ -73,22 +74,25 @@ export class ListaConductoresComponent {
       private globalService :GlobalUtilsService ) {
     }
 
-    ngOnInit(): void {
-      this.obtenerConductores(() => {
-        this.route.queryParams.subscribe((params) => {
-          this.newConductorId = Number(params['newConductorId']);
-          if (this.newConductorId) {
-            this.procesarNuevoConductor(this.newConductorId);
-          }
-        });
-      });
+
+    ngOnInit() {
+      const newCarId = this.route.snapshot.queryParams['newConductorId'];
+      if(newCarId) {
+        this.newConductorId = Number(newCarId);
+        this.globalService.getSuccessfullMsj(TITLES.NEW_DRIVER_SUCCESSFUL_SAVED_MSJ);
+      }
+      this.obtenerConductores();
     }
 
     ngAfterViewInit(): void {
-      setTimeout(() => {
-        this.globalService.buildCustomsToolTipBS();
-      },50);
+      this.initToolTip();
     }
+
+
+    initToolTip() {
+      setTimeout(() => this.globalService.buildCustomsToolTipBS(), 50);
+    }
+  
 
     obtenerConductores(callback?: () => void) {
       this.isLoading = true;
@@ -100,10 +104,43 @@ export class ListaConductoresComponent {
         },
         complete: () => {
           if (callback) callback();
-          this.isLoading = false; // Llamamos al callback si existe
         },
         error: (error) => console.error('Error al obtener conductores:', error),
+      }).add(() => {
+        if(this.newConductorId && this.newConductorId > 0) {this.limpiarURL();}
+        this.isLoading = false
+        this.initToolTip();
       });
+    }
+
+    filtrarListaConductoresPageable() {
+      this.searchSubject.next({ nombre: this.nombre, apellido: this.apellido, dni: this.dni });
+      this.isLoading = true;  // Mostrar el loading solo después de la espera
+      this.conductorService.filtrarListaConductoresPageable(
+        this.p - 1, // Paginación funciona desde 0
+        this.itemsPerPage,
+        this.nombre,
+        this.apellido,
+        this.dni,
+        this.orderBy
+      ).subscribe({
+        next: response => {
+          this.isLoading = false;  // Detener el loading después de recibir la respuesta
+          this.conductoresListafiltrado = response.content;
+          this.totalItems = response.totalElements;
+        },
+        error: (err) => {
+          this.isLoading = false; // Detener el loading en caso de error
+          console.error('Error en la suscripción:', err);
+        },
+        complete: () => {
+          this.isLoading = false; // Detener el loading al completar la suscripción
+          console.log('La búsqueda ha finalizado');
+        }
+      }).add(() => {
+        this.isLoading = false
+        this.initToolTip();
+      });;
     }
     
     verDetalles(id:number) {
@@ -129,47 +166,15 @@ export class ListaConductoresComponent {
     }  
 
     irRegistrarConductor() {
+      this.disposeToolTip();
       this.router.navigate(['/registrar-conductor']);
     }
 
-    procesarNuevoConductor(id: number): void {
-      if (!this.conductoresListafiltrado || this.conductoresListafiltrado.length === 0) {
-        console.error('La lista de conductores no está inicializada.');
-        return;
-      }
-
-        // Ordena y asegura que el nuevo conductor esté al principio de la lista
-      const sortedConductores = this.conductoresListafiltrado.sort((a, b) => {
-      if (a.fechaAlta && b.fechaAlta) {
-        return new Date(b.fechaAlta).getTime() - new Date(a.fechaAlta).getTime();
-      }
-      return b.id - a.id;});
-
-      const conductorEncontrado = sortedConductores.find((c) => {
-      return c.id === id;
-    });
-
-    if (conductorEncontrado) {
-      // Mueve el nuevo conductor al inicio de la lista
-      this.conductoresListafiltrado = [
-        conductorEncontrado,
-        ...sortedConductores.filter((c) => c.id !== id),
-      ];
-
-      this.newConductorId = id;
-      this.resetearEstilos();
-      
-    }else {
-      console.error(`Conductor con ID ${id} no encontrado en la lista.`);
-      // En caso de no encontrar el conductor, usa la lista sin modificaciones
-      this.conductoresListafiltrado = [...sortedConductores];
-      }
-    }
-
-  resetearEstilos() {
+  limpiarURL() {
     setTimeout(() => {
       this.globalService.cleanUrlNewEntityStyle('newConductorId');
-    }, 1500); // 3 segundos de duración
+      this.newConductorId = 0; //Resete highlight variable, when new driver is registered
+    }, 2500); // 3 segundos de duración
   }
 
   ordenarLista() {
@@ -235,8 +240,8 @@ export class ListaConductoresComponent {
   } 
 
   editar(conductor:Conductor) {
+    this.disposeToolTip();
     this.router.navigate(['/registrar-conductor', conductor.id]);
-    this.globalService.disposeCustomTooltips();
   }
 
   //NO IMPLEMENTADO
@@ -278,55 +283,30 @@ export class ListaConductoresComponent {
     }, 500); // Espera 500 ms de inactividad antes de ejecutar la llamada
   }
 
-  filtrarListaConductoresPageable() {
-    this.searchSubject.next({ nombre: this.nombre, apellido: this.apellido, dni: this.dni });
-    this.isLoading = true;  // Mostrar el loading solo después de la espera
-    this.conductorService.filtrarListaConductoresPageable(
-      this.p - 1, // Paginación funciona desde 0
-      this.itemsPerPage,
-      this.nombre,
-      this.apellido,
-      this.dni,
-      this.orderBy
-    ).subscribe({
-      next: response => {
-        this.isLoading = false;  // Detener el loading después de recibir la respuesta
-        this.conductoresListafiltrado = response.content;
-        this.totalItems = response.totalElements;
-      },
-      error: (err) => {
-        this.isLoading = false; // Detener el loading en caso de error
-        console.error('Error en la suscripción:', err);
-      },
-      complete: () => {
-        this.isLoading = false; // Detener el loading al completar la suscripción
-        console.log('La búsqueda ha finalizado');
-      }
-    });
-  }
 
   getTitleOrderBy() : string | undefined {
-    return TITLES.SORTER_BY.get(this.orderBy);
+    return TITLES.SORTER_BY_DRIVERS.get(this.orderBy);
   }
 
   sortBy(sortType:string) {
-
     this.orderBy = sortType;
     if(this.nombre || this.apellido || this.dni) {
       this.filtrarListaConductoresPageable();
     }else {
       this.obtenerConductores();
     }
-
-    
   }
 
-  resetFilterByDate() {
+  resetFilters() {
+    if(this.nombre || this.apellido || this.dni) {
+        this.nombre = '';
+        this.apellido = '';
+        this.dni = '';
+        this.obtenerConductores();
+    }
+  }
 
-    this.nombre = '';
-    this.apellido = '';
-    this.dni = '';
-    this.obtenerConductores();
-
+  disposeToolTip() {
+    this.globalService.disposeCustomTooltips();
   }
 }

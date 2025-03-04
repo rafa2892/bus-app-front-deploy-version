@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Optional, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Optional, Output } from '@angular/core';
 import {CarroService} from "../../../../core/services/carro.service";
 import {Carro} from "../../../../core/models/carro";
 import {RegistrarViajeComponent} from "../../formularios/registrar-viaje/registrar-viaje.component";
@@ -26,7 +26,8 @@ export class PopupSeleccionarCarroComponent {
   modalLabel = 'seleccionarVehiculoLabel';
   idModal: string = 'seleccionaVehiculoModal';
 
-  @Output() selectVehiculoHandlerFromSon = new EventEmitter<any>();
+  @Output() selectedCarHandlerFromSon = new EventEmitter<any>();
+ 
 
 
   ngOnInit(): void {
@@ -123,8 +124,8 @@ clearFilters(){
 }
 
 //Datos desde el hijo (Vehiculo seleccionado)
-selectVehiculoHandler(carro:any) {
-  this.selectVehiculoHandlerFromSon.emit(carro);
+selectedCarHandler(carro:any) {
+  this.selectedCarHandlerFromSon.emit(carro);
 }
 
 
