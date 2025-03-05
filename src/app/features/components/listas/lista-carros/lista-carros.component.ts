@@ -12,7 +12,7 @@ import { ViajeServicioService } from '../../../../core/services/viaje-servicio.s
 import { CardBusDetailComponent } from '../../modales/card-bus-detail/card-bus-detail.component';
 import { PopupHistorialVehiculosComponent } from '../../modales/popup-historial-vehiculos/popup-historial-vehiculos.component';
 import { TITLES } from '../../../../constant/titles.constants';
-import { fontAwesomeIcons } from '../../../../../../dist/gestion-contador-frontend-no-standalone/browser/assets/fontawesome-icons';
+import { fontAwesomeIcons } from '../../../../../assets/fontawesome-icons';
 declare var bootstrap: any;
 
 @Component({
