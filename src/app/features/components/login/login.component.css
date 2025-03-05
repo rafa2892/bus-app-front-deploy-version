@@ -17,4 +17,9 @@
     border: 1px solid red; 
     box-shadow: 0 0 5px red; 
   }
-  
+
+input {
+    caret-color: black;
+}
+
+

@@ -556,6 +556,19 @@ button.btn-filter.btn, button.btn-reset-filter.btn{
   .trasp-caret {
     caret-color: transparent !important;
    }
+
+  /* START icon log out confirm modal */ 
+  .icon-logout-container {
+    position: absolute;
+    top: 10px;
+    left: 15px;  /* Cambiamos right por left para moverlo a la izquierda */
+  }
+  
+  .icon-logout-container img {
+    width: 2em;
+  }
+   /* END icon logout styles confirm modal */
+   
   
 
 

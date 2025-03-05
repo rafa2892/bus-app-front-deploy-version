@@ -55,10 +55,20 @@
       }
     }
 
-    async getMensajeConfirmaModal(title:string, text:string) {
+    async getMensajeConfirmaModal(title:string, text:string, icon?:boolean) {
+
+  
       const result = await Swal.fire({
         title: title,
-        html: text,
+
+        html: `
+        ${icon ? `
+          <div class="icon-logout-container">
+            <img id="imagenCabecera" src="/assets/logout-icon.png" style="width: 2em;" alt="Mi Imagen" />
+          </div>` : text}
+        ${text}
+      `,
+
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'Cancelar',
@@ -66,6 +76,8 @@
         reverseButtons: true,
       });
       return result;
+
+
     }
 
     // Método para inicializar tooltips

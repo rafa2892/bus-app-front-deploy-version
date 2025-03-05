@@ -27,7 +27,7 @@ declare var bootstrap: any;
     export class RegistrarCarroComponent  implements OnInit {
 
     carroForm: FormGroup;
-    step: number =  4;
+    step: number =  1;
 
     selectedFilesWithId: FileWithId[] = [];
 
@@ -728,7 +728,7 @@ declare var bootstrap: any;
 
   getIconByStep(step:number)  {
     if(step === 0)
-      return 'assets/bus-icon-main.png'
+      return 'assets/bus-icon.png'
     if(step === 1) 
       return 'assets/battery-icon.png'
     if(step === 2) 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from './core/services/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { GlobalUtilsService } from './core/services/global-utils.service';
 
 
 @Component({
@@ -57,7 +58,10 @@ export class AppComponent {
   title = 'Sistema de registro Transportes "Nombre Empresa"';
 
 
-  constructor(private authService:AuthService, private router: Router){
+  constructor(
+     private authService:AuthService,
+     private router: Router,
+     private gs:GlobalUtilsService){
     this.authServiceAux = this.authService;
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
@@ -72,9 +76,16 @@ export class AppComponent {
   }
   
 
-  logout():void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  async logout() {
+
+    const result = await this.gs.getMensajeConfirmaModal("Cerrar sesión","¿Deseas cerrar sesión?", true);
+
+    if (!result.isConfirmed) {
+      return ; // Detenemos el flujo
+    }else {
+      this.authService.logout();
+      this.router.navigate(['/login']);
+    }
   }
 
   isAuthenthicated() : boolean {
