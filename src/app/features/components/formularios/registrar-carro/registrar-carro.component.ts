@@ -111,8 +111,7 @@ declare var bootstrap: any;
           this.idSeleccionada = id;
 
           this.isLoading = true
-          this.obtenerCarroPorId(id)
-
+          
           if (id) {
               this.obtenerCarroPorId(id);
           }else {
@@ -360,13 +359,13 @@ declare var bootstrap: any;
             const id= c.id;
             this.gb.getSuccessfullMsj('Vehiculo editado con éxito.');
             this.irListaCarro(id);
-          }, error => this.gb.showErrorMessageSnackBar(error));
+          }, error => this.gb.showErrorMessageSnackBar('Error servidor '.concat(error)));
         }else {
             this.carroServicio.registrarCarro(this.carro).subscribe(c => {
             const id = c.id;  
             this.gb.getSuccessfullMsj('Vehiculo registrado con éxito.');
             this.irListaCarro(id);
-          }, error => this.gb.showErrorMessageSnackBar(error));
+          }, error => this.gb.showErrorMessageSnackBar('Error servidor '.concat(error)));
         }
       }).catch(error => {
         this.gb.showErrorMessageSnackBar('Error al convertir imágenes a base64:');

@@ -100,9 +100,10 @@
         <!-- MODALS-POP-UP -->
         
         <app-popup-seleccionar-carro 
-            (selectVehiculoHandlerFromSon)="selectedVehiculoHandler($event)">
+            (selectedCarHandlerFromSon)="selectedVehiculoHandler($event)">
         </app-popup-seleccionar-carro>
-
+        
+        
         <app-popup-seleccionar-conductor
             (selectConductorHandlerFromSon)="selectedConductorHandler($event)" 
             [modalModoSeleccionarConductor]="true">

@@ -64,7 +64,6 @@ export class CarroService {
 
   //Este metodo nos funciona para obtener los listados de carro
   obtenerListaTipoVehiculos():Observable<TipoVehiculo[]> {
-    console.log("ASFSDfsd");
     return this.httpClient.get<TipoVehiculo[]>(`${this.baseUrlTipoVehiculos}`);
   }
 
@@ -125,6 +124,8 @@ export class CarroService {
 
   //Metodo utilidad
   getImagenUrl(carro: Carro) {
+
+    console.log( carro.imagenesBd.length , 'IMAGENES');
 
     if(carro != undefined && carro.imagenesBd != undefined && carro.imagenesBd.length >= 1) {
 

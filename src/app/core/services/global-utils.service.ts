@@ -60,15 +60,12 @@
   
       const result = await Swal.fire({
         title: title,
-
         html: `
         ${icon ? `
           <div class="icon-logout-container">
             <img id="imagenCabecera" src="/assets/logout-icon.png" style="width: 2em;" alt="Mi Imagen" />
-          </div>` : text}
-        ${text}
+          </div>  ${text}` : text}
       `,
-
         icon: 'warning',
         showCancelButton: true,
         cancelButtonText: 'Cancelar',

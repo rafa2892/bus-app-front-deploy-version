@@ -240,6 +240,7 @@ export class ListaCarrosComponent {
           },
           error: (err) => {
             console.error('Error deleting car:', err);
+            this.isLoading = false; //Triggers loading mode
             this.globalUtilService.showErrorMessageSnackBar('Hubo un error al intentar borrar, contacte con el administrador');
           },
           complete: () => {
@@ -252,9 +253,9 @@ export class ListaCarrosComponent {
 
   async confirmaMensaje(): Promise<boolean> {
     let title ='Eliminar vehiculo';
-    let text = '<p>Se eliminara la unidad (vehiculo) <strong>PERMANENTEMENTE</strong> de la base de datos, ¿Desea continuar?</p>'
+    let text = '<p>Se eliminara la unidad (vehiculo) y sus <strong>SERVICIOS/VIAJES</strong> registrados <strong>PERMANENTEMENTE</strong> de la base de datos, ¿Desea continuar?</p>'
 
-    const result = await this.globalUtilService.getMensajeConfirmaModal(title,text)
+    const result = await this.globalUtilService.getMensajeConfirmaModal(title,text,false)
 
     if (!result.isConfirmed) {
       return false; // Detenemos el flujo

@@ -152,8 +152,12 @@ export class ListaViajesComponent {
     onPageChange(page: number) {
       this.filterLoading = true;
       this.p = page;  // Actualiza el valor de la página actual
-      console.log('Página actual:', this.p);
-      this.cargarViajes();  // Recarga los viajes con la nueva página
+      
+      if(this.isSwitchFiltersOn) {
+        this.getViajesFiltrados();
+      }else {
+        this.cargarViajes();
+      }  // Recarga los viajes con la nueva página
     }
 
     cargarViajes() {
@@ -259,7 +263,6 @@ export class ListaViajesComponent {
           
       <div style="margin-bottom: -1px;"><strong>Conductor:</strong> ${nombreConductorAux}</div>
     `;
-
       const result = await Swal.fire({
           title: 'Confirma eliminar servicio',
           html: texto,
@@ -269,7 +272,6 @@ export class ListaViajesComponent {
           confirmButtonText: 'Eliminar',
           reverseButtons: true,
       });
-
       if (!result.isConfirmed) {
         return false; // Detenemos el flujo
       }else {
@@ -427,66 +429,4 @@ export class ListaViajesComponent {
       this.router.navigate(['/registrar-viaje']);
     }
 
-        // private obtenerListaViaje(): void {
-    //   this.viajeServicio.obtenerListaViaje().subscribe({
-    //     next: (dato) => {
-    //       // Si el backend devuelve null, asignamos un array vacío
-    //       this.viajes = dato || [];
-    //     },
-    //     error: (error) => {
-    //       console.error('Error al obtener la lista de viajes:', error);
-    //       this.viajes = []; // En caso de error, dejamos la lista vacía
-    //       this.mostrarNotificacion('No se pudo cargar la lista de viajes.', 'error-snackbar');
-    //     },
-    //     complete: () => {
-    //       this.loading = false;
-    //       this.filterLoading = false;
-    //     }
-    //   });
-    // }
-
-
-       // getViajesFiltrados() {
-    //   this.viajeServicio.obtenerViajesFiltrados(this.carro?.numeroUnidad, this.conductor?.id, this.fechaDesdeStr, this.fechaHastaStr).subscribe(
-    //     (datos) => {
-    //       this.viajes = datos;
-    //       this.modalService.dismissAll();
-    //       this.filterLoading = false;
-    //       this.isSwitchFiltersOn = true;
-    //     },(error) => {
-    //       console.error('Error al obtener los viajes:', error);
-    //       if(error.status === 404) {
-    //         this._snackBar.open('No hay registros con los parametros dados', '', {
-    //         duration: 5000,
-    //         panelClass: ['error-snackbar'],
-    //         horizontalPosition: 'end',
-    //         verticalPosition: 'top',
-    //         });
-    //       }
-    //     }
-    //   );
-    // }
-  
-    // buildCustomsToolTipBS() {
-    //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-    //     const tooltip = new bootstrap.Tooltip(tooltipTriggerEl, {
-    //       delay: { "show": 400, "hide": 150 } // Retraso en milisegundos
-    //     });
-    //     // Guardar el tooltip en una propiedad para poder eliminarlo más tarde
-    //     tooltipTriggerEl.tooltipInstance = tooltip;
-    //   });
-    // }
-  
-    // disposeCustomTooltips() {
-    //   const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    //   tooltipTriggerList.map(function (tooltipTriggerEl: any) {
-    //     const tooltip = tooltipTriggerEl.tooltipInstance;
-    //     if (tooltip) {
-    //       tooltip.dispose();  // Elimina el tooltip
-    //     }
-    //   });
-    // }
-    
-    
 }
