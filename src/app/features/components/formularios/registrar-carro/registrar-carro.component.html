@@ -30,7 +30,7 @@
         </div>
 
         <!-- Botón de reset a la derecha -->
-        <div *ngIf="this.carro && this.carro.id">
+        <div *ngIf="this.carro && this.carro.id && isEditMode">
             <button 
                 class="btn btn-reset ms-auto" 
                 [disabled]="!(this.carro && this.carro.id && (this.cambiosFormularioFiles || this.carroForm.dirty))" 
