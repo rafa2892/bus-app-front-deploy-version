@@ -125,8 +125,6 @@ export class CarroService {
   //Metodo utilidad
   getImagenUrl(carro: Carro) {
 
-    console.log( carro.imagenesBd.length , 'IMAGENES');
-
     if(carro != undefined && carro.imagenesBd != undefined && carro.imagenesBd.length >= 1) {
 
       //Declaracion del arreglo (imagenes del front)
