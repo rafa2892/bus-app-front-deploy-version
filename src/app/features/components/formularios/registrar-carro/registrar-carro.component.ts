@@ -105,11 +105,9 @@ declare var bootstrap: any;
       }
 
     ngOnInit(): void {
-
       this.route.params.subscribe(params => {
           const id = +params['id'];
           this.idSeleccionada = id;
-
           this.isLoading = true
 
           if (id) {
@@ -146,7 +144,8 @@ declare var bootstrap: any;
           tipoVehiculo: [null, Validators.required],
           consumo: [null],
           numeroUnidad: [null, Validators.required],
-
+          fechaAlta: [null], 
+          
           bateria: this.fb.group({
             id:[null],
             marca: [null],
@@ -234,7 +233,6 @@ declare var bootstrap: any;
           console.error("Error al obtener el carro:", error);
         },
         complete: () => {
-           //Scroll al medio automaticamente
           this.customScroll(id);
           this.isLoading = false;
         }
@@ -299,6 +297,7 @@ declare var bootstrap: any;
             bateria: this.carro.bateria,
             tituloPropiedad: this.carro.tituloPropiedad,
             poliza: this.carro.poliza,
+            fechaAlta:this.carro.fechaAlta
           }
         });
 
@@ -336,29 +335,14 @@ declare var bootstrap: any;
       return 'Nombre no encontrado';
     }
 
-    // obtenerCarros(){
-    //   this.carroServicio.obtenerListaCarro().subscribe(dato =>  {
-    //     this.carroLista = dato;
-    //   });
-    // }
-
-    parametrizarCarro() {
-      const datosLimpios = JSON.parse(JSON.stringify(this.carroForm.value, (key, value) =>
-        (value && typeof value === "object" && Object.values(value).every(v => v === null)) ? null : value
-      ));
-      if(datosLimpios){this.carro = datosLimpios.carro;}
-    }
-
-
     async guardarCarro(formValido: boolean) {
       if (formValido) {
-        this.isLoading = true;
+        // this.isLoading = true;
         
         try {
           await this.convertirImagenesABase64();
           this.convertirMayus();
           this.carro.imagenes = this.imagenesGuardar;
-    
           if (this.carro.id && this.carro.id > 0) {
             this.carroServicio.actualizarCarro(this.carro.id, this.carro).subscribe(
               c => {
@@ -388,10 +372,15 @@ declare var bootstrap: any;
         }
       }
     }
-    
+
+    parametrizarCarro() {
+      const datosLimpios = JSON.parse(JSON.stringify(this.carroForm.value, (key, value) =>
+        (value && typeof value === "object" && Object.values(value).every(v => v === null)) ? null : value
+      ));
+      if(datosLimpios){this.carro = datosLimpios.carro;}
+    }
 
     async validandoDatos():  Promise<boolean> {
-
         this.parametrizarCarro();
         const anyoActual = new Date().getFullYear();
         this.camposFaltantes = [];
