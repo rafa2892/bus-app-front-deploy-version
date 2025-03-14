@@ -23,7 +23,7 @@ To run the application locally, you need to start both the backend and frontend 
 ### Database Setup
 1. Clone the database repository (if stored separately):
    ```sh
-   git clone https://github.com/rafa2892/bus-app-database.git
+   git clone https://github.com/rafa2892/bus-app-BBDD
    ```
 2. Import the database into **PostgreSQL**.
 3. Ensure the backend is correctly connected to the database before proceeding.
