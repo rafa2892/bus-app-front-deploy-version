@@ -7,7 +7,7 @@ To run the application locally, you need to start both the backend and frontend 
 1. Ensure you have **Java** and **Spring Boot** installed.
 2. Clone the backend repository:
    ```sh
-   git clone https://github.com/YOUR_USERNAME/bus-app-back.git
+   git clone https://github.com/YOUR_USERNAME/bus-app-back-deploy-version
    ```
 3. Navigate to the backend folder:
    ```sh
