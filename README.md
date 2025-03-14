@@ -1,4 +1,5 @@
-# Bus Management Application
+# Local Start Bus Management Application
+
 
 ## Requirements
 To run the application locally, you need to start both the backend and frontend projects, as well as set up the database.
