@@ -13,7 +13,7 @@ To run the application locally, you need to start both the backend and frontend 
    ```sh
    cd bus-app-back
    ```
-4. Configure the database connection in `application.properties` or `application.yml`.
+4. Configure the database connection in `application.properties`.
 5. Run the backend service:
    ```sh
    ./mvnw spring-boot:run
