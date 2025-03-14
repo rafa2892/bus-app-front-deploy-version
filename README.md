@@ -55,7 +55,9 @@ To run the application locally, you need to start both the backend and frontend 
 ### Summary
 - **Backend:** `http://localhost:8080`
 - **Frontend:** `http://localhost:4200`
-- **Database:** PostgreSQL (configured in backend)
+- **Database:** MySQL (configured in backend)
+- **Default Application Username:** `admin`
+- **Default Application Password:** `admin`
 
 Once both the backend and frontend are running, you can access the bus management system and test its features.
 
