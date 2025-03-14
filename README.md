@@ -5,10 +5,10 @@ To run the application locally, you need to start both the backend and frontend 
 
 ### Backend Setup (`bus-app-back`)
 1. Ensure you have **Java** and **Spring Boot** installed.
-2. Clone the backend repository:
+2. **Clone the backend repository:**
+   In your IDE terminal, clone the backend repository using the following command:
    ```sh
    git clone https://github.com/rafa2892/bus-app-back-deploy-version
-   ```
 3. Navigate to the backend folder:
    ```sh
    cd bus-app-back
