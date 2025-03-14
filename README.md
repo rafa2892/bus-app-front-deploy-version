@@ -13,7 +13,11 @@ To run the application locally, you need to start both the backend and frontend 
    ```sh
    cd bus-app-back
    ```
-4. Configure the database connection in `application.properties`.
+4. Configure the database connection in `application.properties`.                                                                                                               spring.datasource.url=jdbc:mysql://localhost:3306/bus_app
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
 5. Run the backend service:
    ```sh
    ./mvnw spring-boot:run
@@ -25,7 +29,7 @@ To run the application locally, you need to start both the backend and frontend 
    ```sh
    git clone https://github.com/rafa2892/bus-app-BBDD
    ```
-2. Import the database into **PostgreSQL**.
+2. Import the database into **MySql**.
 3. Ensure the backend is correctly connected to the database before proceeding.
 
 ### Frontend Setup (`bus-app-front`)
