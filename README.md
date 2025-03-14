@@ -7,7 +7,7 @@ To run the application locally, you need to start both the backend and frontend 
 1. Ensure you have **Java** and **Spring Boot** installed.
 2. Clone the backend repository:
    ```sh
-   git clone https://github.com/YOUR_USERNAME/bus-app-back-deploy-version
+   git clone https://github.com/rafa2892/bus-app-back-deploy-version
    ```
 3. Navigate to the backend folder:
    ```sh
@@ -23,7 +23,7 @@ To run the application locally, you need to start both the backend and frontend 
 ### Database Setup
 1. Clone the database repository (if stored separately):
    ```sh
-   git clone https://github.com/YOUR_USERNAME/bus-app-database.git
+   git clone https://github.com/rafa2892/bus-app-database.git
    ```
 2. Import the database into **PostgreSQL**.
 3. Ensure the backend is correctly connected to the database before proceeding.
@@ -32,7 +32,7 @@ To run the application locally, you need to start both the backend and frontend 
 1. Ensure you have **Node.js** and **Angular CLI** installed.
 2. Clone the frontend repository:
    ```sh
-   git clone https://github.com/YOUR_USERNAME/bus-app-front.git
+   git clone https://github.com/rafa2892/bus-app-front.git
    ```
 3. Navigate to the frontend folder:
    ```sh
