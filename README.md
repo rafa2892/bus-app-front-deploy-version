@@ -1,27 +1,57 @@
-# GestionContadorFrontendNoStandalone
+# Bus Management Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.2.
+## Requirements
+To run the application locally, you need to start both the backend and frontend projects, as well as set up the database.
 
-## Development server
+### Backend Setup (`bus-app-back`)
+1. Ensure you have **Java** and **Spring Boot** installed.
+2. Clone the backend repository:
+   ```sh
+   git clone https://github.com/YOUR_USERNAME/bus-app-back.git
+   ```
+3. Navigate to the backend folder:
+   ```sh
+   cd bus-app-back
+   ```
+4. Configure the database connection in `application.properties` or `application.yml`.
+5. Run the backend service:
+   ```sh
+   ./mvnw spring-boot:run
+   ```
+6. The backend should now be running on **http://localhost:8080**.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Database Setup
+1. Clone the database repository (if stored separately):
+   ```sh
+   git clone https://github.com/YOUR_USERNAME/bus-app-database.git
+   ```
+2. Import the database into **PostgreSQL**.
+3. Ensure the backend is correctly connected to the database before proceeding.
 
-## Code scaffolding
+### Frontend Setup (`bus-app-front`)
+1. Ensure you have **Node.js** and **Angular CLI** installed.
+2. Clone the frontend repository:
+   ```sh
+   git clone https://github.com/YOUR_USERNAME/bus-app-front.git
+   ```
+3. Navigate to the frontend folder:
+   ```sh
+   cd bus-app-front
+   ```
+4. Install dependencies:
+   ```sh
+   npm install
+   ```
+5. Start the Angular application:
+   ```sh
+   ng serve
+   ```
+6. The frontend should now be accessible at **http://localhost:4200**.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Summary
+- **Backend:** `http://localhost:8080`
+- **Frontend:** `http://localhost:4200`
+- **Database:** PostgreSQL (configured in backend)
 
-## Build
+Once both the backend and frontend are running, you can access the bus management system and test its features.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
